@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>EmopDashboard</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+   <head>
+      <title>EmopDashboard</title>
+      <%= stylesheet_link_tag    "application", :media => "all" %>
+      <%= javascript_include_tag "application" %>
+      
+      <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
+      <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+      
+      <%= csrf_meta_tags %>
+   </head>
+   <body>
 
-<div class="main-header">
-   <%= image_tag("idhmc.png", :id=>"idhmc-logo") %>
-   <span>eMOP Dashboard</span>
-   <div style="clear: both"></div>
-</div>
+      <div class="main-header">
+         <%= image_tag("idhmc.png", :id=>"idhmc-logo") %>
+         <span>eMOP Dashboard</span>
+         <div style="clear: both"></div>
+      </div>
 
-<%= yield %>
+      <%= yield %>
 
-</body>
+   </body>
 </html>

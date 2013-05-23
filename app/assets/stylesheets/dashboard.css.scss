@@ -1,6 +1,28 @@
 // Place all the styles related to the Dashboard controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.tlogo {
+   font-family: Georgia,serif;
+   font-weight: bold;
+   font-size: 1.4em;
+   color: #C4230E;
+}
+
+.ologo {
+   font-family: Georgia,serif;
+   font-weight: bold;
+   font-size: 1.4em;
+   color: #139EBA;
+}
+
+.glogo {
+   font-family: Georgia,serif;
+   font-weight: bold;
+   font-size: 1.4em;
+   color: #34730E;
+}
+
 .main-header {
    background-color: #500000;
    width:100%;
@@ -24,8 +46,6 @@
 }
 
 #dashboard-main {
-   background-color: #cccccc;
-   width:100%;
    margin-top: 2px;
    border-top: 1px solid;
    padding-top:5px;
@@ -38,17 +58,19 @@
    border-collapse: collapse;
 }
 
-#detail-table {
-   width: 98%;
-   margin: 10px auto;
-   border: 1px solid;
-   border-collapse: collapse;
-
-   th {
-      background-color: #6385b8;
-      color: white;
-      border: 1px solid black;
-      text-align: center;
-      font-weight: normal;
+#results-detail {
+   padding:10px;
+   
+   #detail-table {
+      border: 1px solid;
+      border-collapse: collapse;
+   
+      th {
+         background-color: #6385b8;
+         color: white;
+         border: 1px solid black;
+         text-align: center;
+         font-weight: normal;
+      }
    }
 }
