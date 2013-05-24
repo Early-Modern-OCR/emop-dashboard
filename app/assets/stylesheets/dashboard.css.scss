@@ -5,22 +5,39 @@
 .tlogo {
    font-family: Georgia,serif;
    font-weight: bold;
-   font-size: 1.4em;
+   font-size: 1.1em;
    color: #C4230E;
+   background-color: white;
+   padding: 0 5px;
+   border-radius: 10px;
+   border: 1px solid black;
 }
 
 .ologo {
    font-family: Georgia,serif;
    font-weight: bold;
-   font-size: 1.4em;
+   font-size: 1.1em;
    color: #139EBA;
+   background-color: white;
+   padding: 0 5px;
+   border-radius: 10px;
+   border: 1px solid black;
 }
 
 .glogo {
    font-family: Georgia,serif;
    font-weight: bold;
-   font-size: 1.4em;
+   font-size: 1.1em;
    color: #34730E;
+   background-color: white;
+   padding: 0 5px;
+   border-radius: 10px;
+   border: 1px solid black;
+}
+
+.small-label {
+   font-size: 0.8em;
+   vertical-align: sub;
 }
 
 .main-header {
@@ -62,15 +79,50 @@
    padding:10px;
    
    #detail-table {
+      font-size: 0.9em;
       border: 1px solid;
       border-collapse: collapse;
+      
+      .narrow-col {
+         width: 40px;
+      }
+      .result-data {
+         width: 40px;
+         text-align: center;
+      }
+      .author-col {
+         width: 150px;
+      }
    
       th {
-         background-color: #6385b8;
-         color: white;
+         background-color: #679;
+         color: #ededed;
          border: 1px solid black;
          text-align: center;
          font-weight: normal;
       }
+   }
+   
+   .sorting_desc {
+      background: image-url("sort_desc.png") no-repeat center right;;
+   }
+   .sorting_asc {
+      background: image-url("sort_asc.png") no-repeat center right;;
+   }
+   .dataTables_length {
+      font-size: 0.8em;
+   }
+   
+   .dataTables_filter {
+      margin-bottom: 10px;
+      font-size: 0.8em;
+   }
+   
+   .dataTables_info {
+      margin-top: 10px;
+      font-size: 0.8em;
+   }
+   .dataTables_paginate {
+      margin-top: 10px;
    }
 }
