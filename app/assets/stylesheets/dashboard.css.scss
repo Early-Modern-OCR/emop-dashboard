@@ -75,6 +75,14 @@
    border-collapse: collapse;
 }
 
+#detail-table_processing {
+   border: none;
+   color: black;
+   box-shadow: 3px 3px 17px #333;
+   background-color: #eee;
+   outline: 1px solid;
+}
+
 #results-detail {
    padding:10px;
    
@@ -87,11 +95,11 @@
          width: 40px;
       }
       .result-data {
-         width: 40px;
+         width: 50px;
          text-align: center;
       }
       .author-col {
-         width: 150px;
+         width: 180px;
       }
    
       th {

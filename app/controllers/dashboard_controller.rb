@@ -23,38 +23,39 @@ class DashboardController < ApplicationController
       #              "sSearch_3"=>"", "bRegex_3"=>"false", "bSearchable_3"=>"true", "sSearch_4"=>"", "bRegex_4"=>"false", 
       #              "bSearchable_4"=>"true", "iSortCol_0"=>"0", "sSortDir_0"=>"asc", "iSortingCols"=>"1", "bSortable_0"=>"true", 
       #              "bSortable_1"=>"true", "bSortable_2"=>"true", "bSortable_3"=>"true", "bSortable_4"=>"true", "_"=>"1369403058236"}
-
+      
       resp = {}
       resp['sEcho'] = params[:sEcho]
-      resp['iTotalRecords'] = Work.count
+      resp['iTotalRecords'] = Work.count(:wks_tcp_number)
+      
+      sort_col = params[:iSortCol_0]
+      sort_dir = params[:sSortDir_0]
+      cols = ['wks_ecco_number', 'wks_tcp_number', 'wks_title', 'wks_author']
+      order = "#{cols[sort_col.to_i]} #{sort_dir}" 
       
       data = []
-      works = Work.offset( params[:iDisplayStart] ).limit( params[:iDisplayLength] )
+      works = Work.find(:all, :offset => params[:iDisplayStart], :limit => params[:iDisplayLength], 
+                        :conditions => ["wks_tcp_number is not null"], :order => order )
       works.each do |work|
          rec = []
          if work.isECCO?
             rec << 'ECCO'
-            rec << work.wks_ecco_number
          else
             rec << 'EEBO'   
-            rec << work.wks_eebo_image_id
          end 
+         rec << work.wks_tcp_number
          rec << work.wks_title
          rec << work.wks_author
          
          rec << 0.9 # gale / juxta
-         rec << 0.7 # tess / juxta
-         rec << 0.1 # gamera / juxta
-         rec << 0.5 # ocropus / juxta
+         rec << 0.7 # curr / juxta
          rec << 0.9 # gale retas
-         rec << 0.7 # tess retas
-         rec << "-" # gamera retas
-         rec << "-" # ocropus retas
+         rec << 0.75 # curr retas
          
          data << rec 
       end
       resp['data'] = data
-      resp['iTotalDisplayRecords'] = Work.count
+      resp['iTotalDisplayRecords'] = Work.count(:wks_tcp_number)
       
       
       render :json => resp, :status => :ok
