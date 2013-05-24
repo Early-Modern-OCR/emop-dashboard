@@ -27,7 +27,6 @@ class DashboardController < ApplicationController
       resp = {}
       resp['sEcho'] = params[:sEcho]
       resp['iTotalRecords'] = Work.count
-      resp['iTotalDisplayRecords'] = 0
       
       data = []
       works = Work.offset( params[:iDisplayStart] ).limit( params[:iDisplayLength] )
@@ -43,18 +42,19 @@ class DashboardController < ApplicationController
          rec << work.wks_title
          rec << work.wks_author
          
-         rec << 0.5 # gale / juxta
-         rec << 0.5 # tess / juxta
-         rec << 0.5 # gamera / juxta
+         rec << 0.9 # gale / juxta
+         rec << 0.7 # tess / juxta
+         rec << 0.1 # gamera / juxta
          rec << 0.5 # ocropus / juxta
-         rec << 0.5 # gale retas
-         rec << 0.5 # tess retas
-         rec << 0.5 # gamera retas
-         rec << 0.5 # ocropus retas
+         rec << 0.9 # gale retas
+         rec << 0.7 # tess retas
+         rec << "-" # gamera retas
+         rec << "-" # ocropus retas
          
          data << rec 
       end
       resp['data'] = data
+      resp['iTotalDisplayRecords'] = Work.count
       
       
       render :json => resp, :status => :ok

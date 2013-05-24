@@ -80,8 +80,8 @@
    
    #detail-table {
       font-size: 0.9em;
-      border: 1px solid;
-      border-collapse: collapse;
+      border-spacing: 1px;
+      background-color: #999;
       
       .narrow-col {
          width: 40px;
@@ -97,9 +97,18 @@
       th {
          background-color: #679;
          color: #ededed;
-         border: 1px solid black;
+         border:none;
          text-align: center;
          font-weight: normal;
+      }
+      
+      .bad-cell {
+         background-color: #900;
+         color: #ffcece;
+      }
+      
+      .warn-cell {
+         background-color: #dd0;
       }
    }
    
@@ -107,7 +116,7 @@
       background: image-url("sort_desc.png") no-repeat center right;;
    }
    .sorting_asc {
-      background: image-url("sort_asc.png") no-repeat center right;;
+      background: image-url("sort_asc.png") no-repeat center right;
    }
    .dataTables_length {
       font-size: 0.8em;
@@ -115,6 +124,9 @@
    
    .dataTables_filter {
       margin-bottom: 10px;
+      font-size: 0.8em;
+   }
+   .paging_full_numbers {
       font-size: 0.8em;
    }
    
