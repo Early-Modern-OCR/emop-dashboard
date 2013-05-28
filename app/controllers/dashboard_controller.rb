@@ -28,6 +28,7 @@ class DashboardController < ApplicationController
       data = []
       works = Work.find(:all, :offset => params[:iDisplayStart], :limit => params[:iDisplayLength], 
                         :conditions => cond, :order => order )
+      filtered_cnt = Work.count(:conditions => cond)
       works.each do |work|
          rec = []
          if work.isECCO?
@@ -52,7 +53,7 @@ class DashboardController < ApplicationController
          data << rec 
       end
       resp['data'] = data
-      resp['iTotalDisplayRecords'] = Work.count(:wks_tcp_number)
+      resp['iTotalDisplayRecords'] = filtered_cnt
       
       
       render :json => resp, :status => :ok
