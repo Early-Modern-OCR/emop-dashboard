@@ -83,6 +83,23 @@
    outline: 1px solid;
 }
 
+#filter-table {
+   font-size: 0.85em;
+   margin-bottom: 15px;
+   
+   .filter-label {
+      text-align: right;
+   }
+   
+   span {
+      margin-right: 5px;
+   }
+   
+   #filter-ctls {
+      text-align: right;
+   }
+}
+
 #results-detail {
    padding:10px;
    

@@ -2,28 +2,13 @@ class DashboardController < ApplicationController
    # main dashboard summary view
    #
    def index
-      # wk = Work.find(151311)
-      # puts wk.wks_title
-      # wk.pages.each do |page|
-         # res = page.page_results.first
-         # if !res.nil?
-            # puts "Page #{page.pg_ref_number}, Juxta #{res.juxta_change_index}"
-         # end
-      # end
+      # TODO get data for summary table
    end
 
    # Called from datatable to fetch a subset of data for display
-   #
+   #sSearch
    def fetch
-      # Parameters: {"sEcho"=>"1", "iColumns"=>"5", "sColumns"=>"", "iDisplayStart"=>"0", 
-      #              "iDisplayLength"=>"10", "mDataProp_0"=>"0", "mDataProp_1"=>"1", "mDataProp_2"=>"2", 
-      #              "mDataProp_3"=>"3", "mDataProp_4"=>"4", "sSearch"=>"", "bRegex"=>"false", "sSearch_0"=>"", 
-      #              "bRegex_0"=>"false", "bSearchable_0"=>"true", "sSearch_1"=>"", "bRegex_1"=>"false", 
-      #              "bSearchable_1"=>"true", "sSearch_2"=>"", "bRegex_2"=>"false", "bSearchable_2"=>"true", 
-      #              "sSearch_3"=>"", "bRegex_3"=>"false", "bSearchable_3"=>"true", "sSearch_4"=>"", "bRegex_4"=>"false", 
-      #              "bSearchable_4"=>"true", "iSortCol_0"=>"0", "sSortDir_0"=>"asc", "iSortingCols"=>"1", "bSortable_0"=>"true", 
-      #              "bSortable_1"=>"true", "bSortable_2"=>"true", "bSortable_3"=>"true", "bSortable_4"=>"true", "_"=>"1369403058236"}
-      
+      puts params
       resp = {}
       resp['sEcho'] = params[:sEcho]
       resp['iTotalRecords'] = Work.count(:wks_tcp_number)
@@ -33,9 +18,16 @@ class DashboardController < ApplicationController
       cols = ['wks_ecco_number', 'wks_tcp_number', 'wks_title', 'wks_author']
       order = "#{cols[sort_col.to_i]} #{sort_dir}" 
       
+      q = params[:sSearch]
+      cond = ["wks_tcp_number is not null"]
+      if q.length > 0 
+         qs = "wks_tcp_number is not null && (wks_tcp_number LIKE ? || wks_author LIKE ? || wks_title LIKE ?)"
+         cond = [qs, "%#{q}%", "%#{q}%", "%#{q}%" ]   
+      end
+      
       data = []
       works = Work.find(:all, :offset => params[:iDisplayStart], :limit => params[:iDisplayLength], 
-                        :conditions => ["wks_tcp_number is not null"], :order => order )
+                        :conditions => cond, :order => order )
       works.each do |work|
          rec = []
          if work.isECCO?
@@ -47,9 +39,12 @@ class DashboardController < ApplicationController
          rec << work.wks_title
          rec << work.wks_author
          
-         rec << 0.9 # gale / juxta
+         jx_gale, rt_gale = calculate_gale_accuracy(work)
+         
+         rec << jx_gale # gale / juxta
+         rec << rt_gale # gale / retas
+         
          rec << 0.7 # curr / juxta
-         rec << 0.9 # gale retas
          rec << 0.75 # curr retas
          
          data << rec 
@@ -60,5 +55,27 @@ class DashboardController < ApplicationController
       
       render :json => resp, :status => :ok
       
+   end
+   
+   # calculate gale accuracy. return a pair of numbers. first
+   # is accuracy according to juxta, second is accuracy accorgind to retas
+   #
+   private
+   def calculate_gale_accuracy( work )
+      
+      juxta_total=0.0
+      retas_total=0.0
+      
+      work.pages.each do |page|
+         pg_res = page.page_results.first
+         if !pg_res.nil?
+            if pg_res.get_ocr_engine == :gale
+               juxta_total = juxta_total + pg_res.juxta_change_index
+               retas_total = retas_total + pg_res.alt_change_index
+            end  
+         else
+            return nil,nil 
+         end 
+      end   
    end
 end
