@@ -23,7 +23,7 @@ jQuery.fn.dataTableExt.oApi.fnFilterOnReturn = function (oSettings) {
 $(function() {
    
    var resultCell = function(nTd, data) {
-      if ( data.length === 0 ) {
+      if ( data.length === 0 || data == -1 ) {
          $(nTd).removeClass("bad-cell");
          $(nTd).removeClass("warn-cell");
          return;

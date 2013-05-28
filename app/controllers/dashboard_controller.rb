@@ -39,13 +39,15 @@ class DashboardController < ApplicationController
          rec << work.wks_title
          rec << work.wks_author
          
-         jx_gale, rt_gale = calculate_gale_accuracy(work)
+         jx_gale, rt_gale = calculate_accuracy(:gale, work)
+         jx_tess, rt_tess = calculate_accuracy(:tesseract, work)
          
          rec << jx_gale # gale / juxta
          rec << rt_gale # gale / retas
          
-         rec << 0.7 # curr / juxta
-         rec << 0.75 # curr retas
+
+         rec << jx_tess# curr / juxta
+         rec << jx_gale # curr retas
          
          data << rec 
       end
@@ -61,21 +63,33 @@ class DashboardController < ApplicationController
    # is accuracy according to juxta, second is accuracy accorgind to retas
    #
    private
-   def calculate_gale_accuracy( work )
+   def calculate_accuracy( ocr_engine, work )
       
       juxta_total=0.0
       retas_total=0.0
       
+      if work.wks_work_id == 255142
+         puts 'hey'
+      end
+      
+      #K072686.000
+      cnt = 0
       work.pages.each do |page|
-         pg_res = page.page_results.first
-         if !pg_res.nil?
-            if pg_res.get_ocr_engine == :gale
-               juxta_total = juxta_total + pg_res.juxta_change_index
-               retas_total = retas_total + pg_res.alt_change_index
-            end  
+         latest = page.get_latest_result( ocr_engine )
+         if !latest.nil?
+            juxta_total = juxta_total + latest.juxta_change_index
+            retas_total = retas_total + latest.alt_change_index
+            cnt = cnt +1
          else
-            return nil,nil 
-         end 
-      end   
+            return nil,nil
+         end
+      end
+      
+      # there is some junk data that has no pages. kill it
+      if cnt == 0
+         return nil,nil
+      end
+      
+      return  ('%.2f'%(juxta_total/cnt)), ('%.2f'%(retas_total/cnt))
    end
 end
