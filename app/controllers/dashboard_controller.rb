@@ -40,15 +40,22 @@ class DashboardController < ApplicationController
          rec << work.wks_title
          rec << work.wks_author
          
-         jx_gale, rt_gale = calculate_accuracy(:gale, work)
-         jx_tess, rt_tess = calculate_accuracy(:tesseract, work)
+         if work.work_gale_result.nil?
+            rec << nil # curr / juxta
+            rec << nil # curr retas
+         else
+            rec << '%.2f'%work.work_gale_result.juxta_accuracy # curr / juxta
+            rec << '%.2f'%work.work_gale_result.retas_accuracy # curr retas
+         end
          
-         rec << jx_gale # gale / juxta
-         rec << rt_gale # gale / retas
-         
+         if work.work_ocr_result.nil?
+            rec << nil # curr / juxta
+            rec << nil # curr retas
+         else
+            rec << '%.2f'%work.work_ocr_result.juxta_accuracy # curr / juxta
+            rec << '%.2f'%work.work_ocr_result.retas_accuracy # curr retas
+         end
 
-         rec << jx_tess# curr / juxta
-         rec << jx_gale # curr retas
          
          data << rec 
       end
@@ -68,10 +75,6 @@ class DashboardController < ApplicationController
       
       juxta_total=0.0
       retas_total=0.0
-      
-      if work.wks_work_id == 255142
-         puts 'hey'
-      end
       
       #K072686.000
       cnt = 0
