@@ -52,8 +52,8 @@ class DashboardController < ApplicationController
             rec << nil # curr / juxta
             rec << nil # curr retas
          else
-            rec << '%.2f'%work.work_ocr_result.juxta_accuracy # curr / juxta
-            rec << '%.2f'%work.work_ocr_result.retas_accuracy # curr retas
+            rec << gen_pages_link(work.wks_work_id, work.work_ocr_result.batch_id, work.work_ocr_result.juxta_accuracy)
+            rec << gen_pages_link(work.wks_work_id, work.work_ocr_result.batch_id, work.work_ocr_result.retas_accuracy)
          end
 
          
@@ -65,6 +65,19 @@ class DashboardController < ApplicationController
       
       render :json => resp, :status => :ok
       
+   end
+   
+   private
+   def gen_pages_link(work_id, batch_id, accuracy)
+      link_class = ""
+      if accuracy < 0.6
+         link_class = "class='bad-cell'"
+      elsif accuracy < 0.8
+         link_class = "class='warn-cell'"
+      end
+      formatted = '%.2f'%accuracy
+      out = "<a href='page/#{work_id}?batch=#{batch_id}' #{link_class}>#{formatted}</a>"
+      return out   
    end
    
    # calculate gale accuracy. return a pair of numbers. first

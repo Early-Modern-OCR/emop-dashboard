@@ -29,9 +29,9 @@ $(function() {
          return;
       }
       
-      if ( data < 0.6 ) {
+      if ( data.indexOf("bad-cell") > -1 ) {
          $(nTd).addClass("bad-cell");
-      } else if ( data < 0.8 ) {
+      } else if ( data.indexOf("warn-cell") > -1  ) {
          $(nTd).addClass("warn-cell");
       }
    };
@@ -42,16 +42,11 @@ $(function() {
       "bServerSide": true,
       "sAjaxSource": "dashboard/fetch",
       "sAjaxDataProp": "data",
-      //"bFilter": false,
-      //"sDom": '<"top"l>rt<"bottom"ip><"clear">',
       "aoColumnDefs": [
          { "aTargets": [4], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
          { "aTargets": [5], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
          { "aTargets": [6], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
          { "aTargets": [7], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
-      ]//,
-      //"fnServerParams": function ( aoData ) {
-      //   aoData.push( { "name": "tcp_filter", "value":  $("#tcp-filter").val()  } );
-    //}
+      ]
    }).fnFilterOnReturn();
 });
