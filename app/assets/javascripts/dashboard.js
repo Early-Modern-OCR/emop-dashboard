@@ -42,6 +42,11 @@ $(function() {
       "bServerSide": true,
       "sAjaxSource": "dashboard/fetch",
       "sAjaxDataProp": "data",
+      "fnCreatedRow": function( nRow, aData, iDisplayIndex ) {
+         if ( aData[5] === "Gale" ) {
+             $(nRow).addClass("gale-row");            
+         }
+      },
       "aoColumnDefs": [
          { "aTargets": [7], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
          { "aTargets": [8], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
