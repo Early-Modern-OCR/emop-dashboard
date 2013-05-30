@@ -6,7 +6,7 @@ class DashboardController < ApplicationController
    end
 
    # Called from datatable to fetch a subset of data for display
-   #sSearch
+   #
    def fetch
       puts params
       resp = {}
@@ -30,42 +30,45 @@ class DashboardController < ApplicationController
                         :conditions => cond, :order => order )
       filtered_cnt = Work.count(:conditions => cond)
       works.each do |work|
-         rec = []
-         if work.isECCO?
-            rec << 'ECCO'
+         if work.ocr_results.count == 0
+            rec = work_to_array(work)   
+            rec << nil
+            rec << nil
+            rec << nil
+            rec << nil
+            rec << nil
+            data << rec 
          else
-            rec << 'EEBO'   
-         end 
-         rec << work.wks_tcp_number
-         rec << work.wks_title
-         rec << work.wks_author
-         
-         if work.work_gale_result.nil?
-            rec << nil # curr / juxta
-            rec << nil # curr retas
-         else
-            rec << '%.2f'%work.work_gale_result.juxta_accuracy # curr / juxta
-            rec << '%.2f'%work.work_gale_result.retas_accuracy # curr retas
+            work.ocr_results.each do |ocr|
+               rec = work_to_array(work)
+               rec <<  ocr.ocr_completed.to_datetime.strftime("%m/%d/%Y %H:%M")
+               rec << OcrEngine.find(ocr.ocr_engine_id ).name
+               rec << "#{ocr.batch_id}: #{ocr.batch_name}"
+               rec << gen_pages_link(work.wks_work_id, ocr.batch_id, ocr.juxta_accuracy)
+               rec << gen_pages_link(work.wks_work_id, ocr.batch_id, ocr.retas_accuracy)
+               data << rec      
+            end
          end
-         
-         if work.work_ocr_result.nil?
-            rec << nil # curr / juxta
-            rec << nil # curr retas
-         else
-            rec << gen_pages_link(work.wks_work_id, work.work_ocr_result.batch_id, work.work_ocr_result.juxta_accuracy)
-            rec << gen_pages_link(work.wks_work_id, work.work_ocr_result.batch_id, work.work_ocr_result.retas_accuracy)
-         end
-
-         
-         data << rec 
       end
+      
       resp['data'] = data
       resp['iTotalDisplayRecords'] = filtered_cnt
-      
-      
       render :json => resp, :status => :ok
-      
    end
+    
+   def work_to_array(work)
+     rec = []
+      if work.isECCO?
+         rec << 'ECCO'
+      else
+         rec << 'EEBO'   
+      end 
+      rec << work.wks_tcp_number
+      rec << work.wks_title
+      rec << work.wks_author
+      return rec
+   end
+   
    
    private
    def gen_pages_link(work_id, batch_id, accuracy)
@@ -79,34 +82,5 @@ class DashboardController < ApplicationController
       out = "<a href='page/#{work_id}?batch=#{batch_id}' #{link_class}>#{formatted}</a>"
       return out   
    end
-   
-   # calculate gale accuracy. return a pair of numbers. first
-   # is accuracy according to juxta, second is accuracy accorgind to retas
-   #
-   private
-   def calculate_accuracy( ocr_engine, work )
-      
-      juxta_total=0.0
-      retas_total=0.0
-      
-      #K072686.000
-      cnt = 0
-      work.pages.each do |page|
-         latest = page.get_latest_result( ocr_engine )
-         if !latest.nil?
-            juxta_total = juxta_total + latest.juxta_change_index
-            retas_total = retas_total + latest.alt_change_index
-            cnt = cnt +1
-         else
-            return nil,nil
-         end
-      end
-      
-      # there is some junk data that has no pages. kill it
-      if cnt == 0
-         return nil,nil
-      end
-      
-      return  ('%.2f'%(juxta_total/cnt)), ('%.2f'%(retas_total/cnt))
-   end
+
 end

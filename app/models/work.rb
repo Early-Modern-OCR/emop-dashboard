@@ -6,8 +6,7 @@ class Work < ActiveRecord::Base
    self.table_name = :works
    self.primary_key = :wks_work_id
    has_many :pages, :foreign_key => :pg_work_id
-   has_one :work_ocr_result
-   has_one :work_gale_result
+   has_many :ocr_results, :class_name => "WorkOcrResult", :foreign_key => :work_id
 
    def isECCO?
       if !self.wks_ecco_number.nil? && self.wks_ecco_number.length > 0

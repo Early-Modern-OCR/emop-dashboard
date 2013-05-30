@@ -1,5 +1,5 @@
 
-# Describes OCR accuracy of an eMOP work.
+# Describes OCR accuracy for a batch of eMOP work.
 #
 class WorkOcrResult < ActiveRecord::Base
    establish_connection(:emop)

@@ -111,13 +111,22 @@
       .narrow-col {
          width: 40px;
       }
-      .result-data {
-         width: 50px;
-         text-align: center;
+      .medium-col {
+         width: 55px;
       }
       .author-col {
          width: 180px;
       }
+      .date-col {
+         width: 80px;
+      }
+      .result-col {
+         width: 50px;
+      }
+      .result-data {
+         text-align: center;
+      }
+      
    
       th {
          background-color: #679;
