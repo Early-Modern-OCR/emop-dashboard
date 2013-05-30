@@ -14,6 +14,15 @@ class DashboardController < ApplicationController
       resp['sEcho'] = params[:sEcho]
       resp['iTotalRecords'] = Work.count(:wks_tcp_number)
       
+      search_col_idx = params[:iSortCol_0].to_i
+      cols = [nil,'wks_tcp_number','wks_title','wks_author',
+              'work_ocr_results.ocr_completed','work_ocr_results.ocr_engine_id',
+              'work_ocr_results.batch_id','work_ocr_results.juxta_accuracy',
+              'work_ocr_results.retas_accuracy']
+      dir = params[:sSortDir_0]
+      order_col = cols[search_col_idx]
+      order_col = cols[1] if order_col.nil?
+  
       q = params[:sSearch]
       cond = ["wks_tcp_number is not null"]
       if q.length > 0 
@@ -22,7 +31,7 @@ class DashboardController < ApplicationController
       end
       
       data = []
-      works = Work.find(:all, :offset => params[:iDisplayStart], :limit => params[:iDisplayLength], :conditions => cond )
+      works = Work.where(cond).includes(:ocr_results).offset(params[:iDisplayStart]).limit(params[:iDisplayLength]).order("#{order_col} #{dir}")  
       filtered_cnt = Work.count(:conditions => cond)
       works.each do |work|
          if work.ocr_results.count == 0
@@ -43,7 +52,7 @@ class DashboardController < ApplicationController
          end
       end
       
-      data = sort_results(data, params[:iSortCol_0].to_i, params[:sSortDir_0])
+      #data = sort_results(data, params[:iSortCol_0].to_i, params[:sSortDir_0])
       
       resp['data'] = data
       resp['iTotalDisplayRecords'] = filtered_cnt
