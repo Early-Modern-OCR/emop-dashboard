@@ -43,11 +43,24 @@ $(function() {
       "sAjaxSource": "dashboard/fetch",
       "sAjaxDataProp": "data",
       "fnCreatedRow": function( nRow, aData, iDisplayIndex ) {
-         if ( aData[5] === "Gale" ) {
+         if ( aData.ocr_engine === "Gale" ) {
              $(nRow).addClass("gale-row");            
          }
       },
+      "aoColumns": [
+         { "mData": "data_set" },
+         { "mData": "tcp_number" },
+         { "mData": "title" },
+         { "mData": "author" },
+         { "mData": "ocr_date" },
+         { "mData": "ocr_engine" },
+         { "mData": "ocr_batch" },
+         { "mData": "juxta_url" },
+         { "mData": "retas_url" },
+       ],
       "aoColumnDefs": [
+         { "aTargets": [0], "bSortable": false},
+         { "aTargets": [6], "bSortable": false},
          { "aTargets": [7], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
          { "aTargets": [8], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
       ]
