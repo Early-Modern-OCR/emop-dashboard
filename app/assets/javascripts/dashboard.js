@@ -2,6 +2,10 @@
  * Main javascript file for the dashboard
  */
 
+/**
+ * datatable plugin to filter on ENTER rather than every key press
+ * @param {Object} oSettings
+ */
 jQuery.fn.dataTableExt.oApi.fnFilterOnReturn = function (oSettings) {
     var _that = this;
   
