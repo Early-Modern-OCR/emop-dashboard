@@ -41,8 +41,11 @@ class DashboardController < ApplicationController
       sql = sql + vals
 
       results = WorkOcrResult.find_by_sql(sql)
-      filter_cond = [cond]+vals
-      filtered_cnt = results.size#WorkOcrResult.count(:conditions => filter_cond)
+      
+      count_sel = "select count(*) as cnt from work_ocr_results right outer join works on wks_work_id=work_id"
+      sql = ["#{count_sel} where #{cond}"]
+      sql = sql + vals
+      filtered_cnt = WorkOcrResult.find_by_sql(sql).first.cnt
       
       data = []
       results.each do |result|

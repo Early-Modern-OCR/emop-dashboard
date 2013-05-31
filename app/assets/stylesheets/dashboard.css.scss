@@ -35,6 +35,10 @@
    border: 1px solid black;
 }
 
+.dataTables_processing {
+   top: 200px !important;
+}
+
 .small-label {
    font-size: 0.8em;
    vertical-align: sub;
@@ -100,6 +104,13 @@
    }
 }
 
+a.paginate_disabled_previous {
+   cursor: default !important;
+}
+.paginate_disabled_next {
+   cursor: default !important;
+}
+      
 #results-detail {
    padding:10px;
    
@@ -129,8 +140,7 @@
       
       .gale-row {
          background-color: #cec !important;
-      }
-      
+      }      
    
       th {
          background-color: #679;
