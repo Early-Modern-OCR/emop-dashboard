@@ -27,8 +27,6 @@ set :rails_env, "production"
 
 #set :whenever_command, "bundle exec whenever"
 
-# remove skin everywhere
-
 def set_application(section)
    set :deploy_to, "#{site_specific[section]['deploy_base']}"
    set :application, site_specific[section]['ssh_name']
@@ -41,7 +39,6 @@ def set_application(section)
    role :web, "#{application}"                          # Your HTTP server, Apache/etc
    role :app, "#{application}"                          # This may be the same as your `Web` server
    role :db,  "#{application}", :primary => true      # This is where Rails migrations will run
-   set :skin, skin
 end
 
 desc "Print out a menu of all the options that a user probably wants."
