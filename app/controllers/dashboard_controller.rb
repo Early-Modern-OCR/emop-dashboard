@@ -34,32 +34,20 @@ class DashboardController < ApplicationController
       end
 
       # build the ugly query to get all the info
-      sel = "select works.*,work_ocr_results.* from works left outer join work_ocr_results on wks_work_id=work_id"
+      sel = "select works.*,work_ocr_results.* from work_ocr_results right outer join works on wks_work_id=work_id"
       limits = "limit #{params[:iDisplayLength]} OFFSET #{params[:iDisplayStart]}"
       order = "order by #{order_col} #{dir}"
       sql = ["#{sel} where #{cond} #{order} #{limits}"]
       sql = sql + vals
 
-      works = Work.find_by_sql(sql)
+      results = WorkOcrResult.find_by_sql(sql)
       filter_cond = [cond]+vals
-      filtered_cnt = Work.count(:conditions => filter_cond)
+      filtered_cnt = results.size#WorkOcrResult.count(:conditions => filter_cond)
       
       data = []
-      works.each do |work|
-         if work.ocr_results.count == 0
-            rec = work_to_hash(work)   
-            data << rec 
-         else
-            work.ocr_results.each do |ocr|
-               rec = work_to_hash(work)  
-               rec[:ocr_date] = ocr.ocr_completed.to_datetime.strftime("%m/%d/%Y %H:%M")
-               rec[:ocr_engine] = OcrEngine.find(ocr.ocr_engine_id ).name
-               rec[:ocr_batch] = "#{ocr.batch_id}: #{ocr.batch_name}"
-               rec[:juxta_url] = gen_pages_link(work.wks_work_id, ocr.batch_id, ocr.juxta_accuracy)
-               rec[:retas_url] = gen_pages_link(work.wks_work_id, ocr.batch_id, ocr.retas_accuracy)
-               data << rec      
-            end
-         end
+      results.each do |result|
+         rec = result_to_hash(result)   
+         data << rec 
       end
             
       resp['data'] = data
@@ -67,28 +55,32 @@ class DashboardController < ApplicationController
       render :json => resp, :status => :ok
    end
   
-      
    private
-   def work_to_hash(work)
+   def result_to_hash(result)
      rec = {}
-      if work.isECCO?
+      if result.wks_ecco_number.nil? && result.wks_ecco_number.length > 0
          rec[:data_set] = 'ECCO'
       else
          rec[:data_set] = 'EEBO'   
       end 
-      rec[:tcp_number] = work.wks_tcp_number
-      rec[:title] = work.wks_title
-      rec[:author] = work.wks_author
-      rec[:ocr_date] = nil
-      rec[:ocr_engine] = nil
-      rec[:ocr_batch] = nil
-      rec[:juxta_accuracy] = nil
-      rec[:retas_accuracy] = nil
-      rec[:juxta_url] = nil
-      rec[:retas_url] = nil
+      rec[:tcp_number] = result.wks_tcp_number
+      rec[:title] = result.wks_title
+      rec[:author] = result.wks_author
+      if result.batch_id.nil?
+         rec[:ocr_date] = nil
+         rec[:ocr_engine] = nil
+         rec[:ocr_batch] = nil
+         rec[:juxta_url] = nil
+         rec[:retas_url] = nil
+      else
+         rec[:ocr_date] = result.ocr_completed.to_datetime.strftime("%m/%d/%Y %H:%M")
+         rec[:ocr_engine] = OcrEngine.find(result.ocr_engine_id ).name
+         rec[:ocr_batch] = "#{result.batch_id}: #{result.batch_name}"
+         rec[:juxta_url] = gen_pages_link(result.wks_work_id, result.batch_id, result.juxta_accuracy)
+         rec[:retas_url] = gen_pages_link(result.wks_work_id, result.batch_id, result.retas_accuracy)
+      end
       return rec
    end
-   
    
    private
    def gen_pages_link(work_id, batch_id, accuracy)
