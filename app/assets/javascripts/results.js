@@ -12,6 +12,7 @@ $(function() {
       "bInfo": false,
       "sAjaxSource": "/results/fetch?work="+work_id+"&batch="+batch_id,
       "sAjaxDataProp": "data",
+      "aaSorting": [],
       "aoColumnDefs": [
          { "aTargets": [0], "bSortable": false}
       ],

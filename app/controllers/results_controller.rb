@@ -28,9 +28,18 @@ class ResultsController < ApplicationController
       sql = sql << batch_id
       sql = sql << work_id
       resp['iTotalRecords'] = PageResult.find_by_sql(sql).first.cnt
+      resp['iTotalDisplayRecords'] = resp['iTotalRecords']
+     
+      # generate order info based on params
+      search_col_idx = params[:iSortCol_0].to_i
+      cols = [nil,'pg_ref_number','page_results.juxta_change_index','page_results.alt_change_index']
+      dir = params[:sSortDir_0]
+      order_col = cols[search_col_idx]
+      order_col = cols[1] if order_col.nil?
+      
+      # get results and transform them into req'd json structure
       data = []
-      # TODO Ordering!!
-      results = Page.joins(:page_results).where(:pg_work_id => work_id, :page_results => {:batch_id => batch_id})
+      results = Page.joins(:page_results).where(:pg_work_id => work_id, :page_results => {:batch_id => batch_id}).order("#{order_col} #{dir}")
       results.each do | result | 
          rec = {}
          rec[:detail_link] = "<div class='detail-link'></div>"
@@ -41,7 +50,6 @@ class ResultsController < ApplicationController
       end
       
       resp['data'] = data
-      resp['iTotalDisplayRecords'] = resp['iTotalRecords']
       render :json => resp, :status => :ok
 
    end
