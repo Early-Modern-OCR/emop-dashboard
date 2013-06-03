@@ -8,6 +8,18 @@ a.dashboard-back {
    font-size: .85em;
 }
 
+#results-summary {
+   margin: 10px 0px 0 10px;
+   font-size: 0.9em;
+   font-weight: 200;
+
+   .summary-label {
+      text-align: right;
+      padding-right: 10px;
+      font-weight: 500;
+   }
+}
+
 #results-detail {
    padding:10px;
    
@@ -29,5 +41,17 @@ a.dashboard-back {
       border:none;
       text-align: center;
       font-weight: normal;
+   }
+   
+   .icon-col {
+      width: 24px;
+   }
+   
+   .detail-link {
+      height:16px;
+      background-image: image-url("detail.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      cursor: pointer;
    }
 }

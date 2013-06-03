@@ -12,7 +12,11 @@ $(function() {
       "bInfo": false,
       "sAjaxSource": "/results/fetch?work="+work_id+"&batch="+batch_id,
       "sAjaxDataProp": "data",
+      "aoColumnDefs": [
+         { "aTargets": [0], "bSortable": false}
+      ],
       "aoColumns": [
+         { "mData": "detail_link" },
          { "mData": "page_number" },
          { "mData": "juxta_accuracy" },
          { "mData": "retas_accuracy" },
