@@ -47,6 +47,7 @@ $(function() {
       "bStateSave": true,
       "sAjaxSource": "dashboard/fetch",
       "sAjaxDataProp": "data",
+      "bSortClasses": false,
       "aaSorting": [],
       "fnCreatedRow": function( nRow, aData, iDisplayIndex ) {
          if ( aData.ocr_engine === "Gale" ) {

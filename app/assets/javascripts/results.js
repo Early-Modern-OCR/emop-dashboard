@@ -10,6 +10,7 @@ $(function() {
       "bPaginate": false,
       "bFilter": false,
       "bInfo": false,
+      "bSortClasses": false,
       "sAjaxSource": "/results/fetch?work="+work_id+"&batch="+batch_id,
       "sAjaxDataProp": "data",
       "aaSorting": [],
@@ -23,4 +24,5 @@ $(function() {
          { "mData": "retas_accuracy" },
        ]
    }).fnFilterOnReturn();
+   
 });
