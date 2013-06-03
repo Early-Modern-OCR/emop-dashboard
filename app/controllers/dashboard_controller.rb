@@ -94,7 +94,7 @@ class DashboardController < ApplicationController
          link_class = "class='warn-cell'"
       end
       formatted = '%.3f'%accuracy
-      out = "<a href='page/#{work_id}?batch=#{batch_id}' #{link_class}>#{formatted}</a>"
+      out = "<a href='results?work=#{work_id}&batch=#{batch_id}' #{link_class}>#{formatted}</a>"
       return out   
    end
 

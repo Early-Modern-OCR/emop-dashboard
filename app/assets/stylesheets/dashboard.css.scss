@@ -2,69 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.tlogo {
-   font-family: Georgia,serif;
-   font-weight: bold;
-   font-size: 1.1em;
-   color: #C4230E;
-   background-color: white;
-   padding: 0 5px;
-   border-radius: 10px;
-   border: 1px solid black;
-}
-
-.ologo {
-   font-family: Georgia,serif;
-   font-weight: bold;
-   font-size: 1.1em;
-   color: #139EBA;
-   background-color: white;
-   padding: 0 5px;
-   border-radius: 10px;
-   border: 1px solid black;
-}
-
-.glogo {
-   font-family: Georgia,serif;
-   font-weight: bold;
-   font-size: 1.1em;
-   color: #34730E;
-   background-color: white;
-   padding: 0 5px;
-   border-radius: 10px;
-   border: 1px solid black;
-}
-
-.dataTables_processing {
-   top: 200px !important;
-}
-
-.small-label {
-   font-size: 0.8em;
-   vertical-align: sub;
-}
-
-.main-header {
-   background-color: #500000;
-   width:100%;
-   height: 155px;
-   border-bottom: 1px solid;
-   margin-top: 2px;
-   border-top: 1px solid;
-   
-   #idhmc-logo {
-      float:left;
-   }
-   
-   span {
-      color: white;
-      font-size: 2.5em;
-      position: relative;
-      top: 50px;
-      left: 40px;
-      font-weight: bolder;
-   }
-}
+@import "common";
 
 #dashboard-main {
    margin-top: 2px;
@@ -77,14 +15,6 @@
    margin: 10px;
    border: 1px solid;
    border-collapse: collapse;
-}
-
-#detail-table_processing {
-   border: none;
-   color: black;
-   box-shadow: 3px 3px 17px #333;
-   background-color: #eee;
-   outline: 1px solid;
 }
 
 #filter-table {
@@ -111,33 +41,14 @@ a.paginate_disabled_previous {
    cursor: default !important;
 }
       
-#results-detail {
+#dashboard-detail {
    padding:10px;
    
    #detail-table {
       font-size: 0.9em;
       border-spacing: 1px;
       background-color: #999;
-      
-      .narrow-col {
-         width: 40px;
-      }
-      .medium-col {
-         width: 55px;
-      }
-      .author-col {
-         width: 180px;
-      }
-      .date-col {
-         width: 80px;
-      }
-      .result-col {
-         width: 50px;
-      }
-      .result-data {
-         text-align: center;
-      }
-      
+
       .gale-row {
          background-color: #cec !important;
       }      
@@ -159,13 +70,7 @@ a.paginate_disabled_previous {
          background-color: #dd0;
       }
    }
-   
-   .sorting_desc {
-      background: image-url("sort_desc.png") no-repeat center right;;
-   }
-   .sorting_asc {
-      background: image-url("sort_asc.png") no-repeat center right;
-   }
+
    .dataTables_length {
       font-size: 0.8em;
    }

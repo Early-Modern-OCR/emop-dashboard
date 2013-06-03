@@ -1,0 +1,33 @@
+// Place all the styles related to the PageDetail controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "common";
+
+a.dashboard-back {
+   margin: 10px;
+   font-size: .85em;
+}
+
+#results-detail {
+   padding:10px;
+   
+   #pages-table {
+      font-size: 0.9em;
+      border-spacing: 1px;
+      background-color: #999;
+      margin: 10px 10px;
+      width: 375px;
+   }
+   
+   td {
+      text-align: center;
+   }
+   
+   th {
+      background-color: #679;
+      color: #ededed;
+      border:none;
+      text-align: center;
+      font-weight: normal;
+   }
+}

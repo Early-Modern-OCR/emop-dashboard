@@ -40,10 +40,11 @@ $(function() {
       }
    };
  
-   $('#detail-table').dataTable( {
+   var emopTable = $('#detail-table').dataTable( {
       "iDisplayLength": 25,
       "bProcessing": true,
       "bServerSide": true,
+      "bStateSave": true,
       "sAjaxSource": "dashboard/fetch",
       "sAjaxDataProp": "data",
       "fnCreatedRow": function( nRow, aData, iDisplayIndex ) {
