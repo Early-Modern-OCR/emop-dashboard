@@ -1,4 +1,16 @@
 
+@mixin rounded-corners {
+  border-radius:  4px 4px 4px 4px;
+  -moz-border-radius: 4px 4px 4px 4px;
+  -webkit-border-radius: 4px 4px 4px 4px;
+}
+
+@mixin box-shadow {
+  -moz-box-shadow: 4px 4px 4px #999;
+  -webkit-box-shadow: 4px 4px 4px #999;
+  box-shadow: 4px 4px 4px #999;
+}
+
 .tlogo {
    font-family: Georgia,serif;
    font-weight: bold;

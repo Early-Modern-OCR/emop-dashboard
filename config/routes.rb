@@ -5,6 +5,7 @@ EmopDashboard::Application.routes.draw do
   
   get "dashboard/index"
   get "dashboard/fetch"
+  get "dashboard/batch/:id" => "dashboard#batch"
 
   root :to => "dashboard#index"
 end

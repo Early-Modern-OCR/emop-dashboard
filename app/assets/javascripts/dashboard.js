@@ -26,6 +26,13 @@ jQuery.fn.dataTableExt.oApi.fnFilterOnReturn = function (oSettings) {
 
 $(function() {
    
+   // to control tooltip mouseover behavir
+   var tipShowTimer = -1;
+   var tipTarget = null;
+   var tipX;
+   var tipY;
+
+   // add styles to cells that are showing results
    var resultCell = function(nTd, data) {
       if ( data.length === 0 || data == -1 ) {
          $(nTd).removeClass("bad-cell");
@@ -39,7 +46,50 @@ $(function() {
          $(nTd).addClass("warn-cell");
       }
    };
+
+   // mouse behavior to control display/hide of batch tooltip
+   $("#dashboard-detail").on("mouseenter", ".batch-name", function(evt) {
+      tipTarget = $(this);
+      tipX = evt.pageX;
+      tipY = evt.pageY;
+      if (tipShowTimer === -1) {
+         tipShowTimer = setTimeout(function() {
+            var st = $("body").scrollTop();
+            tipY-=st;
+            var id = tipTarget.attr("id").substring("batch-".length);
+            $.ajax({
+               url : "/dashboard/batch/" + id,
+               type : 'GET',
+               async : false,
+               success : function(resp, textStatus, jqXHR) {
+                  if (resp !== null) {
+                     $("#dashboard-main").append(resp);
+                     $("#batch-tooltip").css("top", (tipY - $("#batch-tooltip").outerHeight() / 2) + "px");
+                     $("#batch-tooltip").css("left", tipX + "px");
+                     $("#batch-tooltip").show();
+                  }
+               }
+            });
+         }, 750);
+      }
+   }); 
+
+   $("#dashboard-detail").on("mouseleave", ".batch-name", function(evt) {
+      if ( tipShowTimer !== -1 ) {
+         clearTimeout( tipShowTimer );
+         tipShowTimer = -1;
+         tipTarget = null;
+       }
+       $("#batch-tooltip").remove();
+   });
+   $("#dashboard-detail").on("mousemove", ".batch-name", function(evt) {
+      tipX = evt.pageX+10;
+      tipY = evt.pageY;
+   });
  
+   // create the data table instance. it has custom plug-in
+   // behavior that only triggers the search filter on enter
+   // instead of on each key press
    var emopTable = $('#detail-table').dataTable( {
       "iDisplayLength": 25,
       "bProcessing": true,
@@ -71,5 +121,6 @@ $(function() {
          { "aTargets": [7], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
          { "aTargets": [8], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
       ]
-   }).fnFilterOnReturn();
+   }).fnFilterOnReturn();   
+   
 });

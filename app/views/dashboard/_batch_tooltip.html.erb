@@ -1,0 +1,21 @@
+<div id="batch-tooltip">
+    <p><span class="tt-label">Name:</span><span class="tt-data"><%= @batch.name %></span></p>
+    <p><span class="tt-label">Type:</span><span class="tt-data"><%= @job_type.name %></span></p>
+    <% if @batch.job_type == 2 %>
+      <p><span class="tt-label">OCR Engine:</span><span class="tt-data"><%= @ocr_engine.name %></span></p>
+      <% if !@font.nil? %>
+         <p><span class="tt-label">Font:</span><span class="tt-data"><%= @font.font_name %></span></p>
+         <div id="font-info">
+            <p><span class="tt-label">Italic:</span><span class="tt-data"><%= @font.font_italic %></span></p>  
+            <p><span class="tt-label">Bold:</span><span class="tt-data"><%= @font.font_bold %></span></p>   
+            <p><span class="tt-label">Fixed:</span><span class="tt-data"><%= @font.font_fixed %></span></p>   
+            <p><span class="tt-label">Serif:</span><span class="tt-data"><%= @font.font_serif %></span></p>  
+            <p><span class="tt-label">Fraktur:</span><span class="tt-data"><%= @font.font_fraktur %></span></p>  
+            <p><span class="tt-label">Line Height:</span><span class="tt-data"><%= @font.font_line_height %></span></p>  
+            <p><span class="tt-label">Path:</span><span class="tt-data"><%= @font.font_library_path %></span></p>  
+         </div>
+      <% end %>
+    <% end %>
+    <p><span class="tt-label">Parameters: </span><span class="tt-data"><%= @batch.parameters %></span></p>
+    <p><span class="tt-label">Notes: </span><span class="tt-data"><%= @batch.notes %></span></p>
+</div> 

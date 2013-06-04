@@ -40,6 +40,34 @@ a.paginate_disabled_previous {
 .paginate_disabled_next {
    cursor: default !important;
 }
+
+#batch-tooltip {
+   display:none;
+   position: fixed;
+   background-color: #f8f8f8;
+   border: 1px solid;
+   margin: 0px;
+   padding: 8px 10px;
+   font-size: 0.7em;
+   font-weight: 200;
+   @include rounded-corners;
+   @include box-shadow;
+   max-width: 240px;
+   min-width: 180px;
+   
+   p {
+      margin: 2px 0px;
+   }
+   .tt-label {
+      font-weight: 500;
+      margin-right: 5px;
+      text-align: right;
+   }
+   #font-info {
+      margin-left:15px;
+      font-size: 0.9em;
+   }
+}
       
 #dashboard-detail {
    padding:10px;
@@ -53,6 +81,10 @@ a.paginate_disabled_previous {
          background-color: #cec !important;
       }      
    
+      td {
+         cursor: default;
+      }
+ 
       th {
          background-color: #679;
          color: #ededed;

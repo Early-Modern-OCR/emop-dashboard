@@ -4,6 +4,16 @@ class DashboardController < ApplicationController
    def index
       # TODO get data for summary table
    end
+   
+   # Get an HTML fragment for the batch details tooltip
+   def batch
+      @batch = BatchJob.find( params[:id] )
+      @job_type = JobType.find( @batch.job_type )
+      @ocr_engine = OcrEngine.find( @batch.ocr_engine_id )
+      @font = @batch.font
+      out = render_to_string( :partial => 'batch_tooltip', :layout => false )
+      render :text => out.strip
+   end
 
    # Called from datatable to fetch a subset of data for display
    #
@@ -78,7 +88,7 @@ class DashboardController < ApplicationController
       else
          rec[:ocr_date] = result.ocr_completed.to_datetime.strftime("%m/%d/%Y %H:%M")
          rec[:ocr_engine] = OcrEngine.find(result.ocr_engine_id ).name
-         rec[:ocr_batch] = "#{result.batch_id}: #{result.batch_name}"
+         rec[:ocr_batch] = "<span class='batch-name' id='batch-#{result.batch_id}'>#{result.batch_id}: #{result.batch_name}</span>"
          rec[:juxta_url] = gen_pages_link(result.wks_work_id, result.batch_id, result.juxta_accuracy)
          rec[:retas_url] = gen_pages_link(result.wks_work_id, result.batch_id, result.retas_accuracy)
       end
