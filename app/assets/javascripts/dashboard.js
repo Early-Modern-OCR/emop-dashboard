@@ -86,6 +86,11 @@ $(function() {
       tipX = evt.pageX+10;
       tipY = evt.pageY;
    });
+   
+   // when 
+    $("#batch-filter").on("change", function() {
+       $("#detail-table").dataTable().fnDraw();
+    });
  
    // create the data table instance. it has custom plug-in
    // behavior that only triggers the search filter on enter
@@ -120,7 +125,12 @@ $(function() {
          { "aTargets": [6], "bSortable": false},
          { "aTargets": [7], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
          { "aTargets": [8], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
-      ]
-   }).fnFilterOnReturn();   
-   
+      ],
+      "fnServerParams": function ( aoData ) {
+         var batch = $("#batch-filter").val();
+         if (batch.length > 0) {
+            aoData.push( { "name": "batch", "value": batch } );
+         }
+      }
+   }).fnFilterOnReturn();     
 });

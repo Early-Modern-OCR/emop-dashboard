@@ -2,7 +2,7 @@ class DashboardController < ApplicationController
    # main dashboard summary view
    #
    def index
-      # TODO get data for summary table
+      @batches = BatchJob.all()
    end
    
    # Get an HTML fragment for the batch details tooltip
@@ -33,6 +33,7 @@ class DashboardController < ApplicationController
       dir = params[:sSortDir_0]
       order_col = cols[search_col_idx]
       order_col = cols[1] if order_col.nil?
+      
   
       # build where conditions
       q = params[:sSearch]
@@ -41,6 +42,12 @@ class DashboardController < ApplicationController
       if q.length > 0 
          cond = "wks_tcp_number is not null && (wks_tcp_number LIKE ? || wks_author LIKE ? || wks_title LIKE ?)"
          vals = ["%#{q}%", "%#{q}%", "%#{q}%" ]   
+      end
+      
+      batch_filter = params[:batch]
+      if !batch_filter.nil?
+         cond << " and work_ocr_results.batch_id=?"
+         vals << batch_filter
       end
 
       # build the ugly query to get all the info

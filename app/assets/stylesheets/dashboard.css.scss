@@ -72,6 +72,14 @@ a.paginate_disabled_previous {
 #dashboard-detail {
    padding:10px;
    
+   #dashboard-filter {
+      .filter-label {
+         margin-right: 5px;
+         font-size: 0.8em;
+         font-weight: 400;
+      }
+   }
+   
    #detail-table {
       font-size: 0.9em;
       border-spacing: 1px;
@@ -83,6 +91,9 @@ a.paginate_disabled_previous {
    
       td {
          cursor: default;
+      }
+      .batch-name {
+         cursor: help;
       }
  
       th {
