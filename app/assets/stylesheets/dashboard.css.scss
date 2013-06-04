@@ -72,11 +72,32 @@ a.paginate_disabled_previous {
 #dashboard-detail {
    padding:10px;
    
+   
    #dashboard-filter {
+      margin: 0px 0px 20px 5px;
+   
       .filter-label {
          margin-right: 5px;
          font-size: 0.8em;
          font-weight: 400;
+      }
+      
+      #filter-header {
+         font-size:0.95em;
+         font-weight: 500;
+      }
+      
+      p {
+         margin: 5px 10px;
+      }
+      
+      select {
+         width: 207px;
+      }
+      
+      .date-filter{ 
+         width: 75px;
+         margin-right: 15px;
       }
    }
    

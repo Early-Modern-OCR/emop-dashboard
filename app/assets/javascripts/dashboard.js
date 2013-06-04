@@ -87,10 +87,20 @@ $(function() {
       tipY = evt.pageY;
    });
    
-   // when 
-    $("#batch-filter").on("change", function() {
+   
+   // filter stuff
+   $( "#from-date" ).datepicker();
+   $("#from-date").on( "change", function() {
        $("#detail-table").dataTable().fnDraw();
-    });
+   });
+   $( "#to-date" ).datepicker();
+   $("#to-date").on( "change", function() {
+       $("#detail-table").dataTable().fnDraw();
+   });
+   $("#batch-filter").on("change", function() {
+      $("#detail-table").dataTable().fnDraw();
+   }); 
+
  
    // create the data table instance. it has custom plug-in
    // behavior that only triggers the search filter on enter
@@ -130,6 +140,14 @@ $(function() {
          var batch = $("#batch-filter").val();
          if (batch.length > 0) {
             aoData.push( { "name": "batch", "value": batch } );
+         }
+         var from = $("#from-date").val();
+         if (from.length > 0) {
+            aoData.push( { "name": "from", "value": from } );
+         }
+         var to = $("#to-date").val();
+         if (to.length > 0) {
+            aoData.push( { "name": "to", "value": to } );
          }
       }
    }).fnFilterOnReturn();     

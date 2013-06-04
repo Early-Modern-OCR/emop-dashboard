@@ -1,6 +1,13 @@
 <div id="dashboard-filter">
+   <div id="filter-header">Results Filter</div>
    <p>
-      <span class="filter-label">Batch Filter:</span>
+      <span class="filter-label">Batch</span>
       <%= select_tag "batch-filter", options_from_collection_for_select(@batches, "id", "name"), {:prompt=>'All'} %>
+   </p>
+   <p>
+      <span class="filter-label">From:</span>
+      <input class="date-filter" type="text" id="from-date" />
+      <span class="filter-label">To:</span>
+      <input class="date-filter" type="text" id="to-date" />
    </p>
 </div>

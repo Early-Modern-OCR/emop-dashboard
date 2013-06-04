@@ -44,10 +44,21 @@ class DashboardController < ApplicationController
          vals = ["%#{q}%", "%#{q}%", "%#{q}%" ]   
       end
       
+      # add in extra filters; batch, from date and to date
       batch_filter = params[:batch]
       if !batch_filter.nil?
          cond << " and work_ocr_results.batch_id=?"
          vals << batch_filter
+      end
+      from_filter = params[:from]
+      if !from_filter.nil?
+         cond << " and work_ocr_results.ocr_completed>=?"
+         vals << fix_date_format(from_filter)
+      end
+      to_filter = params[:to]
+      if !to_filter.nil?
+         cond << " and work_ocr_results.ocr_completed<=?"
+         vals << fix_date_format(to_filter)
       end
 
       # build the ugly query to get all the info
@@ -75,6 +86,13 @@ class DashboardController < ApplicationController
       render :json => resp, :status => :ok
    end
   
+   private
+   def fix_date_format ( src_date )
+      bits = src_date.split("/")
+      out = "#{bits[2]}-#{bits[0]}-#{bits[1]}"
+      return out  
+   end
+   
    private
    def result_to_hash(result)
      rec = {}
