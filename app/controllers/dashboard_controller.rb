@@ -52,12 +52,12 @@ class DashboardController < ApplicationController
       end
       from_filter = params[:from]
       if !from_filter.nil?
-         cond << " and work_ocr_results.ocr_completed>=?"
+         cond << " and work_ocr_results.ocr_completed > ?"
          vals << fix_date_format(from_filter)
       end
       to_filter = params[:to]
       if !to_filter.nil?
-         cond << " and work_ocr_results.ocr_completed<=?"
+         cond << " and work_ocr_results.ocr_completed < ?"
          vals << fix_date_format(to_filter)
       end
 

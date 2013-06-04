@@ -100,6 +100,12 @@ $(function() {
    $("#batch-filter").on("change", function() {
       $("#detail-table").dataTable().fnDraw();
    }); 
+   $("#filter-reset").on("click", function() {
+       $("#to-date").val("");
+       $("#from-date").val("");
+       $("#batch-filter").val("");
+       $("#detail-table").dataTable().fnDraw();
+   });
 
  
    // create the data table instance. it has custom plug-in
