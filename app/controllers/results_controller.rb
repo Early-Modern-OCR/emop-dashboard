@@ -41,11 +41,10 @@ class ResultsController < ApplicationController
       results = Page.joins(:page_results).where(:pg_work_id => work_id, :page_results => {:batch_id => batch_id}).order("#{order_col} #{dir}")
       results.each do | result | 
          rec = {}
-         rec[:detail_link] = "<div class='detail-link'></div>"
+         rec[:detail_link] = "<a href='/juxta?work=#{work_id}&batch=#{batch_id}&result=#{ result.page_results.first.id}'><div class='detail-link'></div></a>"
          rec[:page_number] = result.pg_ref_number
          rec[:juxta_accuracy] = result.page_results.first.juxta_change_index
          rec[:retas_accuracy] = result.page_results.first.alt_change_index
-         #rec[:page_image] = "<a href=\"javascript:window.open('/results/#{work_id}/page/#{result.pg_ref_number}')\">View</a>"
          rec[:page_image] = "<a href=\"/results/#{work_id}/page/#{result.pg_ref_number}\">View</a>"
 
          data << rec

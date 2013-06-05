@@ -25,6 +25,4 @@ $(function() {
          { "mData": "page_image" }
        ]
    }).fnFilterOnReturn();
-   
-   
 });

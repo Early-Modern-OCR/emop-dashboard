@@ -11,18 +11,18 @@ emop:
 
 development:
   adapter: mysql2
-  database: emop_dashboard
+  database: dashboard_dev
   username: root
   password: 
 
 test:
   adapter: mysql2
-  database: emop_dashboard
+  database: dashboard_dev
   username: root
   password: 
 
 production:
   adapter: mysql2
-  database: emop_dashboard
+  database: dashboard_prod
   username: root
   password: 
