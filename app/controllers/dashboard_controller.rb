@@ -60,6 +60,10 @@ class DashboardController < ApplicationController
          cond << " and work_ocr_results.ocr_completed < ?"
          vals << fix_date_format(to_filter)
       end
+      
+      if params.has_key?(:ocr)
+         cond << " and work_ocr_results.ocr_completed is not null"
+      end
 
       # build the ugly query to get all the info
       sel = "select works.*,work_ocr_results.* from work_ocr_results right outer join works on wks_work_id=work_id"

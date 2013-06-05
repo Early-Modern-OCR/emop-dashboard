@@ -100,11 +100,15 @@ $(function() {
    $("#batch-filter").on("change", function() {
       $("#detail-table").dataTable().fnDraw();
    }); 
+   $("#require-ocr").on( "change", function() {
+       $("#detail-table").dataTable().fnDraw();
+   });
    $("#filter-reset").on("click", function() {
        $("#to-date").val("");
        $("#from-date").val("");
        $("#batch-filter").val("");
        $("#detail-table").dataTable().fnDraw();
+       $("#require-ocr").removeAttr('checked');
    });
 
  
@@ -143,6 +147,9 @@ $(function() {
          { "aTargets": [8], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
       ],
       "fnServerParams": function ( aoData ) {
+         if ( $('#require-ocr').is(':checked')) {
+             aoData.push( { "name": "ocr", "value": true } );
+         }
          var batch = $("#batch-filter").val();
          if (batch.length > 0) {
             aoData.push( { "name": "batch", "value": batch } );

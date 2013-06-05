@@ -1,6 +1,9 @@
 <div id="dashboard-filter">
    <div id="filter-header">Results Filter</div>
    <p>
+      <input type="checkbox" id="require-ocr"><span class="cb-filter-label">Exclude works with no OCR results</span>
+   </p>
+   <p>
       <span class="filter-label">Batch</span>
       <%= select_tag "batch-filter", options_from_collection_for_select(@batches, "id", "name"), {:prompt=>'All'} %>
    </p>
