@@ -2,7 +2,6 @@ class ResultsController < ApplicationController
    # show the page details for the specified work
    #
    def show
-      # TODO get summary data to show above page results table
       @work_id = params[:work]
       @batch_id = params[:batch]
       work = Work.find(@work_id)
@@ -46,12 +45,36 @@ class ResultsController < ApplicationController
          rec[:page_number] = result.pg_ref_number
          rec[:juxta_accuracy] = result.page_results.first.juxta_change_index
          rec[:retas_accuracy] = result.page_results.first.alt_change_index
+         #rec[:page_image] = "<a href=\"javascript:window.open('/results/#{work_id}/page/#{result.pg_ref_number}')\">View</a>"
+         rec[:page_image] = "<a href=\"/results/#{work_id}/page/#{result.pg_ref_number}\">View</a>"
+
          data << rec
       end
       
       resp['data'] = data
       render :json => resp, :status => :ok
 
+   end
+   
+   def get_page_image
+      work_id = params[:work]
+      page_num = params[:num]   
+      work = Work.find(work_id)
+      img_path = get_ocr_image_path(work, page_num)
+      send_file img_path, type: "image/tiff", disposition: "inline"
+   end
+   
+   private
+   def get_ocr_image_path(work, page_num) 
+      if work.isECCO?
+         # ECCO format: ECCO number + 4 digit page + 0.tif
+         ecco_dir = work.wks_ecco_directory
+         return "%s%s/images/%s%04d0.TIF" % [Settings.emop_path_prefix, ecco_dir, work.wks_ecco_number, page_num];
+      else
+         # EEBO format: 00014.000.001.tif where 00014 is the page number.
+         ebbo_dir = work.wks_eebo_directory
+         return "%s%s/%05d.000.001.tif", [Settings.emop_path_prefix, ebbo_dir, page_num];
+      end
    end
 
 end

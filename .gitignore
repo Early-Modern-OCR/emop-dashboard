@@ -16,3 +16,4 @@
 
 config/database.yml
 config/cap.yml
+config/emop.yml

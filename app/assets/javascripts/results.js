@@ -22,7 +22,9 @@ $(function() {
          { "mData": "page_number" },
          { "mData": "juxta_accuracy" },
          { "mData": "retas_accuracy" },
+         { "mData": "page_image" }
        ]
    }).fnFilterOnReturn();
+   
    
 });

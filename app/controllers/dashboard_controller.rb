@@ -7,7 +7,7 @@ class DashboardController < ApplicationController
       @from_filter = session[:from]
       @to_filter = session[:to]
       @ocr_filter = session[:ocr]
-      
+
       @batches = BatchJob.all()
    end
    
