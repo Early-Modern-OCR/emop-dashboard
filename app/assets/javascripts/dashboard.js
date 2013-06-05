@@ -107,8 +107,8 @@ $(function() {
        $("#to-date").val("");
        $("#from-date").val("");
        $("#batch-filter").val("");
-       $("#detail-table").dataTable().fnDraw();
        $("#require-ocr").removeAttr('checked');
+       $("#detail-table").dataTable().fnDraw();
    });
 
  

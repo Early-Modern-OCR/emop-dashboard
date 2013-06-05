@@ -1,17 +1,18 @@
 <div id="dashboard-filter">
    <div id="filter-header">Results Filter</div>
    <p>
-      <input type="checkbox" id="require-ocr"><span class="cb-filter-label">Exclude works with no OCR results</span>
+      <input type="checkbox" id="require-ocr" <% if @ocr_filter %>checked<% end %>>
+      <span class="cb-filter-label">Exclude works with no OCR results</span>
    </p>
    <p>
       <span class="filter-label">Batch</span>
-      <%= select_tag "batch-filter", options_from_collection_for_select(@batches, "id", "name"), {:prompt=>'All'} %>
+      <%= select_tag "batch-filter", options_from_collection_for_select(@batches, "id", "name", @batch_filter), {:prompt=>'All'} %>
    </p>
    <p>
       <span class="filter-label">From:</span>
-      <input class="date-filter" type="text" id="from-date" />
+      <input class="date-filter" type="text" id="from-date" value="<%= @from_filter %>"/>
       <span class="filter-label">To:</span>
-      <input class="date-filter" type="text" id="to-date" />
+      <input class="date-filter" type="text" id="to-date"  value="<%= @to_filter %>"/>
    </p>
    <input id="filter-reset" type="button" value="Reset Filter"/>
 </div>

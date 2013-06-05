@@ -2,11 +2,17 @@ class DashboardController < ApplicationController
    # main dashboard summary view
    #
    def index
+      # pull extra filter data from session 
+      @batch_filter = session[:batch]
+      @from_filter = session[:from]
+      @to_filter = session[:to]
+      @ocr_filter = session[:ocr]
+      
       @batches = BatchJob.all()
    end
    
    # Get an HTML fragment for the batch details tooltip
-   def batch
+   def batch      
       @batch = BatchJob.find( params[:id] )
       @job_type = JobType.find( @batch.job_type )
       @ocr_engine = OcrEngine.find( @batch.ocr_engine_id )
@@ -46,21 +52,25 @@ class DashboardController < ApplicationController
       
       # add in extra filters; batch, from date and to date
       batch_filter = params[:batch]
+      session[:batch]  = batch_filter
       if !batch_filter.nil?
          cond << " and work_ocr_results.batch_id=?"
          vals << batch_filter
       end
       from_filter = params[:from]
+      session[:from]  = from_filter
       if !from_filter.nil?
          cond << " and work_ocr_results.ocr_completed > ?"
          vals << fix_date_format(from_filter)
       end
       to_filter = params[:to]
+      session[:to]  = to_filter
       if !to_filter.nil?
          cond << " and work_ocr_results.ocr_completed < ?"
          vals << fix_date_format(to_filter)
       end
       
+      session[:ocr]  = params[:ocr]
       if params.has_key?(:ocr)
          cond << " and work_ocr_results.ocr_completed is not null"
       end
