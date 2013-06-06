@@ -33,19 +33,25 @@ class ResultsController < ApplicationController
       search_col_idx = params[:iSortCol_0].to_i
       cols = [nil,'pg_ref_number','page_results.juxta_change_index','page_results.alt_change_index']
       dir = params[:sSortDir_0]
+      dir = "asc" if dir.nil?
       order_col = cols[search_col_idx]
       order_col = cols[1] if order_col.nil?
       
       # get results and transform them into req'd json structure
       data = []
-      results = Page.joins(:page_results).where(:pg_work_id => work_id, :page_results => {:batch_id => batch_id}).order("#{order_col} #{dir}")
-      results.each do | result | 
+      sel = "select pages.*, page_results.id as result_id, page_results.juxta_change_index as juxta, page_results.alt_change_index as retas"
+      from = "FROM pages INNER JOIN page_results ON page_results.page_id = pages.pg_page_id"
+      cond = "where batch_id=? and pg_work_id=?"
+      order = "order by #{order_col} #{dir}"
+      sql = ["#{sel} #{from} #{cond} #{order}", batch_id, work_id]
+      pages = Page.find_by_sql( sql )
+      pages.each do | page | 
          rec = {}
-         rec[:detail_link] = "<a href='/juxta?work=#{work_id}&batch=#{batch_id}&result=#{ result.page_results.first.id}'><div class='detail-link'></div></a>"
-         rec[:page_number] = result.pg_ref_number
-         rec[:juxta_accuracy] = result.page_results.first.juxta_change_index
-         rec[:retas_accuracy] = result.page_results.first.alt_change_index
-         rec[:page_image] = "<a href=\"/results/#{work_id}/page/#{result.pg_ref_number}\">View</a>"
+         rec[:detail_link] = "<a href='/juxta?work=#{work_id}&batch=#{batch_id}&result=#{ page.result_id}'><div class='detail-link'></div></a>"
+         rec[:page_number] = page.pg_ref_number
+         rec[:juxta_accuracy] = page.juxta
+         rec[:retas_accuracy] = page.retas
+         rec[:page_image] = "<a href=\"/results/#{work_id}/page/#{page.pg_ref_number}\">View</a>"
 
          data << rec
       end

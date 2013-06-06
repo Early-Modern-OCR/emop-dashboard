@@ -59,6 +59,10 @@ class JuxtaController < ApplicationController
    #
    private
    def create_jx_sources(gt_file, ocr_file)
+      # FIXME
+      # Lots of times the GT source will already be present
+      # Do not create multiple times
+      
       data = {}
       data['type'] = "raw"
       data['contentType'] = "txt"
