@@ -1,6 +1,7 @@
 EmopDashboard::Application.routes.draw do
    # juxta visualization routes
    get "juxta" => "juxta#show"
+   post "juxta/upload_sources/:collation_id" => "juxta#upload_sources"
 
    # page results routes
    get "results" => "results#show"

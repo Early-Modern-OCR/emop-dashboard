@@ -4,6 +4,7 @@
 class PageResult < ActiveRecord::Base
    establish_connection(:emop)
    self.table_name = :page_results
+   belongs_to :page
    
    # get the type of ocr engine used to generate this result
    #

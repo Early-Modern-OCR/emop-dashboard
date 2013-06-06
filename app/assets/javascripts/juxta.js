@@ -10,12 +10,38 @@ $(function() {
       $('#wait-popup').show();
    };
    
+   var changeWaitMessage = function(msg) {
+      $("#wait-msg").text(msg);
+      $("#wait-msg").show();
+   }
+
    var hideWaitPopup = function() {
       $('#dim-overlay').hide();
       $("#wait-popup").hide();
    };
 
    var initialize = function() {  
+      // Get the status of this collation. Possible status results:
+      //   'created','add_sources','create_witnesses','create_set','collate','ready','error'
+      var status = $("#collation-status").text();
+      var id = $("#collation-id").text();
+      
+      // handle each case
+      if ( status === 'created' ) {
+         $.ajax({
+               url : "/juxta/upload_sources/" + id,
+               type : 'POST',
+               success : function(resp, textStatus, jqXHR) {
+                  if (resp !== null) {
+                     alert("yay");
+                  }
+               },
+               error : function( jqXHR, textStatus, errorThrown ) {
+                  alert(errorThrown);
+               }
+            });
+      } 
+      
       hideWaitPopup();
    };
 
