@@ -1,5 +1,5 @@
 class AddStatusToJuxtaCollation < ActiveRecord::Migration
   def change
-     add_column :juxta_collations, :status, "ENUM('created', 'ready', 'error')", :default => :created
+     add_column :juxta_collations, :status, "ENUM('uninitialized', 'ready', 'error')", :default => :uninitialized
   end
 end

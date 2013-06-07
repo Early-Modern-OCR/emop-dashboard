@@ -21,15 +21,15 @@ $(function() {
    };
 
    var initialize = function() {  
-      // Get the status of this collation. Possible status results:
-      //   'created','add_sources','create_witnesses','create_set','collate','ready','error'
+      // Get the status of this collation
       var status = $("#collation-status").text();
       var id = $("#collation-id").text();
       
       // handle each case
-      if ( status === 'created' ) {
+      if ( status === 'uninitialized' ) {
          $.ajax({
-               url : "/juxta/upload_sources/" + id,
+               url : "/juxta",
+               data : { work: $("#work-id").text(),  batch: $("#batch-id").text(),  collation: id },
                type : 'POST',
                success : function(resp, textStatus, jqXHR) {
                   if (resp !== null) {

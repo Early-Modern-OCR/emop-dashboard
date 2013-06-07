@@ -23,10 +23,12 @@ class JuxtaController < ApplicationController
       @collation_status = collation.status
    end
 
-   # upload GT and OCR source text to JuxtaWS (this is called with ajax from client)
+   # Create a new juxta collation
    #
-   def upload_sources
-      collation_id = params[:collation_id]
+   def create
+      work_id = params[:work]
+      batch_id = params[:batch]
+      collation_id = params[:collation]
       collation = JuxtaCollation.find( collation_id )
       result = PageResult.find( collation.page_result_id )
 
@@ -41,6 +43,12 @@ class JuxtaController < ApplicationController
 
          # create witnesses
          gt_wit_id, ocr_wit_id = create_jx_witnesses( gt_id, gt_file, ocr_id, ocr_file )
+         
+         # create a set with the witnesses, and set collation settings
+         set_name = "#{work_id}.#{batch_id}.#{result.page.pg_ref_number}"
+         set_id = create_jx_set(set_name, gt_wit_id, ocr_wit_id)
+         collation.jx_set_id = set_id
+         collation.save!
 
          render :text => "ok", :status => :ok
       # rescue RestClient::Exception => rest_error
@@ -48,6 +56,34 @@ class JuxtaController < ApplicationController
       # rescue Exception => e
          # render :text => e, :status => :internal_server_error
       # end
+   end
+
+   # Create a jx comparison set with the witnesses
+   #
+   private
+   def create_jx_set( name, gt_wit_id, ocr_wit_id) 
+      jx_exist_url = "#{Settings.juxta_ws_url}/set/exist?name=#{name}"
+      resp = RestClient.get jx_exist_url, :authorization => Settings.auth_token
+      json_resp = ActiveSupport::JSON.decode( resp )
+      if json_resp['exists'] 
+         return json_resp['id']
+      end
+      
+      jx_set_query = "#{Settings.juxta_ws_url}/set"
+      data = {}
+      data['name'] = name
+      data['witnesses'] = [gt_wit_id, ocr_wit_id]
+      json_data = ActiveSupport::JSON.encode( data )
+      resp = RestClient.post jx_set_query, json_data, :content_type => "application/json", :authorization => Settings.auth_token
+      set_id = resp.gsub(/\"/, "")
+      
+      # now set the collator settings
+      data = { :filterWhitespace=>true, :filterPunctuation=>true,:filterCase=>true,:hyphenationFilter=>"FILTER_ALL" }
+      json_data = ActiveSupport::JSON.encode( data )
+      jx_set_query = "#{Settings.juxta_ws_url}/set/#{set_id}/collator"
+      RestClient.post jx_set_query, json_data, :content_type => "application/json", :authorization => Settings.auth_token
+   
+      return set_id
    end
 
    # Transform sources into witnesses. Returns [GT witnessID, OCR witnessID]
