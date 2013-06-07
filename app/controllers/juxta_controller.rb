@@ -26,6 +26,10 @@ class JuxtaController < ApplicationController
    # Create a new juxta collation
    #
    def create
+      if params[:clear] 
+         reset_collation(params[:collation])      
+      end
+      
       work_id = params[:work]
       batch_id = params[:batch]
       collation_id = params[:collation]
@@ -33,6 +37,7 @@ class JuxtaController < ApplicationController
       result = PageResult.find( collation.page_result_id )
 
       begin
+         
          # upload sources
          gt_file = result.page.pg_ground_truth_file
          ocr_file = result.ocr_text_path
@@ -70,6 +75,35 @@ class JuxtaController < ApplicationController
       rescue Exception => e
          render :text => e, :status => :internal_server_error
       end
+   end
+   
+   # delete all data associated with a collation and reset status
+   # back to uninitalized
+   #
+   private 
+   def reset_collation(collation_id)   
+      # delete sources first
+      begin
+         collation = JuxtaCollation.find(collation_id)
+         jx_url = "#{Settings.juxta_ws_url}/source"
+         RestClient.delete jx_url+"/#{collation.jx_gt_source_id}", :authorization => Settings.auth_token
+         RestClient.delete jx_url+"/#{collation.jx_ocr_source_id}", :authorization => Settings.auth_token
+         
+         # next, delete set
+         jx_url = "#{Settings.juxta_ws_url}/set"
+         RestClient.delete jx_url+"/#{collation.jx_set_id}", :authorization => Settings.auth_token
+      rescue RestClient::Exception => rest_error
+         if rest_error.http_code != 404
+            raise
+         end
+      end
+      
+      # last, reset the collation
+      collation.jx_set_id = nil
+      collation.jx_gt_source_id = nil
+      collation.jx_ocr_source_id = nil
+      collation.status = :uninitialized
+      collation.save!
    end
 
    # Create a jx comparison set with the witnesses
@@ -174,7 +208,7 @@ class JuxtaController < ApplicationController
          json_data = ActiveSupport::JSON.encode( [ data ] )
          resp = RestClient.post jx_url, json_data, :content_type => "application/json", :authorization => Settings.auth_token
          json_resp = ActiveSupport::JSON.decode( resp )
-         gt_id = json_resp[0]    
+         ocr_id = json_resp[0]    
       end
    
       return gt_id, ocr_id

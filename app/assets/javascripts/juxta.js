@@ -24,25 +24,38 @@ $(function() {
       // Get the status of this collation
       var status = $("#collation-status").text();
       var id = $("#collation-id").text();
+      var data =  {work: $("#work-id").text(),  batch: $("#batch-id").text(),  collation: id };
       
       // handle each case
-      if ( status === 'uninitialized' ) {
-         $.ajax({
-               url : "/juxta",
-               data : { work: $("#work-id").text(),  batch: $("#batch-id").text(),  collation: id },
-               type : 'POST',
-               success : function(resp, textStatus, jqXHR) {
-                  if (resp !== null) {
-                     alert("yay");
-                  }
-               },
-               error : function( jqXHR, textStatus, errorThrown ) {
-                  alert(errorThrown);
-               }
-            });
-      } 
+      if (status === 'error') {
+         // reset back to uninitalized and tack on a clear flag.
+         // this tells the server to clear out old data and repopulate
+         // the collation with new information
+         status = 'uninitialized';
+         data.clear = true;
+      }
       
-      hideWaitPopup();
+      // Uninitialized collations must upload sources, use them to create witnesses and a set
+      // then collaate the results. after that the status moves to ready.
+      if (status === 'uninitialized') {
+         $.ajax({
+            url : "/juxta",
+            data : data,
+            type : 'POST',
+            success : function(resp, textStatus, jqXHR) {
+               if (resp !== null) {
+                  alert("yay");
+                  hideWaitPopup();
+               }
+            },
+            error : function(jqXHR, textStatus, errorThrown) {
+               alert(textStatus);
+               hideWaitPopup();
+            }
+         });
+      } else {
+         // TODO
+      }
    };
 
    showWaitPopup(true, "Visualizing");
