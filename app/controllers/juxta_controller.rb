@@ -59,35 +59,40 @@ class JuxtaController < ApplicationController
    #
    private
    def create_jx_sources(gt_file, ocr_file)
-      # FIXME
-      # Lots of times the GT source will already be present
-      # Do not create multiple times
-      
       data = {}
       data['type'] = "raw"
       data['contentType'] = "txt"
-      data['name'] = gt_file
-      data['data'] = File.read("#{Settings.emop_path_prefix}#{gt_file}")
-      req_array = [ data ]
-      json_data = ActiveSupport::JSON.encode( req_array )
+      jx_exist_url = "#{Settings.juxta_ws_url}/source/exist?name="
       jx_url = "#{Settings.juxta_ws_url}/source"
-      resp = RestClient.post jx_url, json_data, :content_type => "application/json", :authorization => Settings.auth_token
-
-      # get the ID from the response
+      
+      # handle GT source first
+      resp = RestClient.get jx_exist_url+gt_file, :authorization => Settings.auth_token
       json_resp = ActiveSupport::JSON.decode( resp )
-      gt_id = json_resp[0]
-
-      # set OCR file to JuxtaWS
-      data['name'] = ocr_file
-      data['data'] = File.read("#{Settings.emop_path_prefix}#{ocr_file}")
-      req_array = [ data ]
-      json_data = ActiveSupport::JSON.encode( req_array )
-      resp = RestClient.post jx_url, json_data, :content_type => "application/json", :authorization => Settings.auth_token
-
-      # get the ID from the response
+      if json_resp['exists'] 
+         gt_id = json_resp['id']
+      else
+         data['name'] = gt_file
+         data['data'] = File.read("#{Settings.emop_path_prefix}#{gt_file}")
+         json_data = ActiveSupport::JSON.encode( [ data ] )
+         resp = RestClient.post jx_url, json_data, :content_type => "application/json", :authorization => Settings.auth_token
+         json_resp = ActiveSupport::JSON.decode( resp )
+         gt_id = json_resp[0]    
+      end
+      
+      # now OCR source
+      resp = RestClient.get jx_exist_url+ocr_file, :authorization => Settings.auth_token
       json_resp = ActiveSupport::JSON.decode( resp )
-      ocr_id = json_resp[0]
-
+      if json_resp['exists'] 
+         ocr_id = json_resp['id']
+      else
+         data['name'] = ocr_file
+         data['data'] = File.read("#{Settings.emop_path_prefix}#{ocr_file}")
+         json_data = ActiveSupport::JSON.encode( [ data ] )
+         resp = RestClient.post jx_url, json_data, :content_type => "application/json", :authorization => Settings.auth_token
+         json_resp = ActiveSupport::JSON.decode( resp )
+         gt_id = json_resp[0]    
+      end
+   
       return gt_id, ocr_id
    end
 end
