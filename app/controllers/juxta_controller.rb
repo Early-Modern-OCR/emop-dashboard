@@ -30,29 +30,63 @@ class JuxtaController < ApplicationController
       collation = JuxtaCollation.find( collation_id )
       result = PageResult.find( collation.page_result_id )
 
-      begin
-      # upload sources
-         gt_id, ocr_id = create_jx_sources( result.page.pg_ground_truth_file, result.ocr_text_path)
+      # begin
+         # upload sources
+         gt_file = result.page.pg_ground_truth_file
+         ocr_file = result.ocr_text_path
+         gt_id, ocr_id = create_jx_sources( gt_file, ocr_file)
          collation.jx_gt_source_id = gt_id
          collation.jx_ocr_source_id = ocr_id
          collation.save!
 
          # create witnesses
-         gt_wit_id, ocr_wit_id = create_jx_witnesses( gt_id, ocr_id )
+         gt_wit_id, ocr_wit_id = create_jx_witnesses( gt_id, gt_file, ocr_id, ocr_file )
 
          render :text => "ok", :status => :ok
-      rescue RestClient::Exception => rest_error
-         render :text => rest_error.response, :status => rest_error.http_code
-      rescue Exception => e
-         render :text => e, :status => :internal_server_error
-      end
+      # rescue RestClient::Exception => rest_error
+         # render :text => rest_error.response, :status => rest_error.http_code
+      # rescue Exception => e
+         # render :text => e, :status => :internal_server_error
+      # end
    end
 
    # Transform sources into witnesses. Returns [GT witnessID, OCR witnessID]
    #
    private
-   def create_jx_witnesses(gt_src_id, ocr_src_id)
-      # TODO
+   def create_jx_witnesses(gt_src_id, gt_file, ocr_src_id, ocr_file)
+      gt_name = gt_file.gsub( /.txt/, '' )
+      ocr_name = ocr_file.gsub( /.txt/, '' )
+      jx_xform_query = "#{Settings.juxta_ws_url}/transform"
+      jx_exist_url = "#{Settings.juxta_ws_url}/witness/exist?name="
+      data = {}
+      
+      # witness for GT source
+      resp = RestClient.get jx_exist_url+gt_name, :authorization => Settings.auth_token
+      json_resp = ActiveSupport::JSON.decode( resp )
+      if json_resp['exists'] 
+         gt_id = json_resp['id']
+      else
+         data['source'] = gt_src_id
+         data['finalName'] = gt_name
+         json_data = ActiveSupport::JSON.encode( data )
+         resp = RestClient.post jx_xform_query, json_data, :content_type => "application/json", :authorization => Settings.auth_token
+         gt_id =  resp.gsub( /\"/, "" )
+      end
+      
+      # witness for OCR source
+      resp = RestClient.get jx_exist_url+ocr_name, :authorization => Settings.auth_token
+      json_resp = ActiveSupport::JSON.decode( resp )
+      if json_resp['exists'] 
+         ocr_id = json_resp['id']
+      else
+         data['source'] = ocr_src_id
+         data['finalName'] = ocr_name
+         json_data = ActiveSupport::JSON.encode( data )
+         resp = RestClient.post jx_xform_query, json_data, :content_type => "application/json", :authorization => Settings.auth_token
+         ocr_id =  resp.gsub( /\"/, "" )
+      end
+      
+      return gt_id, ocr_id
    end
 
    # upload the GT and OCR sources to JuxtaWS. Returns [GT sourceID, OCR sourceD]
