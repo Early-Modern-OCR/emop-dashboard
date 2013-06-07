@@ -32,7 +32,7 @@ class JuxtaController < ApplicationController
       collation = JuxtaCollation.find( collation_id )
       result = PageResult.find( collation.page_result_id )
 
-      # begin
+      begin
          # upload sources
          gt_file = result.page.pg_ground_truth_file
          ocr_file = result.ocr_text_path
@@ -49,13 +49,27 @@ class JuxtaController < ApplicationController
          set_id = create_jx_set(set_name, gt_wit_id, ocr_wit_id)
          collation.jx_set_id = set_id
          collation.save!
+         
+         # collate it
+         query = "#{Settings.juxta_ws_url}/set/#{set_id}/collate"
+         resp = RestClient.post query, '', :content_type => "application/json", :authorization => Settings.auth_token
+         done = false
+         query = "#{Settings.juxta_ws_url}/task/#{resp}/status"
+         while done == false do
+            sleep 1
+            status = JSON.parse(RestClient.get query, :authorization => Settings.auth_token)
+            done = (status['status'] == 'COMPLETE')
+         end
+         
+         collation.status = :ready
+         collation.save!
 
          render :text => "ok", :status => :ok
-      # rescue RestClient::Exception => rest_error
-         # render :text => rest_error.response, :status => rest_error.http_code
-      # rescue Exception => e
-         # render :text => e, :status => :internal_server_error
-      # end
+      rescue RestClient::Exception => rest_error
+         render :text => rest_error.response, :status => rest_error.http_code
+      rescue Exception => e
+         render :text => e, :status => :internal_server_error
+      end
    end
 
    # Create a jx comparison set with the witnesses
