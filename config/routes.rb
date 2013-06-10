@@ -1,7 +1,6 @@
 EmopDashboard::Application.routes.draw do
    # juxta visualization routes
    get "juxta" => "juxta#show"
-   post "juxta" => "juxta#create"
 
    # page results routes
    get "results" => "results#show"

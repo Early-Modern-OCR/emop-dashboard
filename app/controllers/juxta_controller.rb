@@ -18,62 +18,99 @@ class JuxtaController < ApplicationController
       collation.save!
       end
 
-      # save key info about the collation needed by the view
-      @collation_id = collation.id
-      @collation_status = collation.status
+      # Create collation and load visualization
+      begin
+           
+         # upload sources, create witnesses & sets and collate result      
+         if collation.status == "error" || collation.status == "uninitialized"
+            create_visualization( collation )   
+         end
+         
+         # generate the visualization
+         get_side_by_side_visualization(collation)
+         
+      rescue RestClient::Exception => rest_error
+         collation.status = "error"
+         collation.save!
+         render :text => rest_error.response, :status => rest_error.http_code
+      rescue Exception => e
+         collation.status = "error"
+         collation.save!
+         render :text => e, :status => :internal_server_error
+      end
    end
 
    # Create a new juxta collation
    #
-   def create
-      if params[:clear] 
+   private
+   def create_visualization(collation)
+      if collation.status == "error"  
          reset_collation(params[:collation])      
       end
       
-      work_id = params[:work]
-      batch_id = params[:batch]
-      collation_id = params[:collation]
-      collation = JuxtaCollation.find( collation_id )
       result = PageResult.find( collation.page_result_id )
+         
+      # upload sources
+      gt_file = result.page.pg_ground_truth_file
+      ocr_file = result.ocr_text_path
+      gt_id, ocr_id = create_jx_sources( gt_file, ocr_file)
+      collation.jx_gt_source_id = gt_id
+      collation.jx_ocr_source_id = ocr_id
+      collation.save!
 
+      # create witnesses
+      gt_wit_id, ocr_wit_id = create_jx_witnesses( gt_id, gt_file, ocr_id, ocr_file )
+      collation.jx_gt_witness_id = gt_wit_id
+      collation.jx_ocr_witness_id = ocr_wit_id
+      collation.save!
+      
+      # create a set with the witnesses, and set collation settings
+      set_name = "#{@work_id}.#{@batch_id}.#{result.page.pg_ref_number}"
+      set_id = create_jx_set(set_name, gt_wit_id, ocr_wit_id)
+      collation.jx_set_id = set_id
+      collation.save!
+      
+      # collate it
+      query = "#{Settings.juxta_ws_url}/set/#{set_id}/collate"
+      resp = RestClient.post query, '', :content_type => "application/json", :authorization => Settings.auth_token
+      done = false
+      query = "#{Settings.juxta_ws_url}/task/#{resp}/status"
+      while done == false do
+         sleep 1
+         status = JSON.parse(RestClient.get query, :authorization => Settings.auth_token)
+         done = (status['status'] == 'COMPLETE')
+      end
+      
+      # bump status to ready and save it!
+      collation.status = "ready"
+      collation.save!
+   end
+   
+   # get the side-by-side visualization of a GT vs OCR page
+   #
+   private
+   def get_side_by_side_visualization(collation)
+      @error = false
+      @content = ""
+      docs = "#{collation.jx_gt_witness_id},#{collation.jx_ocr_witness_id}"
+      query = "#{Settings.juxta_ws_url}/set/#{collation.jx_set_id}/view?mode=sidebyside&docs=#{docs}&embed"
       begin
-         
-         # upload sources
-         gt_file = result.page.pg_ground_truth_file
-         ocr_file = result.ocr_text_path
-         gt_id, ocr_id = create_jx_sources( gt_file, ocr_file)
-         collation.jx_gt_source_id = gt_id
-         collation.jx_ocr_source_id = ocr_id
-         collation.save!
-
-         # create witnesses
-         gt_wit_id, ocr_wit_id = create_jx_witnesses( gt_id, gt_file, ocr_id, ocr_file )
-         
-         # create a set with the witnesses, and set collation settings
-         set_name = "#{work_id}.#{batch_id}.#{result.page.pg_ref_number}"
-         set_id = create_jx_set(set_name, gt_wit_id, ocr_wit_id)
-         collation.jx_set_id = set_id
-         collation.save!
-         
-         # collate it
-         query = "#{Settings.juxta_ws_url}/set/#{set_id}/collate"
-         resp = RestClient.post query, '', :content_type => "application/json", :authorization => Settings.auth_token
-         done = false
-         query = "#{Settings.juxta_ws_url}/task/#{resp}/status"
-         while done == false do
-            sleep 1
-            status = JSON.parse(RestClient.get query, :authorization => Settings.auth_token)
-            done = (status['status'] == 'COMPLETE')
+         @content = RestClient.get query, :authorization => Settings.auth_token, :accept => 'text/html'
+         if @content.include? "RENDERING"
+            task_id = @content.split(' ')[1]
+            status_query = "#{Settings.juxta_ws_url}/task/#{task_id}/status"
+            done = false
+            while done == false do
+               sleep 1
+               status = JSON.parse(RestClient.get status_query, :authorization => Settings.auth_token)
+               done = (status['status'] == 'COMPLETE')
+            end
+            @content = RestClient.get query, :authorization => Settings.auth_token, :accept => 'text/html'
          end
          
-         collation.status = :ready
-         collation.save!
-
-         render :text => "ok", :status => :ok
       rescue RestClient::Exception => rest_error
-         render :text => rest_error.response, :status => rest_error.http_code
-      rescue Exception => e
-         render :text => e, :status => :internal_server_error
+         @error = true
+         @juxta_error_message = rest_error.response
       end
    end
    
@@ -81,10 +118,9 @@ class JuxtaController < ApplicationController
    # back to uninitalized
    #
    private 
-   def reset_collation(collation_id)   
+   def reset_collation(collation)   
       # delete sources first
       begin
-         collation = JuxtaCollation.find(collation_id)
          jx_url = "#{Settings.juxta_ws_url}/source"
          RestClient.delete jx_url+"/#{collation.jx_gt_source_id}", :authorization => Settings.auth_token
          RestClient.delete jx_url+"/#{collation.jx_ocr_source_id}", :authorization => Settings.auth_token
@@ -102,7 +138,7 @@ class JuxtaController < ApplicationController
       collation.jx_set_id = nil
       collation.jx_gt_source_id = nil
       collation.jx_ocr_source_id = nil
-      collation.status = :uninitialized
+      collation.status = "uninitialized"
       collation.save!
    end
 

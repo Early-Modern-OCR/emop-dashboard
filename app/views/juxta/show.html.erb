@@ -5,4 +5,14 @@
 
 <a class="dashboard-back"  href="/results?work=<%= @work_id %>&batch=<%= @batch_id %>"><< Back To Page Results</a>
 
+<% if @error == true %>
+    <div id="juxta-error">
+       <%= @juxta_error_message %>
+    </div>
+<% else %>
+   <div id="page-scroller" class="scroller"> 
+      <%= raw(@content) %>
+   </div>
+<% end %>
+
 <%= render :partial => 'wait_popup' %>
