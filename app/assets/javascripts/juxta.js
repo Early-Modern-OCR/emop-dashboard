@@ -1,6 +1,12 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
 
+(function($) {
+    $.fn.hasScrollBar = function() {
+        return this.get(0).scrollHeight > this.height();
+    }
+})(jQuery);
+
 $(function() {
    var showWaitPopup = function( message ) {
       $('#dim-overlay').show();
@@ -24,11 +30,17 @@ $(function() {
       var newH = windowH - mainTitleH - 45;
       $("#page-scroller").height(newH);
    };
-
-   var initialize = function() {  
+   
+   var initialize = function() {
       initScrollHeight();
+      Juxta.SideBySide.initialize();
+      setTimeout(function() {
+         if ($("#right-witness-text").hasScrollBar()) {
+            $("#scroll-mode").show();
+         }
+      }, 1000);
       hideWaitPopup();
-   };
+   }; 
 
    // basic page setup. Hide some stuff from juxta
    // that is not relevant here. wait for sbs to be initialized,
@@ -39,6 +51,7 @@ $(function() {
    $("#right-witness .sbs-title").text("OCR Result");
    $("#change-left").hide();
    $("#change-right").hide();
+   $("#scroll-mode").hide();
    $("body").on("sidebyside-loaded", function() {
       initialize();
    });
