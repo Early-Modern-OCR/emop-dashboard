@@ -3,7 +3,18 @@
 <span id="work-id" style="display: none"><%= @work_id %></span>
 <span id="batch-id" style="display: none"><%= @batch_id %></span>
 
-<a class="dashboard-back"  href="/results?work=<%= @work_id %>&batch=<%= @batch_id %>"><< Back To Page Results</a>
+
+<div id="results-summary">
+   <table id="results-summary">
+      <tr><td class="summary-label">Work:</td><td><%= @work_title %></td></tr>
+      <tr><td class="summary-label">Batch:</td><td><%= @batch %></td></tr>   
+      <tr><td class="summary-label">Page Number:</td><td><%= @page_num %></td></tr>   
+   </table>
+</div>
+
+<div id="back-bar">
+   <a class="results-back"  href="/results?work=<%= @work_id %>&batch=<%= @batch_id %>"><< Back To Page Results</a>
+</div>
 
 <% if @error == true %>
     <div id="juxta-error">

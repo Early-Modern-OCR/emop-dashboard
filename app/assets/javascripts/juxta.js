@@ -16,7 +16,9 @@ $(function() {
       var windowH = $(window).height();
    
       var mainTitleH = $(".main-header").outerHeight();
-      var newH = windowH - mainTitleH - 45;
+      var summaryH = $("#results-summary").outerHeight();
+      var backH = $("#back-bar").outerHeight();
+      var newH = windowH - mainTitleH - summaryH - backH - 60;
       $("#page-scroller").height(newH);
    };
    

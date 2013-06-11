@@ -47,7 +47,7 @@ class ResultsController < ApplicationController
       pages = Page.find_by_sql( sql )
       pages.each do | page | 
          rec = {}
-         rec[:detail_link] = "<a href='/juxta?work=#{work_id}&batch=#{batch_id}&result=#{ page.result_id}'><div class='detail-link'></div></a>"
+         rec[:detail_link] = "<a href='/juxta?work=#{work_id}&batch=#{batch_id}&page=#{page.pg_ref_number}&result=#{ page.result_id}'><div class='detail-link'></div></a>"
          rec[:page_number] = page.pg_ref_number
          rec[:juxta_accuracy] = page.juxta
          rec[:retas_accuracy] = page.retas

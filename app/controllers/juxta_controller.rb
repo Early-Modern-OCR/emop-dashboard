@@ -8,6 +8,11 @@ class JuxtaController < ApplicationController
       @result_id = params[:result]
       @work_id = params[:work]
       @batch_id = params[:batch]
+      work = Work.find(@work_id)
+      @work_title = work.wks_title
+      batch_job = BatchJob.find(@batch_id)
+      @batch = "#{batch_job.id}: #{batch_job.name}"
+      @page_num = params[:page]
 
       # see if a collation exists for this result vs GT
       collation = JuxtaCollation.where(:page_result_id => @result_id).first
@@ -15,7 +20,7 @@ class JuxtaController < ApplicationController
          # create a new collation if one doesn't exist.
          # status will be created
          collation = JuxtaCollation.new(:page_result_id => @result_id)
-      collation.save!
+         collation.save!
       end
 
       # Create collation and load visualization
