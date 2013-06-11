@@ -25,4 +25,8 @@ $(function() {
          { "mData": "page_image" }
        ]
    }).fnFilterOnReturn();
+   
+   $("#results-detail").on("click", ".detail-link", function() {
+      showWaitPopup("Visualizing");
+   });
 });

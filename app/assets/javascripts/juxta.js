@@ -1,24 +1,13 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
 
-(function($) {
-    $.fn.hasScrollBar = function() {
-        return this.get(0).scrollHeight > this.height();
-    }
-})(jQuery);
+$(function() {   
 
-$(function() {
-   var showWaitPopup = function( message ) {
-      $('#dim-overlay').show();
-      $("#wait-spinner").show();
-      $("#wait-msg").text(message);
-      $("#wait-msg").show();
-      $('#wait-popup').show();
+   $.fn.hasScrollBar = function() {
+      return this.get(0).scrollHeight > this.height();
    };
-
-   var hideWaitPopup = function() {
-      $('#dim-overlay').hide();
-      $("#wait-popup").hide();
+   $.fn.exists = function() {
+      return this.length !== 0;
    };
    
    var initScrollHeight = function() {
@@ -35,7 +24,7 @@ $(function() {
       initScrollHeight();
       Juxta.SideBySide.initialize();
       setTimeout(function() {
-         if ($("#right-witness-text").hasScrollBar()) {
+         if ( $("#right-witness-text").exists() && $("#right-witness-text").hasScrollBar()) {
             $("#scroll-mode").show();
          }
       }, 1000);
