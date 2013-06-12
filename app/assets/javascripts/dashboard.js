@@ -120,7 +120,7 @@ $(function() {
       "bProcessing": true,
       "bServerSide": true,
       "bStateSave": true,
-      "sAjaxSource": "dashboard/fetch",
+      "sAjaxSource": "/dashboard/fetch",
       "sAjaxDataProp": "data",
       "bSortClasses": false,
       "aaSorting": [],
