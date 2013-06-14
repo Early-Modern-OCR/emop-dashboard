@@ -26,6 +26,8 @@ jQuery.fn.dataTableExt.oApi.fnFilterOnReturn = function (oSettings) {
 
 $(function() {
    
+   var baseUrl = window.location.href;
+   
    // to control tooltip mouseover behavir
    var tipShowTimer = -1;
    var tipTarget = null;
@@ -58,7 +60,7 @@ $(function() {
             tipY-=st;
             var id = tipTarget.attr("id").substring("batch-".length);
             $.ajax({
-               url : "/dashboard/batch/" + id,
+               url : baseUrl+"dashboard/batch/" + id,
                type : 'GET',
                async : false,
                success : function(resp, textStatus, jqXHR) {
@@ -111,7 +113,6 @@ $(function() {
        $("#detail-table").dataTable().fnDraw();
    });
 
- 
    // create the data table instance. it has custom plug-in
    // behavior that only triggers the search filter on enter
    // instead of on each key press
@@ -120,7 +121,7 @@ $(function() {
       "bProcessing": true,
       "bServerSide": true,
       "bStateSave": true,
-      "sAjaxSource": "dashboard/fetch",
+      "sAjaxSource": baseUrl+"dashboard/fetch",
       "sAjaxDataProp": "data",
       "bSortClasses": false,
       "aaSorting": [],
