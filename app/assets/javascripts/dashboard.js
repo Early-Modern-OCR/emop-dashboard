@@ -27,6 +27,9 @@ jQuery.fn.dataTableExt.oApi.fnFilterOnReturn = function (oSettings) {
 $(function() {
    
    var baseUrl = window.location.href;
+   if ( baseUrl.charAt(baseUrl.length-1) != '/') {
+      baseUrl = baseUrl + "/";
+   }
    
    // to control tooltip mouseover behavir
    var tipShowTimer = -1;
