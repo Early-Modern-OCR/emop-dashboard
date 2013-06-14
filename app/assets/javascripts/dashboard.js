@@ -134,6 +134,7 @@ $(function() {
          }
       },
       "aoColumns": [
+         { "mData": "work_select" },
          { "mData": "detail_link" },
          { "mData": "data_set" },
          { "mData": "tcp_number" },
@@ -148,9 +149,10 @@ $(function() {
       "aoColumnDefs": [
          { "aTargets": [0], "bSortable": false},
          { "aTargets": [1], "bSortable": false},
-         { "aTargets": [7], "bSortable": false},
-         { "aTargets": [8], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
-         { "aTargets": [9], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
+         { "aTargets": [2], "bSortable": false},
+         { "aTargets": [8], "bSortable": false},
+         { "aTargets": [9], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
+         { "aTargets": [10], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
       ],
       "fnServerParams": function ( aoData ) {
          if ( $('#require-ocr').is(':checked')) {

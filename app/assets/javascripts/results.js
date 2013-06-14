@@ -11,7 +11,7 @@ $(function() {
       "bFilter": false,
       "bInfo": false,
       "bSortClasses": false,
-      "sAjaxSource": "/results/fetch?work="+work_id+"&batch="+batch_id,
+      "sAjaxSource": "results/fetch?work="+work_id+"&batch="+batch_id,
       "sAjaxDataProp": "data",
       "aaSorting": [],
       "aoColumnDefs": [

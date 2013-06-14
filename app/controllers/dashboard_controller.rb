@@ -110,7 +110,8 @@ class DashboardController < ApplicationController
    private
    def result_to_hash(result)
      rec = {}
-      rec[:detail_link] = "<a href='results?work=#{result.wks_work_id}'><div class='detail-link'></div></a>"
+      rec[:work_select] = "<input class='sel-cb' type='checkbox' id='sel-work-#{result.wks_work_id}'>"
+      rec[:detail_link] = "<a href='results?work=#{result.wks_work_id}'><div class='detail-link' title='View pages'></div></a>"
 
       if result.wks_ecco_number.nil? && result.wks_ecco_number.length > 0
          rec[:data_set] = 'ECCO'
@@ -145,7 +146,7 @@ class DashboardController < ApplicationController
          link_class = "class='warn-cell'"
       end
       formatted = '%.3f'%accuracy
-      out = "<a href='results?work=#{work_id}&batch=#{batch_id}' #{link_class}>#{formatted}</a>"
+      out = "<a href='results?work=#{work_id}&batch=#{batch_id}' #{link_class} title='View page results'>#{formatted}</a>"
       return out   
    end
 
