@@ -7,9 +7,12 @@ class ResultsController < ApplicationController
       work = Work.find(@work_id)
       @work_title=work.wks_title
       
-      batch = BatchJob.find(@batch_id)
-      @batch = "#{batch.id}: #{batch.name}"
-      
+      if !@batch_id.nil?
+         batch = BatchJob.find(@batch_id)
+         @batch = "#{batch.id}: #{batch.name}"
+      else 
+         @batch = "Not Applicable"   
+      end
    end
 
    # Fetch data for dataTable
@@ -19,7 +22,50 @@ class ResultsController < ApplicationController
       
       work_id = params[:work]
       batch_id = params[:batch]
+      if batch_id.nil? || batch_id.length == 0
+         render_page_info(work_id)
+      else
+         render_batch_results(work_id, batch_id)
+      end
+   end
+   
+   # Render pages table without batch results
+   #
+   def render_page_info(work_id)
+      resp = {}
+      resp['sEcho'] = params[:sEcho]
       
+      sql = ["select count(*) as cnt from pages where pg_work_id=?"]
+      sql = sql << work_id
+      cnt = PageResult.find_by_sql(sql).first.cnt
+      resp['iTotalRecords'] = cnt
+      resp['iTotalDisplayRecords'] = resp['iTotalRecords']
+     
+      # only order by page number here.. thats all thats available
+      dir = params[:sSortDir_0]
+      dir = "asc" if dir.nil?
+      order_col = "pg_ref_number"
+      
+      # get results and transform them into req'd json structure
+      data = []
+      for pg in 1..resp['iTotalRecords']
+         rec = {}
+         rec[:detail_link] = "<div class='detail-link disabled'>"  # no details yet!
+         rec[:page_number] = pg
+         rec[:juxta_accuracy] = "-"
+         rec[:retas_accuracy] = "-"
+         rec[:page_image] = "<a href=\"/results/#{work_id}/page/#{pg}\">View</a>"
+
+         data << rec
+      end
+      
+      resp['data'] = data
+      render :json => resp, :status => :ok    
+   end
+   
+   # Render the pages table including batch results
+   #
+   def render_batch_results(work_id, batch_id)
       resp = {}
       resp['sEcho'] = params[:sEcho]
       
@@ -45,9 +91,10 @@ class ResultsController < ApplicationController
       order = "order by #{order_col} #{dir}"
       sql = ["#{sel} #{from} #{cond} #{order}", batch_id, work_id]
       pages = Page.find_by_sql( sql )
+      msg = "View side-by-side comparison with GT"
       pages.each do | page | 
          rec = {}
-         rec[:detail_link] = "<a href='/juxta?work=#{work_id}&batch=#{batch_id}&page=#{page.pg_ref_number}&result=#{ page.result_id}'><div class='detail-link'></div></a>"
+         rec[:detail_link] = "<a href='/juxta?work=#{work_id}&batch=#{batch_id}&page=#{page.pg_ref_number}&result=#{ page.result_id}' title='#{msg}'><div class='detail-link'></div></a>"
          rec[:page_number] = page.pg_ref_number
          rec[:juxta_accuracy] = page.juxta
          rec[:retas_accuracy] = page.retas
@@ -58,7 +105,6 @@ class ResultsController < ApplicationController
       
       resp['data'] = data
       render :json => resp, :status => :ok
-
    end
    
    def get_page_image

@@ -98,6 +98,27 @@
 .result-data {
    text-align: center;
 }
+.icon-col {
+   width: 24px;
+}
+.detail-link {
+   height:16px;
+   width:16px;
+   margin-left: 6px;
+   background-image: image-url("detail.png");
+   background-repeat: no-repeat;
+   background-position: 0 0;
+   cursor: pointer;
+}
+.detail-link.disabled {
+   height:16px;
+   width:16px;
+   margin-left: 6px;
+   background-image: image-url("detail.png");
+   background-repeat: no-repeat;
+   background-position: 0 -16px;
+   cursor: default;
+}
 
 #dim-overlay {
    z-index: 1000;

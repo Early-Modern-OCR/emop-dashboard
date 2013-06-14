@@ -110,6 +110,8 @@ class DashboardController < ApplicationController
    private
    def result_to_hash(result)
      rec = {}
+      rec[:detail_link] = "<a href='results?work=#{result.wks_work_id}'><div class='detail-link'></div></a>"
+
       if result.wks_ecco_number.nil? && result.wks_ecco_number.length > 0
          rec[:data_set] = 'ECCO'
       else
