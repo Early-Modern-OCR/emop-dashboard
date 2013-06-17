@@ -1,0 +1,10 @@
+<div id="pick-batch-popup" class="emop-popup" title="Select Batch">
+   <%= select_tag "batch-pick", options_from_collection_for_select(@batches, "id", "name"), {:prompt=>'Select One'} %>
+   <table>
+      <tr><td class="table-label">Batch Type:</td></tr>
+      <tr><td class="table-label">OCR Engine:</td></tr>
+      <tr><td class="table-label">Font:</td></tr>
+      <tr><td class="table-label">Parameters:</td></tr>
+      <tr><td class="table-label">Notes:</td></tr>
+   </table>
+</div>

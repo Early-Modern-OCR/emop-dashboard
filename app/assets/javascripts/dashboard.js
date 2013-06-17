@@ -26,6 +26,7 @@ jQuery.fn.dataTableExt.oApi.fnFilterOnReturn = function (oSettings) {
 
 $(function() {
    
+   hideWaitPopup();
    var baseUrl = window.location.href;
    if ( baseUrl.charAt(baseUrl.length-1) != '/') {
       baseUrl = baseUrl + "/";
@@ -37,8 +38,56 @@ $(function() {
    var tipX;
    var tipY;
    
+   // Initialize jQuery UI popups
+   var initPopups = function() {
+        
+      // Pick batch popiup
+      $("#pick-batch-popup").dialog({
+         autoOpen : false,
+         width : 400,
+         resizable : false,
+         modal : true,
+         buttons : {
+            "Cancel" : function() {
+               $(this).dialog("close");
+            },
+            "New Batch" : function() {
+               $("#new-batch-popup").dialog("open");
+            },
+            "Schedule Jobs" : function() {
+               // TODO
+            }
+         },
+         open : function() {
+            // TODO
+         }
+      });  
+      
+      // NEW batch
+         
+      // create new batch popup 
+      $("#new-batch-popup").dialog({
+         autoOpen : false,
+         width : 400,
+         resizable : false,
+         modal : true,
+         buttons : {
+            "Cancel" : function() {
+               $(this).dialog("close");
+            },
+            "Create" : function() {
+               // TODO
+            }
+         },
+         open : function() {
+            // TODO
+         }
+      });
+ 
+   };
+   
   
-   // schedult selected works for ocr
+   // schedule selected works for ocr
    var scheduleSelectedWorks = function() {
       workIds = [];
       $(".sel-cb").each(function () {
@@ -51,7 +100,7 @@ $(function() {
          alert("Select works to be OCR'd before clicking the 'Schedule Selected' button");
       } else {
          workIds = $.unique(workIds);
-         alert(workIds);
+         $("#pick-batch-popup").dialog("open");
       }
    }; 
 
@@ -70,6 +119,9 @@ $(function() {
          $(nTd).addClass("warn-cell");
       }
    };
+   
+   // initialize all popups!
+   initPopups();
 
    // mouse behavior to control display/hide of batch tooltip
    $("#dashboard-detail").on("mouseenter", ".batch-name", function(evt) {
@@ -195,5 +247,5 @@ $(function() {
             aoData.push( { "name": "to", "value": to } );
          }
       }
-   }).fnFilterOnReturn();     
+   }).fnFilterOnReturn();   
 });
