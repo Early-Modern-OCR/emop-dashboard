@@ -9,6 +9,24 @@ class DashboardController < ApplicationController
       @ocr_filter = session[:ocr]
 
       @batches = BatchJob.all()
+      
+      # get summary for queue
+      sql = ["select count(*) as cnt from job_queue where job_status=?"]
+      sql = sql << 1
+      @pending_jobs = JobQueue.find_by_sql(sql).first.cnt
+      
+      sql = ["select count(*) as cnt from job_queue where job_status=?"]
+      sql = sql << 2
+      @running_jobs = JobQueue.find_by_sql(sql).first.cnt
+      
+      sql = ["select count(*) as cnt from job_queue where job_status=?"]
+      sql = sql << 3
+      @postprocess_jobs = JobQueue.find_by_sql(sql).first.cnt
+      
+      sql = ["select count(*) as cnt from job_queue where job_status=?"]
+      sql = sql << 6
+      @failed_jobs = JobQueue.find_by_sql(sql).first.cnt
+  
    end
    
    # Get an HTML fragment for the batch details tooltip

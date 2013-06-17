@@ -36,6 +36,25 @@ $(function() {
    var tipTarget = null;
    var tipX;
    var tipY;
+   
+  
+   // schedult selected works for ocr
+   var scheduleSelectedWorks = function() {
+      workIds = [];
+      $(".sel-cb").each(function () {
+         if ($(this).is(':checked')) {
+            var id = $(this).attr("id").substring("sel-work-".length);
+            workIds.push(id);
+         }
+      });
+      if (workIds.length === 0) {
+         alert("Select works to be OCR'd before clicking the 'Schedule Selected' button");
+      } else {
+         workIds = $.unique(workIds);
+         alert(workIds);
+      }
+   }; 
+
 
    // add styles to cells that are showing results
    var resultCell = function(nTd, data) {
@@ -114,6 +133,11 @@ $(function() {
        $("#batch-filter").val("");
        $("#require-ocr").removeAttr('checked');
        $("#detail-table").dataTable().fnDraw();
+   });
+   
+   // Schedule
+   $("#schedule-selected").on("click", function() {
+      scheduleSelectedWorks();
    });
 
    // create the data table instance. it has custom plug-in

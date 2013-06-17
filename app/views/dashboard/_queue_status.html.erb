@@ -1,0 +1,10 @@
+<div id="queue-status">
+   <div id="status-header">Job Queue</div>
+   <table id="summary-table">
+      <tr><td class="summary-label">Scheduled:</td><td><%= @pending_jobs %></td></tr>
+      <tr><td class="summary-label">In-Progress:</td><td><%= @running_jobs %></td></tr>
+      <tr><td class="summary-label">Await Postprocess:</td><td><%= @postprocess_jobs %></td></tr>
+      <tr><td class="summary-label">Failed:</td><td><%= @failed_jobs %></td></tr>
+   </table>
+   <input type="button" id="schedule-selected" value="Schedule Selected" />
+</div>

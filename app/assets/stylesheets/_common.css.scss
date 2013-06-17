@@ -81,7 +81,7 @@
 }
 
 .narrow-col {
-   width: 40px;
+   width: 30px;
 }
 .medium-col {
    width: 55px;
@@ -99,7 +99,7 @@
    text-align: center;
 }
 .icon-col {
-   width: 24px;
+   width: 12px;
 }
 .check-col {
    width: 12px !important;
@@ -107,7 +107,6 @@
 .detail-link {
    height:16px;
    width:16px;
-   margin-left: 6px;
    background-image: image-url("detail.png");
    background-repeat: no-repeat;
    background-position: 0 0;
@@ -116,7 +115,6 @@
 .detail-link.disabled {
    height:16px;
    width:16px;
-   margin-left: 6px;
    background-image: image-url("detail.png");
    background-repeat: no-repeat;
    background-position: 0 -16px;

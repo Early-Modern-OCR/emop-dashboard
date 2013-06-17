@@ -17,6 +17,10 @@
    border-collapse: collapse;
 }
 
+#detail-table_paginate {
+  margin-bottom:20px;
+}
+
 #filter-table {
    font-size: 0.85em;
    margin-bottom: 15px;
@@ -72,9 +76,29 @@ a.paginate_disabled_previous {
 #dashboard-detail {
    padding:10px;
    
+   #queue-status {
+      font-size: 0.95em;
+      
+      #status-header {
+         font-weight: 500;
+      }
+      
+      float: right;
+      #summary-table {
+         font-size: 0.9em;
+         font-weight: 200;
+         width: 200px;
+         margin-bottom: 6px;
+      }
+      
+      #schedule-selected {
+        float: right;   
+      }
+   }
    
    #dashboard-filter {
       margin: 0px 0px 20px 5px;
+      float: left;
    
       .cb-filter-label {
          font-size: 0.85em;
@@ -112,7 +136,7 @@ a.paginate_disabled_previous {
    }
    
    #detail-table {
-      font-size: 0.9em;
+      font-size: 0.75em;
       border-spacing: 1px;
       background-color: #999;
 
