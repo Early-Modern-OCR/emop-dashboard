@@ -27,10 +27,11 @@ jQuery.fn.dataTableExt.oApi.fnFilterOnReturn = function (oSettings) {
 $(function() {
    
    hideWaitPopup();
-   var baseUrl = window.location.href;
-   if ( baseUrl.charAt(baseUrl.length-1) != '/') {
-      baseUrl = baseUrl + "/";
-   }
+   
+   // grab json batch info and convert into js objects/arrays
+   var batches = JSON.parse( $("#batch-json").text() );
+   var jobTypes = JSON.parse( $("#types-json").text() );
+   var engines = JSON.parse( $("#engines-json").text() );
    
    // to control tooltip mouseover behavir
    var tipShowTimer = -1;
@@ -44,7 +45,7 @@ $(function() {
       // Pick batch popiup
       $("#pick-batch-popup").dialog({
          autoOpen : false,
-         width : 400,
+         width : 310,
          resizable : false,
          modal : true,
          buttons : {
@@ -61,7 +62,39 @@ $(function() {
          open : function() {
             // TODO
          }
-      });  
+      }); 
+      
+      $("#batch-pick").on("change", function() {
+         var idx = parseInt($("#batch-pick").val(),10)-1;
+         if ( idx >= 0 ) {
+            var batch = batches[idx];
+            $("#batch-type").text(batch.type.name);
+            if ( batch.job_type !== 3 ) {
+               $("#batch-engine").text(batch.engine.name);
+               $("#engine-row").show();
+               if ( batch.font_id != null ) {
+               } else {
+                  $("#batch-font").text("");
+                  $("#font-row").hide();
+               }
+            } else {
+               $("#batch-engine").text("");
+               $("#batch-font").text("");
+               $("#engine-row").hide();
+               $("#font-row").hide();
+            }
+            $("#batch-params").text(batch.parameters);
+            $("#batch-notes").text(batch.notes);
+         } else {
+            $("#batch-type").text("");
+            $("#batch-engine").text("");
+            $("#batch-font").text("");
+            $("#engine-row").hide();
+            $("#font-row").hide();
+            $("#batch-params").text("");
+            $("#batch-notes").text("");
+         }
+      }); 
       
       // NEW batch
          
@@ -134,7 +167,7 @@ $(function() {
             tipY-=st;
             var id = tipTarget.attr("id").substring("batch-".length);
             $.ajax({
-               url : baseUrl+"dashboard/batch/" + id,
+               url : "dashboard/batch/" + id,
                type : 'GET',
                async : false,
                success : function(resp, textStatus, jqXHR) {
@@ -200,7 +233,7 @@ $(function() {
       "bProcessing": true,
       "bServerSide": true,
       "bStateSave": true,
-      "sAjaxSource": baseUrl+"dashboard/fetch",
+      "sAjaxSource": "dashboard/fetch",
       "sAjaxDataProp": "data",
       "bSortClasses": false,
       "aaSorting": [],

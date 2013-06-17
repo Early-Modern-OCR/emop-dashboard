@@ -8,7 +8,21 @@ class DashboardController < ApplicationController
       @to_filter = session[:to]
       @ocr_filter = session[:ocr]
 
-      @batches = BatchJob.all()
+      raw_batches = BatchJob.all()
+      @job_types = JobType.all()
+      @engines = OcrEngine.all()
+      @batches = []
+      raw_batches.each do |batch|
+         foo = {}
+         foo[:id] = batch.id
+         foo[:name] = batch.name
+         foo[:parameters] = batch.parameters
+         foo[:notes] = batch.notes
+         foo[:type] = @job_types[batch.job_type-1]
+         foo[:engine] = @engines[batch.ocr_engine_id-1]
+         foo[:font] = batch.font
+         @batches << foo
+      end
       
       # get summary for queue
       sql = ["select count(*) as cnt from job_queue where job_status=?"]
