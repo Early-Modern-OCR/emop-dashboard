@@ -4,6 +4,7 @@ class DashboardController < ApplicationController
    def index
       # pull extra filter data from session 
       @batch_filter = session[:batch]
+      @set_filter = session[:set]
       @from_filter = session[:from]
       @to_filter = session[:to]
       @ocr_filter = session[:ocr]
@@ -91,6 +92,17 @@ class DashboardController < ApplicationController
          cond << " and work_ocr_results.batch_id=?"
          vals << batch_filter
       end
+      
+      set_filter = params[:set]
+      session[:set]  = set_filter
+      if !set_filter.nil?
+         if set_filter == 'EEBO'
+            cond << " and wks_ecco_number is null"
+         elsif set_filter == 'ECCO'
+            cond << " and wks_ecco_number is not null"
+         end
+      end
+      
       from_filter = params[:from]
       session[:from]  = from_filter
       if !from_filter.nil?
@@ -166,7 +178,7 @@ class DashboardController < ApplicationController
       end
       rec[:status] = "<div class='status-icon #{status}' title='#{msg}'></div>"
       
-      if result.wks_ecco_number.nil? && result.wks_ecco_number.length > 0
+      if !result.wks_ecco_number.nil? && result.wks_ecco_number.length > 0
          rec[:data_set] = 'ECCO'
       else
          rec[:data_set] = 'EEBO'   

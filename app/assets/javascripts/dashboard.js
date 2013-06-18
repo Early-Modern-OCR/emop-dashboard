@@ -268,6 +268,9 @@ $(function() {
    $("#batch-filter").on("change", function() {
       $("#detail-table").dataTable().fnDraw();
    }); 
+   $("#set-filter").on("change", function() {
+      $("#detail-table").dataTable().fnDraw();
+   }); 
    $("#require-ocr").on( "change", function() {
        $("#detail-table").dataTable().fnDraw();
    });
@@ -330,6 +333,10 @@ $(function() {
          var batch = $("#batch-filter").val();
          if (batch.length > 0) {
             aoData.push( { "name": "batch", "value": batch } );
+         }
+         var set = $("#set-filter").val();
+         if (set.length > 0) {
+            aoData.push( { "name": "set", "value": set } );
          }
          var from = $("#from-date").val();
          if (from.length > 0) {

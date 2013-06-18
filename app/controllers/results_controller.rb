@@ -112,7 +112,7 @@ class ResultsController < ApplicationController
       page_num = params[:num]   
       work = Work.find(work_id)
       img_path = get_ocr_image_path(work, page_num)
-      send_file img_path, type: "image/tiff", disposition: "inline"
+      send_file img_path, type: "image/tiff", :stream => true, disposition: "inline"
    end
    
    private
