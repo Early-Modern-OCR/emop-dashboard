@@ -120,6 +120,25 @@
    background-position: 0 -16px;
    cursor: default;
 }
+.status-icon {
+   height:16px;
+   width:16px;
+   background-image: image-url("status.png");
+   background-repeat: no-repeat;
+   background-position: 0 0;
+   cursor: default;
+}
+.status-icon.error {
+   background-position: 0 -32px;
+}
+.status-icon.idle {
+   background-position: 0 0px;
+}
+.status-icon.scheduled {
+   background-position: 0 -16px;
+}
+
+
 
 #dim-overlay {
    z-index: 1000;

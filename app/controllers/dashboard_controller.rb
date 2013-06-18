@@ -145,7 +145,7 @@ class DashboardController < ApplicationController
      rec = {}
       rec[:work_select] = "<input class='sel-cb' type='checkbox' id='sel-work-#{result.wks_work_id}'>"
       rec[:detail_link] = "<a href='results?work=#{result.wks_work_id}'><div class='detail-link' title='View pages'></div></a>"
-
+      rec[:status] = "<div class='status-icon scheduled'></div>"
       if result.wks_ecco_number.nil? && result.wks_ecco_number.length > 0
          rec[:data_set] = 'ECCO'
       else
