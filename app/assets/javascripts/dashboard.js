@@ -45,7 +45,7 @@ $(function() {
       // Pick batch popiup
       $("#pick-batch-popup").dialog({
          autoOpen : false,
-         width : 310,
+         width : 350,
          resizable : false,
          modal : true,
          buttons : {
@@ -69,19 +69,31 @@ $(function() {
          if ( idx >= 0 ) {
             var batch = batches[idx];
             $("#batch-type").text(batch.type.name);
-            if ( batch.job_type !== 3 ) {
+            if ( batch.type.id !== 3 ) {
                $("#batch-engine").text(batch.engine.name);
                $("#engine-row").show();
-               if ( batch.font_id != null ) {
+               if ( batch.font != null ) {
+                  $("#batch-font").text(batch.font.font_name);
+                  $("#font-italic").text(batch.font.font_italic);
+                  $("#font-bold").text(batch.font.font_bold);
+                  $("#font-fixed").text(batch.font.font_fixed);
+                  $("#font-serif").text(batch.font.font_serif);
+                  $("#font-fraktur").text(batch.font.font_fraktir);
+                  $("#font-height").text(batch.font.font_line_height);
+                  $("#font-path").text(batch.font.font_library_path);
+                  $("#font-row").show();
+                  $("#font-detail").show();
                } else {
                   $("#batch-font").text("");
                   $("#font-row").hide();
+                  $("#font-detail").hide();
                }
             } else {
                $("#batch-engine").text("");
                $("#batch-font").text("");
                $("#engine-row").hide();
                $("#font-row").hide();
+               $("#font-detail").hide();
             }
             $("#batch-params").text(batch.parameters);
             $("#batch-notes").text(batch.notes);
