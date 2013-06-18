@@ -72,7 +72,7 @@ class DashboardController < ApplicationController
               'work_ocr_results.retas_accuracy']
       dir = params[:sSortDir_0]
       order_col = cols[search_col_idx]
-      order_col = cols[1] if order_col.nil?
+      order_col = cols[4] if order_col.nil?
       
   
       # build where conditions
