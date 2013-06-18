@@ -110,13 +110,13 @@ $(function() {
       var showFontDetail = function() {
          if ( fonts.length === 0 ) {
             $("#new-font").hide();
-            $("#no-font").show();
+            $("#no-fonts").show();
             $("#new-batch-popup .font-row").show();
             $("#new-batch-popup .font-detail").hide();
          } else {
             var idx = parseInt($("#new-font").val(), 10) - 1;
             var font = fonts[idx];
-            $("#new-font").show();
+            $("#new-fonts").show();
             $("#new-batch-popup .batch-font").text(font.font_name);
             $("#new-batch-popup .font-italic").text(font.font_italic);
             $("#new-batch-popup .font-bold").text(font.font_bold);
