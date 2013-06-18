@@ -108,18 +108,26 @@ $(function() {
       
       // NEW batch
       var showFontDetail = function() {
-         var idx = parseInt($("#new-font").val(), 10) - 1;
-         var font = fonts[idx];
-         $("#new-batch-popup .batch-font").text(font.font_name);
-         $("#new-batch-popup .font-italic").text(font.font_italic);
-         $("#new-batch-popup .font-bold").text(font.font_bold);
-         $("#new-batch-popup .font-fixed").text(font.font_fixed);
-         $("#new-batch-popup .font-serif").text(font.font_serif);
-         $("#new-batch-popup .font-fraktur").text(font.font_fraktir);
-         $("#new-batch-popup .font-height").text(font.font_line_height);
-         $("#new-batch-popup .font-path").text(font.font_library_path);
-         $("#new-batch-popup .font-row").show();
-         $("#new-batch-popup .font-detail").show();
+         if ( fonts.length === 0 ) {
+            $("#new-font").hide();
+            $("#no-font").show();
+            $("#new-batch-popup .font-row").show();
+            $("#new-batch-popup .font-detail").hide();
+         } else {
+            var idx = parseInt($("#new-font").val(), 10) - 1;
+            var font = fonts[idx];
+            $("#new-font").show();
+            $("#new-batch-popup .batch-font").text(font.font_name);
+            $("#new-batch-popup .font-italic").text(font.font_italic);
+            $("#new-batch-popup .font-bold").text(font.font_bold);
+            $("#new-batch-popup .font-fixed").text(font.font_fixed);
+            $("#new-batch-popup .font-serif").text(font.font_serif);
+            $("#new-batch-popup .font-fraktur").text(font.font_fraktir);
+            $("#new-batch-popup .font-height").text(font.font_line_height);
+            $("#new-batch-popup .font-path").text(font.font_library_path);
+            $("#new-batch-popup .font-row").show();
+            $("#new-batch-popup .font-detail").show();
+         }
       };
       
       // create new batch popup 
