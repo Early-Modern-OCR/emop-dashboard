@@ -11,6 +11,7 @@ class DashboardController < ApplicationController
       raw_batches = BatchJob.all()
       @job_types = JobType.all()
       @engines = OcrEngine.all()
+      @fonts = Font.all()
       @batches = []
       raw_batches.each do |batch|
          foo = {}

@@ -32,6 +32,7 @@ $(function() {
    var batches = JSON.parse( $("#batch-json").text() );
    var jobTypes = JSON.parse( $("#types-json").text() );
    var engines = JSON.parse( $("#engines-json").text() );
+   var fonts = JSON.parse( $("#fonts-json").text() );
    
    // to control tooltip mouseover behavir
    var tipShowTimer = -1;
@@ -59,9 +60,6 @@ $(function() {
                // TODO
             }
          },
-         open : function() {
-            // TODO
-         }
       }); 
       
       $("#batch-pick").on("change", function() {
@@ -71,29 +69,29 @@ $(function() {
             $("#batch-type").text(batch.type.name);
             if ( batch.type.id !== 3 ) {
                $("#batch-engine").text(batch.engine.name);
-               $("#engine-row").show();
+               $(".engine-row").show();
                if ( batch.font != null ) {
-                  $("#batch-font").text(batch.font.font_name);
-                  $("#font-italic").text(batch.font.font_italic);
-                  $("#font-bold").text(batch.font.font_bold);
-                  $("#font-fixed").text(batch.font.font_fixed);
-                  $("#font-serif").text(batch.font.font_serif);
-                  $("#font-fraktur").text(batch.font.font_fraktir);
-                  $("#font-height").text(batch.font.font_line_height);
-                  $("#font-path").text(batch.font.font_library_path);
-                  $("#font-row").show();
-                  $("#font-detail").show();
+                  $("#pick-batch-popup .batch-font").text(batch.font.font_name);
+                  $("#pick-batch-popup .font-italic").text(batch.font.font_italic);
+                  $("#pick-batch-popup .font-bold").text(batch.font.font_bold);
+                  $("#pick-batch-popup .font-fixed").text(batch.font.font_fixed);
+                  $("#pick-batch-popup .font-serif").text(batch.font.font_serif);
+                  $("#pick-batch-popup .font-fraktur").text(batch.font.font_fraktir);
+                  $("#pick-batch-popup .font-height").text(batch.font.font_line_height);
+                  $("#pick-batch-popup .font-path").text(batch.font.font_library_path);
+                  $(".font-row").show();
+                  $(".font-detail").show();
                } else {
                   $("#batch-font").text("");
-                  $("#font-row").hide();
-                  $("#font-detail").hide();
+                  $(".font-row").hide();
+                  $(".font-detail").hide();
                }
             } else {
                $("#batch-engine").text("");
                $("#batch-font").text("");
-               $("#engine-row").hide();
-               $("#font-row").hide();
-               $("#font-detail").hide();
+               $(".engine-row").hide();
+               $(".font-row").hide();
+               $(".font-detail").hide();
             }
             $("#batch-params").text(batch.parameters);
             $("#batch-notes").text(batch.notes);
@@ -101,15 +99,29 @@ $(function() {
             $("#batch-type").text("");
             $("#batch-engine").text("");
             $("#batch-font").text("");
-            $("#engine-row").hide();
-            $("#font-row").hide();
+            $(".engine-row").hide();
+            $(".font-row").hide();
             $("#batch-params").text("");
             $("#batch-notes").text("");
          }
       }); 
       
       // NEW batch
-         
+      var showFontDetail = function() {
+         var idx = parseInt($("#new-font").val(), 10) - 1;
+         var font = fonts[idx];
+         $("#new-batch-popup .batch-font").text(font.font_name);
+         $("#new-batch-popup .font-italic").text(font.font_italic);
+         $("#new-batch-popup .font-bold").text(font.font_bold);
+         $("#new-batch-popup .font-fixed").text(font.font_fixed);
+         $("#new-batch-popup .font-serif").text(font.font_serif);
+         $("#new-batch-popup .font-fraktur").text(font.font_fraktir);
+         $("#new-batch-popup .font-height").text(font.font_line_height);
+         $("#new-batch-popup .font-path").text(font.font_library_path);
+         $("#new-batch-popup .font-row").show();
+         $("#new-batch-popup .font-detail").show();
+      };
+      
       // create new batch popup 
       $("#new-batch-popup").dialog({
          autoOpen : false,
@@ -125,9 +137,24 @@ $(function() {
             }
          },
          open : function() {
-            // TODO
+            showFontDetail();
          }
       });
+      
+      $("#new-type").on("change", function() {
+          var idx = parseInt($("#new-type").val(),10)-1;
+          if ( idx === 2 ) {
+             $("#new-batch-popup .engine-row").hide();
+             $("#new-batch-popup .font-row").hide();
+          } else {
+             $("#new-batch-popup .engine-row").show();
+             $("#new-batch-popup .font-row").show();
+          }
+      });
+      $("#new-font").on("change", function() {
+         showFontDetail();
+      }); 
+
  
    };
    

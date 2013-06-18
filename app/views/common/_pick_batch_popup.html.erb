@@ -1,6 +1,6 @@
 <div id="pick-batch-popup" class="emop-popup" title="Select Batch">
    <select id="batch-pick" name="batch-pick">
-      <option value>All</option>
+      <option value>Select batch</option>
       <% @batches.each do | batch | %>
          <option value="<%= batch[:id] %>"><%= batch[:name] %></option>
       <% end %>
@@ -8,21 +8,9 @@
       
    <table>
       <tr><td class="table-label">Batch Type:</td><td><span class="table-data" id="batch-type"></span></td></tr>
-      <tr id="engine-row"><td class="table-label">OCR Engine:</td><td><span class="table-data" id="batch-engine"></span></td></tr>
-      <tr id="font-row" style="display: none"><td class="table-label">Font:</td><td><span class="table-data" id="batch-font"></span></td></tr>
-      <tr id="font-detail" style="display: none">
-         <td colspan="2">
-            <div id="font-info">
-               <p><span class="tt-label">Italic:</span><span class="font-data" id="font-italic">d</span></p>  
-               <p><span class="tt-label">Bold:</span><span class="font-data" id="font-bold"></span></p>   
-               <p><span class="tt-label">Fixed:</span><span class="font-data" id="font-fixed"></span></p>   
-               <p><span class="tt-label">Serif:</span><span class="font-data" id="font-serif"></span></p>  
-               <p><span class="tt-label">Fraktur:</span><span class="font-data" id="font-fraktur"></span></p>  
-               <p><span class="tt-label">Line Height:</span><span class="font-data" id="font-height"></span></p>  
-               <p><span class="tt-label">Path:</span><span class="font-data" id="font-path"></span></p>  
-            </div>
-         </td>
-      </tr>
+      <tr class="engine-row"><td class="table-label">OCR Engine:</td><td><span class="table-data" id="batch-engine"></span></td></tr>
+      <tr class="font-row" style="display: none"><td class="table-label">Font:</td><td><span class="table-data" id="batch-font"></span></td></tr>
+      <%= render :partial => 'font_detail_row' %>
       <tr><td class="table-label">Parameters:</td><td><span class="table-data" id="batch-params"></span></td></tr>
       <tr><td class="table-label" style="vertical-align: text-top;">Notes:</td><td><span class="table-data" id="batch-notes"></span></td></tr>
    </table>

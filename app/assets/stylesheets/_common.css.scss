@@ -179,19 +179,39 @@
    padding: 0 !important;
    margin: 0 !important;
 }
-#pick-batch-popup {
+
+#new-batch-popup .font-info {
+   margin-left: 118px;
+   margin-bottom: 10px;
+}
+.emop-popup {
    font-size: 0.8em;
-    
+   input {
+      font-size: 0.9em;
+      width:248px;
+   }   
+   select {
+      width: 100%;
+   } 
+   textarea {
+      resize: none;
+      width:248px;
+      height: 55px;
+      font-size: 0.85em;
+   }
+   .table-input {
+      width: 250px;
+   }
    .table-label {
       text-align: right;
       font-weight: 300;
-      width: 95px;
+      width: 110px;
    }
    .table-data {
       font-size: 0.85em;
    }
   
-   #font-info {
+   .font-info {
       font-size: 0.75em;
       margin-left: 100px;
       p {

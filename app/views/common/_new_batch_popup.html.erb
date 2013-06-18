@@ -1,3 +1,21 @@
 <div id="new-batch-popup" class="emop-popup" title="Create Batch">
-   
+   <table>
+      <tr><td class="table-label"</td>Name:<td class="table-input"><input type="text" id="new-name"/></td></tr>
+      <tr>
+         <td class="table-label">Batch Type:</td>
+         <td class="table-input"><%= select_tag "new-type", options_from_collection_for_select(@job_types, "id", "name",2) %></td>
+      </tr>
+      <tr class="engine-row">
+         <td class="table-label">OCR Engine:</td>
+         <td class="table-input"><%= select_tag "new-ocr", options_from_collection_for_select(@engines, "id", "name") %></td>
+      </tr>
+      <tr class="font-row">
+         <td class="table-label">Font:</td>
+         <td class="table-input"><%= select_tag "new-font", options_from_collection_for_select(@fonts, "id", "font_name") %></td>
+      </tr>
+      <%= render :partial => 'font_detail_row' %>
+      
+      <tr><td class="table-label">Parameters:</td><td><input type="text" id="new-params"/></td></tr>
+      <tr><td class="table-label" style="vertical-align: text-top;">Notes:</td><td><textarea id="new-notes"></textarea></td></tr>
+   </table>   
 </div>
