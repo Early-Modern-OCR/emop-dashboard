@@ -65,7 +65,8 @@ class DashboardController < ApplicationController
       
       # generate order info based on params
       search_col_idx = params[:iSortCol_0].to_i
-      cols = [nil,'wks_tcp_number','wks_title','wks_author',
+      cols = [nil,nil,nil,nil,
+              'wks_tcp_number','wks_title','wks_author',
               'work_ocr_results.ocr_completed','work_ocr_results.ocr_engine_id',
               'work_ocr_results.batch_id','work_ocr_results.juxta_accuracy',
               'work_ocr_results.retas_accuracy']
@@ -145,7 +146,26 @@ class DashboardController < ApplicationController
      rec = {}
       rec[:work_select] = "<input class='sel-cb' type='checkbox' id='sel-work-#{result.wks_work_id}'>"
       rec[:detail_link] = "<a href='results?work=#{result.wks_work_id}'><div class='detail-link' title='View pages'></div></a>"
-      rec[:status] = "<div class='status-icon scheduled'></div>"
+      
+      sql = ["select job_status from job_queue where batch_id=? and page_id in (select pg_page_id from pages where pg_work_id=?)",
+             result.batch_id, result.wks_work_id]
+      jobs = JobQueue.find_by_sql(sql)
+      status = "idle"
+      msg = "No jobs pending"
+      jobs.each do |job|
+         if job.job_status==6
+            status = "error"
+            msg = "OCR jobs have failed"
+            break   
+         end  
+         if job.job_status<3
+            status = "scheduled"
+            msg = "OCR jobs are scheduled"
+            break   
+         end  
+      end
+      rec[:status] = "<div class='status-icon #{status}' title='#{msg}'></div>"
+      
       if result.wks_ecco_number.nil? && result.wks_ecco_number.length > 0
          rec[:data_set] = 'ECCO'
       else

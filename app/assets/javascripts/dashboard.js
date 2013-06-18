@@ -307,6 +307,7 @@ $(function() {
          { "aTargets": [0], "bSortable": false},
          { "aTargets": [1], "bSortable": false},
          { "aTargets": [2], "bSortable": false},
+         { "aTargets": [3], "bSortable": false},
          { "aTargets": [10], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
          { "aTargets": [11], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
       ],
