@@ -4,7 +4,6 @@ class DashboardController < ApplicationController
    def index
       # pull extra filter data from session 
       @batch_filter = session[:batch]
-      @set_filter = session[:set]
       @from_filter = session[:from]
       @to_filter = session[:to]
       @ocr_filter = session[:ocr]
@@ -66,16 +65,15 @@ class DashboardController < ApplicationController
       
       # generate order info based on params
       search_col_idx = params[:iSortCol_0].to_i
-      cols = [nil,nil,nil,nil,
+      cols = [nil,nil,nil,
               'wks_tcp_number','wks_title','wks_author',
               'work_ocr_results.ocr_completed','work_ocr_results.ocr_engine_id',
               'work_ocr_results.batch_id','work_ocr_results.juxta_accuracy',
               'work_ocr_results.retas_accuracy']
       dir = params[:sSortDir_0]
       order_col = cols[search_col_idx]
-      order_col = cols[4] if order_col.nil?
-      
-  
+      order_col = cols[3] if order_col.nil?
+
       # build where conditions
       q = params[:sSearch]
       cond = "wks_tcp_number is not null"
@@ -91,18 +89,7 @@ class DashboardController < ApplicationController
       if !batch_filter.nil?
          cond << " and work_ocr_results.batch_id=?"
          vals << batch_filter
-      end
-      
-      set_filter = params[:set]
-      session[:set]  = set_filter
-      if !set_filter.nil?
-         if set_filter == 'EEBO'
-            cond << " and wks_ecco_number is null"
-         elsif set_filter == 'ECCO'
-            cond << " and wks_ecco_number is not null"
-         end
-      end
-      
+      end      
       from_filter = params[:from]
       session[:from]  = from_filter
       if !from_filter.nil?

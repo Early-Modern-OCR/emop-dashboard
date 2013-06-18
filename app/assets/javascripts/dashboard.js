@@ -268,9 +268,6 @@ $(function() {
    $("#batch-filter").on("change", function() {
       $("#detail-table").dataTable().fnDraw();
    }); 
-   $("#set-filter").on("change", function() {
-      $("#detail-table").dataTable().fnDraw();
-   }); 
    $("#require-ocr").on( "change", function() {
        $("#detail-table").dataTable().fnDraw();
    });
@@ -308,7 +305,6 @@ $(function() {
          { "mData": "work_select" },
          { "mData": "detail_link" },
          { "mData": "status" },
-         { "mData": "data_set" },
          { "mData": "tcp_number" },
          { "mData": "title" },
          { "mData": "author" },
@@ -322,9 +318,8 @@ $(function() {
          { "aTargets": [0], "bSortable": false},
          { "aTargets": [1], "bSortable": false},
          { "aTargets": [2], "bSortable": false},
-         { "aTargets": [3], "bSortable": false},
-         { "aTargets": [10], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
-         { "aTargets": [11], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
+         { "aTargets": [9], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
+         { "aTargets": [10], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
       ],
       "fnServerParams": function ( aoData ) {
          if ( $('#require-ocr').is(':checked')) {
@@ -333,10 +328,6 @@ $(function() {
          var batch = $("#batch-filter").val();
          if (batch.length > 0) {
             aoData.push( { "name": "batch", "value": batch } );
-         }
-         var set = $("#set-filter").val();
-         if (set.length > 0) {
-            aoData.push( { "name": "set", "value": set } );
          }
          var from = $("#from-date").val();
          if (from.length > 0) {
