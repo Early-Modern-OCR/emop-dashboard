@@ -165,11 +165,6 @@ class DashboardController < ApplicationController
       end
       rec[:status] = "<div class='status-icon #{status}' title='#{msg}'></div>"
       
-      if !result.wks_ecco_number.nil? && result.wks_ecco_number.length > 0
-         rec[:data_set] = 'ECCO'
-      else
-         rec[:data_set] = 'EEBO'   
-      end 
       rec[:tcp_number] = result.wks_tcp_number
       rec[:title] = result.wks_title
       rec[:author] = result.wks_author
