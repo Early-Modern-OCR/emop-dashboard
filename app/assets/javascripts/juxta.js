@@ -2,13 +2,6 @@
 // All this logic will automatically be available in application.js.
 
 $(function() {   
-
-   $.fn.hasScrollBar = function() {
-      return this.get(0).scrollHeight > this.height();
-   };
-   $.fn.exists = function() {
-      return this.length !== 0;
-   };
    
    var initScrollHeight = function() {
       $("#page-scroller").css("overflow-x", "hidden");

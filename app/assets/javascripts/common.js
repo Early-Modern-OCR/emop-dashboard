@@ -11,3 +11,11 @@ var hideWaitPopup = function() {
    $('#dim-overlay').hide();
    $("#wait-popup").hide();
 };
+
+
+$.fn.hasScrollBar = function() {
+   return this.get(0).scrollHeight > this.height();
+};
+$.fn.exists = function() {
+   return this.length !== 0;
+};

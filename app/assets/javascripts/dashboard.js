@@ -29,10 +29,22 @@ $(function() {
    hideWaitPopup();
    
    // grab json batch info and convert into js objects/arrays
-   var batches = JSON.parse( $("#batch-json").text() );
-   var jobTypes = JSON.parse( $("#types-json").text() );
-   var engines = JSON.parse( $("#engines-json").text() );
-   var fonts = JSON.parse( $("#fonts-json").text() );
+   var batches = [];
+   if (  $("#batch-json").exists() ) {
+      batches = JSON.parse( $("#batch-json").text() );
+   }
+   var jobTypes = [];
+   if (  $("#types-json").exists() ) {
+      job_types = JSON.parse( $("#types-json").text() );
+   }
+   var engines = [];
+   if (  $("#engines-json").exists() ) {
+      engines = JSON.parse( $("#engines-json").text() );
+   }
+   var fonts = [];
+   if (  $("#fonts-json").exists() ) {
+      fonts = JSON.parse( $("#fonts-json").text() );
+   }
    
    // to control tooltip mouseover behavir
    var tipShowTimer = -1;
@@ -59,7 +71,7 @@ $(function() {
             "Schedule Jobs" : function() {
                // TODO
             }
-         },
+         }
       }); 
       
       $("#batch-pick").on("change", function() {
@@ -169,7 +181,7 @@ $(function() {
   
    // schedule selected works for ocr
    var scheduleSelectedWorks = function() {
-      workIds = [];
+      var workIds = [];
       $(".sel-cb").each(function () {
          if ($(this).is(':checked')) {
             var id = $(this).attr("id").substring("sel-work-".length);
@@ -301,7 +313,7 @@ $(function() {
          { "mData": "ocr_engine" },
          { "mData": "ocr_batch" },
          { "mData": "juxta_url" },
-         { "mData": "retas_url" },
+         { "mData": "retas_url" }
        ],
       "aoColumnDefs": [
          { "aTargets": [0], "bSortable": false},
