@@ -173,13 +173,30 @@ class DashboardController < ApplicationController
       batch.parameters = params[:params]
       batch.notes = params[:notes]
       if batch.save
-         # data.works processing
+         works = params[:works]
+         if works != 'all'
+            if schedule_all(batch) == false 
+               render "Unable to add all matching works to batch", :status => :error
+            end
+         else 
+            if schedule_seleced(batch, works) == false
+               render "Unable to add slected works to batch", :status => :error   
+            end
+         end
       else
          render :json => { :error => e.message }, :status => :unprocessable_entity
       end
-
-      
-      render :json => "NO", :status => :error
+      render "OK", :status => :ok   
+   end
+   
+   private
+   def schedule_all(batch)
+      return false
+   end
+   
+   private
+   def schedule_selected(batch, works)
+      return false
    end
 
    private
