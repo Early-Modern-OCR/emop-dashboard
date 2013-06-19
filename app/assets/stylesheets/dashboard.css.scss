@@ -99,6 +99,17 @@ a.paginate_disabled_previous {
    #dashboard-filter {
       margin: 0px 0px 20px 5px;
       float: left;
+      border: 1px solid #aaa;
+      padding: 5px 0 5px 8px;
+      background-color: #ededed;
+      
+      #filter-left {
+         float: left;
+      }
+      #filter-right {
+         float: right;
+         margin-left: 20px;
+      }
    
       .cb-filter-label {
          font-size: 0.85em;
@@ -128,64 +139,78 @@ a.paginate_disabled_previous {
          width: 75px;
          margin-right: 15px;
       }
+      .date-filter.to {
+         margin-right: 3px;
+      }
       #filter-reset {
          position: relative;
          left: 183px;
-         top: 2px;
+         top: 24px;
       }
    }
+   #table-div {
+      position: relative;
+      top: -32px;
+      #detail-table {
+         font-size: 0.75em;
+         border-spacing: 1px;
+         background-color: #999;
    
-   #detail-table {
-      font-size: 0.75em;
-      border-spacing: 1px;
-      background-color: #999;
-
-      .gale-row {
-         background-color: #cec !important;
-      }      
-   
-      td {
-         cursor: default;
+         .gale-row {
+            background-color: #cec !important;
+         }      
+      
+         td {
+            cursor: default;
+         }
+         .batch-name {
+            cursor: help;
+         }
+    
+         th {
+            background-color: #679;
+            color: #ededed;
+            border:none;
+            text-align: center;
+            font-weight: normal;
+         }
+         
+         .bad-cell {
+            background-color: #900;
+            color: #ffcece;
+         }
+         
+         .warn-cell {
+            background-color: #dd0;
+         }
       }
-      .batch-name {
-         cursor: help;
+      #select-all {
+         position:relative;
+         top:22px;
+         z-index: 1000;
+         width: 80px;
       }
- 
-      th {
-         background-color: #679;
-         color: #ededed;
-         border:none;
-         text-align: center;
-         font-weight: normal;
+      #detail-table_length {
+         margin-left:90px;
+      }
+      .dataTables_length {
+         font-size: 0.8em;
       }
       
-      .bad-cell {
-         background-color: #900;
-         color: #ffcece;
+      .dataTables_filter {
+         margin-bottom: 10px;
+         font-size: 0.8em;
+      }
+      .paging_full_numbers {
+         font-size: 0.8em;
       }
       
-      .warn-cell {
-         background-color: #dd0;
+      .dataTables_info {
+         margin-top: 10px;
+         font-size: 0.8em;
       }
-   }
-
-   .dataTables_length {
-      font-size: 0.8em;
-   }
-   
-   .dataTables_filter {
-      margin-bottom: 10px;
-      font-size: 0.8em;
-   }
-   .paging_full_numbers {
-      font-size: 0.8em;
-   }
-   
-   .dataTables_info {
-      margin-top: 10px;
-      font-size: 0.8em;
-   }
-   .dataTables_paginate {
-      margin-top: 10px;
+      .dataTables_paginate {
+         margin-top: 10px;
+      }
    }
 }

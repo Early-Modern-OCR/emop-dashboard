@@ -4,9 +4,11 @@ class DashboardController < ApplicationController
    def index
       # pull extra filter data from session 
       @batch_filter = session[:batch]
+      @set_filter = session[:set]
       @from_filter = session[:from]
       @to_filter = session[:to]
       @ocr_filter = session[:ocr]
+      @gt_filter = session[:gt]
 
       raw_batches = BatchJob.all()
       @job_types = JobType.all()
@@ -61,55 +63,80 @@ class DashboardController < ApplicationController
       puts params
       resp = {}
       resp['sEcho'] = params[:sEcho]
-      resp['iTotalRecords'] = Work.count(:wks_tcp_number)
+      resp['iTotalRecords'] = Work.count()
       
       # generate order info based on params
       search_col_idx = params[:iSortCol_0].to_i
-      cols = [nil,nil,nil,
+      cols = [nil,nil,nil,nil,'wks_work_id',
               'wks_tcp_number','wks_title','wks_author',
               'work_ocr_results.ocr_completed','work_ocr_results.ocr_engine_id',
               'work_ocr_results.batch_id','work_ocr_results.juxta_accuracy',
               'work_ocr_results.retas_accuracy']
       dir = params[:sSortDir_0]
       order_col = cols[search_col_idx]
-      order_col = cols[3] if order_col.nil?
+      order_col = cols[4] if order_col.nil?
 
       # build where conditions
       q = params[:sSearch]
-      cond = "wks_tcp_number is not null"
+      cond = ""
       vals = []
       if q.length > 0 
-         cond = "wks_tcp_number is not null && (wks_tcp_number LIKE ? || wks_author LIKE ? || wks_title LIKE ?)"
+         cond = "(wks_tcp_number LIKE ? || wks_author LIKE ? || wks_title LIKE ?)"
          vals = ["%#{q}%", "%#{q}%", "%#{q}%" ]   
       end
       
-      # add in extra filters; batch, from date and to date
+      # add in extra filters:
+      session[:gt]  = params[:gt]
+      if params.has_key?(:gt)
+         cond << " and" if cond.length > 0
+         cond << " wks_tcp_number is not null"
+      end
+      
       batch_filter = params[:batch]
       session[:batch]  = batch_filter
       if !batch_filter.nil?
-         cond << " and work_ocr_results.batch_id=?"
+         cond << " and" if cond.length > 0
+         cond << " work_ocr_results.batch_id=?"
          vals << batch_filter
       end      
+      
+      set_filter = params[:set]
+      session[:set]  = set_filter
+      if !set_filter.nil?
+         if set_filter == 'EEBO'
+            cond << " and" if cond.length > 0
+            cond << " wks_ecco_number is null"
+         elsif set_filter == 'ECCO'
+            cond << " and" if cond.length > 0
+            cond << " wks_ecco_number is not null"
+         end
+      end
+      
       from_filter = params[:from]
       session[:from]  = from_filter
       if !from_filter.nil?
-         cond << " and work_ocr_results.ocr_completed > ?"
+         cond << " and" if cond.length > 0
+         cond << " work_ocr_results.ocr_completed > ?"
          vals << fix_date_format(from_filter)
       end
       to_filter = params[:to]
       session[:to]  = to_filter
       if !to_filter.nil?
-         cond << " and work_ocr_results.ocr_completed < ?"
+         cond << " and" if cond.length > 0
+         cond << " work_ocr_results.ocr_completed < ?"
          vals << fix_date_format(to_filter)
       end
       
       session[:ocr]  = params[:ocr]
       if params.has_key?(:ocr)
-         cond << " and work_ocr_results.ocr_completed is not null"
+         cond << " and" if cond.length > 0
+         cond << " work_ocr_results.ocr_completed is not null"
       end
 
       # build the ugly query to get all the info
-      sel = "select works.*,work_ocr_results.* from work_ocr_results right outer join works on wks_work_id=work_id"
+      work_fields = "wks_work_id as work_id, wks_tcp_number as tcp_number, wks_title as title,wks_author as author,wks_ecco_number as ecco_number"
+      v_fields = "batch_id, ocr_completed, batch_name, ocr_engine_id, juxta_accuracy, retas_accuracy"
+      sel = "select #{work_fields}, #{v_fields} from work_ocr_results right outer join works on wks_work_id=work_id"
       limits = "limit #{params[:iDisplayLength]} OFFSET #{params[:iDisplayStart]}"
       order = "order by #{order_col} #{dir}"
       sql = ["#{sel} where #{cond} #{order} #{limits}"]
@@ -141,13 +168,14 @@ class DashboardController < ApplicationController
    end
    
    private
-   def result_to_hash(result)
-     rec = {}
-      rec[:work_select] = "<input class='sel-cb' type='checkbox' id='sel-work-#{result.wks_work_id}'>"
-      rec[:detail_link] = "<a href='results?work=#{result.wks_work_id}'><div class='detail-link' title='View pages'></div></a>"
-      
+    def result_to_hash(result)
+      rec = {}
+      rec[:id] = result.work_id
+      rec[:work_select] = "<input class='sel-cb' type='checkbox' id='sel-work-#{result.work_id}'>"
+      rec[:detail_link] = "<a href='results?work=#{result.work_id}'><div class='detail-link' title='View pages'></div></a>"
+
       sql = ["select job_status from job_queue where batch_id=? and page_id in (select pg_page_id from pages where pg_work_id=?)",
-             result.batch_id, result.wks_work_id]
+         result.batch_id, result.work_id]
       jobs = JobQueue.find_by_sql(sql)
       status = "idle"
       msg = "No jobs pending"
@@ -155,19 +183,24 @@ class DashboardController < ApplicationController
          if job.job_status==6
             status = "error"
             msg = "OCR jobs have failed"
-            break   
-         end  
+         break
+         end
          if job.job_status<3
             status = "scheduled"
             msg = "OCR jobs are scheduled"
-            break   
-         end  
+         break
+         end
       end
       rec[:status] = "<div class='status-icon #{status}' title='#{msg}'></div>"
-      
-      rec[:tcp_number] = result.wks_tcp_number
-      rec[:title] = result.wks_title
-      rec[:author] = result.wks_author
+
+      if !result.ecco_number.nil? && result.ecco_number.length > 0
+         rec[:data_set] = 'ECCO'
+      else
+         rec[:data_set] = 'EEBO'
+      end
+      rec[:tcp_number] = result.tcp_number
+      rec[:title] = result.title
+      rec[:author] = result.author
       if result.batch_id.nil?
          rec[:ocr_date] = nil
          rec[:ocr_engine] = nil
@@ -178,8 +211,8 @@ class DashboardController < ApplicationController
          rec[:ocr_date] = result.ocr_completed.to_datetime.strftime("%m/%d/%Y %H:%M")
          rec[:ocr_engine] = OcrEngine.find(result.ocr_engine_id ).name
          rec[:ocr_batch] = "<span class='batch-name' id='batch-#{result.batch_id}'>#{result.batch_id}: #{result.batch_name}</span>"
-         rec[:juxta_url] = gen_pages_link(result.wks_work_id, result.batch_id, result.juxta_accuracy)
-         rec[:retas_url] = gen_pages_link(result.wks_work_id, result.batch_id, result.retas_accuracy)
+         rec[:juxta_url] = gen_pages_link(result.work_id, result.batch_id, result.juxta_accuracy)
+         rec[:retas_url] = gen_pages_link(result.work_id, result.batch_id, result.retas_accuracy)
       end
       return rec
    end

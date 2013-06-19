@@ -52,6 +52,18 @@ $(function() {
    var tipX;
    var tipY;
    
+   // Schedule selected works for OCR with set batch
+   var scheduleJobs = function() {
+      var works =  JSON.parse( $("#work-id-list").text() );
+      var val = $("#batch-pick").val();
+      if (val.length === 0) {
+         alert("Please select a batch for this job");
+         return;
+      }
+      
+      // TODO ajax post to update the DB with all pages of a work
+   };
+   
    // Initialize jQuery UI popups
    var initPopups = function() {
         
@@ -69,7 +81,7 @@ $(function() {
                $("#new-batch-popup").dialog("open");
             },
             "Schedule Jobs" : function() {
-               // TODO
+               scheduleJobs();
             }
          }
       }); 
@@ -192,6 +204,7 @@ $(function() {
          alert("Select works to be OCR'd before clicking the 'Schedule Selected' button");
       } else {
          workIds = $.unique(workIds);
+         $("#work-id-list").text(JSON.stringify(workIds) );
          $("#pick-batch-popup").dialog("open");
       }
    }; 
@@ -255,7 +268,6 @@ $(function() {
       tipY = evt.pageY;
    });
    
-   
    // filter stuff
    $( "#from-date" ).datepicker();
    $("#from-date").on( "change", function() {
@@ -268,7 +280,13 @@ $(function() {
    $("#batch-filter").on("change", function() {
       $("#detail-table").dataTable().fnDraw();
    }); 
+   $("#set-filter").on("change", function() {
+      $("#detail-table").dataTable().fnDraw();
+   }); 
    $("#require-ocr").on( "change", function() {
+       $("#detail-table").dataTable().fnDraw();
+   });
+   $("#require-gt").on( "change", function() {
        $("#detail-table").dataTable().fnDraw();
    });
    $("#filter-reset").on("click", function() {
@@ -277,6 +295,21 @@ $(function() {
        $("#batch-filter").val("");
        $("#require-ocr").removeAttr('checked');
        $("#detail-table").dataTable().fnDraw();
+   });
+ 
+   // Select/unselect all
+   $("#select-all").on("click", function() {
+      var checkIt = false;
+      if ( $("#select-all").val()==="Select All") {
+          $("#select-all").val("Deselect All");
+          checkIt = true;
+      } else {
+         $("#select-all").val("Select All");
+         checkIt = false;
+      }
+      $(".sel-cb").each(function () {
+         $(this).prop('checked', checkIt);
+      });
    });
    
    // Schedule
@@ -305,6 +338,8 @@ $(function() {
          { "mData": "work_select" },
          { "mData": "detail_link" },
          { "mData": "status" },
+         { "mData": "data_set" },         
+         { "mData": "id" },
          { "mData": "tcp_number" },
          { "mData": "title" },
          { "mData": "author" },
@@ -318,16 +353,24 @@ $(function() {
          { "aTargets": [0], "bSortable": false},
          { "aTargets": [1], "bSortable": false},
          { "aTargets": [2], "bSortable": false},
-         { "aTargets": [9], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
-         { "aTargets": [10], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
+         { "aTargets": [3], "bSortable": false},
+         { "aTargets": [10], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
+         { "aTargets": [11], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
       ],
       "fnServerParams": function ( aoData ) {
+         if ( $('#require-gt').is(':checked')) {
+             aoData.push( { "name": "gt", "value": true } );
+         }
          if ( $('#require-ocr').is(':checked')) {
              aoData.push( { "name": "ocr", "value": true } );
          }
          var batch = $("#batch-filter").val();
          if (batch.length > 0) {
             aoData.push( { "name": "batch", "value": batch } );
+         }
+         var set = $("#set-filter").val();
+         if (set.length > 0) {
+            aoData.push( { "name": "set", "value": set } );
          }
          var from = $("#from-date").val();
          if (from.length > 0) {
