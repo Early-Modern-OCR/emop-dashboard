@@ -11,7 +11,7 @@
          <td class="table-input"><%= select_tag "new-ocr", options_from_collection_for_select(@engines, "id", "name") %></td>
       </tr>
       <tr class="font-row">
-         <td class="table-label">Font:</td>
+         <td class="table-label">Font Training Library:</td>
          <td class="table-input">
             <%= select_tag "new-font", options_from_collection_for_select(@fonts, "id", "font_name") %>
             <span id="no-fonts" style="display:none">No fonts defined</span>
