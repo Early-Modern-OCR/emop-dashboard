@@ -66,71 +66,7 @@ $(function() {
    
    // Initialize jQuery UI popups
    var initPopups = function() {
-        
-      // Pick batch popiup
-      $("#pick-batch-popup").dialog({
-         autoOpen : false,
-         width : 350,
-         resizable : false,
-         modal : true,
-         buttons : {
-            "Cancel" : function() {
-               $(this).dialog("close");
-            },
-            "New Batch" : function() {
-               $("#new-batch-popup").dialog("open");
-            },
-            "Schedule Jobs" : function() {
-               scheduleJobs();
-            }
-         }
-      }); 
-      
-      $("#batch-pick").on("change", function() {
-         var idx = parseInt($("#batch-pick").val(),10)-1;
-         if ( idx >= 0 ) {
-            var batch = batches[idx];
-            $("#batch-type").text(batch.type.name);
-            if ( batch.type.id !== 3 ) {
-               $("#batch-engine").text(batch.engine.name);
-               $(".engine-row").show();
-               if ( batch.font != null ) {
-                  $("#pick-batch-popup .batch-font").text(batch.font.font_name);
-                  $("#pick-batch-popup .font-italic").text(batch.font.font_italic);
-                  $("#pick-batch-popup .font-bold").text(batch.font.font_bold);
-                  $("#pick-batch-popup .font-fixed").text(batch.font.font_fixed);
-                  $("#pick-batch-popup .font-serif").text(batch.font.font_serif);
-                  $("#pick-batch-popup .font-fraktur").text(batch.font.font_fraktir);
-                  $("#pick-batch-popup .font-height").text(batch.font.font_line_height);
-                  $("#pick-batch-popup .font-path").text(batch.font.font_library_path);
-                  $(".font-row").show();
-                  $(".font-detail").show();
-               } else {
-                  $("#batch-font").text("");
-                  $(".font-row").hide();
-                  $(".font-detail").hide();
-               }
-            } else {
-               $("#batch-engine").text("");
-               $("#batch-font").text("");
-               $(".engine-row").hide();
-               $(".font-row").hide();
-               $(".font-detail").hide();
-            }
-            $("#batch-params").text(batch.parameters);
-            $("#batch-notes").text(batch.notes);
-         } else {
-            $("#batch-type").text("");
-            $("#batch-engine").text("");
-            $("#batch-font").text("");
-            $(".engine-row").hide();
-            $(".font-row").hide();
-            $("#batch-params").text("");
-            $("#batch-notes").text("");
-         }
-      }); 
-      
-      // NEW batch
+              
       var showFontDetail = function() {
          if ( fonts.length === 0 ) {
             $("#new-font").hide();
@@ -146,7 +82,7 @@ $(function() {
             $("#new-batch-popup .font-bold").text(font.font_bold);
             $("#new-batch-popup .font-fixed").text(font.font_fixed);
             $("#new-batch-popup .font-serif").text(font.font_serif);
-            $("#new-batch-popup .font-fraktur").text(font.font_fraktir);
+            $("#new-batch-popup .font-fraktur").text(font.font_fraktur);
             $("#new-batch-popup .font-height").text(font.font_line_height);
             $("#new-batch-popup .font-path").text(font.font_library_path);
             $("#new-batch-popup .font-row").show();
@@ -154,6 +90,37 @@ $(function() {
          }
       };
       
+      
+      var submitNewBatch = function() {
+         $("#new-batch-error").hide();
+         var data = {};
+         data.name = $("#new-name").val();
+         data.type_id = $("#new-type").val();
+         if (data.type_id === 3) {
+            data.engine_id = 5;
+         } else {
+            data.engine_id = $("#new-ocr").val();
+            if ($("#new-font").is(":visible")) {
+               data.font_id = $("#new-font").val();
+            }
+         }
+         data.params = $("#new-params").val();
+         data.notes = $("#new-notes").val();
+         data.works = $("#work-id-list").text();
+         if (data.name.length === 0) {
+            $("#new-batch-error").text("* Batch name is required *");
+            $("#new-batch-error").show();
+            return;
+         }
+         if (data.type_id !== "3" && data.engine_id === "5") {
+            $("#new-batch-error").text("* OCR engine is required *");
+            $("#new-batch-error").show();
+            return;
+         }
+
+         $("#new-batch-popup").dialog("close");
+      };
+
       // create new batch popup 
       $("#new-batch-popup").dialog({
          autoOpen : false,
@@ -165,11 +132,13 @@ $(function() {
                $(this).dialog("close");
             },
             "Create" : function() {
-               // TODO
+               submitNewBatch();
             }
          },
          open : function() {
             showFontDetail();
+             $("#new-batch-error").text("");
+             $("#new-batch-error").hide();
          }
       });
       
@@ -178,9 +147,11 @@ $(function() {
           if ( idx === 2 ) {
              $("#new-batch-popup .engine-row").hide();
              $("#new-batch-popup .font-row").hide();
+             $("#new-batch-popup .font-detail").hide();
           } else {
              $("#new-batch-popup .engine-row").show();
              $("#new-batch-popup .font-row").show();
+             $("#new-batch-popup .font-detail").show();
           }
       });
       $("#new-font").on("change", function() {
@@ -205,7 +176,7 @@ $(function() {
       } else {
          workIds = $.unique(workIds);
          $("#work-id-list").text(JSON.stringify(workIds) );
-         $("#pick-batch-popup").dialog("open");
+         $("#new-batch-popup").dialog("open");
       }
    }; 
 
@@ -317,6 +288,10 @@ $(function() {
    // Schedule
    $("#schedule-selected").on("click", function() {
       scheduleSelectedWorks();
+   });
+   $("#schedule-all").on("click", function() {
+      $("#work-id-list").text( "all" );
+      $("#new-batch-popup").dialog("open");
    });
 
    // create the data table instance. it has custom plug-in

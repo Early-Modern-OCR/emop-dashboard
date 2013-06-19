@@ -204,6 +204,15 @@
    margin-bottom: 10px;
 }
 .emop-popup {
+   #new-batch-error {
+      margin: 2px;
+      text-align: center;
+      font-style: italic;
+      color: #d22;
+      font-weight: bold;
+      display: none;
+   }
+   
    font-size: 0.8em;
    input {
       font-size: 0.9em;
