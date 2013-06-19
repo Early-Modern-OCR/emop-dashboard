@@ -11,6 +11,7 @@ EmopDashboard::Application.routes.draw do
    get "dashboard/index"
    get "dashboard/fetch"
    get "dashboard/batch/:id" => "dashboard#batch"
+   post "dashboard/batch" => "dashboard#create_batch"
 
    # site root is the dashboard
    root :to => "dashboard#index"

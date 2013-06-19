@@ -117,8 +117,20 @@ $(function() {
             $("#new-batch-error").show();
             return;
          }
-
-         $("#new-batch-popup").dialog("close");
+         
+         // Post the request
+         $.ajax({
+            url : "dashboard/batch/",
+            type : 'POST',
+            data : data,
+            success : function(resp, textStatus, jqXHR) {
+               alert("Batch successfully added to the work queue");
+               $("#new-batch-popup").dialog("close");
+            },
+            error : function( jqXHR, textStatus, errorThrown ) {
+               alert(errorThrown+":"+jqXHR.responseText);
+            }
+         }); 
       };
 
       // create new batch popup 
@@ -138,6 +150,9 @@ $(function() {
          open : function() {
             showFontDetail();
              $("#new-batch-error").text("");
+             $("#new-name").val("");
+             $("#new-params").val("");
+             $("#new-notes").val("");
              $("#new-batch-error").hide();
          }
       });

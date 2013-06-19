@@ -161,6 +161,12 @@ class DashboardController < ApplicationController
       resp['iTotalDisplayRecords'] = filtered_cnt
       render :json => resp, :status => :ok
    end
+   
+   # Create a new batch from json data in the POST payload
+   #
+   def create_batch
+      render :json => "NO", :status => :error   
+   end
   
    private
    def fix_date_format ( src_date )
