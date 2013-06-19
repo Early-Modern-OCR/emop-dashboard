@@ -165,9 +165,23 @@ class DashboardController < ApplicationController
    # Create a new batch from json data in the POST payload
    #
    def create_batch
-      render :json => "NO", :status => :error   
+      batch = BatchJob.new
+      batch.name = params[:name]
+      batch.job_type = params[:type_id]
+      batch.ocr_engine_id = params[:engine_id]
+      batch.font_id = params[:font_id]
+      batch.parameters = params[:params]
+      batch.notes = params[:notes]
+      if batch.save
+         # data.works processing
+      else
+         render :json => { :error => e.message }, :status => :unprocessable_entity
+      end
+
+      
+      render :json => "NO", :status => :error
    end
-  
+
    private
    def fix_date_format ( src_date )
       bits = src_date.split("/")
