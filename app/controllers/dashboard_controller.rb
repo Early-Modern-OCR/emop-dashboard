@@ -139,13 +139,15 @@ class DashboardController < ApplicationController
       sel = "select #{work_fields}, #{v_fields} from work_ocr_results right outer join works on wks_work_id=work_id"
       limits = "limit #{params[:iDisplayLength]} OFFSET #{params[:iDisplayStart]}"
       order = "order by #{order_col} #{dir}"
-      sql = ["#{sel} where #{cond} #{order} #{limits}"]
+      where_clause = ""
+      where_clause = "where #{cond}" if cond.length > 0
+      sql = ["#{sel} #{where_clause} #{order} #{limits}"]
       sql = sql + vals
 
       results = WorkOcrResult.find_by_sql(sql)
       
       count_sel = "select count(*) as cnt from work_ocr_results right outer join works on wks_work_id=work_id"
-      sql = ["#{count_sel} where #{cond}"]
+      sql = ["#{count_sel} #{where_clause}"]
       sql = sql + vals
       filtered_cnt = WorkOcrResult.find_by_sql(sql).first.cnt
       

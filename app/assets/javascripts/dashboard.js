@@ -293,7 +293,9 @@ $(function() {
        $("#to-date").val("");
        $("#from-date").val("");
        $("#batch-filter").val("");
+       $("#set-filter").val("");
        $("#require-ocr").removeAttr('checked');
+       $("#require-gt").removeAttr('checked');
        $("#detail-table").dataTable().fnDraw();
    });
  
