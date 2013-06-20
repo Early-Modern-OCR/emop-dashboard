@@ -78,6 +78,15 @@ $(function() {
          }
       };
       
+      var updateStatusIcons = function() {
+         $(".sel-cb").each(function () {
+            if ($(this).is(':checked')) {
+               var status = $(this).parent().parent().find(".status-icon");
+               status.removeClass().addClass("status-icon scheduled");
+               $(this).prop('checked', false);
+            }
+         });
+      };
       
       var submitNewBatch = function() {
          $("#new-batch-error").hide();
@@ -116,6 +125,7 @@ $(function() {
                $("#running-jobs").text(resp.running);
                $("#postprocess-jobs").text(resp.postprocess);
                $("#failed-jobs").text(resp.failed);
+               updateStatusIcons();
                alert("Batch successfully added to the work queue");
                $("#new-batch-popup").dialog("close");
             },
