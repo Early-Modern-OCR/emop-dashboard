@@ -171,12 +171,19 @@ class DashboardController < ApplicationController
       return out  
    end
    
+   # Turn the activerecord data into a nice plan hash that jQuery dataTable can use
+   #
    private
     def result_to_hash(result)
       rec = {}
       rec[:id] = result.work_id
       rec[:work_select] = "<input class='sel-cb' type='checkbox' id='sel-work-#{result.work_id}'>"
-      rec[:detail_link] = "<a href='results?work=#{result.work_id}'><div class='detail-link' title='View pages'></div></a>"
+      
+      if result.batch_id.nil?
+         rec[:detail_link] = "<a href='results?work=#{result.work_id}'><div class='detail-link' title='View pages'></div></a>"
+      else
+         rec[:detail_link] = "<a href='results?work=#{result.work_id}&batch=#{result.batch_id}'><div class='detail-link' title='View pages'></div></a>"
+      end
 
       sql = ["select job_status from job_queue where batch_id=? and page_id in (select pg_page_id from pages where pg_work_id=?)",
          result.batch_id, result.work_id]
