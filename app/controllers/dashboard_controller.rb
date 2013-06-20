@@ -9,7 +9,7 @@ class DashboardController < ApplicationController
       @to_filter = session[:to]
       @ocr_filter = session[:ocr]
       @gt_filter = session[:gt]
-
+      
       raw_batches = BatchJob.all()
       @job_types = JobType.all()
       @engines = OcrEngine.all()
@@ -61,81 +61,37 @@ class DashboardController < ApplicationController
       order_col = cols[search_col_idx]
       order_col = cols[4] if order_col.nil?
 
-      # build where conditions
-      q = params[:sSearch]
-      cond = ""
-      vals = []
-      if q.length > 0 
-         cond = "(wks_tcp_number LIKE ? || wks_author LIKE ? || wks_title LIKE ?)"
-         vals = ["%#{q}%", "%#{q}%", "%#{q}%" ]   
-      end
-      
-      # add in extra filters:
-      session[:gt]  = params[:gt]
-      if params.has_key?(:gt)
-         cond << " and" if cond.length > 0
-         cond << " wks_tcp_number is not null"
-      end
-      
-      batch_filter = params[:batch]
-      session[:batch]  = batch_filter
-      if !batch_filter.nil?
-         cond << " and" if cond.length > 0
-         cond << " work_ocr_results.batch_id=?"
-         vals << batch_filter
-      end      
-      
-      set_filter = params[:set]
-      session[:set]  = set_filter
-      if !set_filter.nil?
-         if set_filter == 'EEBO'
-            cond << " and" if cond.length > 0
-            cond << " wks_ecco_number is null"
-         elsif set_filter == 'ECCO'
-            cond << " and" if cond.length > 0
-            cond << " wks_ecco_number is not null"
-         end
-      end
-      
-      from_filter = params[:from]
-      session[:from]  = from_filter
-      if !from_filter.nil?
-         cond << " and" if cond.length > 0
-         cond << " work_ocr_results.ocr_completed > ?"
-         vals << fix_date_format(from_filter)
-      end
-      to_filter = params[:to]
-      session[:to]  = to_filter
-      if !to_filter.nil?
-         cond << " and" if cond.length > 0
-         cond << " work_ocr_results.ocr_completed < ?"
-         vals << fix_date_format(to_filter)
-      end
-      
+      # stuff filter params in session so they can be restored each view
+      session[:search] = params[:sSearch]
+      session[:gt] = params[:gt]
+      session[:batch]  = params[:batch]
+      session[:set] = params[:set]
+      session[:from] = params[:from]
+      session[:to] = params[:to]
       session[:ocr]  = params[:ocr]
-      if params.has_key?(:ocr)
-         cond << " and" if cond.length > 0
-         cond << " work_ocr_results.ocr_completed is not null"
-      end
+      
+      # generate the select, conditional and vars parts of the query
+      # the true parameter indicates that this result should include
+      # all columns necessry to populate the dashboard view.
+      sel, where_clause, vals = generate_query(true)
 
-      # build the ugly query to get all the info
-      work_fields = "wks_work_id as work_id, wks_tcp_number as tcp_number, wks_title as title,wks_author as author,wks_ecco_number as ecco_number"
-      v_fields = "batch_id, ocr_completed, batch_name, ocr_engine_id, juxta_accuracy, retas_accuracy"
-      sel = "select #{work_fields}, #{v_fields} from work_ocr_results right outer join works on wks_work_id=work_id"
+      # build the ugly query
       limits = "limit #{params[:iDisplayLength]} OFFSET #{params[:iDisplayStart]}"
       order = "order by #{order_col} #{dir}"
-      where_clause = ""
-      where_clause = "where #{cond}" if cond.length > 0
       sql = ["#{sel} #{where_clause} #{order} #{limits}"]
       sql = sql + vals
 
+      # get all of the results (paged)
       results = WorkOcrResult.find_by_sql(sql)
       
+      # run a count query without the paging limits to get
+      # the total number of results available
       count_sel = "select count(*) as cnt from work_ocr_results right outer join works on wks_work_id=work_id"
       sql = ["#{count_sel} #{where_clause}"]
       sql = sql + vals
       filtered_cnt = WorkOcrResult.find_by_sql(sql).first.cnt
       
+      # jam it all into an array of objects that match teh dataTables structure
       data = []
       results.each do |result|
          rec = result_to_hash(result)   
@@ -166,7 +122,7 @@ class DashboardController < ApplicationController
          if works == 'all'
             schedule_all(batch)
          else 
-            schedule_selected(batch, works)
+            schedule_selected(batch, ActiveSupport::JSON.decode(works))
          end
          
          # get a new summary for the job queue
@@ -180,12 +136,22 @@ class DashboardController < ApplicationController
    
    private
    def schedule_all(batch)
-      return false
+      # generate the select, conditional and vars parts of the query
+      # that was used to populate the results. Pass it a false
+      # so it will return only the WORK_ID column of the matching works
+      # instead of the full set of columns to drive the display
+      sel, where_clause, vals = generate_query(false)
+      sql = ["#{sel} #{where_clause}"]
+      sql = sql + vals
+      work_ids = []
+      WorkOcrResult.find_by_sql(sql).each do | result |
+         work_ids << result.wks_work_id
+      end
+      schedule_selected(batch, work_ids)
    end
    
    private
-   def schedule_selected(batch, works_json)
-      works = ActiveSupport::JSON.decode(works_json)
+   def schedule_selected(batch, works)
       works.each do | work_id | 
          pages = Page.where("pg_work_id = ?", work_id)
          pages.each do | page |    
@@ -287,6 +253,70 @@ class DashboardController < ApplicationController
       sql = sql << 6
       summary[:failed] = JobQueue.find_by_sql(sql).first.cnt
       return summary
+   end
+   
+   # Create the monster select & where portion of the dashboard
+   # results query. Use data in the session as filter.
+   #
+   private
+   def generate_query( full_results )
+      # build where conditions
+      q = session[:search]
+      cond = ""
+      vals = []
+      if q.length > 0 
+         cond = "(wks_tcp_number LIKE ? || wks_author LIKE ? || wks_title LIKE ?)"
+         vals = ["%#{q}%", "%#{q}%", "%#{q}%" ]   
+      end
+      
+      # add in extra filters:
+      if !session[:gt].nil?
+         cond << " and" if cond.length > 0
+         cond << " wks_tcp_number is not null"
+      end
+      
+      if !session[:batch].nil?
+         cond << " and" if cond.length > 0
+         cond << " work_ocr_results.batch_id=?"
+         vals << session[:batch]
+      end      
+      
+      if !session[:set].nil?
+         if set_filter == 'EEBO'
+            cond << " and" if cond.length > 0
+            cond << " wks_ecco_number is null"
+         elsif set_filter == 'ECCO'
+            cond << " and" if cond.length > 0
+            cond << " wks_ecco_number is not null"
+         end
+      end
+      
+      if !session[:from].nil?
+         cond << " and" if cond.length > 0
+         cond << " work_ocr_results.ocr_completed > ?"
+         vals << fix_date_format(from_filter)
+      end
+      if !session[:to].nil?
+         cond << " and" if cond.length > 0
+         cond << " work_ocr_results.ocr_completed < ?"
+         vals << fix_date_format(to_filter)
+      end
+      
+      if !session[:ocr].nil?
+         cond << " and" if cond.length > 0
+         cond << " work_ocr_results.ocr_completed is not null"
+      end
+
+      # build the ugly query to get all the info
+      work_fields = "wks_work_id as work_id, wks_tcp_number as tcp_number, wks_title as title,wks_author as author,wks_ecco_number as ecco_number"
+      v_fields = "batch_id, ocr_completed, batch_name, ocr_engine_id, juxta_accuracy, retas_accuracy"
+      sel = "select #{work_fields}, #{v_fields} from work_ocr_results right outer join works on wks_work_id=work_id"
+      if full_results == false 
+         sel = "select wks_work_id from work_ocr_results right outer join works on wks_work_id=work_id"          
+      end
+      where_clause = ""
+      where_clause = "where #{cond}" if cond.length > 0
+      return sel, where_clause, vals
    end
 
 end
