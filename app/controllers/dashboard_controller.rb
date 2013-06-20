@@ -292,7 +292,7 @@ class DashboardController < ApplicationController
          if session[:set] == 'EEBO'
             cond << " and" if cond.length > 0
             cond << " wks_ecco_number is null"
-         elsif set_filter == 'ECCO'
+         elsif session[:set] == 'ECCO'
             cond << " and" if cond.length > 0
             cond << " wks_ecco_number is not null"
          end
