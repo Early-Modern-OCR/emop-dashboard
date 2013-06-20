@@ -1,6 +1,21 @@
 
 $(function() {
   
+  // Select/unselect all
+   $("#select-all-pages").on("click", function() {
+      var checkIt = false;
+      if ( $("#select-all-pages").val()==="Select All") {
+          $("#select-all-pages").val("Deselect All");
+          checkIt = true;
+      } else {
+         $("#select-all-pages").val("Select All");
+         checkIt = false;
+      }
+      $(".sel-cb").each(function () {
+         $(this).prop('checked', checkIt);
+      });
+   });
+   
    var work_id = $("#work-id").text();
    var batch_id = $("#batch-id").text();
    var resultTable = $('#pages-table').dataTable( {
