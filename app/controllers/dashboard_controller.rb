@@ -28,22 +28,7 @@ class DashboardController < ApplicationController
       end
       
       # get summary for queue
-      sql = ["select count(*) as cnt from job_queue where job_status=?"]
-      sql = sql << 1
-      @pending_jobs = JobQueue.find_by_sql(sql).first.cnt
-      
-      sql = ["select count(*) as cnt from job_queue where job_status=?"]
-      sql = sql << 2
-      @running_jobs = JobQueue.find_by_sql(sql).first.cnt
-      
-      sql = ["select count(*) as cnt from job_queue where job_status=?"]
-      sql = sql << 3
-      @postprocess_jobs = JobQueue.find_by_sql(sql).first.cnt
-      
-      sql = ["select count(*) as cnt from job_queue where job_status=?"]
-      sql = sql << 6
-      @failed_jobs = JobQueue.find_by_sql(sql).first.cnt
-  
+      @queue_status = get_job_queue_status()
    end
    
    # Get an HTML fragment for the batch details tooltip
@@ -166,6 +151,7 @@ class DashboardController < ApplicationController
    #
    def create_batch
       begin
+         # create the new batch
          batch = BatchJob.new
          batch.name = params[:name]
          batch.job_type = params[:type_id]
@@ -175,6 +161,7 @@ class DashboardController < ApplicationController
          batch.notes = params[:notes]
          batch.save!
          
+         # populate it with pages from the selected works
          works = params[:works]
          if works == 'all'
             schedule_all(batch)
@@ -182,7 +169,10 @@ class DashboardController < ApplicationController
             schedule_selected(batch, works)
          end
          
-         render  :text => "OK", :status => :ok  
+         # get a new summary for the job queue
+         status = get_job_queue_status()
+         render  :json => ActiveSupport::JSON.encode(status), :status => :ok  
+         
       rescue => e
          render :text => e.message, :status => :error
       end 
@@ -276,6 +266,27 @@ class DashboardController < ApplicationController
       formatted = '%.3f'%accuracy
       out = "<a href='results?work=#{work_id}&batch=#{batch_id}' #{link_class} title='View page results'>#{formatted}</a>"
       return out   
+   end
+   
+   private 
+   def get_job_queue_status()
+      summary = {}
+      sql = ["select count(*) as cnt from job_queue where job_status=?"]
+      sql = sql << 1
+      summary[:pending] = JobQueue.find_by_sql(sql).first.cnt
+      
+      sql = ["select count(*) as cnt from job_queue where job_status=?"]
+      sql = sql << 2
+      summary[:running] = JobQueue.find_by_sql(sql).first.cnt
+      
+      sql = ["select count(*) as cnt from job_queue where job_status=?"]
+      sql = sql << 3
+      summary[:postprocess] = JobQueue.find_by_sql(sql).first.cnt
+      
+      sql = ["select count(*) as cnt from job_queue where job_status=?"]
+      sql = sql << 6
+      summary[:failed] = JobQueue.find_by_sql(sql).first.cnt
+      return summary
    end
 
 end

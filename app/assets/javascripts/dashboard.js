@@ -112,6 +112,10 @@ $(function() {
             type : 'POST',
             data : data,
             success : function(resp, textStatus, jqXHR) {
+               $("#pending-jobs").text(resp.pending);
+               $("#running-jobs").text(resp.running);
+               $("#postprocess-jobs").text(resp.postprocess);
+               $("#failed-jobs").text(resp.failed);
                alert("Batch successfully added to the work queue");
                $("#new-batch-popup").dialog("close");
             },
