@@ -185,29 +185,7 @@ class DashboardController < ApplicationController
          rec[:detail_link] = "<a href='results?work=#{result.work_id}&batch=#{result.batch_id}'><div class='detail-link' title='View pages'></div></a>"
       end
 
-      sql = ["select job_status from job_queue where batch_id=? and page_id in (select pg_page_id from pages where pg_work_id=?)",
-         result.batch_id, result.work_id]
-      jobs = JobQueue.find_by_sql(sql)
-      status = "idle"
-      msg = "Untested"
-      jobs.each do |job|
-         if job.job_status ==1 || job.job_status ==2
-            status = "scheduled"
-            msg = "OCR jobs are scheduled"  
-            break 
-         end
-         if job.job_status==6
-            status = "error"
-            msg = "OCR jobs have failed"
-            break
-         end
-         if job.job_status > 2 && job.job_status < 6
-            status = "success"
-            msg = "Success"
-            break
-         end
-      end
-      rec[:status] = "<div class='status-icon #{status}' title='#{msg}'></div>"
+      rec[:status] = get_status(result)
 
       if !result.ecco_number.nil? && result.ecco_number.length > 0
          rec[:data_set] = 'ECCO'
@@ -231,6 +209,43 @@ class DashboardController < ApplicationController
          rec[:retas_url] = gen_pages_link(result.work_id, result.batch_id, result.retas_accuracy)
       end
       return rec
+   end
+   
+   private
+   def get_status(result)
+      if result.batch_id.nil?
+          sql=["select count(*) as cnt from job_queue where page_id in (select pg_page_id from pages where pg_work_id=?)",result.work_id] 
+          cnt = JobQueue.find_by_sql(sql).first.cnt
+          if cnt == 0
+             return "<div class='status-icon idle' title='Untested'></div>"
+          else
+             return "<div class='status-icon scheduled' title='OCR jobs are scheduled'></div>"
+          end
+      end
+      
+      sql = ["select job_status from job_queue where batch_id=? and page_id in (select pg_page_id from pages where pg_work_id=?)",
+         result.batch_id, result.work_id]
+      jobs = JobQueue.find_by_sql(sql)
+      status = "idle"
+      msg = "Untested"
+      jobs.each do |job|
+         if job.job_status ==1 || job.job_status ==2
+            status = "scheduled"
+            msg = "OCR jobs are scheduled"  
+            break 
+         end
+         if job.job_status==6
+            status = "error"
+            msg = "OCR jobs have failed"
+            break
+         end
+         if job.job_status > 2 && job.job_status < 6
+            status = "success"
+            msg = "Success"
+            break
+         end
+      end
+      return 
    end
    
    private
