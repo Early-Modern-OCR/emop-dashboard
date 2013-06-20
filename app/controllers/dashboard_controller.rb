@@ -289,7 +289,7 @@ class DashboardController < ApplicationController
       end      
       
       if !session[:set].nil?
-         if set_filter == 'EEBO'
+         if session[:set] == 'EEBO'
             cond << " and" if cond.length > 0
             cond << " wks_ecco_number is null"
          elsif set_filter == 'ECCO'
@@ -301,12 +301,12 @@ class DashboardController < ApplicationController
       if !session[:from].nil?
          cond << " and" if cond.length > 0
          cond << " work_ocr_results.ocr_completed > ?"
-         vals << fix_date_format(from_filter)
+         vals << fix_date_format(session[:from])
       end
       if !session[:to].nil?
          cond << " and" if cond.length > 0
          cond << " work_ocr_results.ocr_completed < ?"
-         vals << fix_date_format(to_filter)
+         vals << fix_date_format(session[:to])
       end
       
       if !session[:ocr].nil?
