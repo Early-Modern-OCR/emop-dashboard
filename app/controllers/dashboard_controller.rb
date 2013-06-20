@@ -165,28 +165,27 @@ class DashboardController < ApplicationController
    # Create a new batch from json data in the POST payload
    #
    def create_batch
-      batch = BatchJob.new
-      batch.name = params[:name]
-      batch.job_type = params[:type_id]
-      batch.ocr_engine_id = params[:engine_id]
-      batch.font_id = params[:font_id]
-      batch.parameters = params[:params]
-      batch.notes = params[:notes]
-      if batch.save
+      begin
+         batch = BatchJob.new
+         batch.name = params[:name]
+         batch.job_type = params[:type_id]
+         batch.ocr_engine_id = params[:engine_id]
+         batch.font_id = params[:font_id]
+         batch.parameters = params[:params]
+         batch.notes = params[:notes]
+         batch.save!
+         
          works = params[:works]
-         if works != 'all'
-            if schedule_all(batch) == false 
-               render "Unable to add all matching works to batch", :status => :error
-            end
+         if works == 'all'
+            schedule_all(batch)
          else 
-            if schedule_seleced(batch, works) == false
-               render "Unable to add slected works to batch", :status => :error   
-            end
+            schedule_selected(batch, works)
          end
-      else
-         render :json => { :error => e.message }, :status => :unprocessable_entity
-      end
-      render "OK", :status => :ok   
+         
+         render  :text => "OK", :status => :ok  
+      rescue => e
+         render :text => e.message, :status => :error
+      end 
    end
    
    private
@@ -195,8 +194,18 @@ class DashboardController < ApplicationController
    end
    
    private
-   def schedule_selected(batch, works)
-      return false
+   def schedule_selected(batch, works_json)
+      works = ActiveSupport::JSON.decode(works_json)
+      works.each do | work_id | 
+         pages = Page.where("pg_work_id = ?", work_id)
+         pages.each do | page |    
+            job = JobQueue.new
+            job.batch_id = batch.id
+            job.page_id = page.pg_page_id 
+            job.job_status = 1  
+            job.save!
+         end
+      end
    end
 
    private

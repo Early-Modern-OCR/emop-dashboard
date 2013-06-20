@@ -1,7 +1,7 @@
 <div id="new-batch-popup" class="emop-popup" title="Create Batch">
    <p id="new-batch-error">Batch name is required</p>
    <table>
-      <tr><td class="table-label"</td>Name:<td class="table-input"><input type="text" id="new-name"/></td></tr>
+      <tr><td class="table-label">Name:</td><td class="table-input"><input type="text" id="new-name"/></td></tr>
       <tr>
          <td class="table-label">Batch Type:</td>
          <td class="table-input"><%= select_tag "new-type", options_from_collection_for_select(@job_types, "id", "name",2) %></td>
@@ -23,4 +23,5 @@
       <tr><td class="table-label" style="vertical-align: text-top;">Notes:</td><td><textarea id="new-notes"></textarea></td></tr>
    </table>   
    <span id="work-id-list" style="display: none"></span>
+   
 </div>

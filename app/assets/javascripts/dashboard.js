@@ -52,18 +52,6 @@ $(function() {
    var tipX;
    var tipY;
    
-   // Schedule selected works for OCR with set batch
-   var scheduleJobs = function() {
-      var works =  JSON.parse( $("#work-id-list").text() );
-      var val = $("#batch-pick").val();
-      if (val.length === 0) {
-         alert("Please select a batch for this job");
-         return;
-      }
-      
-      // TODO ajax post to update the DB with all pages of a work
-   };
-   
    // Initialize jQuery UI popups
    var initPopups = function() {
               
