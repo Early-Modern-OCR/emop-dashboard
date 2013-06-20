@@ -134,8 +134,11 @@
 .status-icon.idle {
    background-position: 0 0px;
 }
-.status-icon.scheduled {
+.status-icon.success {
    background-position: 0 -16px;
+}
+.status-icon.scheduled {
+   background-position: 0 -48px;
 }
 
 

@@ -320,8 +320,8 @@ $(function() {
       },
       "aoColumns": [
          { "mData": "work_select" },
-         { "mData": "detail_link" },
          { "mData": "status" },
+         { "mData": "detail_link" },
          { "mData": "data_set" },         
          { "mData": "id" },
          { "mData": "tcp_number" },

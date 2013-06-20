@@ -15,14 +15,19 @@ $(function() {
       "sAjaxDataProp": "data",
       "aaSorting": [],
       "aoColumnDefs": [
-         { "aTargets": [0], "bSortable": false}
+         { "aTargets": [0], "bSortable": false},
+         { "aTargets": [1], "bSortable": false},
+         { "aTargets": [2], "bSortable": false},
+         { "aTargets": [3], "bSortable": false}
       ],
       "aoColumns": [
+         { "mData": "page_select" },
+         { "mData": "status" },
          { "mData": "detail_link" },
+         { "mData": "page_image" },
          { "mData": "page_number" },
          { "mData": "juxta_accuracy" },
          { "mData": "retas_accuracy" },
-         { "mData": "page_image" }
        ]
    }).fnFilterOnReturn();
    

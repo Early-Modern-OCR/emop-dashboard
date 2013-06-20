@@ -189,17 +189,22 @@ class DashboardController < ApplicationController
          result.batch_id, result.work_id]
       jobs = JobQueue.find_by_sql(sql)
       status = "idle"
-      msg = "No jobs pending"
+      msg = "Untested"
       jobs.each do |job|
+         if job.job_status ==1 || job.job_status ==2
+            status = "scheduled"
+            msg = "OCR jobs are scheduled"  
+            break 
+         end
          if job.job_status==6
             status = "error"
             msg = "OCR jobs have failed"
-         break
+            break
          end
-         if job.job_status<3
-            status = "scheduled"
-            msg = "OCR jobs are scheduled"
-         break
+         if job.job_status > 2 && job.job_status < 6
+            status = "success"
+            msg = "Success"
+            break
          end
       end
       rec[:status] = "<div class='status-icon #{status}' title='#{msg}'></div>"

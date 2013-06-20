@@ -43,4 +43,13 @@ a.dashboard-back {
       text-align: center;
       font-weight: normal;
    }
+   
+   .page-view {
+      height:16px;
+      width:16px;
+      background-image: image-url("page.png");
+      background-repeat: no-repeat;
+      background-position: 0 0;
+      cursor: pointer;
+   }
 }
