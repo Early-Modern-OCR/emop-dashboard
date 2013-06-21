@@ -245,7 +245,7 @@ class DashboardController < ApplicationController
             break
          end
       end
-      return 
+      return "<div class='status-icon #{status}' title='#{msg}'></div>"
    end
    
    private
