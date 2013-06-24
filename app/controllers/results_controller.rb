@@ -7,10 +7,6 @@ class ResultsController < ApplicationController
       work = Work.find(@work_id)
       @work_title=work.wks_title
       
-      @job_types = JobType.all()
-      @engines = OcrEngine.all()
-      @fonts = Font.all()
-      
       if !@batch_id.nil?
          batch = BatchJob.find(@batch_id)
          @batch = "#{batch.id}: #{batch.name}"

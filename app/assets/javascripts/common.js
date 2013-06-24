@@ -33,18 +33,10 @@ var setCreateBatchHandler = function( handler ) {
 
 $(function() {
    // grab json batch info and convert into js objects/arrays
-   if (  $("#batch-json").exists() ) {
-      batches = JSON.parse( $("#batch-json").text() );
-   }
-   if (  $("#types-json").exists() ) {
-      jobTypes = JSON.parse( $("#types-json").text() );
-   }
-   if (  $("#engines-json").exists() ) {
-      engines = JSON.parse( $("#engines-json").text() );
-   }
-   if (  $("#fonts-json").exists() ) {
-      fonts = JSON.parse( $("#fonts-json").text() );
-   }
+   batches = JSON.parse( $("#batch-json").text() );
+   jobTypes = JSON.parse( $("#types-json").text() );
+   engines = JSON.parse( $("#engines-json").text() );
+   fonts = JSON.parse( $("#fonts-json").text() );
    
    var showFontDetail = function() {
       if ( fonts.length === 0 ) {

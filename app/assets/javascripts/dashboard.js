@@ -192,11 +192,15 @@ $(function() {
    $("#require-gt").on( "change", function() {
        $("#detail-table").dataTable().fnDraw();
    });
+   $("#print-font-filter").on( "change", function() {
+       $("#detail-table").dataTable().fnDraw();
+   });
    $("#filter-reset").on("click", function() {
        $("#to-date").val("");
        $("#from-date").val("");
        $("#batch-filter").val("");
        $("#set-filter").val("");
+       $("#print-font-filter").val("");
        $("#require-ocr").removeAttr('checked');
        $("#require-gt").removeAttr('checked');
        $("#detail-table").dataTable().fnDraw();
@@ -281,6 +285,10 @@ $(function() {
          var set = $("#set-filter").val();
          if (set.length > 0) {
             aoData.push( { "name": "set", "value": set } );
+         }
+         var pfFilter = $("#print-font-filter").val();
+         if (pfFilter.length > 0) {
+            aoData.push( { "name": "font", "value": pfFilter } );
          }
          var from = $("#from-date").val();
          if (from.length > 0) {

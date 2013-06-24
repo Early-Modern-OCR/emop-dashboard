@@ -30,6 +30,15 @@
    </div>
    
    <div id='filter-right'>
+      <p>
+         <span class="filter-label">Print Font:</span>
+         <select id="print-font-filter" name="print-font-filter">
+            <option value>All</option>
+            <% @print_fonts.each do | font | %>
+               <option value="<%= font[:pf_id] %>" <% if @print_font_filter.to_i==font[:id] %>selected<%end%> ><%= font[:pf_name] %></option>
+            <% end %>
+         </select>
+      </p>
       <p class="filter-label" style="margin-top:10px">OCR completed date:</p>
       <p>
          <span class="filter-label">From:</span>

@@ -32,9 +32,5 @@
    </div>
 </div>
 
-<span id="types-json" style="display: none"><%= ActiveSupport::JSON.encode( @job_types ) %></span>
-<span id="engines-json" style="display: none"><%= ActiveSupport::JSON.encode( @engines ) %></span>
-<span id="batch-json" style="display: none"><%= ActiveSupport::JSON.encode( @batches ) %></span>
-<span id="fonts-json" style="display: none"><%= ActiveSupport::JSON.encode( @fonts ) %></span>
 <%= render :partial => '/common/new_batch_popup' %>
 <%= render :partial => '/common/wait_popup' %>

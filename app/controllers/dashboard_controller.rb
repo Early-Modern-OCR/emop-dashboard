@@ -9,24 +9,9 @@ class DashboardController < ApplicationController
       @to_filter = session[:to]
       @ocr_filter = session[:ocr]
       @gt_filter = session[:gt]
-      
-      raw_batches = BatchJob.all()
-      @job_types = JobType.all()
-      @engines = OcrEngine.all()
-      @fonts = Font.all()
-      @batches = []
-      raw_batches.each do |batch|
-         foo = {}
-         foo[:id] = batch.id
-         foo[:name] = batch.name
-         foo[:parameters] = batch.parameters
-         foo[:notes] = batch.notes
-         foo[:type] = @job_types[batch.job_type-1]
-         foo[:engine] = @engines[batch.ocr_engine_id-1]
-         foo[:font] = batch.font
-         @batches << foo
-      end
-      
+      @print_font_filter = session[:font]
+      @print_fonts = PrintFont.all()
+       
       # get summary for queue
       @queue_status = get_job_queue_status()
    end
@@ -69,6 +54,7 @@ class DashboardController < ApplicationController
       session[:from] = params[:from]
       session[:to] = params[:to]
       session[:ocr]  = params[:ocr]
+      session[:font]  = params[:font]
       
       # generate the select, conditional and vars parts of the query
       # the true parameter indicates that this result should include
@@ -86,7 +72,8 @@ class DashboardController < ApplicationController
       
       # run a count query without the paging limits to get
       # the total number of results available
-      count_sel = "select count(*) as cnt from work_ocr_results right outer join works on wks_work_id=work_id"
+      count_sel = "select count(*) as cnt from work_ocr_results right outer join works on wks_work_id=work_id "
+      count_sel << " left outer join print_fonts on pf_id=wks_primary_print_font"
       sql = ["#{count_sel} #{where_clause}"]
       sql = sql + vals
       filtered_cnt = WorkOcrResult.find_by_sql(sql).first.cnt
@@ -307,7 +294,13 @@ class DashboardController < ApplicationController
          cond << " and" if cond.length > 0
          cond << " work_ocr_results.batch_id=?"
          vals << session[:batch]
-      end      
+      end    
+      
+      if !session[:font].nil?
+         cond << " and" if cond.length > 0
+         cond << " pf_id=?"
+         vals << session[:font]
+      end    
       
       if !session[:set].nil?
          if session[:set] == 'EEBO'
@@ -337,7 +330,7 @@ class DashboardController < ApplicationController
 
       # build the ugly query to get all the info
       work_fields = "wks_work_id as work_id, wks_tcp_number as tcp_number, wks_title as title,wks_author as author,wks_ecco_number as ecco_number"
-      v_fields = "pf_name as font_name, batch_id, ocr_completed, batch_name, ocr_engine_id, juxta_accuracy, retas_accuracy"
+      v_fields = "pf_id,pf_name as font_name, batch_id, ocr_completed, batch_name, ocr_engine_id, juxta_accuracy, retas_accuracy"
       sel = "select #{work_fields}, #{v_fields} from work_ocr_results right outer join works on wks_work_id=work_id"
       sel << " left outer join print_fonts on pf_id=wks_primary_print_font "
       if full_results == false 
