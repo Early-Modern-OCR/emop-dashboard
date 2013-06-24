@@ -7,6 +7,10 @@ class ResultsController < ApplicationController
       work = Work.find(@work_id)
       @work_title=work.wks_title
       
+      @job_types = JobType.all()
+      @engines = OcrEngine.all()
+      @fonts = Font.all()
+      
       if !@batch_id.nil?
          batch = BatchJob.find(@batch_id)
          @batch = "#{batch.id}: #{batch.name}"
@@ -55,7 +59,7 @@ class ResultsController < ApplicationController
          rec = {}
          rec[:page_select] = "<input class='sel-cb' type='checkbox' id='sel-page-#{page.page_id}'>"
          rec[:detail_link] = "<div class='detail-link disabled'>"  # no details yet!
-         rec[:status] = "<div class='status-icon idle' title='Untested'></div>"
+         rec[:status] = page_status_icon(page.page_id, nil, nil)
          rec[:page_number] = page.page_num
          rec[:juxta_accuracy] = "-"
          rec[:retas_accuracy] = "-"
@@ -104,7 +108,7 @@ class ResultsController < ApplicationController
          rec = {}
          rec[:page_select] = "<input class='sel-cb' type='checkbox' id='sel-page-#{page.page_id}'>"
          rec[:detail_link] = "<a href='/juxta?work=#{work_id}&batch=#{batch_id}&page=#{page.page_num}&result=#{ page.result_id}' title='#{msg}'><div class='detail-link'></div></a>"
-         rec[:status] = get_status_icon(page.job_status.to_i)
+         rec[:status] = page_status_icon(page.page_id, batch_id, page.job_status.to_i)
          rec[:page_number] = page.page_num
          rec[:juxta_accuracy] = page.juxta
          rec[:retas_accuracy] = page.retas
@@ -117,6 +121,37 @@ class ResultsController < ApplicationController
       render :json => resp, :status => :ok
    end
    
+   # Create a new batch from json data in the POST payload
+   #
+   def create_batch
+      begin
+         # create the new batch
+         batch = BatchJob.new
+         batch.name = params[:name]
+         batch.job_type = params[:type_id]
+         batch.ocr_engine_id = params[:engine_id]
+         batch.font_id = params[:font_id]
+         batch.parameters = params[:params]
+         batch.notes = params[:notes]
+         batch.save!
+         
+         # populate it with pages from the selected works
+         pages =  ActiveSupport::JSON.decode(params[:pages])
+         pages.each do | page_id |   
+            job = JobQueue.new
+            job.batch_id = batch.id
+            job.page_id = page_id 
+            job.job_status = 1  
+            job.save!
+         end
+         
+         render  :text => "ok", :status => :ok  
+         
+      rescue => e
+         render :text => e.message, :status => :error
+      end 
+   end
+   
    def get_page_image
       work_id = params[:work]
       page_num = params[:num]   
@@ -126,7 +161,19 @@ class ResultsController < ApplicationController
    end
    
    private
-   def get_status_icon( job_status )
+   def page_status_icon( page_id, batch_id, job_status )
+      if job_status.nil?
+         if batch_id.nil?
+            sql = ["select job_status from job_queue where page_id=?", page_id]
+            res = JobQueue.find_by_sql(sql).first
+            job_status = res.job_status if !res.nil?
+         else
+            sql = ["select job_status from job_queue where page_id=? and batch_id=?", page_id,batch_id]
+            res = JobQueue.find_by_sql(sql).first
+            job_status = res.job_status if !res.nil?
+         end
+      end
+      
       status = "idle"
       msg = "Untested"
       if job_status ==1 || job_status ==2
@@ -135,7 +182,7 @@ class ResultsController < ApplicationController
       elsif job_status==6
          status = "error"
          msg = "OCR jobs have failed"
-      elsif job_status > 2 && job_status < 6
+      elsif job_status == 3 || job_status == 4 || job_status == 5 
          status = "success"
          msg = "Success"
       end

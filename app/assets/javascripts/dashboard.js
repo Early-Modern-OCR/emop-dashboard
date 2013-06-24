@@ -27,158 +27,72 @@ jQuery.fn.dataTableExt.oApi.fnFilterOnReturn = function (oSettings) {
 $(function() {
    
    hideWaitPopup();
-   
-   // grab json batch info and convert into js objects/arrays
-   var batches = [];
-   if (  $("#batch-json").exists() ) {
-      batches = JSON.parse( $("#batch-json").text() );
-   }
-   var jobTypes = [];
-   if (  $("#types-json").exists() ) {
-      job_types = JSON.parse( $("#types-json").text() );
-   }
-   var engines = [];
-   if (  $("#engines-json").exists() ) {
-      engines = JSON.parse( $("#engines-json").text() );
-   }
-   var fonts = [];
-   if (  $("#fonts-json").exists() ) {
-      fonts = JSON.parse( $("#fonts-json").text() );
-   }
-   
+     
    // to control tooltip mouseover behavir
    var tipShowTimer = -1;
    var tipTarget = null;
    var tipX;
    var tipY;
    
-   // Initialize jQuery UI popups
-   var initPopups = function() {
-              
-      var showFontDetail = function() {
-         if ( fonts.length === 0 ) {
-            $("#new-font").hide();
-            $("#no-fonts").show();
-            $("#new-batch-popup .font-row").show();
-            $("#new-batch-popup .font-detail").hide();
-         } else {
-            var idx = parseInt($("#new-font").val(), 10) - 1;
-            var font = fonts[idx];
-            $("#new-fonts").show();
-            $("#new-batch-popup .batch-font").text(font.font_name);
-            $("#new-batch-popup .font-italic").text(font.font_italic);
-            $("#new-batch-popup .font-bold").text(font.font_bold);
-            $("#new-batch-popup .font-fixed").text(font.font_fixed);
-            $("#new-batch-popup .font-serif").text(font.font_serif);
-            $("#new-batch-popup .font-fraktur").text(font.font_fraktur);
-            $("#new-batch-popup .font-height").text(font.font_line_height);
-            $("#new-batch-popup .font-path").text(font.font_library_path);
-            $("#new-batch-popup .font-row").show();
-            $("#new-batch-popup .font-detail").show();
+   // set status ucons based on newly scheduled job                
+   var updateStatusIcons = function() {
+      $(".sel-cb").each(function () {
+         if ($(this).is(':checked')) {
+            var status = $(this).parent().parent().find(".status-icon");
+            status.removeClass().addClass("status-icon scheduled");
+            $(this).prop('checked', false);
          }
-      };
+      });
+   };
       
-      var updateStatusIcons = function() {
-         $(".sel-cb").each(function () {
-            if ($(this).is(':checked')) {
-               var status = $(this).parent().parent().find(".status-icon");
-               status.removeClass().addClass("status-icon scheduled");
-               $(this).prop('checked', false);
-            }
-         });
-      };
+   // submit a new WORKS batch
+   var submitNewBatch = function() {
+      $("#new-batch-error").hide();
+      var data = {};
+      data.name = $("#new-name").val();
+      data.type_id = $("#new-type").val();
+      if (data.type_id === 3) {
+         data.engine_id = 5;
+      } else {
+         data.engine_id = $("#new-ocr").val();
+         if ($("#new-font").is(":visible")) {
+            data.font_id = $("#new-font").val();
+         }
+      }
+      data.params = $("#new-params").val();
+      data.notes = $("#new-notes").val();
+      data.works = $("#work-id-list").text();
+      if (data.name.length === 0) {
+         $("#new-batch-error").text("* Batch name is required *");
+         $("#new-batch-error").show();
+         return;
+      }
+      if (data.type_id !== "3" && data.engine_id === "5") {
+         $("#new-batch-error").text("* OCR engine is required *");
+         $("#new-batch-error").show();
+         return;
+      }
       
-      var submitNewBatch = function() {
-         $("#new-batch-error").hide();
-         var data = {};
-         data.name = $("#new-name").val();
-         data.type_id = $("#new-type").val();
-         if (data.type_id === 3) {
-            data.engine_id = 5;
-         } else {
-            data.engine_id = $("#new-ocr").val();
-            if ($("#new-font").is(":visible")) {
-               data.font_id = $("#new-font").val();
-            }
-         }
-         data.params = $("#new-params").val();
-         data.notes = $("#new-notes").val();
-         data.works = $("#work-id-list").text();
-         if (data.name.length === 0) {
-            $("#new-batch-error").text("* Batch name is required *");
-            $("#new-batch-error").show();
-            return;
-         }
-         if (data.type_id !== "3" && data.engine_id === "5") {
-            $("#new-batch-error").text("* OCR engine is required *");
-            $("#new-batch-error").show();
-            return;
-         }
-         
-         // Post the request
-         $.ajax({
-            url : "dashboard/batch/",
-            type : 'POST',
-            data : data,
-            success : function(resp, textStatus, jqXHR) {
-               $("#pending-jobs").text(resp.pending);
-               $("#running-jobs").text(resp.running);
-               $("#postprocess-jobs").text(resp.postprocess);
-               $("#failed-jobs").text(resp.failed);
-               updateStatusIcons();
-               alert("Batch successfully added to the work queue");
-               $("#new-batch-popup").dialog("close");
-            },
-            error : function( jqXHR, textStatus, errorThrown ) {
-               alert(errorThrown+":"+jqXHR.responseText);
-            }
-         }); 
-      };
-
-      // create new batch popup 
-      $("#new-batch-popup").dialog({
-         autoOpen : false,
-         width : 400,
-         resizable : false,
-         modal : true,
-         buttons : {
-            "Cancel" : function() {
-               $(this).dialog("close");
-            },
-            "Create" : function() {
-               submitNewBatch();
-            }
+      // Post the request
+      $.ajax({
+         url : "dashboard/batch/",
+         type : 'POST',
+         data : data,
+         success : function(resp, textStatus, jqXHR) {
+            $("#pending-jobs").text(resp.pending);
+            $("#running-jobs").text(resp.running);
+            $("#postprocess-jobs").text(resp.postprocess);
+            $("#failed-jobs").text(resp.failed);
+            updateStatusIcons();
+            alert("Batch successfully added to the work queue");
+            $("#new-batch-popup").dialog("close");
          },
-         open : function() {
-            showFontDetail();
-             $("#new-batch-error").text("");
-             $("#new-name").val("");
-             $("#new-params").val("");
-             $("#new-notes").val("");
-             $("#new-batch-error").hide();
+         error : function( jqXHR, textStatus, errorThrown ) {
+            alert(errorThrown+":"+jqXHR.responseText);
          }
-      });
-      
-      $("#new-type").on("change", function() {
-          var idx = parseInt($("#new-type").val(),10)-1;
-          if ( idx === 2 ) {
-             $("#new-batch-popup .engine-row").hide();
-             $("#new-batch-popup .font-row").hide();
-             $("#new-batch-popup .font-detail").hide();
-          } else {
-             $("#new-batch-popup .engine-row").show();
-             $("#new-batch-popup .font-row").show();
-             $("#new-batch-popup .font-detail").show();
-          }
-      });
-      $("#new-font").on("change", function() {
-         showFontDetail();
       }); 
-
- 
    };
    
-  
    // schedule selected works for ocr
    var scheduleSelectedWorks = function() {
       var workIds = [];
@@ -193,6 +107,7 @@ $(function() {
       } else {
          workIds = $.unique(workIds);
          $("#work-id-list").text(JSON.stringify(workIds) );
+         setCreateBatchHandler( submitNewBatch );
          $("#new-batch-popup").dialog("open");
       }
    }; 
@@ -212,9 +127,6 @@ $(function() {
          $(nTd).addClass("warn-cell");
       }
    };
-   
-   // initialize all popups!
-   initPopups();
 
    // mouse behavior to control display/hide of batch tooltip
    $("#dashboard-detail").on("mouseenter", ".batch-name", function(evt) {
