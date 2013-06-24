@@ -337,6 +337,7 @@ $(function() {
          { "mData": "tcp_number" },
          { "mData": "title" },
          { "mData": "author" },
+         { "mData": "font" },
          { "mData": "ocr_date" },
          { "mData": "ocr_engine" },
          { "mData": "ocr_batch" },
@@ -348,8 +349,8 @@ $(function() {
          { "aTargets": [1], "bSortable": false},
          { "aTargets": [2], "bSortable": false},
          { "aTargets": [3], "bSortable": false},
-         { "aTargets": [10], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
-         { "aTargets": [11], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
+         { "aTargets": [11], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
+         { "aTargets": [12], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
       ],
       "fnServerParams": function ( aoData ) {
          if ( $('#require-gt').is(':checked')) {

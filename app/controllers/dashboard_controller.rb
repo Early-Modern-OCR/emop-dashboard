@@ -195,6 +195,7 @@ class DashboardController < ApplicationController
       rec[:tcp_number] = result.tcp_number
       rec[:title] = result.title
       rec[:author] = result.author
+      rec[:font] = result.font_name
       if result.batch_id.nil?
          rec[:ocr_date] = nil
          rec[:ocr_engine] = nil
@@ -336,8 +337,9 @@ class DashboardController < ApplicationController
 
       # build the ugly query to get all the info
       work_fields = "wks_work_id as work_id, wks_tcp_number as tcp_number, wks_title as title,wks_author as author,wks_ecco_number as ecco_number"
-      v_fields = "batch_id, ocr_completed, batch_name, ocr_engine_id, juxta_accuracy, retas_accuracy"
+      v_fields = "pf_name as font_name, batch_id, ocr_completed, batch_name, ocr_engine_id, juxta_accuracy, retas_accuracy"
       sel = "select #{work_fields}, #{v_fields} from work_ocr_results right outer join works on wks_work_id=work_id"
+      sel << " left outer join print_fonts on pf_id=wks_primary_print_font "
       if full_results == false 
          sel = "select wks_work_id from work_ocr_results right outer join works on wks_work_id=work_id"          
       end
