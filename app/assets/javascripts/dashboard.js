@@ -1,3 +1,6 @@
+/*global $, jQuery, alert,setTimeout,clearTimeout*/
+/*global setCreateBatchHandler, showWaitPopup, hideWaitPopup */
+
 /**
  * Main javascript file for the dashboard
  */
@@ -115,7 +118,7 @@ $(function() {
 
    // add styles to cells that are showing results
    var resultCell = function(nTd, data) {
-      if ( data.length === 0 || data == -1 ) {
+      if ( data.length === 0 || data === -1 ) {
          $(nTd).removeClass("bad-cell");
          $(nTd).removeClass("warn-cell");
          return;

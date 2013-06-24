@@ -1,3 +1,6 @@
+/*global $, alert */
+/*global setCreateBatchHandler, showWaitPopup, hiddeWaitPopup */
+
 
 $(function() {
    // Select/unselect all
@@ -118,7 +121,7 @@ $(function() {
          { "mData": "page_image" },
          { "mData": "page_number" },
          { "mData": "juxta_accuracy" },
-         { "mData": "retas_accuracy" },
+         { "mData": "retas_accuracy" }
        ]
    }).fnFilterOnReturn();
    

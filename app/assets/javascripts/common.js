@@ -1,3 +1,4 @@
+/*global $, alert */
 
 var showWaitPopup = function( message ) {
    $('#dim-overlay').show();
@@ -32,13 +33,18 @@ var setCreateBatchHandler = function( handler ) {
 
 $(function() {
    // grab json batch info and convert into js objects/arrays
-   var batches = [];
    if (  $("#batch-json").exists() ) {
       batches = JSON.parse( $("#batch-json").text() );
    }
-   var jobTypes = JSON.parse( $("#types-json").text() );
-   var engines = engines = JSON.parse( $("#engines-json").text() );
-   var fonts = fonts = JSON.parse( $("#fonts-json").text() );
+   if (  $("#types-json").exists() ) {
+      jobTypes = JSON.parse( $("#types-json").text() );
+   }
+   if (  $("#engines-json").exists() ) {
+      engines = JSON.parse( $("#engines-json").text() );
+   }
+   if (  $("#fonts-json").exists() ) {
+      fonts = JSON.parse( $("#fonts-json").text() );
+   }
    
    var showFontDetail = function() {
       if ( fonts.length === 0 ) {
@@ -74,7 +80,7 @@ $(function() {
             $(this).dialog("close");
          },
          "Create" : function() {
-            if ( createBatchHandler != null ) {
+            if ( createBatchHandler !== null ) {
                createBatchHandler();
             }
          }
