@@ -7,12 +7,17 @@
          <span class="cb-filter-label">Exclude works with no GT</span>
       </p>
       <p>
-         <input type="checkbox" id="require-ocr" <% if @ocr_filter %>checked<% end %>>
-         <span class="cb-filter-label">Exclude works with no OCR results</span>
+         <span class="filter-label">Works:</span>
+         <select id="ocr-filter" name="set-filter" style="width: 204px;">
+            <option value>All</option>
+            <option value="ocr_none" <% if @ocr_filter=="ocr_none" %>selected<%end%> >No OCR</option>
+            <option value="ocr_done" <% if @ocr_filter=="ocr_done" %>selected<%end%> >OCR Complete</option>
+            <option value="ocr_error" <% if @ocr_filter=="ocr_error" %>selected<%end%> >OCR Errors</option>
+         </select>
       </p>
       <p>
          <span class="filter-label">Data Set:</span>
-         <select id="set-filter" name="set-filter" style="width: 192px;">
+         <select id="set-filter" name="set-filter" style="width: 191px;">
             <option value>All</option>
             <option value="ECCO" <% if @set_filter=="ECCO" %>selected<%end%> >ECCO</option>
             <option value="EEBO" <% if @set_filter=="EEBO" %>selected<%end%> >EEBO</option>

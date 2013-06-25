@@ -186,7 +186,7 @@ $(function() {
    $("#set-filter").on("change", function() {
       $("#detail-table").dataTable().fnDraw();
    }); 
-   $("#require-ocr").on( "change", function() {
+   $("#ocr-filter").on( "change", function() {
        $("#detail-table").dataTable().fnDraw();
    });
    $("#require-gt").on( "change", function() {
@@ -275,8 +275,9 @@ $(function() {
          if ( $('#require-gt').is(':checked')) {
              aoData.push( { "name": "gt", "value": true } );
          }
-         if ( $('#require-ocr').is(':checked')) {
-             aoData.push( { "name": "ocr", "value": true } );
+         var ocr = $("#ocr-filter").val();
+         if (ocr.length > 0) {
+            aoData.push( { "name": "ocr", "value": ocr } );
          }
          var batch = $("#batch-filter").val();
          if (batch.length > 0) {

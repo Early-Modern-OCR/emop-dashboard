@@ -55,6 +55,7 @@ class DashboardController < ApplicationController
       session[:to] = params[:to]
       session[:ocr]  = params[:ocr]
       session[:font]  = params[:font]
+      puts "SESSION #{session}"
       
       # generate the select, conditional and vars parts of the query
       # the true parameter indicates that this result should include
@@ -323,9 +324,17 @@ class DashboardController < ApplicationController
          vals << fix_date_format(session[:to])
       end
       
-      if !session[:ocr].nil?
+      if session[:ocr] == 'ocr_done'
          cond << " and" if cond.length > 0
-         cond << " work_ocr_results.ocr_completed is not null"
+         #cond << " work_ocr_results.ocr_completed is not null"
+         cond << " (select max(job_status) as js from job_queue where job_queue.batch_id=work_ocr_results.batch_id and job_queue.work_id=wks_work_id) in (3,4,5)"
+         cond << " and (select min(job_status) as js from job_queue where  job_queue.batch_id=work_ocr_results.batch_id and job_queue.work_id=wks_work_id) > 2"
+      elsif  session[:ocr] == 'ocr_none'
+         cond << " and" if cond.length > 0
+         cond << " work_ocr_results.ocr_completed is null"
+      elsif session[:ocr] == 'ocr_error'
+         cond << " and" if cond.length > 0
+         cond << " (select max(job_status) as js from job_queue where job_queue.batch_id=work_ocr_results.batch_id and job_queue.work_id=wks_work_id)=6"
       end
 
       # build the ugly query to get all the info
