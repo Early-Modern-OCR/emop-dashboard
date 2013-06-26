@@ -219,9 +219,10 @@ class DashboardController < ApplicationController
       msg = "Untested"
       jobs.each do |job|
          if job.job_status ==1 || job.job_status ==2
-            status = "scheduled"
-            msg = "OCR jobs are scheduled"  
-            break 
+            if status != "error"
+               status = "scheduled"
+               msg = "OCR jobs are scheduled"   
+            end
          end
          if job.job_status==6
             status = "error"
@@ -229,9 +230,10 @@ class DashboardController < ApplicationController
             break
          end
          if job.job_status > 2 && job.job_status < 6
-            status = "success"
-            msg = "Success"
-            break
+            if status != "error"
+               status = "success"
+               msg = "Success"
+            end
          end
       end
       return "<div class='status-icon #{status}' title='#{msg}'></div>"
@@ -326,9 +328,12 @@ class DashboardController < ApplicationController
       
       if session[:ocr] == 'ocr_done'
          cond << " and" if cond.length > 0
-         #cond << " work_ocr_results.ocr_completed is not null"
          cond << " (select max(job_status) as js from job_queue where job_queue.batch_id=work_ocr_results.batch_id and job_queue.work_id=wks_work_id) in (3,4,5)"
          cond << " and (select min(job_status) as js from job_queue where  job_queue.batch_id=work_ocr_results.batch_id and job_queue.work_id=wks_work_id) > 2"
+      elsif  session[:ocr] == 'ocr_sched'
+         cond << " and" if cond.length > 0
+          cond << " work_ocr_results.ocr_completed is null and"
+         cond << " (select min(job_status) as js from job_queue where job_queue.work_id=wks_work_id) < 3"
       elsif  session[:ocr] == 'ocr_none'
          cond << " and" if cond.length > 0
          cond << " work_ocr_results.ocr_completed is null"

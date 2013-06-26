@@ -11,6 +11,7 @@
          <select id="ocr-filter" name="set-filter" style="width: 204px;">
             <option value>All</option>
             <option value="ocr_none" <% if @ocr_filter=="ocr_none" %>selected<%end%> >No OCR</option>
+            <option value="ocr_sched" <% if @ocr_filter=="ocr_sched" %>selected<%end%> >OCR Scheduled</option>
             <option value="ocr_done" <% if @ocr_filter=="ocr_done" %>selected<%end%> >OCR Complete</option>
             <option value="ocr_error" <% if @ocr_filter=="ocr_error" %>selected<%end%> >OCR Errors</option>
          </select>
