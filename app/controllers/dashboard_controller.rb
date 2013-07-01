@@ -291,7 +291,7 @@ class DashboardController < ApplicationController
       # add in extra filters:
       if !session[:gt].nil?
          cond << " and" if cond.length > 0
-         cond << " wks_tcp_number is not null"
+         cond << " (wks_tcp_number is not null or wks_tcp_bibno is not null)"
       end
       
       if !session[:batch].nil?
