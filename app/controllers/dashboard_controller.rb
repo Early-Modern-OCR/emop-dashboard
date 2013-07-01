@@ -147,6 +147,7 @@ class DashboardController < ApplicationController
             job.batch_id = batch.id
             job.page_id = page.pg_page_id 
             job.job_status = 1  
+            job.work_id=work_id
             job.save!
          end
       end

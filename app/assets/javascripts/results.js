@@ -58,6 +58,7 @@ $(function() {
       }
       
       // Post the request
+      showWaitPopup("Adding pages to queue");
       $.ajax({
          url : "results/batch/",
          type : 'POST',
@@ -66,8 +67,10 @@ $(function() {
             updatePageStatusIcons();
             alert("Batch successfully added to the work queue");
             $("#new-batch-popup").dialog("close");
+            hideWaitPopup();
          },
          error : function( jqXHR, textStatus, errorThrown ) {
+            hideWaitPopup();
             alert(errorThrown+":"+jqXHR.responseText);
          }
       }); 

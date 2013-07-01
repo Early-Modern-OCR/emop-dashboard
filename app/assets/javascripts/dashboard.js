@@ -77,6 +77,7 @@ $(function() {
       }
       
       // Post the request
+      showWaitPopup("Adding works to queue");
       $.ajax({
          url : "dashboard/batch/",
          type : 'POST',
@@ -89,8 +90,10 @@ $(function() {
             updateStatusIcons();
             alert("Batch successfully added to the work queue");
             $("#new-batch-popup").dialog("close");
+            hideWaitPopup();
          },
          error : function( jqXHR, textStatus, errorThrown ) {
+            hideWaitPopup();
             alert(errorThrown+":"+jqXHR.responseText);
          }
       }); 
@@ -169,8 +172,46 @@ $(function() {
    $("#dashboard-detail").on("mousemove", ".batch-name", function(evt) {
       tipX = evt.pageX+10;
       tipY = evt.pageY;
-   });
+   }); 
    
+   // shift click to select a range of boxes
+   $("#dashboard-detail").on("click", ".sel-cb", function(evt) {
+      var clicked = $(this);
+      if ( $(this).is(':checked') ) {
+         $("#select-all").val("Deselect All");
+      } else {
+         var anyChecked = false;
+         $(".sel-cb").each(function () {
+            if ( $(this).is(':checked') ) {
+               anyChecked = true;
+               return false;
+            }
+         });
+         if ( anyChecked === false ) {
+            $("#select-all").val("Select All");
+         }
+         return true;
+      }
+      
+      if (evt.shiftKey) {
+         var foundCheck = false;
+         $(".sel-cb").each(function () {
+            if (foundCheck === false ) {
+               if ( $(this).is(':checked') && $(this).attr("id") !== clicked.attr("id")  ) {
+                  foundCheck = true;
+               } 
+            } else {
+               if ( $(this).is(':checked') || $(this).attr("id") === clicked.attr("id")  ) {
+                  return false;
+               }  else {
+                  $(this).prop('checked', true);
+               }  
+            }
+         });
+      }
+      return true;
+   }); 
+
    // filter stuff
    $( "#from-date" ).datepicker();
    $("#from-date").on( "change", function() {
