@@ -88,6 +88,14 @@ $(function() {
             $(this).dialog("close");
          },
          "Create" : function() {
+            if ( $("#font-name").val().length === 0) {
+               alert("Name is required");
+               return;
+            }
+            if ( $("#font-file").val().length === 0) {
+               alert("A traing font file is required");
+               return;
+            }
             $('#font-upload-form').submit();
          }
       },
