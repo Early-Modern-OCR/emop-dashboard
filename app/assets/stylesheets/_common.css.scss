@@ -80,6 +80,9 @@
    }
 }
 
+.title-col {
+   min-width: 200px;
+}
 .narrow-col {
    width: 30px;
 }
@@ -216,6 +219,13 @@
       display: none;
    }
    
+   #new-font {
+      width: 205px;
+   }
+   #upload-font {
+      width: auto;
+   }
+   
    font-size: 0.8em;
    input {
       font-size: 0.9em;
@@ -236,7 +246,7 @@
    .table-label {
       text-align: right;
       font-weight: 300;
-      width: 110px;
+      width: 90px;
       font-size: 0.9em;
    }
    .table-data {
