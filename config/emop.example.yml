@@ -13,15 +13,20 @@ development:
   juxta_ws_user: juxta
   juxta_ws_pass: 
   emop_path_prefix:
+  emop_font_dir: /data/shared/fonts
     
 test:
   juxta_ws_url: http://127.0.0.1:8182/juxta
   juxta_ws_user: juxta
   juxta_ws_pass: 
   emop_path_prefix:
-
+  emop_font_dir:
+  emop_font_dir: /data/shared/fonts
+    
 production:
   juxta_ws_url: http://127.0.0.1:8182/juxta
   juxta_ws_user: juxta
   juxta_ws_pass: 
   emop_path_prefix:
+  emop_font_dir:
+  emop_font_dir: /data/shared/fonts

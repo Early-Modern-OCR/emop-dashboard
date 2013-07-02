@@ -93,7 +93,7 @@ $(function() {
                return;
             }
             if ( $("#font-file").val().length === 0) {
-               alert("A traing font file is required");
+               alert("A training font file is required");
                return;
             }
             $('#font-upload-form').submit();
@@ -104,8 +104,13 @@ $(function() {
       }
    }); 
    
-   var uploadFontSuccess = function(responseText, statusText, xhr, form) {
+   var uploadFontSuccess = function(json, statusText, xhr, form) {
       hideWaitPopup();
+      $("#new-font").append($("<option></option>")
+         .attr("value",json.font_id)
+         .attr('selected', 'selected')
+         .text(json.font_name)); 
+      $("#new-font-popup").dialog("close");
    };
 
    var uploadFontFailed = function(jqXHR, statusText, xhr, form) {
@@ -118,9 +123,10 @@ $(function() {
    // for pre and post submit events
    var options = {
       error : uploadFontFailed,
-      success : uploadFontSuccess
+      success : uploadFontSuccess,
+      dataType: "json" 
    };
-   $('#src-upload-form').submit(function() {
+   $('#font-upload-form').submit(function() {
       showWaitPopup("Creating font");
       $(this).ajaxSubmit(options);
 
