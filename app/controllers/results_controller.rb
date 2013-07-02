@@ -194,7 +194,7 @@ class ResultsController < ApplicationController
       else
          # EEBO format: 00014.000.001.tif where 00014 is the page number.
          ebbo_dir = work.wks_eebo_directory
-         return "%s%s/%05d.000.001.tif", [Settings.emop_path_prefix, ebbo_dir, page_num];
+         return "%s%s/%05d.000.001.tif" % [Settings.emop_path_prefix, ebbo_dir, page_num];
       end
    end
 
