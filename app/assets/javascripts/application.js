@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require jquery.ui.all
 //= require jquery.dataTables.min.js
+//= require jquery.form.min.js
 //= require_tree .

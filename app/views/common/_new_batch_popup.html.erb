@@ -13,8 +13,11 @@
       <tr class="font-row">
          <td class="table-label">Font Training Library:</td>
          <td class="table-input">
-            <%= select_tag "new-font", options_from_collection_for_select(@fonts, "id", "font_name") %>
-            <span id="no-fonts" style="display:none">No fonts defined</span>
+            <div id="fonts-div">
+               <%= select_tag "new-font", options_from_collection_for_select(@fonts, "id", "font_name") %>
+               <span id="no-fonts" style="display:none">No fonts defined</span>
+               <input id="upload-font" type="button" value="New" />
+            </div>
          </td>
       </tr>
       

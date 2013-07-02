@@ -39,7 +39,7 @@ $(function() {
    // create new batch popup
    $("#new-batch-popup").dialog({
       autoOpen : false,
-      width : 420,
+      width : 390,
       resizable : false,
       modal : true,
       buttons : {
@@ -74,6 +74,55 @@ $(function() {
           $("#new-batch-popup .font-row").show();
           $("#new-batch-popup .font-detail").show();
        }
+   });
+   
+   
+   // create new FONT popup
+   $("#new-font-popup").dialog({
+      autoOpen : false,
+      width : 350,
+      resizable : false,
+      modal : true,
+      buttons : {
+         "Cancel" : function() {
+            $(this).dialog("close");
+         },
+         "Create" : function() {
+            $('#font-upload-form').submit();
+         }
+      },
+      open : function() {
+        $("#font-name").val("");
+      }
+   }); 
+   
+   var uploadFontSuccess = function(responseText, statusText, xhr, form) {
+      hideWaitPopup();
+   };
+
+   var uploadFontFailed = function(jqXHR, statusText, xhr, form) {
+      hideWaitPopup();
+      var err = jqXHR.responseText.replace("\n", "<br/>");
+      alert("Upload Source Failed", err);
+   };
+   
+   // bind font create submit to an ajax submit with listeners
+   // for pre and post submit events
+   var options = {
+      error : uploadFontFailed,
+      success : uploadFontSuccess
+   };
+   $('#src-upload-form').submit(function() {
+      showWaitPopup("Creating font");
+      $(this).ajaxSubmit(options);
+
+      // !!! Important !!!
+      // always return false to prevent standard browser submit and page navigation
+      return false;
+   });
+   
+   $("#upload-font").on("click", function() {
+      $("#new-font-popup").dialog("open");
    });
 
 });

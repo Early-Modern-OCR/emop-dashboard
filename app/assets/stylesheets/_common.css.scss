@@ -49,7 +49,7 @@
    color: black;
    box-shadow: 3px 3px 17px #333;
    background-color: #eee;
-   outline: 1px solid;
+   outline: 0;
    top: 200px !important;
 }
 
@@ -187,7 +187,7 @@
    }
 }
 
-// pipups
+// popups
 .emop-popup {
    display:none;
    font-size: 0.95em;
@@ -210,6 +210,11 @@
    margin-bottom: 10px;
 }
 .emop-popup {
+   #font-name {
+      width: 100%;
+      margin: 10px 0;
+   }
+   
    #new-batch-error {
       margin: 2px;
       text-align: center;
@@ -218,12 +223,15 @@
       font-weight: bold;
       display: none;
    }
-   
-   #new-font {
-      width: 205px;
-   }
-   #upload-font {
-      width: auto;
+   #fonts-div {
+      #new-font {
+         width: 200px;
+         float: left;
+      }
+      #upload-font {
+         width: auto;
+         float: right;
+      }
    }
    
    font-size: 0.8em;
@@ -248,6 +256,7 @@
       font-weight: 300;
       width: 90px;
       font-size: 0.9em;
+      padding-right: 5px;
    }
    .table-data {
       font-size: 0.85em;

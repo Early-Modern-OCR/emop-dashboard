@@ -1,4 +1,7 @@
 EmopDashboard::Application.routes.draw do
+  # create a new training font
+  resources :fonts
+
    # juxta visualization routes
    get "juxta" => "juxta#show"
 
