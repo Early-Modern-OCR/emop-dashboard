@@ -190,7 +190,7 @@ class ResultsController < ApplicationController
       if work.isECCO?
          # ECCO format: ECCO number + 4 digit page + 0.tif
          ecco_dir = work.wks_ecco_directory
-         return "%s%s/images/%s%04d0.TIF" % [Settings.emop_path_prefix, ecco_dir, work.wks_ecco_number, page_num];
+         return "%s%s/%s%04d0.TIF" % [Settings.emop_path_prefix, ecco_dir, work.wks_ecco_number, page_num];
       else
          # EEBO format: 00014.000.001.tif where 00014 is the page number.
          ebbo_dir = work.wks_eebo_directory
