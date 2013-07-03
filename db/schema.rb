@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130610150717) do
+ActiveRecord::Schema.define(:version => 20130703130156) do
 
   create_table "juxta_collations", :force => true do |t|
     t.integer  "page_result_id"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20130610150717) do
     t.string   "status",            :limit => 13, :default => "uninitialized"
     t.integer  "jx_gt_witness_id"
     t.integer  "jx_ocr_witness_id"
+    t.datetime "last_accessed"
   end
 
 end

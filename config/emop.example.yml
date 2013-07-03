@@ -14,6 +14,7 @@ development:
   juxta_ws_pass: 
   emop_path_prefix:
   emop_font_dir: /data/shared/fonts
+  juxta_expire_hrs: 1
     
 test:
   juxta_ws_url: http://127.0.0.1:8182/juxta
@@ -22,6 +23,7 @@ test:
   emop_path_prefix:
   emop_font_dir:
   emop_font_dir: /data/shared/fonts
+  juxta_expire_hrs: 1
     
 production:
   juxta_ws_url: http://127.0.0.1:8182/juxta
@@ -30,3 +32,4 @@ production:
   emop_path_prefix:
   emop_font_dir:
   emop_font_dir: /data/shared/fonts
+  juxta_expire_hrs: 1

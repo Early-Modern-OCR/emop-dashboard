@@ -31,6 +31,10 @@ class JuxtaController < ApplicationController
             create_visualization( collation )   
          end
          
+         # update the last accessed time
+         collation.last_accessed = Time.now
+         collation.save!
+      
          # generate the visualization
          get_side_by_side_visualization(collation)
          
