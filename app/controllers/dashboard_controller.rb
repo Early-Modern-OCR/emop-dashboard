@@ -245,7 +245,7 @@ class DashboardController < ApplicationController
    def gen_pages_link(work_id, batch_id, accuracy)
       link_class = ""
       if accuracy.nil?
-         out = "<a href='results?work=#{work_id}&batch=#{batch_id}' title='View page results'>N/A</a>"
+         out = "N/A"
       else
          if accuracy < 0.6
             link_class = "class='bad-cell'"
