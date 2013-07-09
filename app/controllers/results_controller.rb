@@ -153,7 +153,10 @@ class ResultsController < ApplicationController
       page_num = params[:num]   
       work = Work.find(work_id)
       img_path = get_ocr_image_path(work, page_num)
-      send_file img_path, type: "image/tiff", :stream => true, disposition: "inline"
+      #send_file img_path, type: "image/tiff", :stream => false, disposition: "inline", :x_sendfile=>true
+      File.open(img_path, 'rb') do |f|
+       send_data f.read, :type => "image/tiff", :disposition => "inline", :x_sendfile=>true
+      end
    end
    
    private
@@ -190,7 +193,7 @@ class ResultsController < ApplicationController
       if work.isECCO?
          # ECCO format: ECCO number + 4 digit page + 0.tif
          ecco_dir = work.wks_ecco_directory
-         return "%s%s/%s%04d0.TIF" % [Settings.emop_path_prefix, ecco_dir, work.wks_ecco_number, page_num];
+         return "%s%s/images/%s%04d0.TIF" % [Settings.emop_path_prefix, ecco_dir, work.wks_ecco_number, page_num];
       else
          # EEBO format: 00014.000.001.tif where 00014 is the page number.
          ebbo_dir = work.wks_eebo_directory
