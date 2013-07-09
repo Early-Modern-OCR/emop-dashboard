@@ -240,17 +240,23 @@ class DashboardController < ApplicationController
       return "<div class='status-icon #{status}' title='#{msg}'></div>"
    end
    
-   private
+  private
+
    def gen_pages_link(work_id, batch_id, accuracy)
       link_class = ""
-      if accuracy.nil? || accuracy < 0.6
-         link_class = "class='bad-cell'"
-      elsif accuracy < 0.8
-         link_class = "class='warn-cell'"
+      if accuracy.nil?
+         out = "<a href='results?work=#{work_id}&batch=#{batch_id}' title='View page results'>N/A</a>"
+      else
+         if accuracy < 0.6
+            link_class = "class='bad-cell'"
+         elsif accuracy < 0.8
+            link_class = "class='warn-cell'"
+         end
+         formatted = '%.3f'%accuracy
+         out = "<a href='results?work=#{work_id}&batch=#{batch_id}' #{link_class} title='View page results'>#{formatted}</a>"
       end
-      formatted = '%.3f'%accuracy
-      out = "<a href='results?work=#{work_id}&batch=#{batch_id}' #{link_class} title='View page results'>#{formatted}</a>"
-      return out   
+
+      return out
    end
    
    private 
