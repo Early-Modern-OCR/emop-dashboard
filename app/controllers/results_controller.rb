@@ -103,7 +103,11 @@ class ResultsController < ApplicationController
       pages.each do | page | 
          rec = {}
          rec[:page_select] = "<input class='sel-cb' type='checkbox' id='sel-page-#{page.page_id}'>"
-         rec[:detail_link] = "<a href='/juxta?work=#{work_id}&batch=#{batch_id}&page=#{page.page_num}&result=#{ page.result_id}' title='#{msg}'><div class='detail-link'></div></a>"
+         if juxta.nil?
+            rec[:detail_link] = "<div class='detail-link disabled'>"  # no details yet!
+         else
+            rec[:detail_link] = "<a href='/juxta?work=#{work_id}&batch=#{batch_id}&page=#{page.page_num}&result=#{ page.result_id}' title='#{msg}'><div class='detail-link'></div></a>"
+         end
          rec[:status] = page_status_icon(page.page_id, batch_id, page.job_status.to_i)
          rec[:page_number] = page.page_num
          rec[:juxta_accuracy] = page.juxta
