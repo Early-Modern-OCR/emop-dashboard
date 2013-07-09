@@ -69,8 +69,14 @@ $(function() {
           $("#new-batch-popup .engine-row").hide();
           $("#new-batch-popup .font-row").hide();
           $("#new-batch-popup .font-detail").hide();
+       } if ( idx === 0 ) {
+          $("#new-batch-popup .engine-row").show();
+          $("#new-ocr").val("1");
+          $("#new-batch-popup .font-row").hide();
+          $("#new-batch-popup .font-detail").hide();
        } else {
           $("#new-batch-popup .engine-row").show();
+          $("#new-ocr").val("2");
           $("#new-batch-popup .font-row").show();
           $("#new-batch-popup .font-detail").show();
        }
