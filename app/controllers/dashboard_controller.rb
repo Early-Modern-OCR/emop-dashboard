@@ -243,7 +243,7 @@ class DashboardController < ApplicationController
    private
    def gen_pages_link(work_id, batch_id, accuracy)
       link_class = ""
-      if accuracy < 0.6
+      if accuracy.nil? || accuracy < 0.6
          link_class = "class='bad-cell'"
       elsif accuracy < 0.8
          link_class = "class='warn-cell'"
