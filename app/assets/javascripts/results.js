@@ -130,11 +130,18 @@ $(function() {
        ]
    }).fnFilterOnReturn();
    
-   // create new FONT popup
+   // POPUPS
    $("#ocr-view-popup").dialog({
       autoOpen : false,
       width : 350,
       height: 450,
+      resizable : true,
+      modal : false
+   }); 
+   $("#ocr-error-popup").dialog({
+      autoOpen : false,
+      width : 350,
+      height: 150,
       resizable : true,
       modal : false
    }); 
@@ -166,7 +173,8 @@ $(function() {
          type : 'GET',
          success : function(resp, textStatus, jqXHR) {
             hideWaitPopup();
-            alert(resp);
+            //alert(resp);
+             $("#ocr-error-popup").dialog("open");
          },
          error : function( jqXHR, textStatus, errorThrown ) {
             hideWaitPopup();
