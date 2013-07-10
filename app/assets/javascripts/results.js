@@ -158,6 +158,23 @@ $(function() {
       });
    });
    
+   $("#results-detail").on("click", ".error", function() {
+      showWaitPopup("Retrieving OCR Error");
+      var ids = $(this).attr("id").substring("status-".length).split("-");
+      $.ajax({
+         url : "results/"+ids[0]+"/"+ids[1]+"/error",
+         type : 'GET',
+         success : function(resp, textStatus, jqXHR) {
+            hideWaitPopup();
+            alert(resp);
+         },
+         error : function( jqXHR, textStatus, errorThrown ) {
+            hideWaitPopup();
+            alert("Unable to retrieve OCR errors. Cause:\n\n"+errorThrown+":"+jqXHR.responseText);
+         }
+      });
+   });
+   
    $("#results-detail").on("click", ".detail-link", function() {
       showWaitPopup("Visualizing");
    });

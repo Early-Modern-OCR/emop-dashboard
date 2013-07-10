@@ -116,8 +116,6 @@ class ResultsController < ApplicationController
          end
          rec[:status] = page_status_icon(page.page_id, batch_id, page.job_status.to_i)
          rec[:page_number] = page.page_num
-         
-         
          rec[:page_image] = "<a href=\"/results/#{work_id}/page/#{page.page_num}\"><div title='View page image' class='page-view'></div></a>"
 
          data << rec
@@ -140,6 +138,15 @@ class ResultsController < ApplicationController
       resp[:page] = page_result.pg_ref_number
       resp[:content] = contents
       render  :json => resp, :status => :ok  
+   end
+   
+   # Get the error for a page
+   #
+   def get_page_error
+      page_id = params[:page]
+      batch_id = params[:batch]
+      job = JobQueue.where("batch_id=? and page_id=?", batch_id, page_id).first
+      render  :text => job.results, :status => :ok     
    end
    
    # Create a new batch from json data in the POST payload
@@ -200,17 +207,19 @@ class ResultsController < ApplicationController
       
       status = "idle"
       msg = "Untested"
+      id = nil
       if job_status ==1 || job_status ==2
          status = "scheduled"
          msg = "OCR jobs are scheduled"  
       elsif job_status==6
          status = "error"
          msg = "OCR jobs have failed"
+         id = "id='status-#{batch_id}-#{page_id}'"
       elsif job_status == 3 || job_status == 4 || job_status == 5 
          status = "success"
          msg = "Success"
       end
-      return "<div class='status-icon #{status}' title='#{msg}'></div>"
+      return "<div #{id} class='status-icon #{status}' title='#{msg}'></div>"
    end
    
    private
