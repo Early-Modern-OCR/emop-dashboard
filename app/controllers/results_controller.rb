@@ -127,10 +127,15 @@ class ResultsController < ApplicationController
    #
    def get_page_text
       page_id = params[:id]
-      txt_path = "#{Settings.emop_path_prefix}#{PageResult.find(page_id).ocr_text_path}"
+      sql = ["select pg_ref_number, ocr_text_path from page_results inner join pages on pg_page_id=page_id where id=?",page_id]
+      page_result = PageResult.find_by_sql( sql ).first
+      txt_path = "#{Settings.emop_path_prefix}#{page_result.ocr_text_path}"
       file = File.open(txt_path, "r")
       contents = file.read
-      render  :text => contents, :status => :ok  
+      resp = {}
+      resp[:page] = page_result.pg_ref_number
+      resp[:content] = contents
+      render  :json => resp, :status => :ok  
    end
    
    # Create a new batch from json data in the POST payload

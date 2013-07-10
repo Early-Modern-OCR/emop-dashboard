@@ -147,7 +147,8 @@ $(function() {
          type : 'GET',
          success : function(resp, textStatus, jqXHR) {
             hideWaitPopup();
-            $("#ocr-text-display").val(resp);
+            $("#ocr-page-num").text(resp.page);
+            $("#ocr-text-display").val(resp.content);
             $("#ocr-view-popup").dialog("open");
          },
          error : function( jqXHR, textStatus, errorThrown ) {
