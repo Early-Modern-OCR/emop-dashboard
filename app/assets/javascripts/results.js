@@ -115,18 +115,47 @@ $(function() {
          { "aTargets": [0], "bSortable": false},
          { "aTargets": [1], "bSortable": false},
          { "aTargets": [2], "bSortable": false},
-         { "aTargets": [3], "bSortable": false}
+         { "aTargets": [3], "bSortable": false},
+         { "aTargets": [4], "bSortable": false}
       ],
       "aoColumns": [
          { "mData": "page_select" },
          { "mData": "status" },
-         { "mData": "detail_link" },
          { "mData": "page_image" },
+         { "mData": "ocr_text" },
+         { "mData": "detail_link" },
          { "mData": "page_number" },
          { "mData": "juxta_accuracy" },
          { "mData": "retas_accuracy" }
        ]
    }).fnFilterOnReturn();
+   
+   // create new FONT popup
+   $("#ocr-view-popup").dialog({
+      autoOpen : false,
+      width : 350,
+      height: 450,
+      resizable : true,
+      modal : false
+   }); 
+   
+   $("#results-detail").on("click", ".ocr-txt", function() {
+      showWaitPopup("Retrieving OCR Results");
+      var id = $(this).attr("id").substring("result-".length);
+      $.ajax({
+         url : "results/"+id+"/text",
+         type : 'GET',
+         success : function(resp, textStatus, jqXHR) {
+            hideWaitPopup();
+            $("#ocr-text-display").val(resp);
+            $("#ocr-view-popup").dialog("open");
+         },
+         error : function( jqXHR, textStatus, errorThrown ) {
+            hideWaitPopup();
+            alert("Unable to retrieve OCR results. Cause:\n\n"+errorThrown+":"+jqXHR.responseText);
+         }
+      });
+   });
    
    $("#results-detail").on("click", ".detail-link", function() {
       showWaitPopup("Visualizing");

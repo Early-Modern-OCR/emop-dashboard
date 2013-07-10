@@ -10,6 +10,7 @@ EmopDashboard::Application.routes.draw do
    get "results/:work/page/:num" => "results#get_page_image"
    get "results/fetch" => "results#fetch"
    post "results/batch" => "results#create_batch"
+   get "results/:id/text" => "results#get_page_text"
 
    # main dashboard routes
    get "dashboard/index"

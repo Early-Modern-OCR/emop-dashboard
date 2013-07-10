@@ -91,7 +91,8 @@ class ResultsController < ApplicationController
       # get results and transform them into req'd json structure
       data = []
       sel =  "select pages.pg_ref_number as page_num,pages.pg_page_id as page_id,"
-      sel << " page_results.id as result_id, page_results.juxta_change_index as juxta, page_results.alt_change_index as retas, job_status"
+      sel << " page_results.id as result_id, page_results.juxta_change_index as juxta,"
+      sel << " page_results.alt_change_index as retas, job_status"
       from =  "FROM pages"
       from << " INNER JOIN page_results ON page_results.page_id = pages.pg_page_id"
       from << " INNER JOIN job_queue ON page_results.page_id = job_queue.page_id and page_results.batch_id = job_queue.batch_id"
@@ -103,10 +104,12 @@ class ResultsController < ApplicationController
       pages.each do | page | 
          rec = {}
          rec[:page_select] = "<input class='sel-cb' type='checkbox' id='sel-page-#{page.page_id}'>"
-         if juxta.nil?
-            rec[:detail_link] = "<div class='detail-link disabled'>"  # no details yet!
+         if page.juxta.nil?
+            rec[:ocr_text] = "<div class='ocr-txt disabled'>"  # no details yet!
+            rec[:detail_link] = "<div class='juxta-link disabled'>"  # no details yet!
          else
-            rec[:detail_link] = "<a href='/juxta?work=#{work_id}&batch=#{batch_id}&page=#{page.page_num}&result=#{ page.result_id}' title='#{msg}'><div class='detail-link'></div></a>"
+            rec[:ocr_text] = "<div id='result-#{page.result_id}' class='ocr-txt' title='View OCR text output'>"  # no details yet!
+            rec[:detail_link] = "<a href='/juxta?work=#{work_id}&batch=#{batch_id}&page=#{page.page_num}&result=#{ page.result_id}' title='#{msg}'><div class='juxta-link'></div></a>"
          end
          rec[:status] = page_status_icon(page.page_id, batch_id, page.job_status.to_i)
          rec[:page_number] = page.page_num
@@ -119,6 +122,16 @@ class ResultsController < ApplicationController
       
       resp['data'] = data
       render :json => resp, :status => :ok
+   end
+   
+   # Get the OCR text result for the specified page_result
+   #
+   def get_page_text
+      page_id = params[:id]
+      txt_path = "#{Settings.emop_path_prefix}#{PageResult.find(page_id).ocr_text_path}"
+      file = File.open(txt_path, "r")
+      contents = file.read
+      render  :text => contents, :status => :ok  
    end
    
    # Create a new batch from json data in the POST payload
