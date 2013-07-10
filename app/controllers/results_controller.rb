@@ -106,14 +106,18 @@ class ResultsController < ApplicationController
          rec[:page_select] = "<input class='sel-cb' type='checkbox' id='sel-page-#{page.page_id}'>"
          rec[:ocr_text] = "<div id='result-#{page.result_id}' class='ocr-txt' title='View OCR text output'>"  # no details yet!
          if page.juxta.nil?
+            rec[:juxta_accuracy] = "N/A"
+            rec[:retas_accuracy] = "N/A"
             rec[:detail_link] = "<div class='juxta-link disabled'>"  # no details yet!
          else
+            rec[:juxta_accuracy] = page.juxta
+            rec[:retas_accuracy] = page.retas
             rec[:detail_link] = "<a href='/juxta?work=#{work_id}&batch=#{batch_id}&page=#{page.page_num}&result=#{ page.result_id}' title='#{msg}'><div class='juxta-link'></div></a>"
          end
          rec[:status] = page_status_icon(page.page_id, batch_id, page.job_status.to_i)
          rec[:page_number] = page.page_num
-         rec[:juxta_accuracy] = page.juxta
-         rec[:retas_accuracy] = page.retas
+         
+         
          rec[:page_image] = "<a href=\"/results/#{work_id}/page/#{page.page_num}\"><div title='View page image' class='page-view'></div></a>"
 
          data << rec
