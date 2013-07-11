@@ -145,8 +145,12 @@ class ResultsController < ApplicationController
    def get_page_error
       page_id = params[:page]
       batch_id = params[:batch]
-      job = JobQueue.where("batch_id=? and page_id=?", batch_id, page_id).first
-      render  :text => job.results, :status => :ok     
+      sql = ["select pg_ref_number, results from job_queue inner join pages on pg_page_id=page_id where page_id=? and batch_id=?",page_id,batch_id]
+      job = JobQueue.find_by_sql( sql ).first
+      out = {}
+      out[:page] = job.pg_ref_number
+      out[:error] = job.results
+      render  :json => out, :status => :ok     
    end
    
    # Create a new batch from json data in the POST payload

@@ -173,8 +173,9 @@ $(function() {
          type : 'GET',
          success : function(resp, textStatus, jqXHR) {
             hideWaitPopup();
-            //alert(resp);
-             $("#ocr-error-popup").dialog("open");
+            $("#error-page").text(resp.page);
+            $("#page-error-message").text(resp.error);
+            $("#ocr-error-popup").dialog("open");
          },
          error : function( jqXHR, textStatus, errorThrown ) {
             hideWaitPopup();
