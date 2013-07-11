@@ -360,7 +360,23 @@ $(function() {
             $(this).dialog("close");
          },
          "Set Font" : function() {
-            $(this).dialog("close");   
+            data = {};
+            data.works = $("#font-work-id-list").text();
+            data.font_id = $("#new-print-font").val();
+            showWaitPopup("Setting Print Font");
+            $.ajax({
+               url : "dashboard/font",
+               type : 'POST',
+               data : data,
+               success : function(resp, textStatus, jqXHR) {
+                  $("#new-batch-popup").dialog("close");
+                  hideWaitPopup();
+               },
+               error : function( jqXHR, textStatus, errorThrown ) {
+                  hideWaitPopup();
+                  alert(errorThrown+":"+jqXHR.responseText);
+               }
+            });    
          }
       }
    }); 
