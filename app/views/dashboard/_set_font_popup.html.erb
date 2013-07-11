@@ -1,0 +1,9 @@
+<div id="set-font-popup" class="emop-popup" title="Set Print Font">
+   <select id="new-print-font" name="new-print-font">
+      <option value>None</option>
+      <% @print_fonts.each do | font | %>
+         <option value="<%= font[:pf_id] %>" <% if @print_font_filter.to_i==font[:id] %>selected<%end%> ><%= font[:pf_name] %></option>
+      <% end %>
+   </select>
+   <span id="font-work-id-list" style="display: none"></span>
+</div>

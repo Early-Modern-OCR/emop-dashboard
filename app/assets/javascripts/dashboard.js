@@ -31,7 +31,7 @@ $(function() {
    
    hideWaitPopup();
      
-   // to control tooltip mouseover behavir
+   // to control tooltip mouseover behavior
    var tipShowTimer = -1;
    var tipTarget = null;
    var tipX;
@@ -350,6 +350,38 @@ $(function() {
       resizable : true,
       modal : false
    }); 
+   $("#set-font-popup").dialog({
+      autoOpen : false,
+      width : 250,
+      resizable : false,
+      modal : true,
+      buttons : {
+         "Cancel" : function() {
+            $(this).dialog("close");
+         },
+         "Set Font" : function() {
+            $(this).dialog("close");   
+         }
+      }
+   }); 
+   
+   // Set font
+   $("#font-all").on("click", function() {
+      var workIds = [];
+      $(".sel-cb").each(function () {
+         if ($(this).is(':checked')) {
+            var id = $(this).attr("id").substring("sel-work-".length);
+            workIds.push(id);
+         }
+      });
+      if (workIds.length === 0) {
+         alert("Select target works before clicking the 'Set Font' button");
+      } else {
+         workIds = $.unique(workIds);
+         $("#font-work-id-list").text(JSON.stringify(workIds) );
+         $("#set-font-popup").dialog("open");
+      }
+   });
    
    $("#dashboard-detail").on("click", ".error", function() {
       showWaitPopup("Retrieving OCR Errors");

@@ -17,6 +17,7 @@ class DashboardController < ApplicationController
    end
    
    # Get an HTML fragment for the batch details tooltip
+   #
    def batch      
       @batch = BatchJob.find( params[:id] )
       @job_type = JobType.find( @batch.job_type )
@@ -107,6 +108,17 @@ class DashboardController < ApplicationController
       end
       out[:errors] = out_errors
       render  :json => out, :status => :ok     
+   end
+   
+   # Set the print font on the works contained in th ePOST payload
+   #
+   def set_font
+      begin  
+         # TODO
+         render :text => "NEVER!", :status => :error
+      rescue => e
+         render :text => e.message, :status => :error
+      end 
    end
    
    # Create a new batch from json data in the POST payload

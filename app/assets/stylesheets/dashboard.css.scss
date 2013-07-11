@@ -84,6 +84,10 @@ a.paginate_disabled_previous {
       font-size: 0.9em;
    }
 }
+
+#set-font-popup {
+   min-height: 30px !important;
+}
       
 #dashboard-detail {
    padding:10px;
@@ -205,8 +209,14 @@ a.paginate_disabled_previous {
          z-index: 1000;
          width: 80px;
       }
+      #font-all {
+         position:relative;
+         top:22px;
+         z-index: 1000;
+      }
       #detail-table_length {
-         margin-left:90px;
+        margin-left: 10px;
+        float: right;
       }
       .dataTables_length {
          font-size: 0.8em;

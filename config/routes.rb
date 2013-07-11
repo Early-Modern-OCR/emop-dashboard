@@ -18,6 +18,7 @@ EmopDashboard::Application.routes.draw do
    get "dashboard/fetch"
    get "dashboard/batch/:id" => "dashboard#batch"
    post "dashboard/batch" => "dashboard#create_batch"
+   post "dashboard/font" => "dashboard#set_font"
    get "dashboard/:batch/:work/error" => "dashboard#get_work_errors"
 
    # site root is the dashboard
