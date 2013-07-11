@@ -141,7 +141,6 @@ $(function() {
    $("#ocr-error-popup").dialog({
       autoOpen : false,
       width : 350,
-      height: 150,
       resizable : true,
       modal : false
    }); 

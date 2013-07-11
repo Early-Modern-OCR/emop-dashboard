@@ -91,6 +91,24 @@ class DashboardController < ApplicationController
       render :json => resp, :status => :ok
    end
    
+   # Get errors for a work
+   #
+   def get_work_errors
+      work_id = params[:work]
+      batch_id = params[:batch]
+      sql = ["select pg_ref_number, results from job_queue inner join pages on pg_page_id=page_id where job_status=? and batch_id=? and work_id=?",
+         6,batch_id,work_id]
+      page_errors = JobQueue.find_by_sql( sql )
+      out = {}
+      out[:work] = work_id
+      out_errors = []
+      page_errors.each do | err |
+         out_errors << {:page=>err.pg_ref_number, :error=>err.results}   
+      end
+      out[:errors] = out_errors
+      render  :json => out, :status => :ok     
+   end
+   
    # Create a new batch from json data in the POST payload
    #
    def create_batch
@@ -218,6 +236,7 @@ class DashboardController < ApplicationController
       jobs = JobQueue.find_by_sql(sql)
       status = "idle"
       msg = "Untested"
+      id=nil
       jobs.each do |job|
          if job.job_status ==1 || job.job_status ==2
             if status != "error"
@@ -228,6 +247,7 @@ class DashboardController < ApplicationController
          if job.job_status==6
             status = "error"
             msg = "OCR jobs have failed"
+            id = "id='status-#{result.batch_id}-#{result.work_id}'"
             break
          end
          if job.job_status > 2 && job.job_status < 6
@@ -237,7 +257,7 @@ class DashboardController < ApplicationController
             end
          end
       end
-      return "<div class='status-icon #{status}' title='#{msg}'></div>"
+      return "<div #{id} class='status-icon #{status}' title='#{msg}'></div>"
    end
    
   private

@@ -17,6 +17,18 @@
    border-collapse: collapse;
 }
 
+#work-error-messages {
+   margin: 10px 0 15px 10px;
+   .err-page {
+      font-weight: bold;
+      font-size: 0.9em;
+      margin-right: 10px;
+   }
+   .err-msg {
+      font-size: 0.9em;
+   }
+}
+
 #detail-table_paginate {
   margin-bottom:20px;
 }

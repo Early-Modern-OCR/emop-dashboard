@@ -342,4 +342,37 @@ $(function() {
          }
       }
    }).fnFilterOnReturn();   
+   
+   // POPUPS
+   $("#ocr-work-error-popup").dialog({
+      autoOpen : false,
+      width : 400,
+      resizable : true,
+      modal : false
+   }); 
+   
+   $("#dashboard-detail").on("click", ".error", function() {
+      showWaitPopup("Retrieving OCR Errors");
+      var ids = $(this).attr("id").substring("status-".length).split("-");
+      $.ajax({
+         url : "dashboard/"+ids[0]+"/"+ids[1]+"/error",
+         type : 'GET',
+         success : function(resp, textStatus, jqXHR) {
+            hideWaitPopup();
+            $("#error-work").text(resp.work);
+            $("#work-error-messages").empty();
+            $.each(resp.errors, function(idx, val) {
+               var p = "<div><span class='err-page'>Page "+val.page+":</span><span class='err-msg'>"+val.error+"<span></div>"
+               $("#work-error-messages").append(p);
+            });
+            $("#ocr-work-error-popup").dialog("open");
+         },
+         error : function( jqXHR, textStatus, errorThrown ) {
+            hideWaitPopup();
+            alert("Unable to retrieve OCR errors. Cause:\n\n"+errorThrown+":"+jqXHR.responseText);
+         }
+      });
+   });
+   
+   
 });
