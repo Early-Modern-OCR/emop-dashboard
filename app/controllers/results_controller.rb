@@ -57,6 +57,7 @@ class ResultsController < ApplicationController
          rec = {}
          rec[:page_select] = "<input class='sel-cb' type='checkbox' id='sel-page-#{page.page_id}'>"
          rec[:detail_link] = "<div class='detail-link disabled'>"  # no details yet!
+         rec[:ocr_text] = "<div class='ocr-txt  disabled' title='View OCR text output'>"
          rec[:status] = page_status_icon(page.page_id, nil, nil)
          rec[:page_number] = page.page_num
          rec[:juxta_accuracy] = "-"
@@ -186,6 +187,8 @@ class ResultsController < ApplicationController
       end 
    end
    
+   # Get TIFF page image, convert it to PNG and stream it back to client
+   #
    def get_page_image
       work_id = params[:work]
       page_num = params[:num]   
