@@ -9,7 +9,7 @@ gem 'mysql2'
 gem 'settingslogic'
 gem 'rest-client'
 gem 'whenever', :require => false
-
+gem 'rmagick'
 
 # Gems used only for assets and not required
 # in production environments by default.

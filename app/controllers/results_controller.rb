@@ -1,3 +1,5 @@
+require 'RMagick'
+
 class ResultsController < ApplicationController
    # show the page details for the specified work
    #
@@ -189,10 +191,9 @@ class ResultsController < ApplicationController
       page_num = params[:num]   
       work = Work.find(work_id)
       img_path = get_ocr_image_path(work, page_num)
-      #send_file img_path, type: "image/tiff", :stream => false, disposition: "inline", :x_sendfile=>true
-      File.open(img_path, 'rb') do |f|
-       send_data f.read, :type => "image/tiff", :disposition => "inline", :x_sendfile=>true
-      end
+      img = Magick::Image::read(img_path).first
+      img.format = 'PNG'
+      send_data img.to_blob, :type => "image/png", :disposition => "inline", :x_sendfile=>true
    end
    
    private
