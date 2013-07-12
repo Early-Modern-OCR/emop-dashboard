@@ -111,6 +111,11 @@ $(function() {
       "sAjaxSource": "results/fetch?work="+work_id+"&batch="+batch_id,
       "sAjaxDataProp": "data",
       "aaSorting": [],
+      "fnInitComplete": function(oSettings, json) {
+         $(".page-view").on("click", function() {
+            showWaitPopup();
+         });
+      },
       "aoColumnDefs": [
          { "aTargets": [0], "bSortable": false},
          { "aTargets": [1], "bSortable": false},

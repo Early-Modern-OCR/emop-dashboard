@@ -116,8 +116,8 @@ class ResultsController < ApplicationController
          rec[:page_select] = "<input class='sel-cb' type='checkbox' id='sel-page-#{page.page_id}'>"
          rec[:ocr_text] = "<div id='result-#{page.result_id}' class='ocr-txt' title='View OCR text output'>"  # no details yet!
          if page.juxta.nil?
-            rec[:juxta_accuracy] = "N/A"
-            rec[:retas_accuracy] = "N/A"
+            rec[:juxta_accuracy] = "-"
+            rec[:retas_accuracy] = "-"
             rec[:detail_link] = "<div class='juxta-link disabled'>"  # no details yet!
          else
             rec[:juxta_accuracy] = page.juxta
