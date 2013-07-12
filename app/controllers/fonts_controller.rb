@@ -2,7 +2,7 @@
 class FontsController < ApplicationController
    # Create a training font from the multipart form post
    #
-   def create
+   def create_training_font
       begin
          # grab the uploaded file and write it out
          # to the shared fonts directory
@@ -28,5 +28,24 @@ class FontsController < ApplicationController
       rescue => e
          render :text => e.message, :status => :error
       end
+   end
+   
+      
+   # Set the print font on the works contained in th ePOST payload
+   #
+   def set_print_font
+      begin 
+         font_id = params[:font_id]
+         if font_id.length == 0
+            font_id=nil
+         end
+         works = params[:works].gsub(/\"/,'')
+         works = works.gsub( /\[/, '(').gsub( /\]/, ')')
+         sql = "update works set wks_primary_print_font=#{ActiveRecord::Base.sanitize(font_id)} where wks_work_id in #{works}"
+         PrintFont.connection.execute( sql)
+         render :text => "ok", :status => :ok
+      rescue => e
+         render :text => e.message, :status => :error
+      end 
    end
 end

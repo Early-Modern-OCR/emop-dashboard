@@ -350,49 +350,6 @@ $(function() {
       resizable : true,
       modal : false
    }); 
-   $("#set-font-popup").dialog({
-      autoOpen : false,
-      width : 250,
-      resizable : false,
-      modal : true,
-      buttons : {
-         "Cancel" : function() {
-            $(this).dialog("close");
-         },
-         "Set Font" : function() {
-            data = {};
-            data.works = $("#font-work-id-list").text();
-            data.font_id = $("#new-print-font").val();
-            var fntName = $("#new-print-font option:selected").text();
-            if ( fntName === "None" ) {
-               fntName = "";
-            }
-            showWaitPopup("Setting Print Font");
-            $.ajax({
-               url : "dashboard/font",
-               type : 'POST',
-               data : data,
-               success : function(resp, textStatus, jqXHR) {
-                  $.each(  JSON.parse(data.works), function(idx, val) {
-                     var cb = $("#sel-work-"+val);
-                     var row = cb.parent().parent();
-                     row.find("td").each( function( index ) {
-                        if ( index === 8) {
-                           $(this).text(fntName);
-                        }
-                     });
-                  });
-                  hideWaitPopup();
-                  $("#set-font-popup").dialog("close");
-               },
-               error : function( jqXHR, textStatus, errorThrown ) {
-                  hideWaitPopup();
-                  alert(errorThrown+":"+jqXHR.responseText);
-               }
-            });    
-         }
-      }
-   }); 
    
    // Set font
    $("#font-all").on("click", function() {

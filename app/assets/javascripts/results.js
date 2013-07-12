@@ -130,6 +130,13 @@ $(function() {
        ]
    }).fnFilterOnReturn();
    
+   // Set work print font
+   $("#set-work-font").on("click", function() {
+      workIds = [ $("#work-id").text() ];
+      $("#font-work-id-list").text(JSON.stringify(workIds) );
+      $("#set-font-popup").dialog("open");
+   });
+   
    // POPUPS
    $("#ocr-view-popup").dialog({
       autoOpen : false,

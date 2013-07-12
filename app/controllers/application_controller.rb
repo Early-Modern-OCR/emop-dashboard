@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
       @job_types = JobType.all()
       @engines = OcrEngine.all()
       @fonts = Font.all()
+      @print_fonts = PrintFont.all()
 
       @batches = []
       raw_batches.each do |batch|

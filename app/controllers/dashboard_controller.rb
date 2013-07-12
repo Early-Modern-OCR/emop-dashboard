@@ -10,7 +10,6 @@ class DashboardController < ApplicationController
       @ocr_filter = session[:ocr]
       @gt_filter = session[:gt]
       @print_font_filter = session[:font]
-      @print_fonts = PrintFont.all()
        
       # get summary for queue
       @queue_status = get_job_queue_status()
@@ -108,24 +107,6 @@ class DashboardController < ApplicationController
       end
       out[:errors] = out_errors
       render  :json => out, :status => :ok     
-   end
-   
-   # Set the print font on the works contained in th ePOST payload
-   #
-   def set_font
-      begin 
-         font_id = params[:font_id]
-         if font_id.length == 0
-            font_id=nil
-         end
-         works = params[:works].gsub(/\"/,'')
-         works = works.gsub( /\[/, '(').gsub( /\]/, ')')
-         sql = "update works set wks_primary_print_font=#{ActiveRecord::Base.sanitize(font_id)} where wks_work_id in #{works}"
-         PrintFont.connection.execute( sql)
-         render :text => "ok", :status => :ok
-      rescue => e
-         render :text => e.message, :status => :error
-      end 
    end
    
    # Create a new batch from json data in the POST payload
