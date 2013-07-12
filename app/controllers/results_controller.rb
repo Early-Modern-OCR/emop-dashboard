@@ -15,6 +15,13 @@ class ResultsController < ApplicationController
       else 
          @batch = "Not Applicable"   
       end
+      
+      if !work.wks_primary_print_font.nil?
+         pf = PrintFont.find(work.wks_primary_print_font)
+         @print_font = pf.pf_name
+      else
+         @print_font = "Not Set"
+      end
    end
 
    # Fetch data for dataTable

@@ -160,11 +160,6 @@
 }
 
 // popups
-.emop-popup {
-   display:none;
-   font-size: 0.95em;
-   font-weight: 200;
-}
 .ui-dialog-titlebar {
    font-size: 0.8em;
    font-weight: 400;
@@ -181,6 +176,17 @@
 #new-batch-popup .font-info {
    margin-left: 118px;
    margin-bottom: 10px;
+}
+#set-font-popup {
+   #new-print-font{
+      width: 173px;
+   }
+   #create-print-font {
+      width:auto;
+   }
+   #new-font-name {
+      width: 215px;
+   }
 }
 .emop-popup {
    #font-name {

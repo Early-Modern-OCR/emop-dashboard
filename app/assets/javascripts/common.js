@@ -36,6 +36,73 @@ $(function() {
    jobTypes = JSON.parse( $("#types-json").text() );
    engines = JSON.parse( $("#engines-json").text() );
    
+   var updateFontColumn = function(works, fntName) {
+      $.each(JSON.parse(works), function(idx, val) {
+         var cb = $("#sel-work-" + val);
+         var row = cb.parent().parent();
+         row.find("td").each(function(index) {
+            if (index === 8) {
+               $(this).text(fntName);
+            }
+         });
+      });
+   }; 
+
+   var setPrintFont = function() {
+      data = {};
+      data.works = $("#font-work-id-list").text();
+      data.font_id = $("#new-print-font").val();
+      var fntName = $("#new-print-font option:selected").text();
+      if (fntName === "None") {
+         fntName = "";
+      }
+      showWaitPopup("Setting Print Font");
+      $.ajax({
+         url : "fonts/print_font",
+         type : 'POST',
+         data : data,
+         success : function(resp, textStatus, jqXHR) {
+            if ( $("#results-detail").exists()) {
+               $("#work-print-font").text(fntName);
+            } else {
+               updateFontColumn(data.works, fntName);
+            }
+            hideWaitPopup();
+            $("#set-font-popup").dialog("close");
+         },
+         error : function(jqXHR, textStatus, errorThrown) {
+            hideWaitPopup();
+            alert(errorThrown + ":" + jqXHR.responseText);
+         }
+      });
+   }; 
+   
+   var createPrintFont = function() {
+      data = {};
+      data.works = $("#font-work-id-list").text();
+      data.new_font = $("#new-font-name").val();
+      var fntName =  data.new_font;
+      showWaitPopup("Creating Print Font");
+      $.ajax({
+         url : "fonts/print_font",
+         type : 'POST',
+         data : data,
+         success : function(resp, textStatus, jqXHR) {
+            if ( $("#results-detail").exists()) {
+               $("#work-print-font").text(fntName);
+            } else {
+               updateFontColumn(data.works, fntName);
+            }
+            hideWaitPopup();
+            $("#set-font-popup").dialog("close");
+         },
+         error : function(jqXHR, textStatus, errorThrown) {
+            hideWaitPopup();
+            alert(errorThrown + ":" + jqXHR.responseText);
+         }
+      });
+   }; 
+   
    // print font popup
    $("#set-font-popup").dialog({
       autoOpen : false,
@@ -44,39 +111,19 @@ $(function() {
       modal : true,
       buttons : {
          "Cancel" : function() {
-            $(this).dialog("close");
+            if ( $("#sel-pf-div").is(":visible") ) {
+               $(this).dialog("close");
+            } else  {
+               $("#sel-pf-div").show();
+               $("#new-font-name").hide();
+            }
          },
          "Set Font" : function() {
-            data = {};
-            data.works = $("#font-work-id-list").text();
-            data.font_id = $("#new-print-font").val();
-            var fntName = $("#new-print-font option:selected").text();
-            if ( fntName === "None" ) {
-               fntName = "";
+            if ( $("#sel-pf-div").is(":visible") ) {
+               setPrintFont();
+            } else {
+               createPrintFont();
             }
-            showWaitPopup("Setting Print Font");
-            $.ajax({
-               url : "fonts/print_font",
-               type : 'POST',
-               data : data,
-               success : function(resp, textStatus, jqXHR) {
-                  $.each(  JSON.parse(data.works), function(idx, val) {
-                     var cb = $("#sel-work-"+val);
-                     var row = cb.parent().parent();
-                     row.find("td").each( function( index ) {
-                        if ( index === 8) {
-                           $(this).text(fntName);
-                        }
-                     });
-                  });
-                  hideWaitPopup();
-                  $("#set-font-popup").dialog("close");
-               },
-               error : function( jqXHR, textStatus, errorThrown ) {
-                  hideWaitPopup();
-                  alert(errorThrown+":"+jqXHR.responseText);
-               }
-            });    
          }
       }
    }); 
@@ -154,6 +201,10 @@ $(function() {
         $("#font-name").val("");
       }
    }); 
+   $("#create-print-font").on("click", function() {
+      $("#sel-pf-div").hide();
+      $("#new-font-name").show();
+   });
    
    var uploadFontSuccess = function(json, statusText, xhr, form) {
       hideWaitPopup();

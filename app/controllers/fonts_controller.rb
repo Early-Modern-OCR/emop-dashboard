@@ -35,10 +35,18 @@ class FontsController < ApplicationController
    #
    def set_print_font
       begin 
-         font_id = params[:font_id]
-         if font_id.length == 0
-            font_id=nil
+         if params.has_key?(:new_font)
+            pf = PrintFont.new
+            pf.pf_name = params[:new_font]
+            pf.save!
+            font_id = pf.pf_id
+         else
+            font_id = params[:font_id]
+            if font_id.length == 0
+               font_id=nil
+            end
          end
+        
          works = params[:works].gsub(/\"/,'')
          works = works.gsub( /\[/, '(').gsub( /\]/, ')')
          sql = "update works set wks_primary_print_font=#{ActiveRecord::Base.sanitize(font_id)} where wks_work_id in #{works}"
