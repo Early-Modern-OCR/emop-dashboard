@@ -113,7 +113,8 @@ $(function() {
       "aaSorting": [],
       "fnInitComplete": function(oSettings, json) {
          $(".page-view").on("click", function() {
-            showWaitPopup();
+            showWaitPopup("Getting page image");
+            setTimeout( hideWaitPopup, 1000);
          });
       },
       "aoColumnDefs": [
@@ -134,6 +135,7 @@ $(function() {
          { "mData": "retas_accuracy" }
        ]
    }).fnFilterOnReturn();
+   
    
    // Set work print font
    $("#set-work-font").on("click", function() {
