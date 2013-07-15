@@ -29,7 +29,7 @@ $(function() {
       });
    };
 
-   // submit a new WORKS batch
+   // submit a new PAGES batch
    var submitNewPagesBatch = function() {
       $("#new-batch-error").hide();
       var data = {};
@@ -46,6 +46,7 @@ $(function() {
       data.params = $("#new-params").val();
       data.notes = $("#new-notes").val();
       data.pages = $("#work-id-list").text();
+      data.work = $("#work-id").text();
       if (data.name.length === 0) {
          $("#new-batch-error").text("* Batch name is required *");
          $("#new-batch-error").show();
@@ -65,9 +66,9 @@ $(function() {
          data : data,
          success : function(resp, textStatus, jqXHR) {
             updatePageStatusIcons();
+            hideWaitPopup();
             alert("Batch successfully added to the work queue");
             $("#new-batch-popup").dialog("close");
-            hideWaitPopup();
          },
          error : function( jqXHR, textStatus, errorThrown ) {
             hideWaitPopup();

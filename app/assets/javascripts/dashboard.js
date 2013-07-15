@@ -87,8 +87,8 @@ $(function() {
             $("#running-jobs").text(resp.running);
             $("#postprocess-jobs").text(resp.postprocess);
             $("#failed-jobs").text(resp.failed);
+            alert("Batch successfully added to the work queue");            
             updateStatusIcons();
-            alert("Batch successfully added to the work queue");
             $("#new-batch-popup").dialog("close");
             hideWaitPopup();
          },

@@ -184,6 +184,7 @@ class ResultsController < ApplicationController
             job.batch_id = batch.id
             job.page_id = page_id 
             job.job_status = 1  
+            job.work_id = params[:work]
             job.save!
          end
          
