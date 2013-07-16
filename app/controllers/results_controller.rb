@@ -104,11 +104,11 @@ class ResultsController < ApplicationController
       sel << " page_results.id as result_id, page_results.juxta_change_index as juxta,"
       sel << " page_results.alt_change_index as retas, job_status"
       from =  "FROM pages"
-      from << " INNER JOIN page_results ON page_results.page_id = pages.pg_page_id"
-      from << " INNER JOIN job_queue ON page_results.page_id = job_queue.page_id and page_results.batch_id = job_queue.batch_id"
-      cond = "where page_results.batch_id=? and pg_work_id=?"
+      from << " inner join job_queue on job_queue.page_id=pages.pg_page_id"
+      from << " left outer JOIN page_results ON page_results.page_id = pages.pg_page_id and page_results.batch_id=?"
+      cond = "where job_queue.batch_id=? and pg_work_id=?"
       order = "order by #{order_col} #{dir}"
-      sql = ["#{sel} #{from} #{cond} #{order}", batch_id, work_id]
+      sql = ["#{sel} #{from} #{cond} #{order}", batch_id, batch_id, work_id]
       pages = Page.find_by_sql( sql )
       msg = "View side-by-side comparison with GT"
       pages.each do | page | 
@@ -161,6 +161,24 @@ class ResultsController < ApplicationController
       out[:page] = job.pg_ref_number
       out[:error] = job.results
       render  :json => out, :status => :ok     
+   end
+   
+   # Reschedule failed page
+   #
+   def reschedule
+      begin
+         page_id = params[:page]
+         batch_id = params[:batch]
+         job = JobQueue.where("batch_id=? and page_id=?", batch_id, page_id).first 
+         job.job_status=1;
+         job.results = nil
+         job.last_update = Time.now
+         job.save!
+         PageResult.where("batch_id=? and page_id=?", batch_id, page_id).destroy_all() 
+         render :text => "ok", :status => :ok
+      rescue => e
+         render :text => e.message, :status => :error
+      end       
    end
    
    # Create a new batch from json data in the POST payload
@@ -226,10 +244,10 @@ class ResultsController < ApplicationController
       id = nil
       if job_status ==1 || job_status ==2
          status = "scheduled"
-         msg = "OCR jobs are scheduled"  
+         msg = "OCR job scheduled"  
       elsif job_status==6
          status = "error"
-         msg = "OCR jobs have failed"
+         msg = "OCR job failed"
          id = "id='status-#{batch_id}-#{page_id}'"
       elsif job_status == 3 || job_status == 4 || job_status == 5 
          status = "success"

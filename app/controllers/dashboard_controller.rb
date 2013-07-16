@@ -125,7 +125,7 @@ class DashboardController < ApplicationController
          PageResult.connection.execute( sql )
          
          # set job status back to scheduled
-         sql = "update job_queue set job_status=1 where batch_id=#{batch_id} and work_id=#{work_id}"
+         sql = "update job_queue set job_status=1,results=nil where batch_id=#{batch_id} and work_id=#{work_id}"
          JobQueue.connection.execute(sql);
          
          # get a new summary for the job queue

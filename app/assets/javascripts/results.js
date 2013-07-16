@@ -182,6 +182,8 @@ $(function() {
    $("#results-detail").on("click", ".error", function() {
       showWaitPopup("Retrieving OCR Error");
       var ids = $(this).attr("id").substring("status-".length).split("-");
+      $("#err-batch-id").text(ids[0]);
+      $("#err-page-id").text(ids[1]);
       $.ajax({
          url : "results/"+ids[0]+"/"+ids[1]+"/error",
          type : 'GET',
@@ -194,6 +196,25 @@ $(function() {
          error : function( jqXHR, textStatus, errorThrown ) {
             hideWaitPopup();
             alert("Unable to retrieve OCR errors. Cause:\n\n"+errorThrown+":"+jqXHR.responseText);
+         }
+      });
+   });
+   
+   $("#reschedule-page").on("click", function() {
+      showWaitPopup("Rescheduling Page...");
+      data = { batch: $("#err-batch-id").text(), page:  $("#err-page-id").text()}
+      $.ajax({
+         url : "results/reschedule",
+         type : 'POST',
+         data : data,
+         success : function(resp, textStatus, jqXHR) {
+            showWaitPopup("Refreshing results...");
+            $("#ocr-error-popup").dialog("close");
+            window.location.reload();
+         },
+         error : function( jqXHR, textStatus, errorThrown ) {
+            hideWaitPopup();
+            alert("Unable to reschedule page. Cause:\n\n"+errorThrown+":"+jqXHR.responseText);
          }
       });
    });
