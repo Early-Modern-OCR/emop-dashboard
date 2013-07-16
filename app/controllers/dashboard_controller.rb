@@ -96,17 +96,44 @@ class DashboardController < ApplicationController
    def get_work_errors
       work_id = params[:work]
       batch_id = params[:batch]
-      sql = ["select pg_ref_number, results from job_queue inner join pages on pg_page_id=page_id where job_status=? and batch_id=? and work_id=?",
-         6,batch_id,work_id]
+      query = "select pg_ref_number, results from job_queue "
+      query = query << " inner join pages on pg_page_id=page_id"
+      query = query << " where job_status=? and batch_id=? and work_id=?"
+      sql = [query, 6,batch_id,work_id]
       page_errors = JobQueue.find_by_sql( sql )
       out = {}
       out[:work] = work_id
+      out[:job] = BatchJob.find(batch_id).name
       out_errors = []
       page_errors.each do | err |
-         out_errors << {:page=>err.pg_ref_number, :error=>err.results}   
+         out_errors << {:page=>err.pg_ref_number, :error=>err.results}
       end
       out[:errors] = out_errors
-      render  :json => out, :status => :ok     
+      render  :json => out, :status => :ok
+   end
+   
+   # Reschedule failed batch
+   #
+   def reschedule 
+      begin
+         work_id = ActiveRecord::Base.sanitize(params[:work])
+         batch_id = ActiveRecord::Base.sanitize(params[:batch])
+         
+         # remove the page results
+         sql = "delete from page_results where batch_id=#{batch_id} "
+         sql = sql << " and page_id in (select pg_page_id from pages where pg_work_id=#{work_id})"
+         PageResult.connection.execute( sql )
+         
+         # set job status back to scheduled
+         sql = "update job_queue set job_status=1 where batch_id=#{batch_id} and work_id=#{work_id}"
+         JobQueue.connection.execute(sql);
+         
+         # get a new summary for the job queue
+         status = get_job_queue_status()
+         render  :json => ActiveSupport::JSON.encode(status), :status => :ok
+      rescue => e
+         render :text => e.message, :status => :error
+      end  
    end
    
    # Create a new batch from json data in the POST payload

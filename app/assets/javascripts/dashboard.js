@@ -47,6 +47,16 @@ $(function() {
          }
       });
    };
+   
+   // update the status of works and the queue summary
+   var updateQueueStatus = function( resp ) {
+      $("#pending-jobs").text(resp.pending);
+      $("#running-jobs").text(resp.running);
+      $("#postprocess-jobs").text(resp.postprocess);
+      $("#failed-jobs").text(resp.failed);
+      alert("Batch successfully added to the work queue");            
+      updateStatusIcons();
+   };
       
    // submit a new WORKS batch
    var submitNewBatch = function() {
@@ -83,12 +93,7 @@ $(function() {
          type : 'POST',
          data : data,
          success : function(resp, textStatus, jqXHR) {
-            $("#pending-jobs").text(resp.pending);
-            $("#running-jobs").text(resp.running);
-            $("#postprocess-jobs").text(resp.postprocess);
-            $("#failed-jobs").text(resp.failed);
-            alert("Batch successfully added to the work queue");            
-            updateStatusIcons();
+            updateQueueStatus(resp);
             $("#new-batch-popup").dialog("close");
             hideWaitPopup();
          },
@@ -346,9 +351,16 @@ $(function() {
    // POPUPS
    $("#ocr-work-error-popup").dialog({
       autoOpen : false,
-      width : 400,
+      width : 500,
+      maxHeight: 400,
       resizable : true,
-      modal : false
+      modal : false,
+      open: function( event, ui ) {
+         $("#ocr-work-error-popup input").each(function(idx) {
+            $(this).blur();
+         });
+         $("#ocr-work-error-popup").scrollTop(0);
+      }
    }); 
    
    // Set font
@@ -371,13 +383,17 @@ $(function() {
    
    $("#dashboard-detail").on("click", ".error", function() {
       showWaitPopup("Retrieving OCR Errors");
+      // id[0] = batch id, id[1] = work id
       var ids = $(this).attr("id").substring("status-".length).split("-");
+      $("#err-work-id").text(ids[1]);
+      $("#err-batch-id").text(ids[0]);
       $.ajax({
          url : "dashboard/"+ids[0]+"/"+ids[1]+"/error",
          type : 'GET',
          success : function(resp, textStatus, jqXHR) {
             hideWaitPopup();
             $("#error-work").text(resp.work);
+            $("#error-batch").text(resp.job);
             $("#work-error-messages").empty();
             $.each(resp.errors, function(idx, val) {
                var p = "<div><span class='err-page'>Page "+val.page+":</span><span class='err-msg'>"+val.error+"<span></div>"
@@ -388,6 +404,24 @@ $(function() {
          error : function( jqXHR, textStatus, errorThrown ) {
             hideWaitPopup();
             alert("Unable to retrieve OCR errors. Cause:\n\n"+errorThrown+":"+jqXHR.responseText);
+         }
+      });
+   });
+   $("#reschedule-work").on("click", function() {
+      showWaitPopup("Rescheduling Batch...");
+      data = { work: $("#err-work-id").text(), batch:  $("#err-batch-id").text()}
+      $.ajax({
+         url : "dashboard/reschedule",
+         type : 'POST',
+         data : data,
+         success : function(resp, textStatus, jqXHR) {
+            showWaitPopup("Refreshng display...");
+            $("#ocr-work-error-popup").dialog("close");
+            window.location.reload();
+         },
+         error : function( jqXHR, textStatus, errorThrown ) {
+            hideWaitPopup();
+            alert("Unable to reschedule work. Cause:\n\n"+errorThrown+":"+jqXHR.responseText);
          }
       });
    });
