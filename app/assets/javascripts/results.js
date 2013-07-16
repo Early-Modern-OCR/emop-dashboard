@@ -65,10 +65,8 @@ $(function() {
          type : 'POST',
          data : data,
          success : function(resp, textStatus, jqXHR) {
-            updatePageStatusIcons();
-            hideWaitPopup();
-            alert("Batch successfully added to the work queue");
-            $("#new-batch-popup").dialog("close");
+            showWaitPopup("Loading new batch");
+            window.location.replace("/results?work="+$("#work-id").text()+"&batch="+resp);
          },
          error : function( jqXHR, textStatus, errorThrown ) {
             hideWaitPopup();
@@ -126,6 +124,13 @@ $(function() {
             } else {
                data = { batch: $("#batch-id").text(), pages:  pageIds};
                $("#resubmit-data").text( JSON.stringify(data) );
+               
+               setCreateBatchHandler( submitNewPagesBatch );
+               setRescheduleHandler( function() {
+                  showWaitPopup("Rescheduling Pages...");
+                  reschedulePages($.parseJSON($("#resubmit-data").text()));
+                  $("#confirm-resubmit-popup").dialog("close");
+               });
                $("#confirm-resubmit-popup").dialog("open");
             }
          } else {
@@ -198,28 +203,6 @@ $(function() {
       width : 350,
       resizable : true,
       modal : false
-   }); 
-   $("#confirm-resubmit-popup").dialog({
-      autoOpen : false,
-      resizable : false,
-      modal : true,
-      buttons : {
-         "Cancel" : function() {
-            $(this).dialog("close");
-         },
-         "Reschedule" : function() {
-            showWaitPopup("Rescheduling Pages...");
-            reschedulePages( $.parseJSON($("#resubmit-data").text()) );
-            $(this).dialog("close");  
-         },
-         "New Batch" : function() {
-            var data = $.parseJSON($("#resubmit-data").text());
-            $("#work-id-list").text(JSON.stringify( data.pages) );
-            setCreateBatchHandler( submitNewPagesBatch );
-            $("#new-batch-popup").dialog("open");
-            $(this).dialog("close");   
-         },
-      }
    }); 
    
    $("#results-detail").on("click", ".ocr-txt", function() {

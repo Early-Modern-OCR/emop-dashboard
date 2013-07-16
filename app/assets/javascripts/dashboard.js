@@ -117,9 +117,32 @@ $(function() {
          alert("Select works to be OCR'd before clicking the 'Schedule Selected' button");
       } else {
          workIds = $.unique(workIds);
-         $("#work-id-list").text(JSON.stringify(workIds) );
-         setCreateBatchHandler( submitNewBatch );
-         $("#new-batch-popup").dialog("open");
+         var err = 0;
+         var sched = 0;
+         $.each(workIds, function(idx, val) {
+            var si = $("#sel-work-"+val).parent().parent().find(".status-icon");
+            if ( si.hasClass("scheduled") ) {
+               sched = sched+1;
+            }
+            if ( si.hasClass("error") ) {
+               err=err+1;
+            }
+         });
+         if ( sched > 0 ) {
+            alert("Some of these words are already scheduled. Cannot schedule them again until processing is complete.\n\nPlease select other works and try again.");
+         } else if (err > 0 ) {
+            if ( err <  workIds.length ) {
+               alert("Cannot schedule a mix of works with and without errors.\n\nPleae select other works and try again.");
+            } else {
+               data = { batch: $("#batch-id").text(), pages:  pageIds};
+               $("#resubmit-data").text( JSON.stringify(data) );
+               $("#confirm-resubmit-popup").dialog("open");
+            }
+         } else {
+            $("#work-id-list").text(JSON.stringify(workIds) );
+            setCreateBatchHandler( submitNewBatch );
+            $("#new-batch-popup").dialog("open");
+         }
       }
    }; 
 
@@ -270,10 +293,6 @@ $(function() {
    // Schedule
    $("#schedule-selected").on("click", function() {
       scheduleSelectedWorks();
-   });
-   $("#schedule-all").on("click", function() {
-      $("#work-id-list").text( "all" );
-      $("#new-batch-popup").dialog("open");
    });
 
    // create the data table instance. it has custom plug-in

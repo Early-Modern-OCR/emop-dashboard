@@ -28,7 +28,7 @@
       <span id="engines-json" style="display: none"><%= ActiveSupport::JSON.encode( @engines ) %></span>
       <span id="batch-json" style="display: none"><%= ActiveSupport::JSON.encode( @batches ) %></span>
 
-      
+      <%= render :partial => '/common/resubmit_confirm_popup' %>
       <%= render :partial => '/common/new_batch_popup' %>
       <%= render :partial => '/common/new_font_popup' %>
       <%= render :partial => '/common/set_font_popup' %>

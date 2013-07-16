@@ -208,7 +208,7 @@ class ResultsController < ApplicationController
             job.save!
          end
          
-         render  :text => "ok", :status => :ok  
+         render  :text => batch.id, :status => :ok  
          
       rescue => e
          render :text => e.message, :status => :error

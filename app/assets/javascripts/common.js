@@ -25,9 +25,13 @@ var batches = [];
 var jobTypes = [];
 var engines = [];
 var createBatchHandler = null;
+var rescheduleHandler = null;
 
 var setCreateBatchHandler = function( handler ) {
    createBatchHandler = handler;
+};
+var setRescheduleHandler = function( handler ) {
+   rescheduleHandler = handler;
 };
 
 $(function() {
@@ -127,6 +131,30 @@ $(function() {
          }
       }
    }); 
+   
+   // resubmit confirm popup
+   $("#confirm-resubmit-popup").dialog({
+      autoOpen : false,
+      resizable : false,
+      modal : true,
+      buttons : {
+         "Cancel" : function() {
+            $(this).dialog("close");
+         },
+         "Reschedule" : function() {
+            if ( rescheduleHandler !== null ) {
+               rescheduleHandler();
+            }
+         },
+         "New Batch" : function() {
+            var data = $.parseJSON($("#resubmit-data").text());
+            $("#work-id-list").text(JSON.stringify(data.pages));
+            $("#new-batch-popup").dialog("open");
+            $(this).dialog("close");
+         },
+      }
+   });
+
       
    // create new batch popup
    $("#new-batch-popup").dialog({
