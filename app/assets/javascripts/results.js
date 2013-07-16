@@ -77,6 +77,24 @@ $(function() {
       }); 
    };
    
+   // reschedule failed pages
+   var reschedulePages = function(data) {
+      $.ajax({
+         url : "results/reschedule",
+         type : 'POST',
+         data : data,
+         success : function(resp, textStatus, jqXHR) {
+            showWaitPopup("Refreshing results...");
+            $("#ocr-error-popup").dialog("close");
+            window.location.reload();
+         },
+         error : function( jqXHR, textStatus, errorThrown ) {
+            hideWaitPopup();
+            alert("Unable to reschedule page. Cause:\n\n"+errorThrown+":"+jqXHR.responseText);
+         }
+      });
+   };
+   
    // schedule selected pages for ocr
    var scheduleSelectedPages = function() {
       var pageIds = [];
@@ -89,10 +107,32 @@ $(function() {
       if (pageIds.length === 0) {
          alert("Select pages to be OCR'd before clicking the 'Schedule Selected' button");
       } else {
-         pageIds = $.unique(pageIds);
-         $("#work-id-list").text(JSON.stringify(pageIds) );
-         setCreateBatchHandler( submitNewPagesBatch );
-         $("#new-batch-popup").dialog("open");
+         var err = 0;
+         var sched = 0;
+         $.each(pageIds, function(idx, val) {
+            var si = $("#sel-page-"+val).parent().parent().find(".status-icon");
+            if ( si.hasClass("scheduled") ) {
+               sched = sched+1;
+            }
+            if ( si.hasClass("error") ) {
+               err=err+1;
+            }
+         });
+         if ( sched > 0 ) {
+            alert("Some of these pages are already scheduled. Cannot schedule them again until processing is complete.\n\nPlease select other pages and try again.");
+         } else if (err > 0 ) {
+            if ( err <  pageIds.length ) {
+               alert("Cannot schedule a mix of pages with and without errors.\n\nPleae select other pages and try again.");
+            } else {
+               data = { batch: $("#batch-id").text(), pages:  pageIds};
+               $("#resubmit-data").text( JSON.stringify(data) );
+               $("#confirm-resubmit-popup").dialog("open");
+            }
+         } else {
+            $("#work-id-list").text(JSON.stringify(pageIds) );
+            setCreateBatchHandler( submitNewPagesBatch );
+            $("#new-batch-popup").dialog("open");
+         }
       }
    }; 
    $("#schedule-pages").on("click", function() {
@@ -159,6 +199,28 @@ $(function() {
       resizable : true,
       modal : false
    }); 
+   $("#confirm-resubmit-popup").dialog({
+      autoOpen : false,
+      resizable : false,
+      modal : true,
+      buttons : {
+         "Cancel" : function() {
+            $(this).dialog("close");
+         },
+         "Reschedule" : function() {
+            showWaitPopup("Rescheduling Pages...");
+            reschedulePages( $.parseJSON($("#resubmit-data").text()) );
+            $(this).dialog("close");  
+         },
+         "New Batch" : function() {
+            var data = $.parseJSON($("#resubmit-data").text());
+            $("#work-id-list").text(JSON.stringify( data.pages) );
+            setCreateBatchHandler( submitNewPagesBatch );
+            $("#new-batch-popup").dialog("open");
+            $(this).dialog("close");   
+         },
+      }
+   }); 
    
    $("#results-detail").on("click", ".ocr-txt", function() {
       showWaitPopup("Retrieving OCR Results");
@@ -202,21 +264,8 @@ $(function() {
    
    $("#reschedule-page").on("click", function() {
       showWaitPopup("Rescheduling Page...");
-      data = { batch: $("#err-batch-id").text(), page:  $("#err-page-id").text()}
-      $.ajax({
-         url : "results/reschedule",
-         type : 'POST',
-         data : data,
-         success : function(resp, textStatus, jqXHR) {
-            showWaitPopup("Refreshing results...");
-            $("#ocr-error-popup").dialog("close");
-            window.location.reload();
-         },
-         error : function( jqXHR, textStatus, errorThrown ) {
-            hideWaitPopup();
-            alert("Unable to reschedule page. Cause:\n\n"+errorThrown+":"+jqXHR.responseText);
-         }
-      });
+      data = { batch: $("#err-batch-id").text(), pages:  [$("#err-page-id").text()]}
+      reschedulePages(data);
    });
    
    $("#results-detail").on("click", ".detail-link", function() {

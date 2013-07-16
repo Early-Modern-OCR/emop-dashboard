@@ -167,14 +167,16 @@ class ResultsController < ApplicationController
    #
    def reschedule
       begin
-         page_id = params[:page]
+         pages = params[:pages]
          batch_id = params[:batch]
-         job = JobQueue.where("batch_id=? and page_id=?", batch_id, page_id).first 
-         job.job_status=1;
-         job.results = nil
-         job.last_update = Time.now
-         job.save!
-         PageResult.where("batch_id=? and page_id=?", batch_id, page_id).destroy_all() 
+         pages.each do | page_id |
+            job = JobQueue.where("batch_id=? and page_id=?", batch_id, page_id).first 
+            job.job_status=1;
+            job.results = nil
+            job.last_update = Time.now
+            job.save!
+            PageResult.where("batch_id=? and page_id=?", batch_id, page_id).destroy_all() 
+         end
          render :text => "ok", :status => :ok
       rescue => e
          render :text => e.message, :status => :error
