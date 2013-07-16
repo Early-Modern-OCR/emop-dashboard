@@ -55,7 +55,6 @@ class DashboardController < ApplicationController
       session[:to] = params[:to]
       session[:ocr]  = params[:ocr]
       session[:font]  = params[:font]
-      puts "SESSION #{session}"
       
       # generate the select, conditional and vars parts of the query
       # the true parameter indicates that this result should include
@@ -74,7 +73,6 @@ class DashboardController < ApplicationController
       # run a count query without the paging limits to get
       # the total number of results available
       count_sel = "select count(*) as cnt from work_ocr_results right outer join works on wks_work_id=work_id "
-      count_sel << " left outer join print_fonts on pf_id=wks_primary_print_font"
       sql = ["#{count_sel} #{where_clause}"]
       sql = sql + vals
       filtered_cnt = WorkOcrResult.find_by_sql(sql).first.cnt
