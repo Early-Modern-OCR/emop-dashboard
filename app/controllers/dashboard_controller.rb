@@ -59,12 +59,18 @@ class DashboardController < ApplicationController
       # generate the select, conditional and vars parts of the query
       # the true parameter indicates that this result should include
       # all columns necessry to populate the dashboard view.
-      sel, where_clause, vals = generate_query(true)
+      sel, where_clause, vals = generate_query()
 
       # build the ugly query
       limits = "limit #{params[:iDisplayLength]} OFFSET #{params[:iDisplayStart]}"
       order = "order by #{order_col} #{dir}"
-      sql = ["#{sel} #{where_clause} #{order} #{limits}"]
+      if session[:ocr] == 'ocr_sched'
+         # scheduled uses a different query that needs a group by to make the results work
+         sql = ["#{sel} #{where_clause} group by work_id, batch_id #{order} #{limits}"]   
+      else
+         sql = ["#{sel} #{where_clause} #{order} #{limits}"]   
+      end
+      
       sql = sql + vals
 
       # get all of the results (paged)
@@ -72,10 +78,16 @@ class DashboardController < ApplicationController
       
       # run a count query without the paging limits to get
       # the total number of results available
-      count_sel = "select count(*) as cnt from work_ocr_results right outer join works on wks_work_id=work_id "
+      if session[:ocr] == 'ocr_sched'
+         # search for scheduled uses different query to get data. Also need slightly
+         # differnent query to get counts
+         count_sel = "select count(distinct batch_id) as cnt from works inner join job_queue on wks_work_id=job_queue.work_id "
+      else
+         count_sel = "select count(*) as cnt from works inner join work_ocr_results on wks_work_id=work_id "
+      end
       sql = ["#{count_sel} #{where_clause}"]
       sql = sql + vals
-      filtered_cnt = WorkOcrResult.find_by_sql(sql).first.cnt
+      filtered_cnt = Work.find_by_sql(sql).first.cnt
       
       # jam it all into an array of objects that match teh dataTables structure
       data = []
@@ -149,13 +161,19 @@ class DashboardController < ApplicationController
          batch.save!
          
          # populate it with pages from the selected works
-         works = params[:works]
-         if works == 'all'
-            schedule_all(batch)
-         else 
-            schedule_selected(batch, ActiveSupport::JSON.decode(works))
+         works =  ActiveSupport::JSON.decode(params[:works])
+         works.each do | work_id |
+            pages = Page.where("pg_work_id = ?", work_id)
+            pages.each do | page |
+               job = JobQueue.new
+               job.batch_id = batch.id
+               job.page_id = page.pg_page_id
+               job.job_status = 1
+               job.work_id=work_id
+               job.save!
+            end
          end
-         
+
          # get a new summary for the job queue
          status = get_job_queue_status()
          render  :json => ActiveSupport::JSON.encode(status), :status => :ok  
@@ -163,37 +181,6 @@ class DashboardController < ApplicationController
       rescue => e
          render :text => e.message, :status => :error
       end 
-   end
-   
-   private
-   def schedule_all(batch)
-      # generate the select, conditional and vars parts of the query
-      # that was used to populate the results. Pass it a false
-      # so it will return only the WORK_ID column of the matching works
-      # instead of the full set of columns to drive the display
-      sel, where_clause, vals = generate_query(false)
-      sql = ["#{sel} #{where_clause}"]
-      sql = sql + vals
-      work_ids = []
-      WorkOcrResult.find_by_sql(sql).each do | result |
-         work_ids << result.wks_work_id
-      end
-      schedule_selected(batch, work_ids)
-   end
-   
-   private
-   def schedule_selected(batch, works)
-      works.each do | work_id | 
-         pages = Page.where("pg_work_id = ?", work_id)
-         pages.each do | page |    
-            job = JobQueue.new
-            job.batch_id = batch.id
-            job.page_id = page.pg_page_id 
-            job.job_status = 1  
-            job.work_id=work_id
-            job.save!
-         end
-      end
    end
 
    private
@@ -228,18 +215,17 @@ class DashboardController < ApplicationController
       rec[:title] = result.title
       rec[:author] = result.author
       rec[:font] = result.font_name
-      if result.batch_id.nil?
-         rec[:ocr_date] = nil
-         rec[:ocr_engine] = nil
-         rec[:ocr_batch] = nil
-         rec[:juxta_url] = nil
-         rec[:retas_url] = nil
-      else
-         rec[:ocr_date] = result.ocr_completed.to_datetime.strftime("%m/%d/%Y %H:%M")
-         rec[:ocr_engine] = OcrEngine.find(result.ocr_engine_id ).name
+      rec[:ocr_date] = nil
+      rec[:ocr_engine] = nil
+      rec[:ocr_batch] = nil
+      rec[:juxta_url] = nil
+      rec[:retas_url] = nil
+      if !result.batch_id.nil? 
+         rec[:ocr_date] = result.ocr_completed.to_datetime.strftime("%m/%d/%Y %H:%M") if result.has_attribute?(:ocr_completed)
+         rec[:ocr_engine] = OcrEngine.find(result.ocr_engine_id ).name  if result.has_attribute?(:ocr_engine_id)
          rec[:ocr_batch] = "<span class='batch-name' id='batch-#{result.batch_id}'>#{result.batch_id}: #{result.batch_name}</span>"
-         rec[:juxta_url] = gen_pages_link(result.work_id, result.batch_id, result.juxta_accuracy)
-         rec[:retas_url] = gen_pages_link(result.work_id, result.batch_id, result.retas_accuracy)
+         rec[:juxta_url] = gen_pages_link(result.work_id, result.batch_id, result.juxta_accuracy) if result.has_attribute?(:juxta_accuracy)
+         rec[:retas_url] = gen_pages_link(result.work_id, result.batch_id, result.retas_accuracy) if result.has_attribute?(:retas_accuracy)
       end
       return rec
    end
@@ -329,7 +315,7 @@ class DashboardController < ApplicationController
    # results query. Use data in the session as filter.
    #
    private
-   def generate_query( full_results )
+   def generate_query( )
       # build where conditions
       q = session[:search]
       cond = ""
@@ -347,7 +333,7 @@ class DashboardController < ApplicationController
       
       if !session[:batch].nil?
          cond << " and" if cond.length > 0
-         cond << " work_ocr_results.batch_id=?"
+         cond << " batch_id=?"
          vals << session[:batch]
       end    
       
@@ -384,8 +370,7 @@ class DashboardController < ApplicationController
          cond << " and (select min(job_status) as js from job_queue where  job_queue.batch_id=work_ocr_results.batch_id and job_queue.work_id=wks_work_id) > 2"
       elsif  session[:ocr] == 'ocr_sched'
          cond << " and" if cond.length > 0
-          cond << " work_ocr_results.ocr_completed is null and"
-         cond << " (select min(job_status) as js from job_queue where job_queue.work_id=wks_work_id) < 3"
+         cond << " job_status < 3"
       elsif  session[:ocr] == 'ocr_none'
          cond << " and" if cond.length > 0
          cond << " work_ocr_results.ocr_completed is null"
@@ -396,12 +381,18 @@ class DashboardController < ApplicationController
 
       # build the ugly query to get all the info
       work_fields = "wks_work_id as work_id, wks_tcp_number as tcp_number, wks_title as title,wks_author as author,wks_ecco_number as ecco_number"
-      v_fields = "pf_id,pf_name as font_name, batch_id, ocr_completed, batch_name, ocr_engine_id, juxta_accuracy, retas_accuracy"
-      sel = "select #{work_fields}, #{v_fields} from work_ocr_results right outer join works on wks_work_id=work_id"
-      sel << " left outer join print_fonts on pf_id=wks_primary_print_font "
-      if full_results == false 
-         sel = "select wks_work_id from work_ocr_results right outer join works on wks_work_id=work_id"          
+      if session[:ocr] == 'ocr_sched'
+         # special query to get SCHEDULED works; dont use work_ocr_results
+         v_fields = "pf_id, pf_name as font_name, batch_id, batch_job.name as batch_name, ocr_engine_id"
+         sel = "select #{work_fields}, #{v_fields} from works left outer join print_fonts on pf_id=wks_primary_print_font"
+         sel << " left outer join job_queue on wks_work_id=job_queue.work_id "
+         sel << " inner join batch_job on batch_job.id = batch_id "
+      else
+         v_fields = "pf_id,pf_name as font_name, batch_id, ocr_completed, batch_name, ocr_engine_id, juxta_accuracy, retas_accuracy"
+         sel = "select #{work_fields}, #{v_fields} from works left outer join work_ocr_results on wks_work_id=work_id"
+         sel << " left outer join print_fonts on pf_id=wks_primary_print_font "
       end
+      
       where_clause = ""
       where_clause = "where #{cond}" if cond.length > 0
       return sel, where_clause, vals
