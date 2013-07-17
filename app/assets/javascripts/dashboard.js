@@ -54,7 +54,6 @@ $(function() {
       $("#running-jobs").text(resp.running);
       $("#postprocess-jobs").text(resp.postprocess);
       $("#failed-jobs").text(resp.failed);
-      alert("Batch successfully added to the work queue");            
       updateStatusIcons();
    };
       
@@ -74,7 +73,7 @@ $(function() {
       }
       data.params = $("#new-params").val();
       data.notes = $("#new-notes").val();
-      data.works = $("#work-id-list").text();
+      data.json = $("#batch-json").text();
       if (data.name.length === 0) {
          $("#new-batch-error").text("* Batch name is required *");
          $("#new-batch-error").show();
@@ -104,42 +103,68 @@ $(function() {
       }); 
    };
    
-   // schedule selected works for ocr
-   var scheduleSelectedWorks = function() {
-      var workIds = [];
-      $(".sel-cb").each(function () {
-         if ($(this).is(':checked')) {
-            var id = $(this).attr("id").substring("sel-work-".length);
-            workIds.push(id);
+   
+   var rescheduleWorks = function(data) {
+      $.ajax({
+         url : "dashboard/reschedule",
+         type : 'POST',
+         data : {jobs: JSON.stringify(data )},
+         success : function(resp, textStatus, jqXHR) {
+            showWaitPopup("Refreshng display...");
+            $("#ocr-work-error-popup").dialog("close");
+            window.location.reload();
+         },
+         error : function( jqXHR, textStatus, errorThrown ) {
+            hideWaitPopup();
+            alert("Unable to reschedule work. Cause:\n\n"+errorThrown+":"+jqXHR.responseText);
          }
       });
-      if (workIds.length === 0) {
-         alert("Select works to be OCR'd before clicking the 'Schedule Selected' button");
-      } else {
-         workIds = $.unique(workIds);
-         var err = 0;
-         var sched = 0;
-         $.each(workIds, function(idx, val) {
-            var si = $("#sel-work-"+val).parent().parent().find(".status-icon");
-            if ( si.hasClass("scheduled") ) {
+   };
+   
+   // schedule selected works for ocr
+   var scheduleSelectedWorks = function() {
+      var jobs = [];
+      var err = 0;
+      var sched = 0;
+      $(".sel-cb").each(function () {
+         if ($(this).is(':checked')) {
+            var workId = $(this).attr("id").substring("sel-".length).split("-")[0];
+            var batchId = $(this).attr("id").substring("sel-".length).split("-")[1];
+            jobs.push( {work: workId, batch: batchId} );
+            var statusIcon = $(this).parent().parent().find(".status-icon");
+            if ( statusIcon.hasClass("scheduled") ) {
                sched = sched+1;
             }
-            if ( si.hasClass("error") ) {
+            if ( statusIcon.hasClass("error") ) {
                err=err+1;
             }
-         });
+         }
+      });
+      if (jobs.length === 0) {
+         alert("Select works to be OCR'd before clicking the 'Schedule Selected' button");
+      } else {
          if ( sched > 0 ) {
-            alert("Some of these words are already scheduled. Cannot schedule them again until processing is complete.\n\nPlease select other works and try again.");
+            alert("Some of these works are already scheduled. Cannot schedule them again until processing is complete.\n\nPlease select other works and try again.");
          } else if (err > 0 ) {
-            if ( err <  workIds.length ) {
+            if ( err <  jobs.length ) {
                alert("Cannot schedule a mix of works with and without errors.\n\nPleae select other works and try again.");
             } else {
-               data = { batch: $("#batch-id").text(), pages:  pageIds};
-               $("#resubmit-data").text( JSON.stringify(data) );
+               setRescheduleHandler( function() {
+                  showWaitPopup("Rescheduling Works...");
+                  rescheduleWorks(jobs);
+                  $("#confirm-resubmit-popup").dialog("close");
+               });
+               setCreateBatchHandler( submitNewBatch );
+               $("#resubmit-data").text( JSON.stringify({type: 'work', detail: jobs}) );
                $("#confirm-resubmit-popup").dialog("open");
             }
          } else {
-            $("#work-id-list").text(JSON.stringify(workIds) );
+            workIds = [];
+            $.each(jobs, function(idx,val) {
+               workIds.push(val.work);
+            });
+            workIds = $.unique(workIds);
+            $("#batch-json").text(JSON.stringify({ works: workIds}) );
             setCreateBatchHandler( submitNewBatch );
             $("#new-batch-popup").dialog("open");
          }
@@ -399,7 +424,7 @@ $(function() {
       var workIds = [];
       $(".sel-cb").each(function () {
          if ($(this).is(':checked')) {
-            var id = $(this).attr("id").substring("sel-work-".length);
+            var id = $(this).attr("id").substring("sel-".length).split("-")[0];
             workIds.push(id);
          }
       });
@@ -439,22 +464,10 @@ $(function() {
       });
    });
    $("#reschedule-work").on("click", function() {
-      showWaitPopup("Rescheduling Batch...");
-      data = { work: $("#err-work-id").text(), batch:  $("#err-batch-id").text()}
-      $.ajax({
-         url : "dashboard/reschedule",
-         type : 'POST',
-         data : data,
-         success : function(resp, textStatus, jqXHR) {
-            showWaitPopup("Refreshng display...");
-            $("#ocr-work-error-popup").dialog("close");
-            window.location.reload();
-         },
-         error : function( jqXHR, textStatus, errorThrown ) {
-            hideWaitPopup();
-            alert("Unable to reschedule work. Cause:\n\n"+errorThrown+":"+jqXHR.responseText);
-         }
-      });
+      showWaitPopup("Rescheduling Work...");
+      //data = { works: [$("#err-work-id").text()], batch:  $("#err-batch-id").text()}
+      data = [ { work: $("#err-work-id").text(), batch:  $("#err-batch-id").text()} ]
+      rescheduleWorks(data);
    });
    
    

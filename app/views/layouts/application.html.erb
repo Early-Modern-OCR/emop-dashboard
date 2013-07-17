@@ -26,7 +26,7 @@
       
       <span id="types-json" style="display: none"><%= ActiveSupport::JSON.encode( @job_types ) %></span>
       <span id="engines-json" style="display: none"><%= ActiveSupport::JSON.encode( @engines ) %></span>
-      <span id="batch-json" style="display: none"><%= ActiveSupport::JSON.encode( @batches ) %></span>
+      <span id="batches-json" style="display: none"><%= ActiveSupport::JSON.encode( @batches ) %></span>
 
       <%= render :partial => '/common/resubmit_confirm_popup' %>
       <%= render :partial => '/common/new_batch_popup' %>

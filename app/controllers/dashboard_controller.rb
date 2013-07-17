@@ -126,24 +126,28 @@ class DashboardController < ApplicationController
    #
    def reschedule 
       begin
-         work_id = ActiveRecord::Base.sanitize(params[:work])
-         batch_id = ActiveRecord::Base.sanitize(params[:batch])
+         # job info is passed down as a json string. String
+         # is an array of objects. Each object has work and batch.
+         # Decode the string and handle the request
+         jobs = ActiveSupport::JSON.decode(params[:jobs])
+         jobs.each do | job |
+            work_id = job['work']
+            batch_id = job['batch']
+            
+            # remove the page results
+            sql = "delete from page_results where batch_id=#{batch_id} "
+            sql = sql << " and page_id in (select pg_page_id from pages where pg_work_id=#{work_id})"
+            PageResult.connection.execute( sql )
+            
+            # set job status back to scheduled
+            sql = "update job_queue set job_status=1,results=NULL where batch_id=#{batch_id} and work_id=#{work_id}"
+            JobQueue.connection.execute(sql);
+         end
          
-         # remove the page results
-         sql = "delete from page_results where batch_id=#{batch_id} "
-         sql = sql << " and page_id in (select pg_page_id from pages where pg_work_id=#{work_id})"
-         PageResult.connection.execute( sql )
-         
-         # set job status back to scheduled
-         sql = "update job_queue set job_status=1,results=nil where batch_id=#{batch_id} and work_id=#{work_id}"
-         JobQueue.connection.execute(sql);
-         
-         # get a new summary for the job queue
-         status = get_job_queue_status()
-         render  :json => ActiveSupport::JSON.encode(status), :status => :ok
+         render :text => "ok", :status => :ok
       rescue => e
          render :text => e.message, :status => :error
-      end  
+      end        
    end
    
    # Create a new batch from json data in the POST payload
@@ -161,8 +165,8 @@ class DashboardController < ApplicationController
          batch.save!
          
          # populate it with pages from the selected works
-         works =  ActiveSupport::JSON.decode(params[:works])
-         works.each do | work_id |
+         json_payload = ActiveSupport::JSON.decode(params[:json])
+         json_payload['works'].each do | work_id |
             pages = Page.where("pg_work_id = ?", work_id)
             pages.each do | page |
                job = JobQueue.new
@@ -196,7 +200,12 @@ class DashboardController < ApplicationController
     def result_to_hash(result)
       rec = {}
       rec[:id] = result.work_id
-      rec[:work_select] = "<input class='sel-cb' type='checkbox' id='sel-work-#{result.work_id}'>"
+      
+      # the checkbox id is a combination of work and batch id.
+      # if there is no batch, it is workId-0
+      id = "#{result.work_id}-0" if result.batch_id.nil?
+      id = "#{result.work_id}-#{result.batch_id}" if !result.batch_id.nil?
+      rec[:work_select] = "<input class='sel-cb' type='checkbox' id='sel-#{id}'>"
       
       if result.batch_id.nil?
          rec[:detail_link] = "<a href='results?work=#{result.work_id}'><div class='detail-link' title='View pages'></div></a>"
@@ -211,6 +220,7 @@ class DashboardController < ApplicationController
       else
          rec[:data_set] = 'EEBO'
       end
+      
       rec[:tcp_number] = result.tcp_number
       rec[:title] = result.title
       rec[:author] = result.author

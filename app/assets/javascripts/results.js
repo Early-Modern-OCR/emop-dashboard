@@ -45,8 +45,7 @@ $(function() {
       }
       data.params = $("#new-params").val();
       data.notes = $("#new-notes").val();
-      data.pages = $("#work-id-list").text();
-      data.work = $("#work-id").text();
+      data.json = $("#batch-json").text();
       if (data.name.length === 0) {
          $("#new-batch-error").text("* Batch name is required *");
          $("#new-batch-error").show();
@@ -122,7 +121,7 @@ $(function() {
             if ( err <  pageIds.length ) {
                alert("Cannot schedule a mix of pages with and without errors.\n\nPleae select other pages and try again.");
             } else {
-               data = { batch: $("#batch-id").text(), pages:  pageIds};
+               data = { type: 'page', work: $("#work-id").text(), batch: $("#batch-id").text(), pages:  pageIds};
                $("#resubmit-data").text( JSON.stringify(data) );
                
                setCreateBatchHandler( submitNewPagesBatch );
@@ -134,7 +133,7 @@ $(function() {
                $("#confirm-resubmit-popup").dialog("open");
             }
          } else {
-            $("#work-id-list").text(JSON.stringify(pageIds) );
+            $("#batch-json").text(JSON.stringify({work:$("#work-id").text(), pages: pageIds}) );
             setCreateBatchHandler( submitNewPagesBatch );
             $("#new-batch-popup").dialog("open");
          }

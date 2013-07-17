@@ -198,13 +198,15 @@ class ResultsController < ApplicationController
          batch.save!
          
          # populate it with pages from the selected works
-         pages =  ActiveSupport::JSON.decode(params[:pages])
-         pages.each do | page_id |   
+         # payload: {work: id, pages: [pageId,pageId...]}
+         json_payload = ActiveSupport::JSON.decode(params[:json])
+         work_id = json_payload['work']
+         json_payload['pages'].each do | page_id |   
             job = JobQueue.new
             job.batch_id = batch.id
             job.page_id = page_id 
             job.job_status = 1  
-            job.work_id = params[:work]
+            job.work_id = work_id
             job.save!
          end
          

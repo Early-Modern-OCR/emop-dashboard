@@ -36,18 +36,19 @@ var setRescheduleHandler = function( handler ) {
 
 $(function() {
    // grab json batch info and convert into js objects/arrays
-   batches = JSON.parse( $("#batch-json").text() );
+   batches = JSON.parse( $("#batches-json").text() );
    jobTypes = JSON.parse( $("#types-json").text() );
    engines = JSON.parse( $("#engines-json").text() );
    
    var updateFontColumn = function(works, fntName) {
       $.each(JSON.parse(works), function(idx, val) {
-         var cb = $("#sel-work-" + val);
-         var row = cb.parent().parent();
-         row.find("td").each(function(index) {
-            if (index === 8) {
-               $(this).text(fntName);
-            }
+         $(".sel-cb[id^=sel-" + val+"]").each( function() {
+            var row = $(this).parent().parent();
+            row.find("td").each(function(index) {
+               if (index === 8) {
+                  $(this).text(fntName);
+               }
+            });
          });
       });
    }; 
@@ -147,8 +148,17 @@ $(function() {
             }
          },
          "New Batch" : function() {
-            var data = $.parseJSON($("#resubmit-data").text());
-            $("#work-id-list").text(JSON.stringify(data.pages));
+            var json = $("#resubmit-data").text()
+            var parsed = $.parseJSON(json);
+            if ( parsed.type === 'page' ) {
+               $("#batch-json").text( json );
+            } else {
+               workIds = [];
+               $.each(parsed.detail, function(idx, val) {
+                  workIds.push(val.work);
+               });
+               $("#batch-json").text( JSON.stringify({works: workIds}) );
+            }
             $("#new-batch-popup").dialog("open");
             $(this).dialog("close");
          },
