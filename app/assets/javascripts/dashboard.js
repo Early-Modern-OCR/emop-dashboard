@@ -145,19 +145,15 @@ $(function() {
       } else {
          if ( sched > 0 ) {
             alert("Some of these works are already scheduled. Cannot schedule them again until processing is complete.\n\nPlease select other works and try again.");
-         } else if (err > 0 ) {
-            if ( err <  jobs.length ) {
-               alert("Cannot schedule a mix of works with and without errors.\n\nPleae select other works and try again.");
-            } else {
-               setRescheduleHandler( function() {
-                  showWaitPopup("Rescheduling Works...");
-                  rescheduleWorks(jobs);
-                  $("#confirm-resubmit-popup").dialog("close");
-               });
-               setCreateBatchHandler( submitNewBatch );
-               $("#resubmit-data").text( JSON.stringify({type: 'work', detail: jobs}) );
-               $("#confirm-resubmit-popup").dialog("open");
-            }
+         } else if ( err === jobs.length ) {
+            setRescheduleHandler( function() {
+               showWaitPopup("Rescheduling Works...");
+               rescheduleWorks(jobs);
+               $("#confirm-resubmit-popup").dialog("close");
+            });
+            setCreateBatchHandler( submitNewBatch );
+            $("#resubmit-data").text( JSON.stringify({type: 'work', detail: jobs}) );
+            $("#confirm-resubmit-popup").dialog("open");
          } else {
             workIds = [];
             $.each(jobs, function(idx,val) {
