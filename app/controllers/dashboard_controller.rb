@@ -221,6 +221,7 @@ class DashboardController < ApplicationController
          rec[:data_set] = 'EEBO'
       end
       
+      rec[:tcp_number] = result.wks_tcp_number
       rec[:title] = result.title
       rec[:author] = result.author
       rec[:font] = result.font_name
@@ -391,7 +392,7 @@ class DashboardController < ApplicationController
       end
 
       # build the ugly query to get all the info
-      work_fields = "wks_work_id as work_id, wks_title as title, wks_author as author, wks_ecco_number as ecco_number"
+      work_fields = "wks_work_id as work_id, wks_tcp_number, wks_title as title, wks_author as author, wks_ecco_number as ecco_number"
       if session[:ocr] == 'ocr_sched'
          # special query to get SCHEDULED works; dont use work_ocr_results
          v_fields = "pf_id, pf_name as font_name, batch_id, batch_job.name as batch_name, ocr_engine_id"
