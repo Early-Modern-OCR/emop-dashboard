@@ -190,6 +190,24 @@ $(function() {
       $("#set-font-popup").dialog("open");
    });
    
+   // Download text or hOCR results for a page
+   // FIXME
+   var downloadItem = function(resultType, id) {
+      showWaitPopup("Downloading results...");
+      var token = new Date().getTime();
+      window.location = "results/"+id+"/" + resultType + "?download&token=" + token;
+      var limit = 10;
+      var intId = setInterval(function() {
+         var cookieValue = $.cookie('fileDownloadToken');
+         limit -= 1;
+         if (cookieValue == token || limit <= 0) {
+            hideWaitPopup();
+            clearInterval(intId);
+         }
+      }, 500);
+   }; 
+
+   
    // POPUPS
    $("#ocr-view-popup").dialog({
       autoOpen : false,
@@ -203,7 +221,8 @@ $(function() {
          },
          "Download" : function() {
             $(this).dialog("close");
-         }
+            downloadItem( $("#result-type").text().toLowerCase(), $("#tgt-result-id").text());
+          }
       }
    }); 
    $("#ocr-error-popup").dialog({
@@ -222,6 +241,7 @@ $(function() {
          type : 'GET',
          success : function(resp, textStatus, jqXHR) {
             hideWaitPopup();
+            $("#tgt-result-id").text(id);
             $("#result-type").text("Text");
             $("#ocr-page-num").text(resp.page);
             $("#ocr-text-display").val(resp.content);
@@ -243,6 +263,7 @@ $(function() {
          type : 'GET',
          success : function(resp, textStatus, jqXHR) {
             hideWaitPopup();
+            $("#tgt-result-id").text(id);
             $("#result-type").text("hOCR");
             $("#ocr-page-num").text(resp.page);
             $("#ocr-text-display").val(resp.content);

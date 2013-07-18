@@ -146,10 +146,18 @@ class ResultsController < ApplicationController
       txt_path = "#{Settings.emop_path_prefix}#{page_result.ocr_text_path}"
       file = File.open(txt_path, "r")
       contents = file.read
-      resp = {}
-      resp[:page] = page_result.pg_ref_number
-      resp[:content] = contents
-      render  :json => resp, :status => :ok  
+     
+      if params.has_key?(:download)
+         token = params[:token]
+         inf = txt_path.split(/\//)
+         send_data(contents, :filename=>inf[inf.length-1],  :type => "text/plain", :disposition => "attachment")
+         cookies[:fileDownloadToken] = { :value => "#{token}", :expires => Time.now + 5}
+       else
+         resp = {}
+         resp[:page] = page_result.pg_ref_number
+         resp[:content] = contents
+         render  :json => resp, :status => :ok  
+      end
    end
    
    # Get the hOCR for the specified page_result
@@ -161,10 +169,17 @@ class ResultsController < ApplicationController
       xml_path = "#{Settings.emop_path_prefix}#{page_result.ocr_xml_path}"
       file = File.open(xml_path, "r")
       contents = file.read
-      resp = {}
-      resp[:page] = page_result.pg_ref_number
-      resp[:content] = contents
-      render  :json => resp, :status => :ok  
+      if params.has_key?(:download)
+         token = params[:token]
+         inf = xml_path.split(/\//)
+         send_data(contents, :filename=>inf[inf.length-1],  :type => "text/xml", :disposition => "attachment")
+         cookies[:fileDownloadToken] = { :value => "#{token}", :expires => Time.now + 5}
+      else
+         resp = {}
+         resp[:page] = page_result.pg_ref_number
+         resp[:content] = contents
+         render  :json => resp, :status => :ok
+      end
    end
    
    # Get the error for a page

@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.ui.all
-//= require jquery.dataTables.min.js
-//= require jquery.form.min.js
+//= require jquery.cookie
+//= require jquery.dataTables.min
+//= require jquery.form.min
 //= require_tree .
