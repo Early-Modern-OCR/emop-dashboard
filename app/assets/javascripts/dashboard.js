@@ -355,7 +355,6 @@ $(function() {
          { "mData": "detail_link" },
          { "mData": "data_set" },         
          { "mData": "id" },
-         { "mData": "tcp_number" },
          { "mData": "title" },
          { "mData": "author" },
          { "mData": "font" },
@@ -370,8 +369,8 @@ $(function() {
          { "aTargets": [1], "bSortable": false},
          { "aTargets": [2], "bSortable": false},
          { "aTargets": [3], "bSortable": false},
-         { "aTargets": [12], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
-         { "aTargets": [13], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
+         { "aTargets": [11], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
+         { "aTargets": [12], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
       ],
       "fnServerParams": function ( aoData ) {
          if ( $('#require-gt').is(':checked')) {

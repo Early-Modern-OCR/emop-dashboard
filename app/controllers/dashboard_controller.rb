@@ -83,7 +83,7 @@ class DashboardController < ApplicationController
          # differnent query to get counts
          count_sel = "select count(distinct batch_id) as cnt from works inner join job_queue on wks_work_id=job_queue.work_id "
       else
-         count_sel = "select count(*) as cnt from works inner join work_ocr_results on wks_work_id=work_id "
+         count_sel = "select count(*) as cnt from works left outer join work_ocr_results on wks_work_id=work_id "
       end
       sql = ["#{count_sel} #{where_clause}"]
       sql = sql + vals
@@ -221,7 +221,6 @@ class DashboardController < ApplicationController
          rec[:data_set] = 'EEBO'
       end
       
-      rec[:tcp_number] = result.tcp_number
       rec[:title] = result.title
       rec[:author] = result.author
       rec[:font] = result.font_name
@@ -331,11 +330,13 @@ class DashboardController < ApplicationController
       cond = ""
       vals = []
       if q.length > 0 
-         cond = "(wks_tcp_number LIKE ? || wks_author LIKE ? || wks_title LIKE ?)"
+         cond = "(wks_work_id LIKE ? || wks_author LIKE ? || wks_title LIKE ?)"
          vals = ["%#{q}%", "%#{q}%", "%#{q}%" ]   
       end
       
       # add in extra filters:
+      # NOTES: for ECCO, non-null TCP means GT is available
+      #        for EEBO, non-null MARC means GT is avail
       if !session[:gt].nil?
          cond << " and" if cond.length > 0
          cond << " (wks_tcp_number is not null or wks_marc_record is not null)"
@@ -390,7 +391,7 @@ class DashboardController < ApplicationController
       end
 
       # build the ugly query to get all the info
-      work_fields = "wks_work_id as work_id, wks_tcp_number as tcp_number, wks_title as title,wks_author as author,wks_ecco_number as ecco_number"
+      work_fields = "wks_work_id as work_id, wks_title as title, wks_author as author, wks_ecco_number as ecco_number"
       if session[:ocr] == 'ocr_sched'
          # special query to get SCHEDULED works; dont use work_ocr_results
          v_fields = "pf_id, pf_name as font_name, batch_id, batch_job.name as batch_name, ocr_engine_id"
