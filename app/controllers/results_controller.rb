@@ -65,6 +65,7 @@ class ResultsController < ApplicationController
          rec[:page_select] = "<input class='sel-cb' type='checkbox' id='sel-page-#{page.page_id}'>"
          rec[:detail_link] = "<div class='detail-link disabled'>"  # no details yet!
          rec[:ocr_text] = "<div class='ocr-txt  disabled' title='View OCR text output'>"
+         rec[:ocr_hocr] = "<div class='ocr-hocr  disabled' title='View hOCR output'>"
          rec[:status] = page_status_icon(page.page_id, nil, nil)
          rec[:page_number] = page.page_num
          rec[:juxta_accuracy] = "-"
@@ -114,7 +115,8 @@ class ResultsController < ApplicationController
       pages.each do | page | 
          rec = {}
          rec[:page_select] = "<input class='sel-cb' type='checkbox' id='sel-page-#{page.page_id}'>"
-         rec[:ocr_text] = "<div id='result-#{page.result_id}' class='ocr-txt' title='View OCR text output'>"  # no details yet!
+         rec[:ocr_text] = "<div id='result-#{page.result_id}' class='ocr-txt' title='View OCR text output'>" 
+         rec[:ocr_hocr] = "<div id='hocr-#{page.result_id}' class='ocr-hocr' title='View hOCR output'>"
          if page.juxta.nil?
             rec[:juxta_accuracy] = "-"
             rec[:retas_accuracy] = "-"
@@ -143,6 +145,21 @@ class ResultsController < ApplicationController
       page_result = PageResult.find_by_sql( sql ).first
       txt_path = "#{Settings.emop_path_prefix}#{page_result.ocr_text_path}"
       file = File.open(txt_path, "r")
+      contents = file.read
+      resp = {}
+      resp[:page] = page_result.pg_ref_number
+      resp[:content] = contents
+      render  :json => resp, :status => :ok  
+   end
+   
+   # Get the hOCR for the specified page_result
+   #
+   def get_page_hocr
+      page_id = params[:id]
+      sql = ["select pg_ref_number, ocr_xml_path from page_results inner join pages on pg_page_id=page_id where id=?",page_id]
+      page_result = PageResult.find_by_sql( sql ).first
+      xml_path = "#{Settings.emop_path_prefix}#{page_result.ocr_xml_path}"
+      file = File.open(xml_path, "r")
       contents = file.read
       resp = {}
       resp[:page] = page_result.pg_ref_number
