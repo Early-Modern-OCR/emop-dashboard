@@ -14,10 +14,13 @@
 .dataTables_processing {
    border: none;
    color: black;
-   box-shadow: 3px 3px 17px #333;
+   box-shadow: 3px 3px 15px 5px #555;
    background-color: #eee;
    outline: 0;
-   top: 200px !important;
+   top: 425px !important;
+   position: fixed;
+   border-radius: 5px;
+   font-weight: bold;
 }
 
 .small-label {
