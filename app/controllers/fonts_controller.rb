@@ -4,21 +4,23 @@ class FontsController < ApplicationController
    #
    def create_training_font
       begin
+         font_name = params["font-name"]
+         if Font.where(:font_name=>font_name).count > 0 
+            render :text => "A font with this name already exists. Please use a unique name.", :status => :error  
+            return 
+         end
+         
          # grab the uploaded file and write it out
          # to the shared fonts directory
          upload_file = params[:file].tempfile
          orig_name =  params[:file].original_filename
-         font_name = params["font-name"]
-         out_dir = "#{Settings.emop_font_dir}/#{font_name}"
-         out = "#{out_dir}/#{orig_name}"
-         if !File.directory?( out_dir )
-            Dir.mkdir(out_dir)
-         end
+         
+         out = "#{Settings.emop_font_dir}/#{font_name}.traineddata"
          File.open(out, "wb") { |f| f.write(upload_file.read) }
          
          # Create a reference to it in the fonts tabls
          font = Font.new
-         font.font_library_path = out
+         font.font_library_path = nil
          font.font_name = font_name
          font.save!
 

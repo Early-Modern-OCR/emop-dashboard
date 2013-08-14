@@ -255,8 +255,7 @@ $(function() {
 
    var uploadFontFailed = function(jqXHR, statusText, xhr, form) {
       hideWaitPopup();
-      var err = jqXHR.responseText.replace("\n", "<br/>");
-      alert("Upload Source Failed", err);
+      alert("Upload Font Failed:\n\n"+jqXHR.responseText);
    };
    
    // bind font create submit to an ajax submit with listeners
