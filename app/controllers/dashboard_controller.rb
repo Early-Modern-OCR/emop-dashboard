@@ -78,12 +78,13 @@ class DashboardController < ApplicationController
       
       # run a count query without the paging limits to get
       # the total number of results available
+      pf_join = "left outer join print_fonts on pf_id=wks_primary_print_font"
       if session[:ocr] == 'ocr_sched'
          # search for scheduled uses different query to get data. Also need slightly
          # differnent query to get counts
-         count_sel = "select count(distinct batch_id) as cnt from works inner join job_queue on wks_work_id=job_queue.work_id "
+         count_sel = "select count(distinct batch_id) as cnt from works #{pf_join} inner join job_queue on wks_work_id=job_queue.work_id "
       else
-         count_sel = "select count(*) as cnt from works left outer join work_ocr_results on wks_work_id=work_id "
+         count_sel = "select count(*) as cnt from works  #{pf_join} left outer join work_ocr_results on wks_work_id=work_id "
       end
       sql = ["#{count_sel} #{where_clause}"]
       sql = sql + vals
