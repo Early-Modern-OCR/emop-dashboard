@@ -294,15 +294,37 @@ class ResultsController < ApplicationController
    
    private
    def get_ocr_image_path(work, page_num) 
+      
+      # first, see if the image path was stored in DB. If so, use it
+      page = Page.where("pg_work_id=? and pg_ref_number=?", work.wks_work_id, page_num).first
+      if !page.nil? && !page.pg_image_path.blank?
+         return "#{Settings.emop_path_prefix}#{page.pg_image_path}"
+      end
+        
+      # not in db; try to generate it
       if work.isECCO?
          # ECCO format: ECCO number + 4 digit page + 0.tif
          ecco_dir = work.wks_ecco_directory
          return "%s%s/%s%04d0.TIF" % [Settings.emop_path_prefix, ecco_dir, work.wks_ecco_number, page_num];
       else
          # EEBO format: 00014.000.001.tif where 00014 is the page number.
+         # EEBO is a problem because of the last segment before .tif. It is some
+         # kind of version info and can vary. Start with 0 and increase til 
+         # a file is found.
          ebbo_dir = work.wks_eebo_directory
-         return "%s%s/%05d.000.001.tif" % [Settings.emop_path_prefix, ebbo_dir, page_num];
+         version_num = 0
+         begin 
+            img_file = "%s%s/%05d.000.%03d.tif" % [Settings.emop_path_prefix, ebbo_dir, page_num, version_num];
+            if File.exists?(img_file)
+               return img_file
+            end
+            version_num = version_num+1
+         end  while version_num < 100 
+         return "";  # NOT FOUND!
       end
    end
+   
+  
+
 
 end
