@@ -38,9 +38,9 @@ $(function() {
    var tipY;
    
    // set status ucons based on newly scheduled job                
-   var updateStatusIcons = function() {
+   var updateStatusIcons = function( isAll ) {
       $(".sel-cb").each(function () {
-         if ($(this).is(':checked')) {
+         if ($(this).is(':checked') || isAll ) {
             var status = $(this).parent().parent().find(".status-icon");
             status.removeClass().addClass("status-icon scheduled");
             $(this).prop('checked', false);
@@ -54,7 +54,6 @@ $(function() {
       $("#running-jobs").text(resp.running);
       $("#postprocess-jobs").text(resp.postprocess);
       $("#failed-jobs").text(resp.failed);
-      updateStatusIcons();
    };
       
    // submit a new WORKS batch
@@ -85,6 +84,9 @@ $(function() {
          return;
       }
       
+      // flag if this is a request to batch ALL matching works
+      var isAll = (data.json.indexOf("all") > -1);
+            
       // Post the request
       showWaitPopup("Adding works to queue");
       $.ajax({
@@ -93,6 +95,7 @@ $(function() {
          data : data,
          success : function(resp, textStatus, jqXHR) {
             updateQueueStatus(resp);
+            updateStatusIcons( isAll );
             $("#new-batch-popup").dialog("close");
             hideWaitPopup();
          },
@@ -119,6 +122,23 @@ $(function() {
             alert("Unable to reschedule work. Cause:\n\n"+errorThrown+":"+jqXHR.responseText);
          }
       });
+   };
+   
+   
+   /**
+    * Schedule all works that match the current search criteria
+    */
+   var scheduleAll = function() {
+      var size = $("#detail-table_info").text();
+      var p = size.indexOf("of ");
+      var p2 = size.indexOf(" entries");
+      var count = size.substring(p+3,p2);
+      var resp = confirm("This will create a batch containing "+count+" documents. Are you sure?");
+      if ( resp === true ) {
+         $("#batch-json").text(JSON.stringify({ works: "all", count: parseInt(count,10)}) );
+         setCreateBatchHandler( submitNewBatch );
+         $("#new-batch-popup").dialog("open");   
+      }
    };
    
    // schedule selected works for ocr
@@ -327,6 +347,9 @@ $(function() {
    $("#schedule-selected").on("click", function() {
       scheduleSelectedWorks();
    });
+   $("#schedule-all").on("click", function() {
+      scheduleAll();
+   });
 
    // create the data table instance. it has custom plug-in
    // behavior that only triggers the search filter on enter
@@ -448,7 +471,7 @@ $(function() {
             $("#error-batch").text(resp.job);
             $("#work-error-messages").empty();
             $.each(resp.errors, function(idx, val) {
-               var p = "<div><span class='err-page'>Page "+val.page+":</span><span class='err-msg'>"+val.error+"<span></div>"
+               var p = "<div><span class='err-page'>Page "+val.page+":</span><span class='err-msg'>"+val.error+"<span></div>";
                $("#work-error-messages").append(p);
             });
             $("#ocr-work-error-popup").dialog("open");
@@ -462,7 +485,7 @@ $(function() {
    $("#reschedule-work").on("click", function() {
       showWaitPopup("Rescheduling Work...");
       //data = { works: [$("#err-work-id").text()], batch:  $("#err-batch-id").text()}
-      data = [ { work: $("#err-work-id").text(), batch:  $("#err-batch-id").text()} ]
+      data = [ { work: $("#err-work-id").text(), batch:  $("#err-batch-id").text()} ];
       rescheduleWorks(data);
    });
    

@@ -1,3 +1,5 @@
+require 'activerecord-import'
+
 class DashboardController < ApplicationController
    # main dashboard summary view
    #
@@ -59,7 +61,7 @@ class DashboardController < ApplicationController
       # generate the select, conditional and vars parts of the query
       # the true parameter indicates that this result should include
       # all columns necessry to populate the dashboard view.
-      sel, where_clause, vals = generate_query()
+      sel, where_clause, vals = generate_query( :full )
 
       # build the ugly query
       limits = "limit #{params[:iDisplayLength]} OFFSET #{params[:iDisplayStart]}"
@@ -155,29 +157,75 @@ class DashboardController < ApplicationController
    #
    def create_batch
       begin
-         # create the new batch
-         batch = BatchJob.new
-         batch.name = params[:name]
-         batch.job_type = params[:type_id]
-         batch.ocr_engine_id = params[:engine_id]
-         batch.font_id = params[:font_id]
-         batch.parameters = params[:params]
-         batch.notes = params[:notes]
-         batch.save!
          
-         # populate it with pages from the selected works
+         # # create the new batch
+         # batch = BatchJob.new
+         # batch.name = params[:name]
+         # batch.job_type = params[:type_id]
+         # batch.ocr_engine_id = params[:engine_id]
+         # batch.font_id = params[:font_id]
+         # batch.parameters = params[:params]
+         # batch.notes = params[:notes]
+         # batch.save!
+         
+         # get the work id payload. If it is ALL, generate a 
+         # query to get all of the work IDs based on the current 
+         # filter settings
          json_payload = ActiveSupport::JSON.decode(params[:json])
-         json_payload['works'].each do | work_id |
-            pages = Page.where("pg_work_id = ?", work_id)
+         if json_payload['works'] == 'all'
+            sel, where_clause, vals = generate_query( :work_id )
+   
+            start = 0
+            total = json_payload['count']
+            page_size = 100
+            
+            # loop over chunks of results and add them to the batch
+            while start < total
+               limits = "limit 100 OFFSET #{start}"
+               if session[:ocr] == 'ocr_sched'
+                  # scheduled uses a different query that needs a group by to make the results work
+                  sql = ["#{sel} #{where_clause} group by work_id, batch_id #{limits}"]   
+               else
+                  sql = ["#{sel} #{where_clause} #{limits}"]   
+               end
+               sql = sql + vals
+               results = WorkOcrResult.find_by_sql(sql)
+               work_ids = []
+               results.each do | res |
+                  work_ids << res.id
+               end
+               puts "WORKS [#{work_ids}]"
+               jobs = []
+               pages = Page.select("pg_page_id, pg_work_id").where("pg_work_id in (?)", [14348])#work_ids)
+               pages.each do | page |
+                     puts "work #{page.pg_work_id}, page #{page.pg_page_id}"
+                  # job = JobQueue.new
+                  # job.batch_id = batch.id
+                  # job.page_id = page.pg_page_id
+                  # job.job_status = 1
+                  # job.work_id=page.pg_work_id
+                  # jobs << job
+               end 
+               #JobQueue.import jobs  
+               
+               # next page
+               start += results.count
+            end
+         else 
+            # populate it with pages from the selected works
+            jobs = []
+            work_ids = json_payload['works'].join(",")
+            pages = Page.select("pg_page_id, pg_work_id").where("pg_work_id in (?)", work_ids)
             pages.each do | page |
                job = JobQueue.new
                job.batch_id = batch.id
                job.page_id = page.pg_page_id
                job.job_status = 1
-               job.work_id=work_id
-               job.save!
+               job.work_id=page.pg_work_id
+               jobs << job
             end
-         end
+            JobQueue.import jobs
+         end   
 
          # get a new summary for the job queue
          status = get_job_queue_status()
@@ -326,7 +374,7 @@ class DashboardController < ApplicationController
    # results query. Use data in the session as filter.
    #
    private
-   def generate_query( )
+   def generate_query( type )
       # build where conditions
       q = session[:search]
       cond = ""
@@ -394,15 +442,24 @@ class DashboardController < ApplicationController
 
       # build the ugly query to get all the info
       work_fields = "wks_work_id as work_id, wks_tcp_number, wks_title as title, wks_author as author, wks_ecco_number as ecco_number"
+      if type == :work_id
+         work_fields = "wks_work_id as work_id"   
+      end
       if session[:ocr] == 'ocr_sched'
          # special query to get SCHEDULED works; dont use work_ocr_results
-         v_fields = "pf_id, pf_name as font_name, batch_id, batch_job.name as batch_name, ocr_engine_id"
-         sel = "select #{work_fields}, #{v_fields} from works left outer join print_fonts on pf_id=wks_primary_print_font"
+         v_fields = ", pf_id, pf_name as font_name, batch_id, batch_job.name as batch_name, ocr_engine_id"
+         if type == :work_id
+             v_fields = ""   
+         end
+         sel = "select #{work_fields} #{v_fields} from works left outer join print_fonts on pf_id=wks_primary_print_font"
          sel << " left outer join job_queue on wks_work_id=job_queue.work_id "
          sel << " inner join batch_job on batch_job.id = batch_id "
       else
-         v_fields = "pf_id,pf_name as font_name, batch_id, ocr_completed, batch_name, ocr_engine_id, juxta_accuracy, retas_accuracy"
-         sel = "select #{work_fields}, #{v_fields} from works left outer join work_ocr_results on wks_work_id=work_id"
+         v_fields = ", pf_id,pf_name as font_name, batch_id, ocr_completed, batch_name, ocr_engine_id, juxta_accuracy, retas_accuracy"
+         if type == :work_id
+             v_fields = ""   
+         end
+         sel = "select #{work_fields} #{v_fields} from works left outer join work_ocr_results on wks_work_id=work_id"
          sel << " left outer join print_fonts on pf_id=wks_primary_print_font "
       end
       

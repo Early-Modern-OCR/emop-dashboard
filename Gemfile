@@ -10,6 +10,7 @@ gem 'settingslogic'
 gem 'rest-client'
 gem 'whenever', :require => false
 gem 'rmagick'
+gem 'activerecord-import', '~> 0.4.1', :require => false
 
 # Gems used only for assets and not required
 # in production environments by default.
