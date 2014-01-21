@@ -29,7 +29,7 @@
          <select id="batch-filter" name="batch-filter">
             <option value>All</option>
             <% @batches.each do | batch | %>
-               <option value="<%= batch[:id] %>" <% if @batch_filter.to_i==batch[:id] %>selected<%end%> ><%= batch[:name] %></option>
+               <option value="<%= batch[:id] %>" <% if @batch_filter.to_i==batch[:id] %>selected<%end%> ><%= batch[:id] %> - <%= batch[:name] %></option>
             <% end %>
          </select>
       </p>
