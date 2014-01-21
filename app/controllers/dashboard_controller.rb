@@ -32,7 +32,6 @@ class DashboardController < ApplicationController
    #
    def fetch
       # NOTE: have sample data from TCP K072
-      puts params
       resp = {}
       resp['sEcho'] = params[:sEcho]
       resp['iTotalRecords'] = Work.count()
@@ -158,15 +157,15 @@ class DashboardController < ApplicationController
    def create_batch
       begin
          
-         # # create the new batch
-         # batch = BatchJob.new
-         # batch.name = params[:name]
-         # batch.job_type = params[:type_id]
-         # batch.ocr_engine_id = params[:engine_id]
-         # batch.font_id = params[:font_id]
-         # batch.parameters = params[:params]
-         # batch.notes = params[:notes]
-         # batch.save!
+         # create the new batch
+         batch = BatchJob.new
+         batch.name = params[:name]
+         batch.job_type = params[:type_id]
+         batch.ocr_engine_id = params[:engine_id]
+         batch.font_id = params[:font_id]
+         batch.parameters = params[:params]
+         batch.notes = params[:notes]
+         batch.save!
          
          # get the work id payload. If it is ALL, generate a 
          # query to get all of the work IDs based on the current 
@@ -181,32 +180,25 @@ class DashboardController < ApplicationController
             
             # loop over chunks of results and add them to the batch
             while start < total
-               limits = "limit 100 OFFSET #{start}"
-               if session[:ocr] == 'ocr_sched'
-                  # scheduled uses a different query that needs a group by to make the results work
-                  sql = ["#{sel} #{where_clause} group by work_id, batch_id #{limits}"]   
-               else
-                  sql = ["#{sel} #{where_clause} #{limits}"]   
-               end
+               limits = "limit #{page_size} OFFSET #{start}"
+               sql = ["#{sel} #{where_clause} #{limits}"] 
                sql = sql + vals
                results = WorkOcrResult.find_by_sql(sql)
                work_ids = []
                results.each do | res |
                   work_ids << res.id
                end
-               puts "WORKS [#{work_ids}]"
                jobs = []
-               pages = Page.select("pg_page_id, pg_work_id").where("pg_work_id in (?)", [14348])#work_ids)
+               pages = Page.select("pg_page_id, pg_work_id").where("pg_work_id in (?)", work_ids)
                pages.each do | page |
-                     puts "work #{page.pg_work_id}, page #{page.pg_page_id}"
-                  # job = JobQueue.new
-                  # job.batch_id = batch.id
-                  # job.page_id = page.pg_page_id
-                  # job.job_status = 1
-                  # job.work_id=page.pg_work_id
-                  # jobs << job
+                  job = JobQueue.new
+                  job.batch_id = batch.id
+                  job.page_id = page.pg_page_id
+                  job.job_status = 1
+                  job.work_id=page.pg_work_id
+                  jobs << job
                end 
-               #JobQueue.import jobs  
+               JobQueue.import jobs  
                
                # next page
                start += results.count
@@ -380,7 +372,7 @@ class DashboardController < ApplicationController
       cond = ""
       vals = []
       if q.length > 0 
-         cond = "(wks_work_id LIKE ? || wks_author LIKE ? || wks_title LIKE ?)"
+         cond = "(wks_tcp_number LIKE ? || wks_author LIKE ? || wks_title LIKE ?)"
          vals = ["%#{q}%", "%#{q}%", "%#{q}%" ]   
       end
       

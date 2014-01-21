@@ -30,6 +30,15 @@ jQuery.fn.dataTableExt.oApi.fnFilterOnReturn = function (oSettings) {
 $(function() {
    
    hideWaitPopup();
+   
+   // if the current filter is set to SCHEDULED, no works can be
+   // scheduled from this result set (they-re already scheduled!).
+   // disable all of the select-related buttons
+   if ( $("#ocr-filter").val() === "ocr_sched") {
+      $("#select-all").attr("disabled", "disabled");
+      $("#schedule-selected").attr("disabled", "disabled");
+      $("#schedule-all").attr("disabled", "disabled");
+   }
      
    // to control tooltip mouseover behavior
    var tipShowTimer = -1;
