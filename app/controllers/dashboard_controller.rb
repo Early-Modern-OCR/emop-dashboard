@@ -372,7 +372,7 @@ class DashboardController < ApplicationController
       cond = ""
       vals = []
       if q.length > 0 
-         cond = "(wks_tcp_number LIKE ? || wks_author LIKE ? || wks_title LIKE ?)"
+         cond = "(wks_work_id LIKE ? || wks_author LIKE ? || wks_title LIKE ?)"
          vals = ["%#{q}%", "%#{q}%", "%#{q}%" ]   
       end
       
