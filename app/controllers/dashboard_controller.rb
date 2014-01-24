@@ -206,7 +206,7 @@ class DashboardController < ApplicationController
          else 
             # populate it with pages from the selected works
             jobs = []
-            work_ids = json_payload['works'].join(",")
+            work_ids = json_payload['works']
             pages = Page.select("pg_page_id, pg_work_id").where("pg_work_id in (?)", work_ids)
             pages.each do | page |
                job = JobQueue.new
