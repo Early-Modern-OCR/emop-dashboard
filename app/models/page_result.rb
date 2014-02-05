@@ -5,7 +5,8 @@ class PageResult < ActiveRecord::Base
    establish_connection(:emop)
    self.table_name = :page_results
    belongs_to :page
-   
+   belongs_to :batch_job, foreign_key: 'batch_id'
+
    # get the type of ocr engine used to generate this result
    #
    def get_ocr_engine

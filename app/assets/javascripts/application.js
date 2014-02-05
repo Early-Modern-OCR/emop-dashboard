@@ -16,4 +16,8 @@
 //= require jquery.cookie
 //= require jquery.dataTables.min
 //= require jquery.form.min
+//= require jquery.mousewheel.min
+//= require juxta-ws-common
+//= require raphael-min
+//= require sidebyside
 //= require_tree .

@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
          foo[:notes] = batch.notes
          foo[:type] = @job_types[batch.job_type-1]
          foo[:engine] = @engines[batch.ocr_engine_id-1]
-		 foo[:font] = @fonts.index { |rec| rec.id == batch.font_id }
+		     foo[:font] = @fonts.index { |rec| rec.id == batch.font_id }
          @batches << foo
       end
    end

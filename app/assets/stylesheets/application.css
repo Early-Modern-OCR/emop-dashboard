@@ -13,6 +13,7 @@
  *= require jquery-ui
  *= require jquery.dataTables
  *= require_self
+ *= require sidebyside
  *= require_tree .
  */
 body {

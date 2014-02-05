@@ -5,6 +5,8 @@ class Page < ActiveRecord::Base
    establish_connection(:emop)
    self.table_name = :pages
    self.primary_key = :pg_page_id   
+   has_many :job_queues, foreign_key: 'page_id'
+   belongs_to :work, foreign_key: 'pg_work_id'
    
    def get_latest_result( ocr_engine )
       pages = PageResult.where(:page_id => self.id).order("ocr_completed desc")

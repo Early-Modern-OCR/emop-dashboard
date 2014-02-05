@@ -1,0 +1,8 @@
+one:
+  name: "batch test 1"
+  id: 1
+  job_type: 2
+  ocr_engine_id: 2
+  parameters: ""
+  notes: ""
+  font_id: 2

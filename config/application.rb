@@ -15,6 +15,9 @@ Bundler.require(*Rails.groups)
 
 module EmopDashboard
   class Application < Rails::Application
+    # Setup additional routes by loading all routes file from routes directory
+    config.paths["config/routes"] += Dir[Rails.root.join("config/routes/**/*.rb")]
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
