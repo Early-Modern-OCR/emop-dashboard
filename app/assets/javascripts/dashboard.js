@@ -142,7 +142,7 @@ $(function() {
       var p = size.indexOf("of ");
       var p2 = size.indexOf(" entries");
       var count = size.substring(p+3,p2);
-      var resp = confirm("This will create a batch containing "+count+" documents. Are you sure?");
+      var resp = confirm("This will create a batch containing "+count+" works. Are you sure?");
       if ( resp === true ) {
          $("#batch-json").text(JSON.stringify({ works: "all", count: parseInt(count,10)}) );
          setCreateBatchHandler( submitNewBatch );

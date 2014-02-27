@@ -60,7 +60,7 @@ class DashboardController < ApplicationController
       # generate the select, conditional and vars parts of the query
       # the true parameter indicates that this result should include
       # all columns necessry to populate the dashboard view.
-      sel, where_clause, vals = generate_query( :full )
+      sel, where_clause, vals = generate_query()
 
       # build the ugly query
       limits = "limit #{params[:iDisplayLength]} OFFSET #{params[:iDisplayStart]}"
@@ -172,36 +172,37 @@ class DashboardController < ApplicationController
          # filter settings
          json_payload = ActiveSupport::JSON.decode(params[:json])
          if json_payload['works'] == 'all'
-            sel, where_clause, vals = generate_query( :work_id )
+            cond, vals = generate_conditions()
+            where_clause = ""
+            where_clause = "where #{cond}" if cond.length > 0
    
-            start = 0
-            total = json_payload['count']
-            page_size = 100
+            sql = ["select distinct(wks_work_id) from works #{where_clause}"]
+            sql = sql + vals
+            results = WorkOcrResult.find_by_sql(sql)
+            work_ids = []
+            results.each do | res |
+               work_ids << res.wks_work_id
+            end
             
-            # loop over chunks of results and add them to the batch
-            while start < total
-               limits = "limit #{page_size} OFFSET #{start}"
-               sql = ["#{sel} #{where_clause} #{limits}"] 
-               sql = sql + vals
-               results = WorkOcrResult.find_by_sql(sql)
-               work_ids = []
-               results.each do | res |
-                  work_ids << res.id
+            jobs = []
+            jobs_batch_size = 5000
+            pages = Page.select("pg_page_id, pg_work_id").where("pg_work_id in (?)", work_ids)
+            pages.each do | page |
+               job = JobQueue.new
+               job.batch_id = batch.id
+               job.page_id = page.pg_page_id
+               job.job_status = 1
+               job.work_id=page.pg_work_id
+               jobs << job
+               if jobs.size >= jobs_batch_size
+                  puts "Write #{jobs.size} jobs..."
+                  JobQueue.import jobs
+                  jobs = []  
                end
-               jobs = []
-               pages = Page.select("pg_page_id, pg_work_id").where("pg_work_id in (?)", work_ids)
-               pages.each do | page |
-                  job = JobQueue.new
-                  job.batch_id = batch.id
-                  job.page_id = page.pg_page_id
-                  job.job_status = 1
-                  job.work_id=page.pg_work_id
-                  jobs << job
-               end 
+            end 
+            if jobs.size> 0
+               puts "Write #{jobs.size} jobs..."
                JobQueue.import jobs  
-               
-               # next page
-               start += results.count
             end
          else 
             # populate it with pages from the selected works
@@ -366,8 +367,30 @@ class DashboardController < ApplicationController
    # results query. Use data in the session as filter.
    #
    private
-   def generate_query( type )
-      # build where conditions
+   def generate_query( )
+      
+      cond,vals = generate_conditions()
+      
+      # build the ugly query to get all the info
+      work_fields = "wks_work_id as work_id, wks_tcp_number, wks_title as title, wks_author as author, wks_ecco_number as ecco_number"
+      if session[:ocr] == 'ocr_sched'
+         # special query to get SCHEDULED works; dont use work_ocr_results
+         v_fields = ", pf_id, pf_name as font_name, batch_id, batch_job.name as batch_name, ocr_engine_id"
+         sel = "select #{work_fields} #{v_fields} from works left outer join print_fonts on pf_id=wks_primary_print_font"
+         sel << " left outer join job_queue on wks_work_id=job_queue.work_id "
+         sel << " inner join batch_job on batch_job.id = batch_id "
+      else
+         v_fields = ", pf_id,pf_name as font_name, batch_id, ocr_completed, batch_name, ocr_engine_id, juxta_accuracy, retas_accuracy"
+         sel = "select #{work_fields} #{v_fields} from works left outer join work_ocr_results on wks_work_id=work_id"
+         sel << " left outer join print_fonts on pf_id=wks_primary_print_font "
+      end
+      
+      where_clause = ""
+      where_clause = "where #{cond}" if cond.length > 0
+      return sel, where_clause, vals
+   end
+   
+   def generate_conditions()
       q = session[:search]
       cond = ""
       vals = []
@@ -431,33 +454,7 @@ class DashboardController < ApplicationController
          cond << " and" if cond.length > 0
          cond << " (select max(job_status) as js from job_queue where job_queue.batch_id=work_ocr_results.batch_id and job_queue.work_id=wks_work_id)=6"
       end
-
-      # build the ugly query to get all the info
-      work_fields = "wks_work_id as work_id, wks_tcp_number, wks_title as title, wks_author as author, wks_ecco_number as ecco_number"
-      if type == :work_id
-         work_fields = "wks_work_id as work_id"   
-      end
-      if session[:ocr] == 'ocr_sched'
-         # special query to get SCHEDULED works; dont use work_ocr_results
-         v_fields = ", pf_id, pf_name as font_name, batch_id, batch_job.name as batch_name, ocr_engine_id"
-         if type == :work_id
-             v_fields = ""   
-         end
-         sel = "select #{work_fields} #{v_fields} from works left outer join print_fonts on pf_id=wks_primary_print_font"
-         sel << " left outer join job_queue on wks_work_id=job_queue.work_id "
-         sel << " inner join batch_job on batch_job.id = batch_id "
-      else
-         v_fields = ", pf_id,pf_name as font_name, batch_id, ocr_completed, batch_name, ocr_engine_id, juxta_accuracy, retas_accuracy"
-         if type == :work_id
-             v_fields = ""   
-         end
-         sel = "select #{work_fields} #{v_fields} from works left outer join work_ocr_results on wks_work_id=work_id"
-         sel << " left outer join print_fonts on pf_id=wks_primary_print_font "
-      end
-      
-      where_clause = ""
-      where_clause = "where #{cond}" if cond.length > 0
-      return sel, where_clause, vals
+      return cond, vals
    end
 
 end
