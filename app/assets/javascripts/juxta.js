@@ -26,22 +26,26 @@ $(function() {
       hideWaitPopup();
    }; 
 
-   // basic page setup. Hide some stuff from juxta
-   // that is not relevant here. wait for sbs to be initialized,
-   // then call local initialiation. NOTE: do the hiding stuff
-   // before the wait-for-init so the user never gets a chance to see it.
-   showWaitPopup("Visualizing");
-   $("#left-witness .sbs-title").text("Ground Truth");
-   $("#right-witness .sbs-title").text("OCR Result");
-   $("#change-left").hide();
-   $("#change-right").hide();
-   $("#scroll-mode").hide();
-   $("body").on("sidebyside-loaded", function() {
-      initialize();
-   });
+   if ( $("#juxta-loaded").exists() ) {
+      // basic page setup. Hide some stuff from juxta
+      // that is not relevant here. wait for sbs to be initialized,
+      // then call local initialiation. NOTE: do the hiding stuff
+      // before the wait-for-init so the user never gets a chance to see it.
+      showWaitPopup("Visualizing");
+      $("#left-witness .sbs-title").text("Ground Truth");
+      $("#right-witness .sbs-title").text("OCR Result");
+      $("#change-left").hide();
+      $("#change-right").hide();
+      $("#scroll-mode").hide();
+      $("body").on("sidebyside-loaded", function() {
+         initialize();
+      });
+   }
    
    $(window).resize(function() {
-      initScrollHeight();
+      if ( $("#juxta-loaded").exists() ) {
+         initScrollHeight();
+      }
    });
 });
 

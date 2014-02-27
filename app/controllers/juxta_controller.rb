@@ -1,6 +1,10 @@
 require 'rest_client'
 
 class JuxtaController < ApplicationController
+   before_filter :set_juxta_view
+   def set_juxta_view
+      @juxta = true
+   end
    
    # show a juxta sbs view of the specified OCR result vs ground truth
    #
