@@ -17,5 +17,9 @@
          <td class="summary-label">Failed:</td>
          <td><span id="failed-jobs"><%= @queue_status[:failed] %></span></td>
       </tr>
+      <tr>
+         <td class="summary-label bold">TOTAL:</td>
+         <td><span id="failed-jobs"><%= @queue_status[:total] %></span></td>
+      </tr>
    </table>
 </div>

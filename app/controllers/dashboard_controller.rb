@@ -360,6 +360,8 @@ class DashboardController < ApplicationController
       sql = ["select count(*) as cnt from job_queue where job_status=?"]
       sql = sql << 6
       summary[:failed] = JobQueue.find_by_sql(sql).first.cnt
+      summary[:total] =  summary[:failed]+summary[:postprocess]+summary[:running]+summary[:pending]
+      
       return summary
    end
    

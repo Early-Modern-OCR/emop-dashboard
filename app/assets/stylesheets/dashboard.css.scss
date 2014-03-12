@@ -105,6 +105,9 @@ a.paginate_disabled_previous {
          font-weight: 200;
          width: 200px;
          margin-bottom: 6px;
+         .bold {
+            font-weight:bold;
+         }
       }
       
       #schedule-selected, #schedule-all {
