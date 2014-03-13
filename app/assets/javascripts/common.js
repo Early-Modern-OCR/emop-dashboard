@@ -54,7 +54,7 @@ $(function() {
    }; 
 
    var setPrintFont = function() {
-      data = {};
+      var data = {};
       data.works = $("#font-work-id-list").text();
       data.font_id = $("#new-print-font").val();
       var fntName = $("#new-print-font option:selected").text();
@@ -83,7 +83,7 @@ $(function() {
    }; 
    
    var createPrintFont = function() {
-      data = {};
+      var data = {};
       data.works = $("#font-work-id-list").text();
       data.new_font = $("#new-font-name").val();
       var fntName =  data.new_font;
@@ -148,12 +148,12 @@ $(function() {
             }
          },
          "New Batch" : function() {
-            var json = $("#resubmit-data").text()
+            var json = $("#resubmit-data").text();
             var parsed = $.parseJSON(json);
             if ( parsed.type === 'page' ) {
                $("#batch-json").text( json );
             } else {
-               workIds = [];
+               var workIds = [];
                $.each(parsed.detail, function(idx, val) {
                   workIds.push(val.work);
                });
@@ -161,7 +161,7 @@ $(function() {
             }
             $("#new-batch-popup").dialog("open");
             $(this).dialog("close");
-         },
+         }
       }
    });
 

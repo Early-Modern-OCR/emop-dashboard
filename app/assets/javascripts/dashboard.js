@@ -1,5 +1,5 @@
-/*global $, jQuery, alert,setTimeout,clearTimeout*/
-/*global setCreateBatchHandler, showWaitPopup, hideWaitPopup */
+/*global $, window, confirm, jQuery, alert,setTimeout,clearTimeout*/
+/*global setCreateBatchHandler, showWaitPopup, hideWaitPopup, setRescheduleHandler */
 
 /**
  * Main javascript file for the dashboard
@@ -10,22 +10,39 @@
  * @param {Object} oSettings
  */
 jQuery.fn.dataTableExt.oApi.fnFilterOnReturn = function (oSettings) {
-    var _that = this;
+    var that = this;
   
     this.each(function (i) {
         $.fn.dataTableExt.iApiIndex = i;
         var $this = this;
-        var anControl = $('input', _that.fnSettings().aanFeatures.f);
+        var anControl = $('input', that.fnSettings().aanFeatures.f);
         anControl.unbind('keyup').bind('keypress', function (e) {
-            if (e.which == 13) {
+            if (e.which === 13) {
                 $.fn.dataTableExt.iApiIndex = i;
-                _that.fnFilter(anControl.val());
+                that.fnFilter(anControl.val());
             }
         });
         return this;
     });
     return this;
 };
+
+
+/*
+ * Turn On/Off Sorting capability
+ *
+ * @param {object} oSettings DataTables settings object
+ * @param {col} column to enable/disable
+ * @param {boolean} bOn True to enable, false to disable
+ */
+$.fn.dataTableExt.oApi.fnSortOnOff = function(oSettings, aiColumns, bOn) {
+   var cols = typeof aiColumns === 'string' && aiColumns === '_all' ? oSettings.aoColumns : aiColumns;
+   var i, len;
+   for ( i = 0, len = cols.length; i < len; i++) {
+      oSettings.aoColumns[i].bSortable = bOn;
+   }
+}; 
+
 
 $(function() {
    
@@ -184,7 +201,7 @@ $(function() {
             $("#resubmit-data").text( JSON.stringify({type: 'work', detail: jobs}) );
             $("#confirm-resubmit-popup").dialog("open");
          } else {
-            workIds = [];
+            var workIds = [];
             $.each(jobs, function(idx,val) {
                workIds.push(val.work);
             });
@@ -290,25 +307,83 @@ $(function() {
       return true;
    }); 
 
+   var canSortResult = function(colNum) {
+      // first 3 columns are never sortable
+      if ( colNum < 4 ) {
+         return false;
+      }
+      
+      // all others depend upon the OCR Filter setting...
+      var v = $("#ocr-filter").val();
+      if (v === "ocr_none") {
+         return (colNum <= 8);
+      } else if (v === "ocr_sched") {
+         return !(colNum === 9 || colNum > 11);
+      } else {
+         return true;
+      }
+   }; 
+
+   var updateSettings = function(oTable, filter) {
+      var oSettings = oTable.fnSettings(); 
+      oSettings.aoColumnDefs = [
+         { "aTargets": [0], "bSortable": false},
+         { "aTargets": [1], "bSortable": false},
+         { "aTargets": [2], "bSortable": false},
+         { "aTargets": [3], "bSortable": false},
+         { "aTargets": [9], "bSortable": canSortResult(9)},
+         { "aTargets": [10], "bSortable": canSortResult(10)},
+         { "aTargets": [11], "bSortable": canSortResult(11)},
+         { "aTargets": [12], "bSortable": canSortResult(12), "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
+         { "aTargets": [13], "bSortable": canSortResult(13), "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
+      ];
+   };
+   
+   var flagChanges = function() {
+      $("#filter-header").text("Results Filter (changes not yet applied)");
+      $("#filter-header").addClass("not-applied");   
+   };
   
    // filter stuff
    $("#from-date").datepicker();
    $("#to-date").datepicker();
+   $(".filter-setting").on("change", function() {
+      flagChanges();
+   });
    $("#ocr-filter").on("change", function() {
       var val = $("#ocr-filter").val();
       $("#from-date").val("");
       $("#to-date").val("");
-      if (val === "ocr_none" || val === "ocr_scheduled") {
+      var oTable = $('#detail-table').dataTable();
+      if (val === "ocr_none" || val === "ocr_sched") {
          $("#from-date").prop('disabled', true);
          $("#to-date").prop('disabled', true);
+         oTable.fnSortOnOff( [9,12,13], false );
+         $(".result-col").removeClass("sorting").removeClass("sorting_asc").removeClass("sorting_desc");
+         $(".date-col").removeClass("sorting").removeClass("sorting_asc").removeClass("sorting_desc");
+         if (val === "ocr_none") {
+            oTable.fnSortOnOff( [10,11], false );
+            $(".ocr-sched-col").removeClass("sorting").removeClass("sorting_asc").removeClass("sorting_desc");
+         } else{
+            oTable.fnSortOnOff( [10,11], true );
+            $(".ocr-sched-col").addClass("sorting");
+         }
       } else {
          $("#from-date").prop('disabled', false);
          $("#to-date").prop('disabled', false);
+         oTable.fnSortOnOff( [9,10,11,12,13], true );
+         $(".result-col").addClass("sorting");
+         $(".ocr-sched-col").addClass("sorting");
+         $(".date-col").addClass("sorting");
       }
+      updateSettings(oTable, val);  
+      flagChanges();        
    });
 
    $("#filter-apply").on("click", function() {
       $("#detail-table").dataTable().fnDraw();
+      $("#filter-header").text("Results Filter");
+      $("#filter-header").removeClass("not-applied");   
    });
    $("#filter-reset").on("click", function() {
       $("#to-date").val("");
@@ -320,6 +395,8 @@ $(function() {
       $("#require-ocr").removeAttr('checked');
       $("#require-gt").removeAttr('checked');
       $("#detail-table").dataTable().fnDraw();
+      $("#filter-header").text("Results Filter");
+      $("#filter-header").removeClass("not-applied");  
    }); 
  
    // Select/unselect all
@@ -383,8 +460,11 @@ $(function() {
          { "aTargets": [1], "bSortable": false},
          { "aTargets": [2], "bSortable": false},
          { "aTargets": [3], "bSortable": false},
-         { "aTargets": [12], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
-         { "aTargets": [13], "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
+         { "aTargets": [9], "bSortable": canSortResult(9)},
+         { "aTargets": [10], "bSortable": canSortResult(10)},
+         { "aTargets": [11], "bSortable": canSortResult(11)},
+         { "aTargets": [12], "bSortable": canSortResult(12), "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
+         { "aTargets": [13], "bSortable": canSortResult(13), "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
       ],
       "fnServerParams": function ( aoData ) {
          if ( $('#require-gt').is(':checked')) {
@@ -479,7 +559,7 @@ $(function() {
    $("#reschedule-work").on("click", function() {
       showWaitPopup("Rescheduling Work...");
       //data = { works: [$("#err-work-id").text()], batch:  $("#err-batch-id").text()}
-      data = [ { work: $("#err-work-id").text(), batch:  $("#err-batch-id").text()} ];
+      var data = [ { work: $("#err-work-id").text(), batch:  $("#err-batch-id").text()} ];
       rescheduleWorks(data);
    });
    

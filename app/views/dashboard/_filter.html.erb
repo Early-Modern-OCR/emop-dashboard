@@ -3,7 +3,7 @@
    
    <div id='filter-left'>
       <p>
-         <input type="checkbox" id="require-gt" <% if @gt_filter %>checked<% end %>>
+         <input type="checkbox" class="filter-setting" id="require-gt" <% if @gt_filter %>checked<% end %>>
          <span class="cb-filter-label">Exclude works with no GT</span>
       </p>
       <p>
@@ -18,7 +18,7 @@
       </p>
       <p>
          <span class="filter-label">Data Set:</span>
-         <select id="set-filter" name="set-filter" style="width: 191px;">
+         <select id="set-filter"  class="filter-setting" name="set-filter" style="width: 191px;">
             <option value>All</option>
             <option value="ECCO" <% if @set_filter=="ECCO" %>selected<%end%> >ECCO</option>
             <option value="EEBO" <% if @set_filter=="EEBO" %>selected<%end%> >EEBO</option>
@@ -26,7 +26,7 @@
       </p>
       <p>
          <span class="filter-label">OCR Batch:</span>
-         <select id="batch-filter" name="batch-filter">
+         <select id="batch-filter" name="batch-filter"  class="filter-setting">
             <option value>All</option>
             <% @batches.each do | batch | %>
                <option value="<%= batch[:id] %>" <% if @batch_filter.to_i==batch[:id] %>selected<%end%> ><%= batch[:id] %> - <%= batch[:name] %></option>
@@ -38,7 +38,7 @@
    <div id='filter-right'>
       <p>
          <span class="filter-label">Print Font:</span>
-         <select id="print-font-filter" name="print-font-filter">
+         <select id="print-font-filter" name="print-font-filter" class="filter-setting">
             <option value>All</option>
             <% @print_fonts.each do | font | %>
                <option value="<%= font[:pf_id] %>" <% if @print_font_filter.to_i==font[:id] %>selected<%end%> ><%= font[:pf_name] %></option>
@@ -48,9 +48,9 @@
       <p class="filter-label" style="margin-top:10px">OCR completed date:</p>
       <p>
          <span class="filter-label">From:</span>
-         <input class="date-filter" type="text" id="from-date" value="<%= @from_filter %>"/>
+         <input class="filter-setting date-filter" type="text" id="from-date" value="<%= @from_filter %>"/>
          <span class="filter-label">To:</span>
-         <input class="date-filter to" type="text" id="to-date"  value="<%= @to_filter %>"/>
+         <input class="filter-setting date-filter to" type="text" id="to-date"  value="<%= @to_filter %>"/>
       </p>
       <input id="filter-apply" class="filter-btn" type="button" value="Apply Filter"/>
       <input id="filter-reset" class="filter-btn" type="button" value="Reset Filter"/>

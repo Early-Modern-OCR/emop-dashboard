@@ -36,13 +36,23 @@ class DashboardController < ApplicationController
       resp['sEcho'] = params[:sEcho]
       resp['iTotalRecords'] = Work.count()
       
-      # generate order info based on params
+      # enforce some rules on what columns can be sorted based on OCR filter setting:
       search_col_idx = params[:iSortCol_0].to_i
+      if (search_col_idx == 9 || search_col_idx > 11) && params[:ocr] == "ocr_sched"
+         # don't allow sort on results or date when error filter is on; no data exists for these
+         search_col_idx = 4
+      end
+      if (search_col_idx > 8) && params[:ocr] == "ocr_none"
+         # don't allow sort on any OCR data when NONE filter is on
+         search_col_idx = 4
+      end
+      
+      # generate order info based on params
       cols = [nil,nil,nil,nil,'wks_work_id',
               'wks_tcp_number','wks_title','wks_author',
               'font_name',
-              'work_ocr_results.ocr_completed','work_ocr_results.ocr_engine_id',
-              'work_ocr_results.batch_id','work_ocr_results.juxta_accuracy',
+              'work_ocr_results.ocr_completed','ocr_engine_id',
+              'batch_id','work_ocr_results.juxta_accuracy',
               'work_ocr_results.retas_accuracy']
       dir = params[:sSortDir_0]
       order_col = cols[search_col_idx]
