@@ -40,6 +40,7 @@ class DashboardController < ApplicationController
       search_col_idx = params[:iSortCol_0].to_i
       cols = [nil,nil,nil,nil,'wks_work_id',
               'wks_tcp_number','wks_title','wks_author',
+              'font_name',
               'work_ocr_results.ocr_completed','work_ocr_results.ocr_engine_id',
               'work_ocr_results.batch_id','work_ocr_results.juxta_accuracy',
               'work_ocr_results.retas_accuracy']

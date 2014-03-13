@@ -293,19 +293,7 @@ $(function() {
   
    // filter stuff
    $("#from-date").datepicker();
-   $("#from-date").on("change", function() {
-      $("#detail-table").dataTable().fnDraw();
-   });
    $("#to-date").datepicker();
-   $("#to-date").on("change", function() {
-      $("#detail-table").dataTable().fnDraw();
-   });
-   $("#batch-filter").on("change", function() {
-      $("#detail-table").dataTable().fnDraw();
-   });
-   $("#set-filter").on("change", function() {
-      $("#detail-table").dataTable().fnDraw();
-   });
    $("#ocr-filter").on("change", function() {
       var val = $("#ocr-filter").val();
       $("#from-date").val("");
@@ -317,12 +305,9 @@ $(function() {
          $("#from-date").prop('disabled', false);
          $("#to-date").prop('disabled', false);
       }
-      $("#detail-table").dataTable().fnDraw();
    });
-   $("#require-gt").on("change", function() {
-      $("#detail-table").dataTable().fnDraw();
-   });
-   $("#print-font-filter").on("change", function() {
+
+   $("#filter-apply").on("click", function() {
       $("#detail-table").dataTable().fnDraw();
    });
    $("#filter-reset").on("click", function() {
@@ -331,11 +316,11 @@ $(function() {
       $("#batch-filter").val("");
       $("#set-filter").val("");
       $("#print-font-filter").val("");
+      $("#ocr-filter").val("");
       $("#require-ocr").removeAttr('checked');
       $("#require-gt").removeAttr('checked');
       $("#detail-table").dataTable().fnDraw();
    }); 
-
  
    // Select/unselect all
    $("#select-all").on("click", function() {
