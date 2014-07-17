@@ -228,6 +228,12 @@ a.paginate_disabled_previous {
          top:22px;
          z-index: 1000;
       }
+	   form {
+		   position: relative;
+		   top: 22px;
+		   z-index: 1000;
+		   display: inline;
+	   }
       #detail-table_length {
         margin-left: 10px;
         float: right;

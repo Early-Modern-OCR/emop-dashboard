@@ -380,10 +380,82 @@ $(function() {
       flagChanges();        
    });
 
+	var fnServerParams = function ( aoData ) {
+		if ( $('#require-gt').is(':checked')) {
+			aoData.push( { "name": "gt", "value": true } );
+		}
+		var ocr = $("#ocr-filter").val();
+		if (ocr.length > 0) {
+			aoData.push( { "name": "ocr", "value": ocr } );
+		}
+		var batch = $("#batch-filter").val();
+		if (batch.length > 0) {
+			aoData.push( { "name": "batch", "value": batch } );
+		}
+		var set = $("#set-filter").val();
+		if (set.length > 0) {
+			aoData.push( { "name": "set", "value": set } );
+		}
+		var pfFilter = $("#print-font-filter").val();
+		if (pfFilter.length > 0) {
+			aoData.push( { "name": "font", "value": pfFilter } );
+		}
+		var from = $("#from-date").val();
+		if (from.length > 0) {
+			aoData.push( { "name": "from", "value": from } );
+		}
+		var to = $("#to-date").val();
+		if (to.length > 0) {
+			aoData.push( { "name": "to", "value": to } );
+		}
+	};
+
+	$("#export").on("submit", function() {
+		var exportForm = $(this);
+		// Before submitting the form, add the hidden data from the data table.
+
+		// Don't send back to the server any of the following parameters, because the server doesn't want them, and that will leave more room for doing the query as a GET.
+		var dontSend = [ 'bSortable_', 'bSearchable_', 'mDataProp_', 'iDisplay', 'bRegex' ];
+
+		// remove any parameters from the last time "Export" was clicked.
+		var paramEls = exportForm.find("input type[hidden]");
+		paramEls.remove();
+
+		var params = {};
+
+		// Get the extra data that is set through the filters.
+		var aoData = [];
+		fnServerParams(aoData);
+		for (var i = 0; i < aoData.length; i++) {
+			params[aoData[i].name] = aoData[i].value;
+		}
+
+		// Get the data that is set through dataTable.
+		var data = emopTable._fnAjaxParameters(); // HACK-PER: This is how I found the parameter empirically. It didn't match the documentation for dataTable, though.
+		for (i = 0; i < data.length; i++) {
+			var name = data[i].name;
+			var suppress = false;
+			for (var j = 0; j < dontSend.length && !suppress; j++) {
+				if (name.indexOf(dontSend[j]) === 0)
+					suppress = true;
+			}
+			if (!suppress)
+				params[name] = data[i].value;
+		}
+
+		// Put all the parameters in hidden fields in the export form so they get to the server.
+		for (var key in params) {
+			if (params.hasOwnProperty(key)) {
+				exportForm.append('<input type="hidden" name="q[' + key + ']" value="' + params[key] + '" />');
+			}
+		}
+		return true; // Pass control to the browser's submit logic.
+	});
+
    $("#filter-apply").on("click", function() {
       $("#detail-table").dataTable().fnDraw();
       $("#filter-header").text("Results Filter");
-      $("#filter-header").removeClass("not-applied");   
+      $("#filter-header").removeClass("not-applied");
    });
    $("#filter-reset").on("click", function() {
       $("#to-date").val("");
@@ -396,8 +468,8 @@ $(function() {
       $("#require-gt").removeAttr('checked');
       $("#detail-table").dataTable().fnDraw();
       $("#filter-header").text("Results Filter");
-      $("#filter-header").removeClass("not-applied");  
-   }); 
+      $("#filter-header").removeClass("not-applied");
+   });
  
    // Select/unselect all
    $("#select-all").on("click", function() {
@@ -467,33 +539,7 @@ $(function() {
          { "aTargets": [13], "bSortable": canSortResult(13), "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
       ],
       "fnServerParams": function ( aoData ) {
-         if ( $('#require-gt').is(':checked')) {
-             aoData.push( { "name": "gt", "value": true } );
-         }
-         var ocr = $("#ocr-filter").val();
-         if (ocr.length > 0) {
-            aoData.push( { "name": "ocr", "value": ocr } );
-         }
-         var batch = $("#batch-filter").val();
-         if (batch.length > 0) {
-            aoData.push( { "name": "batch", "value": batch } );
-         }
-         var set = $("#set-filter").val();
-         if (set.length > 0) {
-            aoData.push( { "name": "set", "value": set } );
-         }
-         var pfFilter = $("#print-font-filter").val();
-         if (pfFilter.length > 0) {
-            aoData.push( { "name": "font", "value": pfFilter } );
-         }
-         var from = $("#from-date").val();
-         if (from.length > 0) {
-            aoData.push( { "name": "from", "value": from } );
-         }
-         var to = $("#to-date").val();
-         if (to.length > 0) {
-            aoData.push( { "name": "to", "value": to } );
-         }
+          fnServerParams(aoData);
       }
    }).fnFilterOnReturn();   
    
@@ -529,7 +575,7 @@ $(function() {
          $("#set-font-popup").dialog("open");
       }
    });
-   
+
    $("#dashboard-detail").on("click", ".error", function() {
       showWaitPopup("Retrieving OCR Errors");
       // id[0] = batch id, id[1] = work id

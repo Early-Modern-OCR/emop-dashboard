@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
    protect_from_forgery
-   before_filter :get_dropdown_data
+   before_filter :get_dropdown_data, { except: 'export' }
    
    def get_dropdown_data
       raw_batches = BatchJob.all()
@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
          foo[:notes] = batch.notes
          foo[:type] = @job_types[batch.job_type-1]
          foo[:engine] = @engines[batch.ocr_engine_id-1]
-         foo[:font] = batch.font
+		 foo[:font] = @fonts.index { |rec| rec.id == batch.font_id }
          @batches << foo
       end
    end

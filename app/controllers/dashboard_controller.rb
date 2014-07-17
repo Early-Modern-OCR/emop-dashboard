@@ -1,4 +1,5 @@
 require 'activerecord-import'
+require 'csv'
 
 class DashboardController < ApplicationController
    # main dashboard summary view
@@ -28,7 +29,7 @@ class DashboardController < ApplicationController
       render :text => out.strip
    end
 
-   # Called from datatable to fetch a subset of data for display
+   # Called from dataTable to fetch a subset of data for display
    #
    def fetch
       # NOTE: have sample data from TCP K072
@@ -36,28 +37,6 @@ class DashboardController < ApplicationController
       resp['sEcho'] = params[:sEcho]
       resp['iTotalRecords'] = Work.count()
       
-      # enforce some rules on what columns can be sorted based on OCR filter setting:
-      search_col_idx = params[:iSortCol_0].to_i
-      if (search_col_idx == 9 || search_col_idx > 11) && params[:ocr] == "ocr_sched"
-         # don't allow sort on results or date when error filter is on; no data exists for these
-         search_col_idx = 4
-      end
-      if (search_col_idx > 8) && params[:ocr] == "ocr_none"
-         # don't allow sort on any OCR data when NONE filter is on
-         search_col_idx = 4
-      end
-      
-      # generate order info based on params
-      cols = [nil,nil,nil,nil,'wks_work_id',
-              'wks_tcp_number','wks_title','wks_author',
-              'font_name',
-              'work_ocr_results.ocr_completed','ocr_engine_id',
-              'batch_id','work_ocr_results.juxta_accuracy',
-              'work_ocr_results.retas_accuracy']
-      dir = params[:sSortDir_0]
-      order_col = cols[search_col_idx]
-      order_col = cols[4] if order_col.nil?
-
       # stuff filter params in session so they can be restored each view
       session[:search] = params[:sSearch]
       session[:gt] = params[:gt]
@@ -68,50 +47,31 @@ class DashboardController < ApplicationController
       session[:ocr]  = params[:ocr]
       session[:font]  = params[:font]
       
-      # generate the select, conditional and vars parts of the query
-      # the true parameter indicates that this result should include
-      # all columns necessry to populate the dashboard view.
-      sel, where_clause, vals = generate_query()
-
-      # build the ugly query
-      limits = "limit #{params[:iDisplayLength]} OFFSET #{params[:iDisplayStart]}"
-      order = "order by #{order_col} #{dir}"
-      if session[:ocr] == 'ocr_sched'
-         # scheduled uses a different query that needs a group by to make the results work
-         sql = ["#{sel} #{where_clause} group by work_id, batch_id #{order} #{limits}"]   
-      else
-         sql = ["#{sel} #{where_clause} #{order} #{limits}"]   
-      end
-      
-      sql = sql + vals
-
-      # get all of the results (paged)
-      results = WorkOcrResult.find_by_sql(sql)
-      
-      # run a count query without the paging limits to get
-      # the total number of results available
-      pf_join = "left outer join print_fonts on pf_id=wks_primary_print_font"
-      if session[:ocr] == 'ocr_sched'
-         # search for scheduled uses different query to get data. Also need slightly
-         # differnent query to get counts
-         count_sel = "select count(distinct batch_id) as cnt from works #{pf_join} inner join job_queue on wks_work_id=job_queue.work_id "
-      else
-         count_sel = "select count(*) as cnt from works  #{pf_join} left outer join work_ocr_results on wks_work_id=work_id "
-      end
-      sql = ["#{count_sel} #{where_clause}"]
-      sql = sql + vals
-      filtered_cnt = Work.find_by_sql(sql).first.cnt
-      
-      # jam it all into an array of objects that match teh dataTables structure
-      data = []
-      results.each do |result|
-         rec = result_to_hash(result)   
-         data << rec 
-      end
-            
-      resp['data'] = data
-      resp['iTotalDisplayRecords'] = filtered_cnt
+      resp['data'], resp['iTotalDisplayRecords'] = do_query(params)
       render :json => resp, :status => :ok
+   end
+
+   def export
+	   # stuff filter params in session so they can be restored each view
+	   p = {}
+	   # duplicate the keys so that functions that look for either the symbol or the string will work.
+	   params['q'].each { |key,value|
+		   p[key.to_s] = value
+		   p[key.to_sym] = value
+	   }
+	   session[:search] = p[:sSearch]
+	   session[:gt] = p[:gt]
+	   session[:batch]  = p[:batch]
+	   session[:set] = p[:set]
+	   session[:from] = p[:from]
+	   session[:to] = p[:to]
+	   session[:ocr]  = p[:ocr]
+	   session[:font]  = p[:font]
+
+	   data, total = do_query(p)
+	   respond_to do |format|
+		   format.csv { send_data to_csv(data), :filename => "emop_dashboard_results.csv" }
+	   end
    end
    
    # Get errors for a work
@@ -469,5 +429,96 @@ class DashboardController < ApplicationController
       end
       return cond, vals
    end
+
+   def do_query(params)
+	   # enforce some rules on what columns can be sorted based on OCR filter setting:
+	   search_col_idx = params[:iSortCol_0].to_i
+	   if (search_col_idx == 9 || search_col_idx > 11) && params[:ocr] == "ocr_sched"
+		   # don't allow sort on results or date when error filter is on; no data exists for these
+		   search_col_idx = 4
+	   end
+	   if (search_col_idx > 8) && params[:ocr] == "ocr_none"
+		   # don't allow sort on any OCR data when NONE filter is on
+		   search_col_idx = 4
+	   end
+
+	   # generate order info based on params
+	   cols = [nil,nil,nil,nil,'wks_work_id',
+			   'wks_tcp_number','wks_title','wks_author',
+			   'font_name',
+			   'work_ocr_results.ocr_completed','ocr_engine_id',
+			   'batch_id','work_ocr_results.juxta_accuracy',
+			   'work_ocr_results.retas_accuracy']
+	   dir = params[:sSortDir_0]
+	   order_col = cols[search_col_idx]
+	   order_col = cols[4] if order_col.nil?
+
+	   # generate the select, conditional and vars parts of the query
+	   # the true parameter indicates that this result should include
+	   # all columns necessary to populate the dashboard view.
+	   sel, where_clause, vals = generate_query()
+
+	   # build the ugly query
+	   if params[:iDisplayStart].blank?
+		   limits = ""
+		else
+			limits = "limit #{params[:iDisplayLength]} OFFSET #{params[:iDisplayStart]}"
+	   end
+	   order = "order by #{order_col} #{dir}"
+	   if params[:ocr] == 'ocr_sched'
+		   # scheduled uses a different query that needs a group by to make the results work
+		   sql = ["#{sel} #{where_clause} group by work_id, batch_id #{order} #{limits}"]
+	   else
+		   sql = ["#{sel} #{where_clause} #{order} #{limits}"]
+	   end
+
+	   sql = sql + vals
+
+	   # get all of the results (paged)
+	   results = WorkOcrResult.find_by_sql(sql)
+
+	   # run a count query without the paging limits to get
+	   # the total number of results available
+	   pf_join = "left outer join print_fonts on pf_id=wks_primary_print_font"
+	   if params[:ocr] == 'ocr_sched'
+		   # search for scheduled uses different query to get data. Also need slightly
+		   # different query to get counts
+		   count_sel = "select count(distinct batch_id) as cnt from works #{pf_join} inner join job_queue on wks_work_id=job_queue.work_id "
+	   else
+		   count_sel = "select count(*) as cnt from works  #{pf_join} left outer join work_ocr_results on wks_work_id=work_id "
+	   end
+	   sql = ["#{count_sel} #{where_clause}"]
+	   sql = sql + vals
+	   filtered_cnt = Work.find_by_sql(sql).first.cnt
+
+	   # jam it all into an array of objects that match the dataTables structure
+	   data = []
+	   results.each do |result|
+		   rec = result_to_hash(result)
+		   data << rec
+	   end
+
+	   return data, filtered_cnt
+   end
+
+
+   def to_csv(data)
+	   column_names = [ 'Data Set', 'Title', 'Author', 'Font', 'OCR Date', 'OCR Engine', 'OCR Batch' ]
+	   CSV.generate({}) do |csv|
+		   csv << column_names
+		   data.each do |row|
+			   line = []
+			   line.push(row[:data_set])
+			   line.push(row[:title])
+			   line.push(row[:author])
+			   line.push(row[:font])
+			   line.push(row[:ocr_date])
+			   line.push(row[:ocr_engine])
+			   line.push(row[:ocr_batch])
+			   csv << line
+		   end
+	   end
+   end
+
 
 end
