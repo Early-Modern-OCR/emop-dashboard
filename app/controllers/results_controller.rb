@@ -143,7 +143,7 @@ class ResultsController < ApplicationController
       page_id = params[:id]
       sql = ["select pg_ref_number, ocr_text_path from page_results inner join pages on pg_page_id=page_id where id=?",page_id]
       page_result = PageResult.find_by_sql( sql ).first
-      txt_path = "#{Settings.emop_path_prefix}#{page_result.ocr_text_path}"
+      txt_path = "#{Rails.application.secrets.emop_path_prefix}#{page_result.ocr_text_path}"
       file = File.open(txt_path, "r")
       contents = file.read
      
@@ -166,7 +166,7 @@ class ResultsController < ApplicationController
       page_id = params[:id]
       sql = ["select pg_ref_number, ocr_xml_path from page_results inner join pages on pg_page_id=page_id where id=?",page_id]
       page_result = PageResult.find_by_sql( sql ).first
-      xml_path = "#{Settings.emop_path_prefix}#{page_result.ocr_xml_path}"
+      xml_path = "#{Rails.application.secrets.emop_path_prefix}#{page_result.ocr_xml_path}"
       file = File.open(xml_path, "r")
       contents = file.read
       if params.has_key?(:download)
@@ -298,14 +298,14 @@ class ResultsController < ApplicationController
       # first, see if the image path was stored in DB. If so, use it
       page = Page.where("pg_work_id=? and pg_ref_number=?", work.wks_work_id, page_num).first
       if !page.nil? && !page.pg_image_path.blank?
-         return "#{Settings.emop_path_prefix}#{page.pg_image_path}"
+         return "#{Rails.application.secrets.emop_path_prefix}#{page.pg_image_path}"
       end
         
       # not in db; try to generate it
       if work.isECCO?
          # ECCO format: ECCO number + 4 digit page + 0.tif
          ecco_dir = work.wks_ecco_directory
-         return "%s%s/%s%04d0.TIF" % [Settings.emop_path_prefix, ecco_dir, work.wks_ecco_number, page_num];
+         return "%s%s/%s%04d0.TIF" % [Rails.application.secrets.emop_path_prefix, ecco_dir, work.wks_ecco_number, page_num];
       else
          # EEBO format: 00014.000.001.tif where 00014 is the page number.
          # EEBO is a problem because of the last segment before .tif. It is some
@@ -314,7 +314,7 @@ class ResultsController < ApplicationController
          ebbo_dir = work.wks_eebo_directory
          version_num = 0
          begin 
-            img_file = "%s%s/%05d.000.%03d.tif" % [Settings.emop_path_prefix, ebbo_dir, page_num, version_num];
+            img_file = "%s%s/%05d.000.%03d.tif" % [Rails.application.secrets.emop_path_prefix, ebbo_dir, page_num, version_num];
             if File.exists?(img_file)
                return img_file
             end

@@ -15,7 +15,7 @@ class FontsController < ApplicationController
          upload_file = params[:file].tempfile
          orig_name =  params[:file].original_filename
          
-         out = "#{Settings.emop_font_dir}/#{font_name}.traineddata"
+         out = "#{Rails.application.secrets.emop_font_dir}/#{font_name}.traineddata"
          File.open(out, "wb") { |f| f.write(upload_file.read) }
          
          # Create a reference to it in the fonts tabls

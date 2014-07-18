@@ -8,11 +8,11 @@
 
       <% if !@juxta.nil? && @juxta == true %>
          <!-- JUXTA WS integration -->
-         <link href="<%= Settings.juxta_ws_url %>/stylesheets/sidebyside.css" rel="stylesheet" type="text/css">
-         <script type="text/javascript" src="<%= Settings.juxta_ws_url %>/javascripts/jquery.mousewheel.min.js"></script>
-         <script type="text/javascript" src="<%= Settings.juxta_ws_url %>/javascripts/juxta-ws-common.js"></script>
-         <script type="text/javascript" src="<%= Settings.juxta_ws_url %>/javascripts/raphael-min.js"></script>
-         <script type="text/javascript" src="<%= Settings.juxta_ws_url %>/javascripts/sidebyside.js"></script>
+         <link href="<%= Rails.application.secrets.juxta_ws_url %>/stylesheets/sidebyside.css" rel="stylesheet" type="text/css">
+         <script type="text/javascript" src="<%= Rails.application.secrets.juxta_ws_url %>/javascripts/jquery.mousewheel.min.js"></script>
+         <script type="text/javascript" src="<%= Rails.application.secrets.juxta_ws_url %>/javascripts/juxta-ws-common.js"></script>
+         <script type="text/javascript" src="<%= Rails.application.secrets.juxta_ws_url %>/javascripts/raphael-min.js"></script>
+         <script type="text/javascript" src="<%= Rails.application.secrets.juxta_ws_url %>/javascripts/sidebyside.js"></script>
       <% end %>
       
    </head>

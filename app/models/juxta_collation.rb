@@ -6,7 +6,7 @@ class JuxtaCollation < ActiveRecord::Base
    validates_inclusion_of :status, :in => ['uninitialized', 'ready', 'error', :uninitialized, :ready, :error]
    
    def self.expire_old_sets()
-      expire_hrs = Settings.juxta_expire_hrs
+      expire_hrs = Rails.application.secrets.juxta_expire_hrs
       secs = expire_hrs.to_i * 60 *60
       old = JuxtaCollation.find(:all, :conditions => ["last_accessed < ?", Time.now - secs] )
       del_gt_list = []
@@ -18,11 +18,11 @@ class JuxtaCollation < ActiveRecord::Base
          del_gt_list << jx.jx_gt_source_id
          
          logger.info "Delete OCR source #{jx.jx_ocr_source_id}"
-         query = "#{Settings.juxta_ws_url}/source/#{jx.jx_ocr_source_id}"
+         query = "#{Rails.application.secrets.juxta_ws_url}/source/#{jx.jx_ocr_source_id}"
          RestClient.delete query, :authorization => Settings.auth_token
          
          logger.info "Delete set #{jx.jx_set_id}"
-         query = "#{Settings.juxta_ws_url}/set/#{jx.jx_set_id}"
+         query = "#{Rails.application.secrets.juxta_ws_url}/set/#{jx.jx_set_id}"
          RestClient.delete query, :authorization => Settings.auth_token
          
          logger.info "Delete record #{jx.id}"
@@ -34,7 +34,7 @@ class JuxtaCollation < ActiveRecord::Base
          cnt =  JuxtaCollation.count(:conditions=>["jx_gt_source_id=?", gt_id])
          if cnt == 0
              logger.info "Delete GT source #{gt_id}"
-            query = "#{Settings.juxta_ws_url}/source/#{gt_id}"
+            query = "#{Rails.application.secrets.juxta_ws_url}/source/#{gt_id}"
             RestClient.delete query, :authorization => Settings.auth_token
          else
             logger.info "NOT deleting GT source #{gt_id}; in-use by other sets"

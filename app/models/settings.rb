@@ -1,14 +1,6 @@
-require 'settingslogic'
-
-# settingsLogic model to expose settings from emop.yml
-# to the eMOP dashboard app
-#
-class Settings < Settingslogic
-  source "#{Rails.root}/config/emop.yml"
-  namespace Rails.env
-  load!
-  
+# This used to be a number of settings, until upgrading to Rails 4.1. Now those are in secrets.yml.
+class Settings
   def self.auth_token
-    return "Basic "+Base64.encode64("#{Settings.juxta_ws_user}:#{Settings.juxta_ws_pass}")
+    return "Basic "+Base64.encode64("#{Rails.application.secrets.juxta_ws_user}:#{Rails.application.secrets.juxta_ws_pass}")
   end
 end

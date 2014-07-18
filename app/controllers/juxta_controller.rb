@@ -23,8 +23,10 @@ class JuxtaController < ApplicationController
       if collation.nil?
          # create a new collation if one doesn't exist.
          # status will be created
-         collation = JuxtaCollation.new(:page_result_id => @result_id)
-         collation.save!
+         collation = JuxtaCollation.new
+		 collation.page_result_id = @result_id
+
+		 collation.save!
       end
 
       # Create collation and load visualization
@@ -84,10 +86,10 @@ class JuxtaController < ApplicationController
       collation.save!
       
       # collate it
-      query = "#{Settings.juxta_ws_url}/set/#{set_id}/collate"
+      query = "#{Rails.application.secrets.juxta_ws_url}/set/#{set_id}/collate"
       resp = RestClient.post query, '', :content_type => "application/json", :authorization => Settings.auth_token
       done = false
-      query = "#{Settings.juxta_ws_url}/task/#{resp}/status"
+      query = "#{Rails.application.secrets.juxta_ws_url}/task/#{resp}/status"
       while done == false do
          sleep 1
          status = JSON.parse(RestClient.get query, :authorization => Settings.auth_token)
@@ -106,12 +108,12 @@ class JuxtaController < ApplicationController
       @error = false
       @content = ""
       docs = "#{collation.jx_gt_witness_id},#{collation.jx_ocr_witness_id}"
-      query = "#{Settings.juxta_ws_url}/set/#{collation.jx_set_id}/view?mode=sidebyside&docs=#{docs}&embed"
+      query = "#{Rails.application.secrets.juxta_ws_url}/set/#{collation.jx_set_id}/view?mode=sidebyside&docs=#{docs}&embed"
       begin
          @content = RestClient.get query, :authorization => Settings.auth_token, :accept => 'text/html'
          if @content.include? "RENDERING"
             task_id = @content.split(' ')[1]
-            status_query = "#{Settings.juxta_ws_url}/task/#{task_id}/status"
+            status_query = "#{Rails.application.secrets.juxta_ws_url}/task/#{task_id}/status"
             done = false
             while done == false do
                sleep 1
@@ -134,12 +136,12 @@ class JuxtaController < ApplicationController
    def reset_collation(collation)   
       # delete sources first
       begin
-         jx_url = "#{Settings.juxta_ws_url}/source"
+         jx_url = "#{Rails.application.secrets.juxta_ws_url}/source"
          RestClient.delete jx_url+"/#{collation.jx_gt_source_id}", :authorization => Settings.auth_token
          RestClient.delete jx_url+"/#{collation.jx_ocr_source_id}", :authorization => Settings.auth_token
          
          # next, delete set
-         jx_url = "#{Settings.juxta_ws_url}/set"
+         jx_url = "#{Rails.application.secrets.juxta_ws_url}/set"
          RestClient.delete jx_url+"/#{collation.jx_set_id}", :authorization => Settings.auth_token
       rescue RestClient::Exception => rest_error
          if rest_error.http_code != 404
@@ -159,14 +161,14 @@ class JuxtaController < ApplicationController
    #
    private
    def create_jx_set( name, gt_wit_id, ocr_wit_id) 
-      jx_exist_url = "#{Settings.juxta_ws_url}/set/exist?name=#{name}"
+      jx_exist_url = "#{Rails.application.secrets.juxta_ws_url}/set/exist?name=#{name}"
       resp = RestClient.get jx_exist_url, :authorization => Settings.auth_token
       json_resp = ActiveSupport::JSON.decode( resp )
       if json_resp['exists'] 
          return json_resp['id']
       end
       
-      jx_set_query = "#{Settings.juxta_ws_url}/set"
+      jx_set_query = "#{Rails.application.secrets.juxta_ws_url}/set"
       data = {}
       data['name'] = name
       data['witnesses'] = [gt_wit_id, ocr_wit_id]
@@ -177,7 +179,7 @@ class JuxtaController < ApplicationController
       # now set the collator settings
       data = { :filterWhitespace=>true, :filterPunctuation=>true,:filterCase=>true,:hyphenationFilter=>"FILTER_ALL" }
       json_data = ActiveSupport::JSON.encode( data )
-      jx_set_query = "#{Settings.juxta_ws_url}/set/#{set_id}/collator"
+      jx_set_query = "#{Rails.application.secrets.juxta_ws_url}/set/#{set_id}/collator"
       RestClient.post jx_set_query, json_data, :content_type => "application/json", :authorization => Settings.auth_token
    
       return set_id
@@ -189,8 +191,8 @@ class JuxtaController < ApplicationController
    def create_jx_witnesses(gt_src_id, gt_file, ocr_src_id, ocr_file)
       gt_name = gt_file.gsub( /.txt/, '' )
       ocr_name = ocr_file.gsub( /.txt/, '' )
-      jx_xform_query = "#{Settings.juxta_ws_url}/transform"
-      jx_exist_url = "#{Settings.juxta_ws_url}/witness/exist?name="
+      jx_xform_query = "#{Rails.application.secrets.juxta_ws_url}/transform"
+      jx_exist_url = "#{Rails.application.secrets.juxta_ws_url}/witness/exist?name="
       data = {}
       
       # witness for GT source
@@ -229,8 +231,8 @@ class JuxtaController < ApplicationController
       data = {}
       data['type'] = "raw"
       data['contentType'] = "txt"
-      jx_exist_url = "#{Settings.juxta_ws_url}/source/exist?name="
-      jx_url = "#{Settings.juxta_ws_url}/source"
+      jx_exist_url = "#{Rails.application.secrets.juxta_ws_url}/source/exist?name="
+      jx_url = "#{Rails.application.secrets.juxta_ws_url}/source"
       
       # handle GT source first
       resp = RestClient.get jx_exist_url+gt_file, :authorization => Settings.auth_token
@@ -239,7 +241,7 @@ class JuxtaController < ApplicationController
          gt_id = json_resp['id']
       else
          data['name'] = gt_file
-         data['data'] = File.read("#{Settings.emop_path_prefix}#{gt_file}")
+         data['data'] = File.read("#{Rails.application.secrets.emop_path_prefix}#{gt_file}")
          json_data = ActiveSupport::JSON.encode( [ data ] )
          resp = RestClient.post jx_url, json_data, :content_type => "application/json", :authorization => Settings.auth_token
          json_resp = ActiveSupport::JSON.decode( resp )
@@ -253,7 +255,7 @@ class JuxtaController < ApplicationController
          ocr_id = json_resp['id']
       else
          data['name'] = ocr_file
-         data['data'] = File.read("#{Settings.emop_path_prefix}#{ocr_file}")
+         data['data'] = File.read("#{Rails.application.secrets.emop_path_prefix}#{ocr_file}")
          json_data = ActiveSupport::JSON.encode( [ data ] )
          resp = RestClient.post jx_url, json_data, :content_type => "application/json", :authorization => Settings.auth_token
          json_resp = ActiveSupport::JSON.decode( resp )

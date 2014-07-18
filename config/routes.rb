@@ -1,4 +1,4 @@
-EmopDashboard::Application.routes.draw do
+Rails.application.routes.draw do
   # create a new training font
   post "fonts/training_font" => "fonts#create_training_font"
   post "fonts/print_font" => "fonts#set_print_font"
