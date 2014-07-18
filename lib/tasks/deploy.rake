@@ -2,13 +2,13 @@
 
 namespace :deploy do
 	def run(desc, cmd)
-		puts "============================"
-		puts "============================"
+		puts "############################"
+		puts "############################"
 		puts desc
-		puts "============================"
-		puts "============================"
+		puts "-----------------------------------------------"
 		puts cmd
 		puts `#{cmd}`
+		puts "-----------------------------------------------"
 	end
 
 	desc "Simple script to do deployment without capistrano"
