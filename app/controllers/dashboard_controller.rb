@@ -108,12 +108,15 @@ class DashboardController < ApplicationController
             batch_id = job['batch']
             
             # remove the page results
-            sql = "delete from page_results where batch_id=#{batch_id} "
-            sql = sql << " and page_id in (select pg_page_id from pages where pg_work_id=#{work_id})"
-            PageResult.connection.execute( sql )
-            
-            # set job status back to scheduled
-            sql = "update job_queue set job_status=1,results=NULL where batch_id=#{batch_id} and work_id=#{work_id}"
+			sql = "delete from page_results where batch_id=#{batch_id} "
+			sql = sql << " and page_id in (select pg_page_id from pages where pg_work_id=#{work_id})"
+			PageResult.connection.execute( sql )
+			sql = "delete from postproc_pages where pp_batch_id=#{batch_id} "
+			sql = sql << " and pp_page_id in (select pg_page_id from pages where pg_work_id=#{work_id})"
+			PostprocPage.connection.execute( sql )
+
+			# set job status back to scheduled
+            sql = "update job_queue set job_status=1,results=NULL,proc_id=NULL where batch_id=#{batch_id} and work_id=#{work_id}"
             JobQueue.connection.execute(sql);
          end
          

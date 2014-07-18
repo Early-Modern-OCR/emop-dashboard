@@ -205,9 +205,13 @@ class ResultsController < ApplicationController
             job = JobQueue.where("batch_id=? and page_id=?", batch_id, page_id).first 
             job.job_status=1;
             job.results = nil
+            job.proc_id = nil
             job.last_update = Time.now
             job.save!
-            PageResult.where("batch_id=? and page_id=?", batch_id, page_id).destroy_all() 
+            PageResult.where("batch_id=? and page_id=?", batch_id, page_id).destroy_all()
+			# We can't use activerecord because the table has no primary key.
+			sql = "delete from postproc_pages where pp_batch_id=#{batch_id} and pp_page_id=#{page_id}"
+			PostprocPage.connection.execute( sql )
          end
          render :text => "ok", :status => :ok
       rescue => e
