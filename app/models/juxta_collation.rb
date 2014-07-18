@@ -1,14 +1,15 @@
 require 'rest_client'
 
 class JuxtaCollation < ActiveRecord::Base
-   attr_accessible :page_result_id, :jx_gt_source_id, :jx_ocr_source_id, :jx_set_id, :status
+   #attr_accessible :page_result_id, :jx_gt_source_id, :jx_ocr_source_id, :jx_set_id, :status
 
    validates_inclusion_of :status, :in => ['uninitialized', 'ready', 'error', :uninitialized, :ready, :error]
    
    def self.expire_old_sets()
       expire_hrs = Rails.application.secrets.juxta_expire_hrs
       secs = expire_hrs.to_i * 60 *60
-      old = JuxtaCollation.find(:all, :conditions => ["last_accessed < ?", Time.now - secs] )
+      #old = JuxtaCollation.find(:all, :conditions => ["last_accessed < ?", Time.now - secs] )
+	  old = JuxtaCollation.where(:last_accessed < Time.now - secs)
       del_gt_list = []
       old.each do | jx |
          
