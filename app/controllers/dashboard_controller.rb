@@ -506,7 +506,7 @@ class DashboardController < ApplicationController
 
 
    def to_csv(data)
-	   column_names = [ 'Data Set', 'Title', 'Author', 'Font', 'OCR Date', 'OCR Engine', 'OCR Batch' ]
+	   column_names = [ 'Data Set', 'Title', 'Author', 'Font', 'OCR Date', 'OCR Engine', 'OCR Batch', 'Juxta', 'RETAS' ]
 	   CSV.generate({}) do |csv|
 		   csv << column_names
 		   data.each do |row|
@@ -517,7 +517,9 @@ class DashboardController < ApplicationController
 			   line.push(row[:font])
 			   line.push(row[:ocr_date])
 			   line.push(row[:ocr_engine])
-			   line.push(row[:ocr_batch])
+			   line.push(view_context.strip_tags(row[:ocr_batch]))
+			   line.push(view_context.strip_tags(row[:juxta_url]))
+			   line.push(view_context.strip_tags(row[:retas_url]))
 			   csv << line
 		   end
 	   end
