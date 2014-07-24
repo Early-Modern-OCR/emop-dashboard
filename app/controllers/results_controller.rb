@@ -136,16 +136,27 @@ class ResultsController < ApplicationController
       resp['data'] = data
       render :json => resp, :status => :ok
    end
-   
+
+   def get_idhmc_page(path)
+	   txt_path = "#{Rails.application.secrets.emop_path_prefix}#{path}"
+	   idhmc = path.reverse.sub(".", ".CMHDI_").reverse
+	   idhmc = "#{Rails.application.secrets.emop_path_prefix}#{idhmc}"
+	   if File.exist?(idhmc)
+		   file = File.open(idhmc, "r")
+			return file.read
+		else
+			file = File.open(txt_path, "r")
+			return file.read
+	   end
+   end
+
    # Get the OCR text result for the specified page_result
    #
    def get_page_text
       page_id = params[:id]
       sql = ["select pg_ref_number, ocr_text_path from page_results inner join pages on pg_page_id=page_id where id=?",page_id]
       page_result = PageResult.find_by_sql( sql ).first
-      txt_path = "#{Rails.application.secrets.emop_path_prefix}#{page_result.ocr_text_path}"
-      file = File.open(txt_path, "r")
-      contents = file.read
+      contents = get_idhmc_page(page_result.ocr_text_path)
      
       if params.has_key?(:download)
          token = params[:token]
@@ -166,9 +177,7 @@ class ResultsController < ApplicationController
       page_id = params[:id]
       sql = ["select pg_ref_number, ocr_xml_path from page_results inner join pages on pg_page_id=page_id where id=?",page_id]
       page_result = PageResult.find_by_sql( sql ).first
-      xml_path = "#{Rails.application.secrets.emop_path_prefix}#{page_result.ocr_xml_path}"
-      file = File.open(xml_path, "r")
-      contents = file.read
+	  contents = get_idhmc_page(page_result.ocr_xml_path)
       if params.has_key?(:download)
          token = params[:token]
          inf = xml_path.split(/\//)
