@@ -203,6 +203,10 @@ class DashboardController < ApplicationController
       end 
    end
 
+   def test_exception_notifier
+	   raise "This is a test of the exception notification system. This is not a real error."
+   end
+
    private
    def fix_date_format ( src_date )
       bits = src_date.split("/")
@@ -337,10 +341,6 @@ class DashboardController < ApplicationController
       summary[:total] =  summary[:failed]+summary[:postprocess]+summary[:running]+summary[:pending]
       
       return summary
-   end
-
-   def test_exception_notifier
-	   raise "This is a test of the exception notification system. This is not a real error."
    end
 
    # Create the monster select & where portion of the dashboard
