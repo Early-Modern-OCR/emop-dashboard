@@ -143,10 +143,10 @@ class ResultsController < ApplicationController
 	   idhmc = "#{Rails.application.secrets.emop_path_prefix}#{idhmc}"
 	   if File.exist?(idhmc)
 		   file = File.open(idhmc, "r")
-			return file.read
+			return [ idhmc, file.read ]
 		else
 			file = File.open(txt_path, "r")
-			return file.read
+			return [ txt_path, file.read ]
 	   end
    end
 
@@ -156,7 +156,7 @@ class ResultsController < ApplicationController
       page_id = params[:id]
       sql = ["select pg_ref_number, ocr_text_path from page_results inner join pages on pg_page_id=page_id where id=?",page_id]
       page_result = PageResult.find_by_sql( sql ).first
-      contents = get_idhmc_page(page_result.ocr_text_path)
+      txt_path, contents = get_idhmc_page(page_result.ocr_text_path)
      
       if params.has_key?(:download)
          token = params[:token]
@@ -177,7 +177,7 @@ class ResultsController < ApplicationController
       page_id = params[:id]
       sql = ["select pg_ref_number, ocr_xml_path from page_results inner join pages on pg_page_id=page_id where id=?",page_id]
       page_result = PageResult.find_by_sql( sql ).first
-	  contents = get_idhmc_page(page_result.ocr_xml_path)
+	  xml_path, contents = get_idhmc_page(page_result.ocr_xml_path)
       if params.has_key?(:download)
          token = params[:token]
          inf = xml_path.split(/\//)
