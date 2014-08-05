@@ -27,4 +27,8 @@ Rails.application.routes.draw do
 
    # site root is the dashboard
    root :to => "dashboard#index"
+
+   # for testing the server setup
+   get "/test_exception_notifier" => "dashboard#test_exception_notifier"
+
 end
