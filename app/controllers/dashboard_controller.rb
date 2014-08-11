@@ -32,6 +32,12 @@ class DashboardController < ApplicationController
    # Called from dataTable to fetch a subset of data for display
    #
    def fetch
+	   # This shouldn't get called without parameters. If it does, then just return nothing, so there aren't exceptions later on.
+	   if params[:sSearch].nil?
+		   render :text => "", :status => :unprocessable_entity
+		   return
+	   end
+
       # NOTE: have sample data from TCP K072
       resp = {}
       resp['sEcho'] = params[:sEcho]
@@ -52,6 +58,11 @@ class DashboardController < ApplicationController
    end
 
    def export
+	   # This shouldn't get called without parameters. If it does, then just return nothing, so there aren't exceptions later on.
+	   if params['q'].blank?
+		   render :text => "", :status => :unprocessable_entity
+		   return
+		end
 	   # stuff filter params in session so they can be restored each view
 	   p = {}
 	   # duplicate the keys so that functions that look for either the symbol or the string will work.

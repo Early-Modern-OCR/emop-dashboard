@@ -27,8 +27,13 @@ class ResultsController < ApplicationController
    # Fetch data for dataTable
    #
    def fetch
-      puts params
-      
+      #puts params
+	  # This shouldn't get called without parameters. If it does, then just return nothing, so there aren't exceptions later on.
+	   if params[:work].nil?
+		   render :text => "", :status => :unprocessable_entity
+		   return
+	   end
+
       work_id = params[:work]
       batch_id = params[:batch]
       if batch_id.nil? || batch_id.length == 0
