@@ -79,6 +79,7 @@ $(function() {
       $("#pending-jobs").text(resp.pending);
       $("#running-jobs").text(resp.running);
       $("#postprocess-jobs").text(resp.postprocess);
+      $("#ingested-jobs").text(resp.done);
       $("#failed-jobs").text(resp.failed);
    };
       
