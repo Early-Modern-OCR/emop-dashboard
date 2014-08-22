@@ -345,12 +345,17 @@ class DashboardController < ApplicationController
       sql = ["select count(*) as cnt from job_queue where job_status=?"]
       sql = sql << 3
       summary[:postprocess] = JobQueue.find_by_sql(sql).first.cnt
-      
+
+      sql = ["select count(*) as cnt from job_queue where job_status=?"]
+      sql = sql << 5
+      summary[:done] = JobQueue.find_by_sql(sql).first.cnt
+
       sql = ["select count(*) as cnt from job_queue where job_status=?"]
       sql = sql << 6
       summary[:failed] = JobQueue.find_by_sql(sql).first.cnt
+      #summary[:total] =  summary[:failed]+summary[:done]+summary[:postprocess]+summary[:running]+summary[:pending]
       summary[:total] =  summary[:failed]+summary[:postprocess]+summary[:running]+summary[:pending]
-      
+
       return summary
    end
 
@@ -521,11 +526,12 @@ class DashboardController < ApplicationController
 
 
    def to_csv(data)
-	   column_names = [ 'Data Set', 'Title', 'Author', 'Font', 'OCR Date', 'OCR Engine', 'OCR Batch', 'Juxta', 'RETAS' ]
+	   column_names = [ 'Work ID', 'Data Set', 'Title', 'Author', 'Font', 'OCR Date', 'OCR Engine', 'OCR Batch', 'Juxta', 'RETAS' ]
 	   CSV.generate({}) do |csv|
 		   csv << column_names
 		   data.each do |row|
 			   line = []
+         line.push(row[:id])
 			   line.push(row[:data_set])
 			   line.push(row[:title])
 			   line.push(row[:author])
