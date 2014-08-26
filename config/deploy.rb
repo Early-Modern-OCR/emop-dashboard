@@ -5,7 +5,7 @@ require 'rvm/capistrano'
 require 'bundler/capistrano'
 
 # Read in the site-specific information so that the initializers can take advantage of it.
-config_file = "config/cap.yml"
+config_file = "config/secrets.yml"
 if File.exists?(config_file)
    set :site_specific, YAML.load_file(config_file)['capistrano']
 else
