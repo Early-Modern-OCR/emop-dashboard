@@ -353,7 +353,17 @@ class DashboardController < ApplicationController
       sql = ["select count(*) as cnt from job_queue where job_status=?"]
       sql = sql << 6
       summary[:failed] = JobQueue.find_by_sql(sql).first.cnt
-      summary[:total] =  summary[:failed]+summary[:done]+summary[:postprocess]+summary[:running]+summary[:pending]
+
+      sql = ["select count(*) as cnt from job_queue where job_status=?"]
+      sql = sql << 7
+      summary[:ingestfailed] = JobQueue.find_by_sql(sql).first.cnt
+
+      summary[:total] =  summary[:ingestfailed] +
+                         summary[:failed] +
+                         summary[:done] +
+                         summary[:postprocess] +
+                         summary[:running] +
+                         summary[:pending]
 
       return summary
    end
@@ -445,6 +455,9 @@ class DashboardController < ApplicationController
       elsif  session[:ocr] == 'ocr_ingest'
         cond << " and" if cond.length > 0
         cond << " (select max(job_status) as js from job_queue where job_queue.batch_id=work_ocr_results.batch_id and job_queue.work_id=wks_work_id)=5"
+      elsif  session[:ocr] == 'ocr_ingest_error'
+        cond << " and" if cond.length > 0
+        cond << " (select max(job_status) as js from job_queue where job_queue.batch_id=work_ocr_results.batch_id and job_queue.work_id=wks_work_id)=7"
       elsif  session[:ocr] == 'ocr_none'
          cond << " and" if cond.length > 0
          cond << " work_ocr_results.ocr_completed is null"

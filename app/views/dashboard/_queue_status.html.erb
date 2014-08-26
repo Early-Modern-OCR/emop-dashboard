@@ -14,12 +14,16 @@
          <td><span id="postprocess-jobs"><%= @queue_status[:postprocess] %></span></td>
       </tr>
       <tr>
+         <td class="summary-label">Failed:</td>
+         <td><span id="failed-jobs"><%= @queue_status[:failed] %></span></td>
+      </tr>
+      <tr>
          <td class="summary-label">Ingested:</td>
          <td><span id="ingested-jobs"><%= @queue_status[:done] %></span></td>
       </tr>
       <tr>
-         <td class="summary-label">Failed:</td>
-         <td><span id="failed-jobs"><%= @queue_status[:failed] %></span></td>
+         <td class="summary-label">Ingest Failed:</td>
+         <td><span id="ingested-failed-jobs"><%= @queue_status[:ingestfailed] %></span></td>
       </tr>
       <tr>
          <td class="summary-label bold">TOTAL:</td>

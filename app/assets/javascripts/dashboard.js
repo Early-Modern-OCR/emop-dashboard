@@ -79,8 +79,9 @@ $(function() {
       $("#pending-jobs").text(resp.pending);
       $("#running-jobs").text(resp.running);
       $("#postprocess-jobs").text(resp.postprocess);
-      $("#ingested-jobs").text(resp.done);
       $("#failed-jobs").text(resp.failed);
+      $("#ingested-jobs").text(resp.done);
+      $("#ingested-failed-jobs").text(resp.ingestfailed);
    };
       
    // submit a new WORKS batch
