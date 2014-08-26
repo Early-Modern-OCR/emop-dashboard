@@ -9,18 +9,18 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130703130156) do
+ActiveRecord::Schema.define(version: 20140826172801) do
 
-  create_table "juxta_collations", :force => true do |t|
+  create_table "juxta_collations", force: true do |t|
     t.integer  "page_result_id"
     t.integer  "jx_gt_source_id"
     t.integer  "jx_ocr_source_id"
     t.integer  "jx_set_id"
-    t.datetime "created_at",                                                   :null => false
-    t.datetime "updated_at",                                                   :null => false
-    t.string   "status",            :limit => 13, :default => "uninitialized"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "status",            limit: 13, default: "uninitialized"
     t.integer  "jx_gt_witness_id"
     t.integer  "jx_ocr_witness_id"
     t.datetime "last_accessed"
