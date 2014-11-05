@@ -3,4 +3,4 @@ module Api
     protect_from_forgery
     respond_to :json
   end
-end  
+end

@@ -18,4 +18,5 @@ EmopDashboard::Application.routes.draw do
       end
     end
   end
+
 end

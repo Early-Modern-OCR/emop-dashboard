@@ -5,5 +5,5 @@ module Api
         api_version "v1"
       end
     end
-  end  
+  end
 end
