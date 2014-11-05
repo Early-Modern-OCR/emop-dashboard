@@ -17,7 +17,8 @@
     <div class="row">
       <div id='container'>
         <ul class='breadcrumb'>
-  <li class='active'><a href='./apidoc.html'>EmopDashboard v1</a></li>
+  <li class='active'><a href='./apidoc.html'>eMOP Dashboard v1</a></li>
+  
 </ul>
 
 <div>Another API description</div>
@@ -39,12 +40,22 @@
     </thead>
     <tbody>
           <tr>
-            <td><a href='./apidoc/batch_jobs/index.html'>GET /api/batch_jobs</a></td>
+            <td>
+              <a href='./apidoc/batch_jobs/count.html'>GET /api/batch_jobs</a>
+            </td>
             <td width='60%'>List batch jobs</td>
           </tr>
           <tr>
-            <td><a href='./apidoc/batch_jobs/show.html'>GET /api/batch_jobs/:id</a></td>
+            <td>
+              <a href='./apidoc/batch_jobs/count.html'>GET /api/batch_jobs/:id</a>
+            </td>
             <td width='60%'>Show a batch job</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/batch_jobs/count.html'>GET /api/batch_jobs/count</a>
+            </td>
+            <td width='60%'>Count of batch jobs</td>
           </tr>
     </tbody>
   </table>
@@ -63,12 +74,50 @@
     </thead>
     <tbody>
           <tr>
-            <td><a href='./apidoc/job_queues/index.html'>GET /api/batch_jobs/:batch_job_id/job_queues</a></td>
-            <td width='60%'>List Job Queues</td>
+            <td>
+              <a href='./apidoc/job_queues/index.html'>GET /api/job_queues</a>
+            </td>
+            <td width='60%'>List job queues</td>
           </tr>
           <tr>
-            <td><a href='./apidoc/job_queues/show.html'>GET /api/batch_jobs/:batch_job_id/job_queues/:id</a></td>
-            <td width='60%'>Show a Job Queue</td>
+            <td>
+              <a href='./apidoc/job_queues/show.html'>GET /api/job_queues/:id</a>
+            </td>
+            <td width='60%'>Show a job queue</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/job_queues/count.html'>GET /api/job_queues/count</a>
+            </td>
+            <td width='60%'>Count of job queues</td>
+          </tr>
+    </tbody>
+  </table>
+  <h2>
+    <a href='./apidoc/job_statuses.html'>
+      Job statuses
+    </a><br>
+    <small></small>
+  </h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Resource</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+            <td>
+              <a href='./apidoc/job_statuses/index.html'>GET /api/job_statuses</a>
+            </td>
+            <td width='60%'>List job statuses</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='./apidoc/job_statuses/show.html'>GET /api/job_statuses/:id</a>
+            </td>
+            <td width='60%'>Show a job status</td>
           </tr>
     </tbody>
   </table>
@@ -78,8 +127,7 @@
       </div>
     </div>
     <hr>
-    <footer>  
-</footer>
+    <footer></footer>
   </div>
   <script type='text/javascript' src='./apidoc/javascripts/bundled/jquery-1.7.2.js'></script>
 <script type='text/javascript' src='./apidoc/javascripts/bundled/bootstrap-collapse.js'></script>

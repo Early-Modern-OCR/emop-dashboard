@@ -1,5 +1,5 @@
 Apipie.configure do |config|
-  config.app_name                 = "EmopDashboard"
+  config.app_name                 = "eMOP Dashboard"
   config.api_base_url             = "/api"
   config.doc_base_url             = "/apidoc"
   config.api_controllers_matcher  = "#{Rails.root}/app/controllers/api/**/*.rb"

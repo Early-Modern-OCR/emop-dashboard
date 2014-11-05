@@ -1,12 +1,17 @@
   <h4><a href='#batch_jobs'>Batch jobs</a></h4>
   <ul>
-      <li><a href='#batch_jobs-index'>index</a></li>
-      <li><a href='#batch_jobs-show'>show</a></li>
+      <li><a href='#batch_jobs-count'>count</a></li>
   </ul>
   <h4><a href='#job_queues'>Job queues</a></h4>
   <ul>
       <li><a href='#job_queues-index'>index</a></li>
       <li><a href='#job_queues-show'>show</a></li>
+      <li><a href='#job_queues-count'>count</a></li>
+  </ul>
+  <h4><a href='#job_statuses'>Job statuses</a></h4>
+  <ul>
+      <li><a href='#job_statuses-index'>index</a></li>
+      <li><a href='#job_statuses-show'>show</a></li>
   </ul>
 
 
@@ -25,8 +30,8 @@
 
       <hr/>
 
-      <h3 id="batch_jobs-index">
-      <a href='#batch_jobs'>Batch jobs</a> / <a href='#batch_jobs-index'>index</a>
+      <h3 id="batch_jobs-count">
+      <a href='#batch_jobs'>Batch jobs</a> / <a href='#batch_jobs-count'>count</a>
       </h3>
 
       <div>
@@ -35,30 +40,61 @@
             <br>
             <small>List batch jobs</small>
           </h4>
-      </div>
-
-      <div>
-        
-
-
-      </div>
-      <hr/>
-
-      <h3 id="batch_jobs-show">
-      <a href='#batch_jobs'>Batch jobs</a> / <a href='#batch_jobs-show'>show</a>
-      </h3>
-
-      <div>
           <h4>
               GET /api/batch_jobs/:id
             <br>
             <small>Show a batch job</small>
+          </h4>
+          <h4>
+              GET /api/batch_jobs/count
+            <br>
+            <small>Count of batch jobs</small>
           </h4>
       </div>
 
       <div>
         
 
+
+          <h4>Params</h4>
+          <ul>
+    <li>
+      <strong>page </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+<p>paginate results</p>
+
+    </li>
+    
+    <li>
+      <strong>page_size </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+<p>number of entries per request</p>
+
+    </li>
+    
+    <li>
+      <strong>id </strong>:
+      <small>
+        required
+        
+          [ Must be Fixnum ]
+      </small>
+      
+<p>Batch job ID</p>
+
+    </li>
+    
+</ul>
 
       </div>
   </div>
@@ -83,15 +119,43 @@
 
       <div>
           <h4>
-              GET /api/batch_jobs/:batch_job_id/job_queues
+              GET /api/job_queues
             <br>
-            <small>List Job Queues</small>
+            <small>List job queues</small>
           </h4>
       </div>
 
       <div>
         
 
+
+          <h4>Params</h4>
+          <ul>
+    <li>
+      <strong>page </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+<p>paginate results</p>
+
+    </li>
+    
+    <li>
+      <strong>page_size </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+<p>number of entries per request</p>
+
+    </li>
+    
+</ul>
 
       </div>
       <hr/>
@@ -102,15 +166,134 @@
 
       <div>
           <h4>
-              GET /api/batch_jobs/:batch_job_id/job_queues/:id
+              GET /api/job_queues/:id
             <br>
-            <small>Show a Job Queue</small>
+            <small>Show a job queue</small>
           </h4>
       </div>
 
       <div>
         
 
+
+          <h4>Params</h4>
+          <ul>
+    <li>
+      <strong>id </strong>:
+      <small>
+        required
+        
+          [ Must be Fixnum ]
+      </small>
+      
+<p>Job queue ID</p>
+
+    </li>
+    
+</ul>
+
+      </div>
+      <hr/>
+
+      <h3 id="job_queues-count">
+      <a href='#job_queues'>Job queues</a> / <a href='#job_queues-count'>count</a>
+      </h3>
+
+      <div>
+          <h4>
+              GET /api/job_queues/count
+            <br>
+            <small>Count of job queues</small>
+          </h4>
+      </div>
+
+      <div>
+        
+
+
+      </div>
+  </div>
+
+  <hr/>
+
+  <div>
+    <h2 id="job_statuses">
+      <a href='#job_statuses'>Job statuses</a><br>
+      <small></small>
+    </h2>
+  </div>
+
+
+  <div>
+
+      <hr/>
+
+      <h3 id="job_statuses-index">
+      <a href='#job_statuses'>Job statuses</a> / <a href='#job_statuses-index'>index</a>
+      </h3>
+
+      <div>
+          <h4>
+              GET /api/job_statuses
+            <br>
+            <small>List job statuses</small>
+          </h4>
+      </div>
+
+      <div>
+        
+
+
+          <h4>Params</h4>
+          <ul>
+    <li>
+      <strong>name </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+<p>Status name</p>
+
+    </li>
+    
+</ul>
+
+      </div>
+      <hr/>
+
+      <h3 id="job_statuses-show">
+      <a href='#job_statuses'>Job statuses</a> / <a href='#job_statuses-show'>show</a>
+      </h3>
+
+      <div>
+          <h4>
+              GET /api/job_statuses/:id
+            <br>
+            <small>Show a job status</small>
+          </h4>
+      </div>
+
+      <div>
+        
+
+
+          <h4>Params</h4>
+          <ul>
+    <li>
+      <strong>id </strong>:
+      <small>
+        required
+        
+          [ Must be Fixnum ]
+      </small>
+      
+<p>Status ID</p>
+
+    </li>
+    
+</ul>
 
       </div>
   </div>

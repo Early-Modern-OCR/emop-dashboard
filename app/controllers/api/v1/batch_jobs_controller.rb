@@ -1,34 +1,33 @@
-#class API::V1::BatchJobController < ApplicationController
-#  def index
-#    @job_queue = BatchJob.all
-#    respond_to do |format|
-#      format.json { render json: @job_queue }
-#    end
-#  end
-#end
 module Api
   module V1
     class BatchJobsController < V1::BaseController
 
-      api :GET, "/batch_jobs", "List batch jobs"
-
+      api :GET, '/batch_jobs', 'List batch jobs'
+      param_group :pagination, V1::BaseController
       def index
-        @batch_jobs = BatchJob.all
-        render json: @batch_jobs
+        super
       end
 
       api :GET, '/batch_jobs/:id', 'Show a batch job'
-
+      param :id, Fixnum, desc: "Batch job ID", required: true
       def show
-        @batch_job = BatchJob.find(params[:id])
-        render json: @batch_job
+        super
       end
 
-      api :GET, '/batch_jobs/first/:n', 'Show first :n batch jobs'
+      api :GET, '/batch_jobs/count', 'Count of batch jobs'
+      def count
+        @count = BatchJob.count(:all)
+        respond_with @count
+      end
 
-      def first
-        @batch_jobs = BatchJob.limit(params[:n])
-        render json: @batch_jobs
+      private
+
+      def batch_job_params
+        params.require(:batch_job).permit()
+      end
+
+      def query_params
+        params.permit()
       end
 
     end

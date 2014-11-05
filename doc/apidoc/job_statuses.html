@@ -22,7 +22,7 @@
     <span class='divider'>/</span>
   </li>
   <li class='active'>
-    Batch jobs
+    Job statuses
     
   </li>
   
@@ -30,7 +30,7 @@
 
 <div class='page-header'>
   <h1>
-    Batch jobs
+    Job statuses
     <br>
     <small></small>
   </h1>
@@ -43,43 +43,23 @@
 
     <hr>
     <div class='pull-right small'>
-      <a href='../apidoc/batch_jobs/count.html'> >>> </a>
+      <a href='../apidoc/job_statuses/index.html'> >>> </a>
     </div>
     <div>
         <h2>
-          <a href='#description-count'
+          <a href='#description-index'
            class='accordion-toggle'
            data-toggle='collapse'
            data-parent='#accordion'>
-            GET /api/batch_jobs
+            GET /api/job_statuses
           </a>
           <br>
-          <small>List batch jobs</small>
-        </h2>
-        <h2>
-          <a href='#description-count'
-           class='accordion-toggle'
-           data-toggle='collapse'
-           data-parent='#accordion'>
-            GET /api/batch_jobs/:id
-          </a>
-          <br>
-          <small>Show a batch job</small>
-        </h2>
-        <h2>
-          <a href='#description-count'
-           class='accordion-toggle'
-           data-toggle='collapse'
-           data-parent='#accordion'>
-            GET /api/batch_jobs/count
-          </a>
-          <br>
-          <small>Count of batch jobs</small>
+          <small>List job statuses</small>
         </h2>
     </div>
 
 
-    <div id='description-count' class='collapse accordion-body'>
+    <div id='description-index' class='collapse accordion-body'>
       
 
 
@@ -97,7 +77,7 @@
     <tbody>
         <tr style='background-color:rgb(255,255,255);'>
     <td>
-      <strong>page </strong><br>
+      <strong>name </strong><br>
       <small>
         optional
         
@@ -105,7 +85,7 @@
     </td>
     <td>
       
-<p>paginate results</p>
+<p>Status name</p>
 
         <br>
         Value: Must be String
@@ -116,28 +96,46 @@
   </tr>
 
   
-  <tr style='background-color:rgb(255,255,255);'>
-    <td>
-      <strong>page_size </strong><br>
-      <small>
-        optional
-        
-      </small>
-    </td>
-    <td>
+
+    </tbody>
+  </table>
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/job_statuses/show.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-show'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            GET /api/job_statuses/:id
+          </a>
+          <br>
+          <small>Show a job status</small>
+        </h2>
+    </div>
+
+
+    <div id='description-show' class='collapse accordion-body'>
       
-<p>number of entries per request</p>
-
-        <br>
-        Value: Must be String
 
 
-    </td>
 
-  </tr>
 
-  
-  <tr style='background-color:rgb(255,255,255);'>
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
     <td>
       <strong>id </strong><br>
       <small>
@@ -147,7 +145,7 @@
     </td>
     <td>
       
-<p>Batch job ID</p>
+<p>Status ID</p>
 
         <br>
         Value: Must be Fixnum

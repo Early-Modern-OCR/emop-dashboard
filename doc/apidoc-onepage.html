@@ -18,13 +18,18 @@
       <div id='container'>
           <h4><a href='#batch_jobs'>Batch jobs</a></h4>
   <ul>
-      <li><a href='#batch_jobs-index'>index</a></li>
-      <li><a href='#batch_jobs-show'>show</a></li>
+      <li><a href='#batch_jobs-count'>count</a></li>
   </ul>
   <h4><a href='#job_queues'>Job queues</a></h4>
   <ul>
       <li><a href='#job_queues-index'>index</a></li>
       <li><a href='#job_queues-show'>show</a></li>
+      <li><a href='#job_queues-count'>count</a></li>
+  </ul>
+  <h4><a href='#job_statuses'>Job statuses</a></h4>
+  <ul>
+      <li><a href='#job_statuses-index'>index</a></li>
+      <li><a href='#job_statuses-show'>show</a></li>
   </ul>
 
 
@@ -35,7 +40,7 @@
 
 
   <ul class='breadcrumb'  id='batch_jobs'>
-    <li><a href='#'>EmopDashboard</a><span class='divider'>/</span></li>
+    <li><a href='#'>eMOP Dashboard</a><span class='divider'>/</span></li>
     <li class='active'>Batch jobs</li>
   </ul>
 
@@ -51,52 +56,36 @@
 
       <hr>
 
-      <ul class='breadcrumb' id='batch_jobs-index'>
+      <ul class='breadcrumb' id='batch_jobs-count'>
         <li>
-          <a href='#'>EmopDashboard</a>
+          <a href='#'>eMOP Dashboard</a>
           <span class='divider'>/</span>
         </li>
         <li>
           <a href='#batch_jobs'>Batch jobs</a>
           <span class='divider'>/</span>
         </li>
-        <li class='active'>index</li>
+        <li class='active'>count</li>
       </ul>
 
       <div>
           <h3>
-            <a href='#batch_jobs-index'>
+            <a href='#batch_jobs-count'>
               GET /api/batch_jobs
             </a><br>
             <small>List batch jobs</small>
           </h3>
-      </div>
-
-      <div>
-        
-
-
-      </div>
-      <hr>
-
-      <ul class='breadcrumb' id='batch_jobs-show'>
-        <li>
-          <a href='#'>EmopDashboard</a>
-          <span class='divider'>/</span>
-        </li>
-        <li>
-          <a href='#batch_jobs'>Batch jobs</a>
-          <span class='divider'>/</span>
-        </li>
-        <li class='active'>show</li>
-      </ul>
-
-      <div>
           <h3>
-            <a href='#batch_jobs-show'>
+            <a href='#batch_jobs-count'>
               GET /api/batch_jobs/:id
             </a><br>
             <small>Show a batch job</small>
+          </h3>
+          <h3>
+            <a href='#batch_jobs-count'>
+              GET /api/batch_jobs/count
+            </a><br>
+            <small>Count of batch jobs</small>
           </h3>
       </div>
 
@@ -104,11 +93,86 @@
         
 
 
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>page </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>paginate results</p>
+
+        <br>
+        Value: Must be String
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>page_size </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>number of entries per request</p>
+
+        <br>
+        Value: Must be String
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Batch job ID</p>
+
+        <br>
+        Value: Must be Fixnum
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
       </div>
   </div>
 
   <ul class='breadcrumb'  id='job_queues'>
-    <li><a href='#'>EmopDashboard</a><span class='divider'>/</span></li>
+    <li><a href='#'>eMOP Dashboard</a><span class='divider'>/</span></li>
     <li class='active'>Job queues</li>
   </ul>
 
@@ -126,7 +190,7 @@
 
       <ul class='breadcrumb' id='job_queues-index'>
         <li>
-          <a href='#'>EmopDashboard</a>
+          <a href='#'>eMOP Dashboard</a>
           <span class='divider'>/</span>
         </li>
         <li>
@@ -139,9 +203,9 @@
       <div>
           <h3>
             <a href='#job_queues-index'>
-              GET /api/batch_jobs/:batch_job_id/job_queues
+              GET /api/job_queues
             </a><br>
-            <small>List Job Queues</small>
+            <small>List job queues</small>
           </h3>
       </div>
 
@@ -149,12 +213,66 @@
         
 
 
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>page </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>paginate results</p>
+
+        <br>
+        Value: Must be String
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>page_size </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>number of entries per request</p>
+
+        <br>
+        Value: Must be String
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
       </div>
       <hr>
 
       <ul class='breadcrumb' id='job_queues-show'>
         <li>
-          <a href='#'>EmopDashboard</a>
+          <a href='#'>eMOP Dashboard</a>
           <span class='divider'>/</span>
         </li>
         <li>
@@ -167,9 +285,70 @@
       <div>
           <h3>
             <a href='#job_queues-show'>
-              GET /api/batch_jobs/:batch_job_id/job_queues/:id
+              GET /api/job_queues/:id
             </a><br>
-            <small>Show a Job Queue</small>
+            <small>Show a job queue</small>
+          </h3>
+      </div>
+
+      <div>
+        
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Job queue ID</p>
+
+        <br>
+        Value: Must be Fixnum
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='job_queues-count'>
+        <li>
+          <a href='#'>eMOP Dashboard</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#job_queues'>Job queues</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>count</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#job_queues-count'>
+              GET /api/job_queues/count
+            </a><br>
+            <small>Count of job queues</small>
           </h3>
       </div>
 
@@ -180,13 +359,151 @@
       </div>
   </div>
 
+  <ul class='breadcrumb'  id='job_statuses'>
+    <li><a href='#'>eMOP Dashboard</a><span class='divider'>/</span></li>
+    <li class='active'>Job statuses</li>
+  </ul>
+
+  <div class='page-header'>
+    <h1>
+      <a href='#job_statuses'>Job statuses</a><br>
+      <small></small>
+    </h1>
+  </div>
+
+
+  <div class='accordion' id='accordion'>
+
+      <hr>
+
+      <ul class='breadcrumb' id='job_statuses-index'>
+        <li>
+          <a href='#'>eMOP Dashboard</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#job_statuses'>Job statuses</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>index</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#job_statuses-index'>
+              GET /api/job_statuses
+            </a><br>
+            <small>List job statuses</small>
+          </h3>
+      </div>
+
+      <div>
+        
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>name </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Status name</p>
+
+        <br>
+        Value: Must be String
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='job_statuses-show'>
+        <li>
+          <a href='#'>eMOP Dashboard</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#job_statuses'>Job statuses</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>show</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#job_statuses-show'>
+              GET /api/job_statuses/:id
+            </a><br>
+            <small>Show a job status</small>
+          </h3>
+      </div>
+
+      <div>
+        
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Status ID</p>
+
+        <br>
+        Value: Must be Fixnum
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+  </div>
+
 
         
       </div>
     </div>
     <hr>
-    <footer>  
-</footer>
+    <footer></footer>
   </div>
   <script type='text/javascript' src='./apidoc/javascripts/bundled/jquery-1.7.2.js'></script>
 <script type='text/javascript' src='./apidoc/javascripts/bundled/bootstrap-collapse.js'></script>

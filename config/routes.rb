@@ -1,22 +1,17 @@
-require 'api_constraints'
-
 Rails.application.routes.draw do
   # API docs
   apipie
 
   # API routes
-  namespace :api, :defaults => {:format => 'json'} do
-    scope :module => :v1, constraints: ApiConstraints.new(version: 1, default: true) do
-
-      resources :batch_jobs, :only => [:index,:show] do
-        get 'first/:n', on: :collection, action: 'first'
-
-        resources :job_queues, :only => [:index,:show]
+  namespace :api, defaults: {format: 'json'} do
+    api_version(module: "V1", defaults: {format: :json}, header: {name: "Accept", value: "application/emop; version=1"}, default: true) do
+      resources :batch_jobs, only: [:index,:show] do
+        get 'count', on: :collection
       end
-
-      resources :job_statuses, :only => [:index,:show] do
-        get 'job_queues(/:limit)', on: :member, action: 'job_queues'
+      resources :job_queues, only: [:index,:show] do
+        get 'count', on: :collection
       end
+      resources :job_statuses, only: [:index,:show]
     end
   end
 
