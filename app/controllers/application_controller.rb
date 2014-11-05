@@ -18,9 +18,11 @@ class ApplicationController < ActionController::Base
          foo[:name] = batch.name
          foo[:parameters] = batch.parameters
          foo[:notes] = batch.notes
-         foo[:type] = @job_types[batch.job_type-1]
-         foo[:engine] = @engines[batch.ocr_engine_id-1]
-		     foo[:font] = @fonts.index { |rec| rec.id == batch.font_id }
+         foo[:type] = batch.job_type
+         foo[:engine] = batch.ocr_engine
+         foo[:font] = @fonts.index { |rec| rec.id == batch.font_id }
+         #TODO
+         #foo[:font] = batch.font.id
          @batches << foo
       end
    end
