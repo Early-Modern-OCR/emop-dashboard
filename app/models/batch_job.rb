@@ -9,6 +9,8 @@ class BatchJob < ActiveRecord::Base
   belongs_to :job_type, foreign_key: 'job_type'
   has_many :job_queues, foreign_key: 'batch_id'
 
+  validates :name, presence: true
+
   def to_builder(version = 'v1')
     case version
     when 'v1'
