@@ -47,10 +47,13 @@ gem 'exception_notification'
 # gem 'unicorn'
 
 # Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-# gem 'rvm-capistrano'
-gem 'capistrano', '2.15.5'
-gem 'rvm-capistrano'
+group :development do
+  gem 'capistrano', '~> 3.2.0'
+  gem 'capistrano-bundler', '~> 1.1.3'
+  gem 'capistrano-rails', '~> 1.1'
+  gem 'rvm1-capistrano3', require: false
+  gem 'capistrano-rails-collection'
+end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]

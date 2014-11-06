@@ -10,10 +10,22 @@ RSpec.configure do |config|
       DatabaseCleaner.clean
     end
 
-    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)
-    DatabaseCleaner[:active_record,{:connection => :emop_test}].strategy = :transaction
+    DatabaseCleaner[:active_record,{:connection => :emop_test}].strategy = :truncation
     DatabaseCleaner[:active_record,{:connection => :emop_test}].clean_with(:truncation)
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner[:active_record,{:connection => :emop_test}].cleaning do
+      example.run
+    end
   end
 
 end

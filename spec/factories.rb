@@ -31,10 +31,25 @@ FactoryGirl.define do
   end
 
   factory :job_status do
-    name  'Not Started'
+    name 'Not Started'
 
     factory :processing do
       name 'Processing'
+    end
+    factory :pending_postproc do
+      name 'Pending Postprocess'
+    end
+    factory :postprocessing do
+      name 'Postprocessing'
+    end
+    factory :done do
+      name 'Done'
+    end
+    factory :failed do
+      name 'Failed'
+    end
+    factory :ingest_failed do
+      name 'Ingest Failed'
     end
   end
 

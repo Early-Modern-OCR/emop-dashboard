@@ -1,48 +1,20 @@
 {
-  "apipies#index": [
-    {
-      "verb": "GET",
-      "path": "/apidoc/v1.html",
-      "versions": [
-
-      ],
-      "query": null,
-      "request_data": null,
-      "response_data": null,
-      "code": 200,
-      "show_in_doc": 0,
-      "recorded": true
-    },
-    {
-      "verb": "GET",
-      "path": "/apidoc/v1/batch_jobs/count.html",
-      "versions": [
-
-      ],
-      "query": null,
-      "request_data": null,
-      "response_data": null,
-      "code": 200,
-      "show_in_doc": 0,
-      "recorded": true
-    }
-  ],
   "batch_jobs#count": [
     {
       "verb": "GET",
       "path": "/api/batch_jobs/count",
       "versions": [
-
+        "v1"
       ],
       "query": null,
       "request_data": null,
       "response_data": {
         "batch_job": {
-          "count": 311
+          "count": 2
         }
       },
       "code": 200,
-      "show_in_doc": 0,
+      "show_in_doc": 1,
       "recorded": true
     }
   ],
@@ -122,7 +94,7 @@
   "batch_jobs#show": [
     {
       "verb": "GET",
-      "path": "/api/batch_jobs/3",
+      "path": "/api/batch_jobs/1",
       "versions": [
         "v1"
       ],
@@ -130,20 +102,20 @@
       "request_data": null,
       "response_data": {
         "batch_job": {
-          "id": 3,
+          "id": 1,
           "name": "OCR Test",
           "parameters": "",
           "notes": "test",
           "job_type": {
-            "id": 3,
+            "id": 1,
             "name": "OCR"
           },
           "ocr_engine": {
-            "id": 3,
+            "id": 1,
             "name": "Tesseract"
           },
           "font": {
-            "font_id": 3,
+            "font_id": 1,
             "font_name": "baskerville",
             "font_italic": null,
             "font_bold": null,
@@ -165,17 +137,17 @@
       "verb": "GET",
       "path": "/api/job_queues/count",
       "versions": [
-
+        "v1"
       ],
-      "query": null,
+      "query": "job_status=1",
       "request_data": null,
       "response_data": {
         "job_queue": {
-          "count": 410581
+          "count": 2
         }
       },
       "code": 200,
-      "show_in_doc": 0,
+      "show_in_doc": 1,
       "recorded": true
     }
   ],
@@ -200,20 +172,20 @@
             "tries": 0,
             "results": "Foo",
             "batch_job": {
-              "id": 4,
+              "id": 1,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
               "job_type": {
-                "id": 4,
+                "id": 1,
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 4,
+                "id": 1,
                 "name": "Tesseract"
               },
               "font": {
-                "font_id": 4,
+                "font_id": 1,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -265,20 +237,20 @@
             "tries": 0,
             "results": "Foo",
             "batch_job": {
-              "id": 5,
+              "id": 2,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
               "job_type": {
-                "id": 5,
+                "id": 2,
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 5,
+                "id": 2,
                 "name": "Tesseract"
               },
               "font": {
-                "font_id": 5,
+                "font_id": 2,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -335,7 +307,7 @@
   "job_queues#show": [
     {
       "verb": "GET",
-      "path": "/api/job_queues/3",
+      "path": "/api/job_queues/1",
       "versions": [
         "v1"
       ],
@@ -343,24 +315,24 @@
       "request_data": null,
       "response_data": {
         "job_queue": {
-          "id": 3,
+          "id": 1,
           "tries": 0,
           "results": "Foo",
           "batch_job": {
-            "id": 6,
+            "id": 1,
             "name": "OCR Test",
             "parameters": "",
             "notes": "test",
             "job_type": {
-              "id": 6,
+              "id": 1,
               "name": "OCR"
             },
             "ocr_engine": {
-              "id": 6,
+              "id": 1,
               "name": "Tesseract"
             },
             "font": {
-              "font_id": 6,
+              "font_id": 1,
               "font_name": "baskerville",
               "font_italic": null,
               "font_bold": null,
@@ -372,7 +344,7 @@
             }
           },
           "page": {
-            "pg_page_id": 3,
+            "pg_page_id": 1,
             "pg_ref_number": 1,
             "pg_ground_truth_file": null,
             "pg_work_id": null,
@@ -380,7 +352,7 @@
             "pg_image_path": "/data/ecco/somepath"
           },
           "work": {
-            "wks_work_id": 3,
+            "wks_work_id": 1,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_tcp_bibno": null,
@@ -423,19 +395,39 @@
       "query": null,
       "request_data": null,
       "response_data": {
-        "total": 2,
-        "subtotal": 2,
+        "total": 7,
+        "subtotal": 7,
         "page": 1,
         "per_page": 30,
         "total_pages": 1,
         "results": [
           {
-            "id": 4,
+            "id": 1,
             "name": "Not Started"
           },
           {
+            "id": 2,
+            "name": "Processing"
+          },
+          {
+            "id": 3,
+            "name": "Pending Postprocess"
+          },
+          {
+            "id": 4,
+            "name": "Postprocessing"
+          },
+          {
             "id": 5,
-            "name": "Not Started"
+            "name": "Done"
+          },
+          {
+            "id": 6,
+            "name": "Failed"
+          },
+          {
+            "id": 7,
+            "name": "Ingest Failed"
           }
         ]
       },
@@ -447,7 +439,7 @@
   "job_statuses#show": [
     {
       "verb": "GET",
-      "path": "/api/job_statuses/6",
+      "path": "/api/job_statuses/1",
       "versions": [
         "v1"
       ],
@@ -455,7 +447,7 @@
       "request_data": null,
       "response_data": {
         "job_status": {
-          "id": 6,
+          "id": 1,
           "name": "Not Started"
         }
       },

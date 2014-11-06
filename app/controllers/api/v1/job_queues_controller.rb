@@ -15,8 +15,9 @@ module Api
       end
 
       api :GET, '/job_queues/count', 'Count of job queues'
+      param :job_status, /^[0-9]+$/, desc: "Job status ID'"
       def count
-        @count = JobQueue.count(:all)
+        @count = JobQueue.where(query_params).count
         respond_with @count
       end
 
@@ -27,7 +28,7 @@ module Api
       end
 
       def query_params
-        params.permit(:proc_id)
+        params.permit(:job_status, :proc_id)
       end
 
     end

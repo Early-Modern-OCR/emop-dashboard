@@ -3,13 +3,27 @@ require 'rails_helper'
 RSpec.describe "JobStatuses", :type => :request do
   let(:api_headers) { {'Accept' => 'application/emop; version=1'} }
 
+  let(:job_statuses) {
+    [
+      :job_status,
+      :processing,
+      :pending_postproc,
+      :postprocessing,
+      :done,
+      :failed,
+      :ingest_failed,
+    ]
+  }
+
   describe "GET /api/job_statuses" do
     it 'sends a list of job statuses', :show_in_doc do
-      FactoryGirl.create_list(:job_status, 2)
+      job_statuses.each do |j|
+        FactoryGirl.create(j)
+      end
       get '/api/job_statuses', {}, api_headers
 
       expect(response).to be_success
-      expect(json['results'].length).to eq(2)
+      expect(json['results'].length).to eq(job_statuses.length)
     end
   end
 
