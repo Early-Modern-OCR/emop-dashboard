@@ -1,4 +1,1 @@
-json.job_status do
-  json.id   @job_status.id
-  json.name @job_status.name
-end
+json.job_status @job_status.to_builder('v1')

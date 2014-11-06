@@ -9,7 +9,7 @@ module Api
       end
 
       api :GET, '/batch_jobs/:id', 'Show a batch job'
-      param :id, Fixnum, desc: "Batch job ID", required: true
+      param :id, /^[0-9]+$/, desc: "Batch job ID", required: true
       def show
         super
       end

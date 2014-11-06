@@ -9,7 +9,7 @@ module Api
       end
 
       api :GET, '/job_queues/:id', 'Show a job queue'
-      param :id, Fixnum, desc: "Job queue ID", required: true
+      param :id, /^[0-9]+$/, desc: "Job queue ID", required: true
       def show
         super
       end

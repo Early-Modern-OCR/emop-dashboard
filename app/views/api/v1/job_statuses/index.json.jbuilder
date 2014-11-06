@@ -1,4 +1,1 @@
-json.array! @job_statuses do |job_status|
-  json.id   job_status.id
-  json.name job_status.name
-end
+json.array! @job_statuses.collect { |job_status| job_status.to_builder('v1').attributes! }

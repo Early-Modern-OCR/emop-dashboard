@@ -57,4 +57,6 @@ gem 'rvm-capistrano'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
+  gem 'factory_girl', '~> 4.0'
+  gem 'database_cleaner'
 end

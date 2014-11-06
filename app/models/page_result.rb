@@ -2,7 +2,7 @@
 # Describes a results of a job run on a page
 #
 class PageResult < ActiveRecord::Base
-   establish_connection(:emop)
+   establish_connection("emop_#{Rails.env}".to_sym)
    self.table_name = :page_results
    belongs_to :page
    belongs_to :batch_job, foreign_key: 'batch_id'
