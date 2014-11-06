@@ -7,6 +7,8 @@ class Font < ActiveRecord::Base
   self.primary_key = :font_id
   has_many :batch_jobs, foreign_key: 'font_id'
 
+  validates :name, presence: true
+
   def to_builder(version = 'v1')
     case version
     when 'v1'
