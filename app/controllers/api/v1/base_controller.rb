@@ -4,14 +4,14 @@ module Api
       before_action :set_resource, only: [:destroy, :show, :update]
 
       resource_description do
-        api_version "v1"
+        api_version 'v1'
       end
 
       layout 'api/v1/layouts/index_layout', :only => :index
 
       def_param_group :pagination do
-        param :page, String, :desc => "paginate results"
-        param :page_size, String, :desc => "number of entries per request"
+        param :page, String, :desc => 'paginate results'
+        param :page_size, String, :desc => 'number of entries per request'
       end
 
       helper_method :root_node_name, :metadata_total, :metadata_subtotal,

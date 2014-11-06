@@ -2,9 +2,9 @@ module Api
   module V1
     class JobQueuesController < V1::BaseController
 
-      api :GET, "/job_queues", "List job queues"
+      api :GET, '/job_queues', 'List job queues'
       param_group :pagination, V1::BaseController
-      param :job_status, /^[0-9]+$/, desc: "Job status ID'"
+      param :status, /^[0-9]+$/, desc: 'Job status ID'
       def index
         super
       end
@@ -16,7 +16,7 @@ module Api
       end
 
       api :GET, '/job_queues/count', 'Count of job queues'
-      param :job_status, /^[0-9]+$/, desc: "Job status ID'"
+      param :status, /^[0-9]+$/, desc: 'Job status ID'
       def count
         @count = JobQueue.where(query_params).count
         respond_with @count
@@ -29,7 +29,7 @@ module Api
       end
 
       def query_params
-        params.permit(:job_status, :proc_id)
+        params.permit(:status, :proc_id)
       end
 
     end

@@ -2,14 +2,14 @@ module Api
   module V1
     class JobStatusesController < V1::BaseController
 
-      api :GET, "/job_statuses", "List job statuses"
-      param :name, String, desc: "Status name"
+      api :GET, '/job_statuses', 'List job statuses'
+      param :name, String, desc: 'Status name'
       def index
         super
       end
 
       api :GET, '/job_statuses/:id', 'Show a job status'
-      param :id, /^[0-9]+$/, desc: "Status ID", required: true
+      param :id, /^[0-9]+$/, desc: 'Status ID', required: true
       def show
         super
       end
