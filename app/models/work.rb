@@ -19,7 +19,7 @@ class Work < ActiveRecord::Base
     case version
     when 'v1'
       Jbuilder.new do |json|
-        json.wks_work_id wks_work_id
+        json.id id
         json.wks_tcp_number wks_tcp_number
         json.wks_estc_number wks_estc_number
         json.wks_tcp_bibno wks_tcp_bibno
@@ -45,5 +45,10 @@ class Work < ActiveRecord::Base
         json.wks_last_trawled wks_last_trawled
       end
     end
+  end
+
+  #TODO: Remove once schema is sane
+  def id
+    read_attribute(:wks_work_id)
   end
 end

@@ -11,7 +11,7 @@ class Font < ActiveRecord::Base
     case version
     when 'v1'
       Jbuilder.new do |json|
-        json.font_id            font_id
+        json.id                 id
         json.font_name          font_name
         json.font_italic        font_italic
         json.font_bold          font_bold
@@ -22,5 +22,10 @@ class Font < ActiveRecord::Base
         json.font_library_path  font_library_path
       end
     end
+  end
+
+  #TODO: Remove once schema is sane
+  def id
+    read_attribute(:font_id)
   end
 end

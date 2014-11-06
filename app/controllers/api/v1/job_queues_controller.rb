@@ -4,6 +4,7 @@ module Api
 
       api :GET, "/job_queues", "List job queues"
       param_group :pagination, V1::BaseController
+      param :job_status, /^[0-9]+$/, desc: "Job status ID'"
       def index
         super
       end

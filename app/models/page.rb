@@ -23,7 +23,7 @@ class Page < ActiveRecord::Base
     case version
     when 'v1'
       Jbuilder.new do |json|
-        json.pg_page_id           pg_page_id
+        json.id                   id
         json.pg_ref_number        pg_ref_number
         json.pg_ground_truth_file pg_ground_truth_file
         json.pg_work_id           pg_work_id
@@ -31,5 +31,10 @@ class Page < ActiveRecord::Base
         json.pg_image_path        pg_image_path
       end
     end
+  end
+
+  #TODO: Remove once schema is sane
+  def id
+    read_attribute(:pg_page_id)
   end
 end

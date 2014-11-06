@@ -14,6 +14,7 @@ class JobQueue < ActiveRecord::Base
     when 'v1'
       Jbuilder.new do |json|
         json.(self, :id, :tries, :results)
+        json.status     status.to_builder
         json.batch_job  batch_job.to_builder
         json.page       page.to_builder
         json.work       work.to_builder
