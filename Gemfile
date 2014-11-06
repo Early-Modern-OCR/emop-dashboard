@@ -7,9 +7,9 @@ gem 'rails', '4.1.4'
 gem 'mysql2'
 gem 'settingslogic'
 gem 'rest-client'
-gem 'whenever', :require => false
-gem 'rmagick'
-gem 'activerecord-import', '~> 0.4.1', :require => false
+gem 'whenever', require: false
+gem 'rmagick', require: false
+gem 'activerecord-import', '~> 0.4.1', require: false
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -21,7 +21,7 @@ gem 'therubyracer',  platforms: :ruby
 
 # API
 gem 'apipie-rails'
-gem 'maruku', :group => :development
+gem 'maruku', group: :development
 gem 'versionist'
 
 # Use jquery as the JavaScript library
@@ -32,11 +32,14 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/kaminarier
 gem 'jbuilder', '~> 2.0'
 gem 'will_paginate', '~> 3.0.5'
-# bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0',          group: :doc
+
+group :doc do
+  # bundle exec rake doc:rails generates the API under doc/api.
+  gem 'sdoc', '~> 0.4.0', require: false
+end
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-gem 'spring',        group: :development
+gem 'spring', group: :development
 
 gem 'exception_notification'
 
@@ -59,7 +62,12 @@ end
 # gem 'debugger', group: [:development, :test]
 
 group :development, :test do
+  gem 'coveralls', require: false
   gem 'rspec-rails', '~> 3.0.0'
   gem 'factory_girl', '~> 4.0'
   gem 'database_cleaner'
+end
+
+group :test do
+  gem "simplecov", require: false
 end

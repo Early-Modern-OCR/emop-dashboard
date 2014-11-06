@@ -1,5 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe JobStatus, :type => :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "is valid" do
+    job_status = build(:job_status)
+    expect(job_status).to be_valid
+  end
 end

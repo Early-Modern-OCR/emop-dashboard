@@ -7,13 +7,17 @@ RSpec.describe Api::V1::JobQueuesController, :type => :routing do
       expect(:get => "/api/job_queues").to route_to(controller: "api/v1/job_queues", action: "index", format: :json)
     end
 
+    it "routes to #show" do
+      expect(:get => "/api/job_queues/1").to route_to(controller: "api/v1/job_queues", action: "show", format: :json, id: "1")
+    end
+
+    it "routes to #count" do
+      expect(:get => "/api/job_queues/count").to route_to(controller: "api/v1/job_queues", action: "count", format: :json)
+    end
+=begin
     it "routes to #new" do
       skip "Not yet used"
       expect(:get => "/api/job_queues/new").to route_to(controller: "api/v1/job_queues", action: "new", format: :json)
-    end
-
-    it "routes to #show" do
-      expect(:get => "/api/job_queues/1").to route_to(controller: "api/v1/job_queues", action: "show", format: :json, id: "1")
     end
 
     it "routes to #edit" do
@@ -35,6 +39,6 @@ RSpec.describe Api::V1::JobQueuesController, :type => :routing do
       skip "Not yet used"
       expect(:delete => "/api/job_queues/1").to route_to(controller: "api/v1/job_queues", action: "destroy", format: :json, id: "1")
     end
-
+=end
   end
 end

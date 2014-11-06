@@ -16,3 +16,6 @@
 
 config/database.yml
 config/secrets.yml
+
+# Ignore locations resulting from tests
+coverage/*

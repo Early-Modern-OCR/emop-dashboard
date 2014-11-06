@@ -7,13 +7,17 @@ RSpec.describe Api::V1::BatchJobsController, :type => :routing do
       expect(:get => "/api/batch_jobs").to route_to(controller: "api/v1/batch_jobs", action: "index", format: :json)
     end
 
+    it "routes to #show" do
+      expect(:get => "/api/batch_jobs/1").to route_to(controller: "api/v1/batch_jobs", action: "show", format: :json, id: "1")
+    end
+
+    it "routes to #count" do
+      expect(:get => "/api/batch_jobs/count").to route_to(controller: "api/v1/batch_jobs", action: "count", format: :json)
+    end
+=begin
     it "routes to #new" do
       skip "Not yet used"
       expect(:get => "/api/batch_jobs/new").to route_to(controller: "api/v1/batch_jobs", action: "new", format: :json)
-    end
-
-    it "routes to #show" do
-      expect(:get => "/api/batch_jobs/1").to route_to(controller: "api/v1/batch_jobs", action: "show", format: :json, id: "1")
     end
 
     it "routes to #edit" do
@@ -35,6 +39,6 @@ RSpec.describe Api::V1::BatchJobsController, :type => :routing do
       skip "Not yet used"
       expect(:delete => "/api/batch_jobs/1").to route_to(controller: "api/v1/batch_jobs", action: "destroy", format: :json, id: "1")
     end
-
+=end
   end
 end

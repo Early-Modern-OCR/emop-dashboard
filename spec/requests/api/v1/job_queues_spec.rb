@@ -24,36 +24,32 @@ RSpec.describe "JobQueues", :type => :request do
   end
 
   describe "GET /api/job_queues/count" do
-    it 'sends the count of job queues' do
-      FactoryGirl.create_list(:job_queue, 2)
+    before(:each) do
+      @not_started_status = create(:job_status)
+      @done_status        = create(:done)
+      @not_started        = create_list(:job_queue, 2, status: @not_started_status)
+      @done               = create_list(:job_queue, 3, status: @done_status)
+    end
+
+    it 'sends the count of all job queues' do
       get '/api/job_queues/count', {}, api_headers
 
       expect(response).to be_success
-      expect(json['job_queue']['count']).to eq(2)
+      expect(json['job_queue']['count']).to eq(@not_started.length + @done.length)
     end
 
-    it 'sends the count with of not started', :show_in_doc do
-      not_started_status  = create(:job_status)
-      done_status         = create(:done)
-      FactoryGirl.create_list(:job_queue, 2, status: not_started_status)
-      FactoryGirl.create_list(:job_queue, 3, status: done_status)
-
-      get '/api/job_queues/count', {job_status: not_started_status.id}, api_headers
+    it 'sends the count of not started job queues', :show_in_doc do
+      get '/api/job_queues/count', {job_status: @not_started_status.id}, api_headers
 
       expect(response).to be_success
-      expect(json['job_queue']['count']).to eq(2)
+      expect(json['job_queue']['count']).to eq(@not_started.length)
     end
 
-    it 'sends the count with of done' do
-      not_started_status  = create(:job_status)
-      done_status         = create(:done)
-      FactoryGirl.create_list(:job_queue, 2, status: not_started_status)
-      FactoryGirl.create_list(:job_queue, 3, status: done_status)
-
-      get '/api/job_queues/count', {job_status: done_status.id}, api_headers
+    it 'sends the count of done job queues' do
+      get '/api/job_queues/count', {job_status: @done_status.id}, api_headers
 
       expect(response).to be_success
-      expect(json['job_queue']['count']).to eq(3)
+      expect(json['job_queue']['count']).to eq(@done.length)
     end
   end
 end
