@@ -48,7 +48,48 @@
 
 
 
+  <h2>Examples</h2>
+    <pre class="prettyprint">GET /api/job_queues/count?job_status=1
+200
+{
+  &quot;job_queue&quot;: {
+    &quot;count&quot;: 2
+  }
+}</pre>
 
+  <h2>Params</h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>job_status </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Job status ID</p>
+
+        <br>
+        Value: Must match regular expression /^[0-9]+$/.
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
 
 </div>
 

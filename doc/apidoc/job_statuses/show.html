@@ -48,6 +48,15 @@
 
 
 
+  <h2>Examples</h2>
+    <pre class="prettyprint">GET /api/job_statuses/1
+200
+{
+  &quot;job_status&quot;: {
+    &quot;id&quot;: 1,
+    &quot;name&quot;: &quot;Not Started&quot;
+  }
+}</pre>
 
   <h2>Params</h2>
   <table class='table'>
@@ -71,7 +80,7 @@
 <p>Status ID</p>
 
         <br>
-        Value: Must be Fixnum
+        Value: Must match regular expression /^[0-9]+$/.
 
 
     </td>

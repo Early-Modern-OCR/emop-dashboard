@@ -48,7 +48,70 @@
 
 
 
+  <h2>Examples</h2>
+    <pre class="prettyprint">GET /api/batch_jobs/1
+200
+{
+  &quot;batch_job&quot;: {
+    &quot;id&quot;: 1,
+    &quot;name&quot;: &quot;OCR Test&quot;,
+    &quot;parameters&quot;: &quot;&quot;,
+    &quot;notes&quot;: &quot;test&quot;,
+    &quot;job_type&quot;: {
+      &quot;id&quot;: 1,
+      &quot;name&quot;: &quot;OCR&quot;
+    },
+    &quot;ocr_engine&quot;: {
+      &quot;id&quot;: 1,
+      &quot;name&quot;: &quot;Tesseract&quot;
+    },
+    &quot;font&quot;: {
+      &quot;id&quot;: 1,
+      &quot;font_name&quot;: &quot;baskerville&quot;,
+      &quot;font_italic&quot;: null,
+      &quot;font_bold&quot;: null,
+      &quot;font_fixed&quot;: null,
+      &quot;font_serif&quot;: null,
+      &quot;font_fraktur&quot;: null,
+      &quot;font_line_height&quot;: null,
+      &quot;font_library_path&quot;: &quot;/data/shared/fonts/baskerville/emop.traineddata&quot;
+    }
+  }
+}</pre>
 
+  <h2>Params</h2>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Batch job ID</p>
+
+        <br>
+        Value: Must match regular expression /^[0-9]+$/.
+
+
+    </td>
+
+  </tr>
+
+  
+
+    </tbody>
+  </table>
 
 </div>
 

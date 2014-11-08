@@ -23,7 +23,7 @@ module Api
       end
 
       api :PUT, '/job_queues/reserve', 'Reserve job queues'
-      param :job_queue, Hash do
+      param :job_queue, Hash, required: true do
         param :num_pages, /^[0-9]+$/, desc: 'Number of pages to reserve', required: true
       end
       def reserve
