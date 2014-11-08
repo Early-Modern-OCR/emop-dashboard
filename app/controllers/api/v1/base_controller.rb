@@ -14,7 +14,7 @@ module Api
         param :page_size, String, :desc => 'number of entries per request'
       end
 
-      helper_method :root_node_name, :metadata_total, :metadata_subtotal,
+      helper_method :root_node_name, :metadata_total,
                     :metadata_page, :metadata_per_page, :metadata_total_pages
 
       def root_node_name
@@ -25,17 +25,15 @@ module Api
         @total ||= resource_class.try(:count).to_i
       end
 
-      def metadata_subtotal
-        #TODO: evaluate total vs limited query
-        @subtotal ||= @total
-      end
-
       def metadata_page
         @page ||= page_params[:page].present? ? page_params[:page].to_i : 1
       end
 
       def metadata_per_page
         @per_page ||= page_params[:per_page].present? ? page_params[:per_page].to_i : resource_class.try(:per_page).to_i
+        if @per_page > @total
+          @per_page = @total
+        end
       end
 
       def metadata_total_pages
@@ -65,6 +63,7 @@ module Api
         resources = resource_class.where(query_params)
                                   .paginate(page: page_params[:page], per_page: page_params[:per_page])
 
+        instance_variable_set('@total', resources.length)
         instance_variable_set(plural_resource_name, resources)
         respond_with instance_variable_get(plural_resource_name)
       end

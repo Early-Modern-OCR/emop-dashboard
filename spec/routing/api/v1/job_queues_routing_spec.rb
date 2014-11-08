@@ -14,6 +14,10 @@ RSpec.describe Api::V1::JobQueuesController, :type => :routing do
     it "routes to #count" do
       expect(:get => "/api/job_queues/count").to route_to(controller: "api/v1/job_queues", action: "count", format: :json)
     end
+
+    it "routes to #reserve" do
+      expect(:put => "/api/job_queues/reserve").to route_to(controller: "api/v1/job_queues", action: "reserve", format: :json)
+    end
 =begin
     it "routes to #new" do
       skip "Not yet used"

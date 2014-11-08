@@ -9,6 +9,15 @@ class JobQueue < ActiveRecord::Base
   belongs_to :status, class_name: 'JobStatus', foreign_key: 'job_status'
   belongs_to :work, foreign_key: 'work_id'
 
+  def self.generate_proc_id
+    Time.now.strftime('%Y%m%d%H%M%S%L')
+  end
+
+  def self.unreserved
+    @job_status = JobStatus.find_by_name('Not Started')
+    where(proc_id: nil, job_status: @job_status.id)
+  end
+
   def to_builder(version = 'v1')
     case version
     when 'v1'
@@ -22,4 +31,5 @@ class JobQueue < ActiveRecord::Base
       end
     end
   end
+
 end
