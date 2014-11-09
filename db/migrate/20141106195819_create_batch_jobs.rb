@@ -5,10 +5,8 @@ class CreateBatchJobs < ActiveRecord::Migration
       t.string :name
       t.string :notes
       t.references :font
-      t.references :ocr_engine, default: 4 #TODO - handle in model
-      t.references :job_type, default: 1 #TODO - handle in model
-
-      t.timestamps
+      t.references :ocr_engine
+      t.references :job_type
     end
 
     add_index :batch_jobs, :job_type_id

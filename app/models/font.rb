@@ -1,13 +1,10 @@
-
-# Describes an eMOP font 
+# Describes an eMOP font
 #
 class Font < ActiveRecord::Base
-  establish_connection("emop_#{Rails.env}".to_sym)
-  self.table_name = :fonts
   self.primary_key = :font_id
-  has_many :batch_jobs, foreign_key: 'font_id'
+  has_many :batch_jobs
 
-  validates :name, presence: true
+  validates :font_name, presence: true
 
   def to_builder(version = 'v1')
     case version

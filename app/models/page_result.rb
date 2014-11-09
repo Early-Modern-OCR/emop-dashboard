@@ -1,21 +1,19 @@
-
 # Describes a results of a job run on a page
 #
 class PageResult < ActiveRecord::Base
-   establish_connection("emop_#{Rails.env}".to_sym)
-   self.table_name = :page_results
-   belongs_to :page
-   belongs_to :batch_job, foreign_key: 'batch_id'
+  belongs_to :page
+  belongs_to :batch_job, foreign_key: 'batch_id'
 
-   # get the type of ocr engine used to generate this result
-   #
-   def get_ocr_engine
-      batch_job = BatchJob.find( self.batch_id )
-      ocr_id = batch_job.ocr_engine_id
-      return :gale if ocr_id == 1   
-      return :tesseract if ocr_id == 2
-      return :gamera if ocr_id == 3
-      return :ocropus if ocr_id == 4
-      return :none
-   end
+  # get the type of ocr engine used to generate this result
+  #
+  # TODO: Appears unused
+  def get_ocr_engine
+    batch_job = BatchJob.find( self.batch_id )
+    ocr_id = batch_job.ocr_engine_id
+    return :gale if ocr_id == 1   
+    return :tesseract if ocr_id == 2
+    return :gamera if ocr_id == 3
+    return :ocropus if ocr_id == 4
+    return :none
+  end
 end

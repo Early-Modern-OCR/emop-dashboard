@@ -1,12 +1,11 @@
-
 # Describes an eMOP work.
 #
 class Work < ActiveRecord::Base
-   establish_connection("emop_#{Rails.env}".to_sym)
-   self.table_name = :works
-   self.primary_key = :wks_work_id
-   has_many :pages, foreign_key: :pg_work_id
-   has_many :job_queues, foreign_key: 'work_id'
+  self.primary_key = :wks_work_id
+  has_many :pages
+  has_many :job_queues
+  has_many :work_ocr_results
+  has_many :ocr_results, through: :work_ocr_results
 
    def isECCO?
       if !self.wks_ecco_number.nil? && self.wks_ecco_number.length > 0

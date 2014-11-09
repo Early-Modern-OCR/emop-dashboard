@@ -108,11 +108,11 @@ class ResultsController < ApplicationController
       data = []
       sel =  "select pages.pg_ref_number as page_num,pages.pg_page_id as page_id,"
       sel << " page_results.id as result_id, page_results.juxta_change_index as juxta,"
-      sel << " page_results.alt_change_index as retas, job_status"
+      sel << " page_results.alt_change_index as retas, job_status_id"
       from =  "FROM pages"
-      from << " inner join job_queue on job_queue.page_id=pages.pg_page_id"
+      from << " inner join job_queues on job_queues.page_id=pages.pg_page_id"
       from << " left outer JOIN page_results ON page_results.page_id = pages.pg_page_id and page_results.batch_id=?"
-      cond = "where job_queue.batch_id=? and pg_work_id=?"
+      cond = "where job_queues.batch_id=? and pg_work_id=?"
       order = "order by #{order_col} #{dir}"
       sql = ["#{sel} #{from} #{cond} #{order}", batch_id, batch_id, work_id]
       pages = Page.find_by_sql( sql )
@@ -131,7 +131,7 @@ class ResultsController < ApplicationController
             rec[:retas_accuracy] = page.retas
             rec[:detail_link] = "<a href='/juxta?work=#{work_id}&batch=#{batch_id}&page=#{page.page_num}&result=#{ page.result_id}' title='#{msg}'><div class='juxta-link'></div></a>"
          end
-         rec[:status] = page_status_icon(page.page_id, batch_id, page.job_status.to_i)
+         rec[:status] = page_status_icon(page.page_id, batch_id, page.job_status_id.to_i)
          rec[:page_number] = page.page_num
          rec[:page_image] = "<a href=\"/results/#{work_id}/page/#{page.page_num}\"><div title='View page image' class='page-view'></div></a>"
 
@@ -201,7 +201,7 @@ class ResultsController < ApplicationController
    def get_page_error
       page_id = params[:page]
       batch_id = params[:batch]
-      sql = ["select pg_ref_number, results from job_queue inner join pages on pg_page_id=page_id where page_id=? and batch_id=?",page_id,batch_id]
+      sql = ["select pg_ref_number, results from job_queues inner join pages on pg_page_id=page_id where page_id=? and batch_id=?",page_id,batch_id]
       job = JobQueue.find_by_sql( sql ).first
       out = {}
       out[:page] = job.pg_ref_number
@@ -224,7 +224,7 @@ class ResultsController < ApplicationController
             job.save!
             PageResult.where("batch_id=? and page_id=?", batch_id, page_id).destroy_all()
 			# We can't use activerecord because the table has no primary key.
-			sql = "delete from postproc_pages where pp_batch_id=#{batch_id} and pp_page_id=#{page_id}"
+			sql = "delete from postproc_pages where batch_job_id=#{batch_id} and page_id=#{page_id}"
 			PostprocPage.connection.execute( sql )
          end
          render :text => "ok", :status => :ok
@@ -240,7 +240,7 @@ class ResultsController < ApplicationController
          # create the new batch
          batch = BatchJob.new
          batch.name = params[:name]
-         batch.job_type = params[:type_id]
+         batch.job_type_id = params[:type_id]
          batch.ocr_engine_id = params[:engine_id]
          batch.font_id = params[:font_id]
          batch.parameters = params[:params]
@@ -280,30 +280,30 @@ class ResultsController < ApplicationController
    end
    
    private
-   def page_status_icon( page_id, batch_id, job_status )
-      if job_status.nil?
+   def page_status_icon( page_id, batch_id, job_status_id )
+      if job_status_id.nil?
          if batch_id.nil?
-            sql = ["select job_status from job_queue where page_id=?", page_id]
+            sql = ["select job_status_id from job_queues where page_id=?", page_id]
             res = JobQueue.find_by_sql(sql).first
-            job_status = res.job_status if !res.nil?
+            job_status_id = res.job_status_id if !res.nil?
          else
-            sql = ["select job_status from job_queue where page_id=? and batch_id=?", page_id,batch_id]
+            sql = ["select job_status_id from job_queues where page_id=? and batch_id=?", page_id,batch_id]
             res = JobQueue.find_by_sql(sql).first
-            job_status = res.job_status if !res.nil?
+            job_status_id = res.job_status_id if !res.nil?
          end
       end
       
       status = "idle"
       msg = "Untested"
       id = nil
-      if job_status ==1 || job_status ==2
+      if job_status_id ==1 || job_status_id ==2
          status = "scheduled"
          msg = "OCR job scheduled"  
-      elsif job_status==6
+      elsif job_status_id==6
          status = "error"
          msg = "OCR job failed"
          id = "id='status-#{batch_id}-#{page_id}'"
-      elsif job_status == 3 || job_status == 4 || job_status == 5 
+      elsif job_status_id == 3 || job_status_id == 4 || job_status_id == 5 
          status = "success"
          msg = "Success"
       end

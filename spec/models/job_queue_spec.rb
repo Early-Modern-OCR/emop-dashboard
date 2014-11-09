@@ -7,6 +7,24 @@ RSpec.describe JobQueue, :type => :model do
     expect(job_queue).to be_valid
   end
 
+  describe "set_defaults" do
+    let(:job_queue) { JobQueue.new }
+
+    it "has default status" do
+      expect(job_queue.status).not_to be_nil
+    end
+  end
+
+  describe "#generate_proc_id" do
+    it "should generate proc_id" do
+      @time_now = Time.parse("Nov 09 2014")
+      allow(Time).to receive(:now).and_return(@time_now)
+
+      generated_proc_id = JobQueue.generate_proc_id
+      expect(generated_proc_id).to eq('20141109000000000')
+    end
+  end
+
   describe "to_builder" do
     it "has valid to_builder - v1" do
       json = job_queue.to_builder('v1').attributes!

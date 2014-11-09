@@ -7,6 +7,20 @@ RSpec.describe BatchJob, :type => :model do
     expect(batch_job).to be_valid
   end
 
+  describe "set_defaults" do
+    let(:batch_job) { BatchJob.new }
+
+    it "has default ocr_engine" do
+      ocr_engine = OcrEngine.find_by_name('Tesseract')
+      expect(batch_job.ocr_engine.id).to eq(ocr_engine.id)
+    end
+
+    it "has default job_type" do
+      job_type = JobType.find_by_name('OCR')
+      expect(batch_job.job_type.id).to eq(job_type.id)
+    end
+  end
+
   describe "to_builder" do
     it "has valid to_builder - v1" do
       json = batch_job.to_builder('v1').attributes!
