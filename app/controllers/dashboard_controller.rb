@@ -22,7 +22,7 @@ class DashboardController < ApplicationController
    #
    def batch      
       @batch = BatchJob.find( params[:id] )
-      @job_type = JobType.find( @batch.job_type )
+      @job_type = JobType.find( @batch.job_type.id )
       @ocr_engine = OcrEngine.find( @batch.ocr_engine_id )
       @font = @batch.font
       out = render_to_string( :partial => 'batch_tooltip', :layout => false )
@@ -145,7 +145,7 @@ class DashboardController < ApplicationController
          # create the new batch
          batch = BatchJob.new
          batch.name = params[:name]
-         batch.job_type = params[:type_id]
+         batch.job_type = JobType.find(params[:type_id])
          batch.ocr_engine_id = params[:engine_id]
          batch.font_id = params[:font_id]
          batch.parameters = params[:params]

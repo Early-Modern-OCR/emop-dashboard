@@ -65,6 +65,45 @@
 
 
 
+  <h3>Examples</h3>
+    <pre class="prettyprint">GET /api/job_statuses
+200
+{
+  &quot;total&quot;: 7,
+  &quot;page&quot;: 1,
+  &quot;per_page&quot;: 7,
+  &quot;total_pages&quot;: 1,
+  &quot;results&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;name&quot;: &quot;Not Started&quot;
+    },
+    {
+      &quot;id&quot;: 2,
+      &quot;name&quot;: &quot;Processing&quot;
+    },
+    {
+      &quot;id&quot;: 3,
+      &quot;name&quot;: &quot;Pending Postprocess&quot;
+    },
+    {
+      &quot;id&quot;: 4,
+      &quot;name&quot;: &quot;Postprocessing&quot;
+    },
+    {
+      &quot;id&quot;: 5,
+      &quot;name&quot;: &quot;Done&quot;
+    },
+    {
+      &quot;id&quot;: 6,
+      &quot;name&quot;: &quot;Failed&quot;
+    },
+    {
+      &quot;id&quot;: 7,
+      &quot;name&quot;: &quot;Ingest Failed&quot;
+    }
+  ]
+}</pre>
 
   <h3>Params</h3>
   <table class='table'>
@@ -125,6 +164,15 @@
 
 
 
+  <h3>Examples</h3>
+    <pre class="prettyprint">GET /api/job_statuses/1
+200
+{
+  &quot;job_status&quot;: {
+    &quot;id&quot;: 1,
+    &quot;name&quot;: &quot;Not Started&quot;
+  }
+}</pre>
 
   <h3>Params</h3>
   <table class='table'>
@@ -148,7 +196,7 @@
 <p>Status ID</p>
 
         <br>
-        Value: Must be Fixnum
+        Value: Must match regular expression /^[0-9]+$/.
 
 
     </td>

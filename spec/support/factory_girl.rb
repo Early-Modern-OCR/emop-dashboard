@@ -20,12 +20,8 @@ RSpec.configure do |config|
     DatabaseCleaner.cleaning do
       example.run
     end
-  end
-
-  config.around(:each) do |example|
     DatabaseCleaner[:active_record,{:connection => :emop_test}].cleaning do
       example.run
     end
   end
-
 end

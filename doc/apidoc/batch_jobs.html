@@ -43,11 +43,11 @@
 
     <hr>
     <div class='pull-right small'>
-      <a href='../apidoc/batch_jobs/count.html'> >>> </a>
+      <a href='../apidoc/batch_jobs/index.html'> >>> </a>
     </div>
     <div>
         <h2>
-          <a href='#description-count'
+          <a href='#description-index'
            class='accordion-toggle'
            data-toggle='collapse'
            data-parent='#accordion'>
@@ -56,35 +56,76 @@
           <br>
           <small>List batch jobs</small>
         </h2>
-        <h2>
-          <a href='#description-count'
-           class='accordion-toggle'
-           data-toggle='collapse'
-           data-parent='#accordion'>
-            GET /api/batch_jobs/:id
-          </a>
-          <br>
-          <small>Show a batch job</small>
-        </h2>
-        <h2>
-          <a href='#description-count'
-           class='accordion-toggle'
-           data-toggle='collapse'
-           data-parent='#accordion'>
-            GET /api/batch_jobs/count
-          </a>
-          <br>
-          <small>Count of batch jobs</small>
-        </h2>
     </div>
 
 
-    <div id='description-count' class='collapse accordion-body'>
+    <div id='description-index' class='collapse accordion-body'>
       
 
 
 
 
+  <h3>Examples</h3>
+    <pre class="prettyprint">GET /api/batch_jobs
+200
+{
+  &quot;total&quot;: 2,
+  &quot;page&quot;: 1,
+  &quot;per_page&quot;: 2,
+  &quot;total_pages&quot;: 1,
+  &quot;results&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;name&quot;: &quot;OCR Test&quot;,
+      &quot;parameters&quot;: &quot;&quot;,
+      &quot;notes&quot;: &quot;test&quot;,
+      &quot;job_type&quot;: {
+        &quot;id&quot;: 1,
+        &quot;name&quot;: &quot;OCR&quot;
+      },
+      &quot;ocr_engine&quot;: {
+        &quot;id&quot;: 1,
+        &quot;name&quot;: &quot;Tesseract&quot;
+      },
+      &quot;font&quot;: {
+        &quot;id&quot;: 1,
+        &quot;font_name&quot;: &quot;baskerville&quot;,
+        &quot;font_italic&quot;: null,
+        &quot;font_bold&quot;: null,
+        &quot;font_fixed&quot;: null,
+        &quot;font_serif&quot;: null,
+        &quot;font_fraktur&quot;: null,
+        &quot;font_line_height&quot;: null,
+        &quot;font_library_path&quot;: &quot;/data/shared/fonts/baskerville/emop.traineddata&quot;
+      }
+    },
+    {
+      &quot;id&quot;: 2,
+      &quot;name&quot;: &quot;OCR Test&quot;,
+      &quot;parameters&quot;: &quot;&quot;,
+      &quot;notes&quot;: &quot;test&quot;,
+      &quot;job_type&quot;: {
+        &quot;id&quot;: 2,
+        &quot;name&quot;: &quot;OCR&quot;
+      },
+      &quot;ocr_engine&quot;: {
+        &quot;id&quot;: 2,
+        &quot;name&quot;: &quot;Tesseract&quot;
+      },
+      &quot;font&quot;: {
+        &quot;id&quot;: 2,
+        &quot;font_name&quot;: &quot;baskerville&quot;,
+        &quot;font_italic&quot;: null,
+        &quot;font_bold&quot;: null,
+        &quot;font_fixed&quot;: null,
+        &quot;font_serif&quot;: null,
+        &quot;font_fraktur&quot;: null,
+        &quot;font_line_height&quot;: null,
+        &quot;font_library_path&quot;: &quot;/data/shared/fonts/baskerville/emop.traineddata&quot;
+      }
+    }
+  ]
+}</pre>
 
   <h3>Params</h3>
   <table class='table'>
@@ -137,7 +178,76 @@
   </tr>
 
   
-  <tr style='background-color:rgb(255,255,255);'>
+
+    </tbody>
+  </table>
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/batch_jobs/show.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-show'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            GET /api/batch_jobs/:id
+          </a>
+          <br>
+          <small>Show a batch job</small>
+        </h2>
+    </div>
+
+
+    <div id='description-show' class='collapse accordion-body'>
+      
+
+
+
+
+  <h3>Examples</h3>
+    <pre class="prettyprint">GET /api/batch_jobs/1
+200
+{
+  &quot;batch_job&quot;: {
+    &quot;id&quot;: 1,
+    &quot;name&quot;: &quot;OCR Test&quot;,
+    &quot;parameters&quot;: &quot;&quot;,
+    &quot;notes&quot;: &quot;test&quot;,
+    &quot;job_type&quot;: {
+      &quot;id&quot;: 1,
+      &quot;name&quot;: &quot;OCR&quot;
+    },
+    &quot;ocr_engine&quot;: {
+      &quot;id&quot;: 1,
+      &quot;name&quot;: &quot;Tesseract&quot;
+    },
+    &quot;font&quot;: {
+      &quot;id&quot;: 1,
+      &quot;font_name&quot;: &quot;baskerville&quot;,
+      &quot;font_italic&quot;: null,
+      &quot;font_bold&quot;: null,
+      &quot;font_fixed&quot;: null,
+      &quot;font_serif&quot;: null,
+      &quot;font_fraktur&quot;: null,
+      &quot;font_line_height&quot;: null,
+      &quot;font_library_path&quot;: &quot;/data/shared/fonts/baskerville/emop.traineddata&quot;
+    }
+  }
+}</pre>
+
+  <h3>Params</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Param name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr style='background-color:rgb(255,255,255);'>
     <td>
       <strong>id </strong><br>
       <small>
@@ -150,7 +260,7 @@
 <p>Batch job ID</p>
 
         <br>
-        Value: Must be Fixnum
+        Value: Must match regular expression /^[0-9]+$/.
 
 
     </td>
@@ -161,6 +271,41 @@
 
     </tbody>
   </table>
+
+    </div>
+    <hr>
+    <div class='pull-right small'>
+      <a href='../apidoc/batch_jobs/count.html'> >>> </a>
+    </div>
+    <div>
+        <h2>
+          <a href='#description-count'
+           class='accordion-toggle'
+           data-toggle='collapse'
+           data-parent='#accordion'>
+            GET /api/batch_jobs/count
+          </a>
+          <br>
+          <small>Count of batch jobs</small>
+        </h2>
+    </div>
+
+
+    <div id='description-count' class='collapse accordion-body'>
+      
+
+
+
+
+  <h3>Examples</h3>
+    <pre class="prettyprint">GET /api/batch_jobs/count
+200
+{
+  &quot;batch_job&quot;: {
+    &quot;count&quot;: 2
+  }
+}</pre>
+
 
     </div>
 </div>

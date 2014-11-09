@@ -48,6 +48,80 @@
 
 
 
+  <h2>Examples</h2>
+    <pre class="prettyprint">GET /api/job_queues/1
+200
+{
+  &quot;job_queue&quot;: {
+    &quot;id&quot;: 1,
+    &quot;tries&quot;: 0,
+    &quot;results&quot;: &quot;Foo&quot;,
+    &quot;status&quot;: {
+      &quot;id&quot;: 1,
+      &quot;name&quot;: &quot;Not Started&quot;
+    },
+    &quot;batch_job&quot;: {
+      &quot;id&quot;: 1,
+      &quot;name&quot;: &quot;OCR Test&quot;,
+      &quot;parameters&quot;: &quot;&quot;,
+      &quot;notes&quot;: &quot;test&quot;,
+      &quot;job_type&quot;: {
+        &quot;id&quot;: 1,
+        &quot;name&quot;: &quot;OCR&quot;
+      },
+      &quot;ocr_engine&quot;: {
+        &quot;id&quot;: 1,
+        &quot;name&quot;: &quot;Tesseract&quot;
+      },
+      &quot;font&quot;: {
+        &quot;id&quot;: 1,
+        &quot;font_name&quot;: &quot;baskerville&quot;,
+        &quot;font_italic&quot;: null,
+        &quot;font_bold&quot;: null,
+        &quot;font_fixed&quot;: null,
+        &quot;font_serif&quot;: null,
+        &quot;font_fraktur&quot;: null,
+        &quot;font_line_height&quot;: null,
+        &quot;font_library_path&quot;: &quot;/data/shared/fonts/baskerville/emop.traineddata&quot;
+      }
+    },
+    &quot;page&quot;: {
+      &quot;id&quot;: 1,
+      &quot;pg_ref_number&quot;: 1,
+      &quot;pg_ground_truth_file&quot;: null,
+      &quot;pg_work_id&quot;: null,
+      &quot;pg_gale_ocr_file&quot;: null,
+      &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
+    },
+    &quot;work&quot;: {
+      &quot;id&quot;: 1,
+      &quot;wks_tcp_number&quot;: null,
+      &quot;wks_estc_number&quot;: &quot;T137595&quot;,
+      &quot;wks_tcp_bibno&quot;: null,
+      &quot;wks_marc_record&quot;: null,
+      &quot;wks_eebo_citation_id&quot;: null,
+      &quot;wks_eebo_directory&quot;: null,
+      &quot;wks_ecco_number&quot;: &quot;0212100100&quot;,
+      &quot;wks_book_id&quot;: null,
+      &quot;wks_author&quot;: &quot;Baskerville, John&quot;,
+      &quot;wks_publisher&quot;: &quot;Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].&quot;,
+      &quot;wks_word_count&quot;: null,
+      &quot;wks_title&quot;: &quot;A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.&quot;,
+      &quot;wks_eebo_image_id&quot;: null,
+      &quot;wks_eebo_url&quot;: null,
+      &quot;wks_pub_date&quot;: &quot;1765&quot;,
+      &quot;wks_ecco_uncorrected_gale_ocr_path&quot;: null,
+      &quot;wks_ecco_corrected_xml_path&quot;: null,
+      &quot;wks_ecco_corrected_text_path&quot;: null,
+      &quot;wks_ecco_directory&quot;: &quot;/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images&quot;,
+      &quot;wks_ecco_gale_ocr_xml_path&quot;: &quot;/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml&quot;,
+      &quot;wks_organizational_unit&quot;: 265,
+      &quot;wks_primary_print_font&quot;: null,
+      &quot;wks_last_trawled&quot;: &quot;2013-06-30&quot;
+    },
+    &quot;proc_id&quot;: null
+  }
+}</pre>
 
   <h2>Params</h2>
   <table class='table'>
@@ -71,7 +145,7 @@
 <p>Job queue ID</p>
 
         <br>
-        Value: Must be Fixnum
+        Value: Must match regular expression /^[0-9]+$/.
 
 
     </td>

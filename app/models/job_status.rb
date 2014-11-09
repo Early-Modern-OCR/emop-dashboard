@@ -4,6 +4,12 @@ class JobStatus < ActiveRecord::Base
   self.primary_key = :id
   has_many :job_queues, foreign_key: 'job_status'
 
+  validates :name, uniqueness: true
+
+  def self.processing
+    find_by_name('Processing')
+  end
+
   def to_builder(version = 'v1')
     case version
     when 'v1'
