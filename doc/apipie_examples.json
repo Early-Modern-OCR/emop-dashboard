@@ -16,23 +16,6 @@
       "code": 200,
       "show_in_doc": 1,
       "recorded": true
-    },
-    {
-      "verb": "GET",
-      "path": "/api/batch_jobs/count",
-      "versions": [
-        "v1"
-      ],
-      "query": null,
-      "request_data": null,
-      "response_data": {
-        "batch_job": {
-          "count": 2
-        }
-      },
-      "code": 200,
-      "show_in_doc": 0,
-      "recorded": true
     }
   ],
   "batch_jobs#index": [
@@ -81,11 +64,11 @@
             "parameters": "",
             "notes": "test",
             "job_type": {
-              "id": 2,
+              "id": 1,
               "name": "OCR"
             },
             "ocr_engine": {
-              "id": 2,
+              "id": 1,
               "name": "Tesseract"
             },
             "font": {
@@ -104,83 +87,13 @@
       },
       "code": 200,
       "show_in_doc": 1,
-      "recorded": true
-    },
-    {
-      "verb": "GET",
-      "path": "/api/batch_jobs",
-      "versions": [
-        "v1"
-      ],
-      "query": null,
-      "request_data": null,
-      "response_data": {
-        "total": 2,
-        "page": 1,
-        "per_page": 2,
-        "total_pages": 1,
-        "results": [
-          {
-            "id": 1,
-            "name": "OCR Test",
-            "parameters": "",
-            "notes": "test",
-            "job_type": {
-              "id": 1,
-              "name": "OCR"
-            },
-            "ocr_engine": {
-              "id": 1,
-              "name": "Tesseract"
-            },
-            "font": {
-              "id": 1,
-              "font_name": "baskerville",
-              "font_italic": null,
-              "font_bold": null,
-              "font_fixed": null,
-              "font_serif": null,
-              "font_fraktur": null,
-              "font_line_height": null,
-              "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata"
-            }
-          },
-          {
-            "id": 2,
-            "name": "OCR Test",
-            "parameters": "",
-            "notes": "test",
-            "job_type": {
-              "id": 2,
-              "name": "OCR"
-            },
-            "ocr_engine": {
-              "id": 2,
-              "name": "Tesseract"
-            },
-            "font": {
-              "id": 2,
-              "font_name": "baskerville",
-              "font_italic": null,
-              "font_bold": null,
-              "font_fixed": null,
-              "font_serif": null,
-              "font_fraktur": null,
-              "font_line_height": null,
-              "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata"
-            }
-          }
-        ]
-      },
-      "code": 200,
-      "show_in_doc": 0,
       "recorded": true
     }
   ],
   "batch_jobs#show": [
     {
       "verb": "GET",
-      "path": "/api/batch_jobs/1",
+      "path": "/api/batch_jobs/3",
       "versions": [
         "v1"
       ],
@@ -188,7 +101,7 @@
       "request_data": null,
       "response_data": {
         "batch_job": {
-          "id": 1,
+          "id": 3,
           "name": "OCR Test",
           "parameters": "",
           "notes": "test",
@@ -201,7 +114,7 @@
             "name": "Tesseract"
           },
           "font": {
-            "id": 1,
+            "id": 3,
             "font_name": "baskerville",
             "font_italic": null,
             "font_bold": null,
@@ -215,45 +128,6 @@
       },
       "code": 200,
       "show_in_doc": 1,
-      "recorded": true
-    },
-    {
-      "verb": "GET",
-      "path": "/api/batch_jobs/1",
-      "versions": [
-        "v1"
-      ],
-      "query": null,
-      "request_data": null,
-      "response_data": {
-        "batch_job": {
-          "id": 1,
-          "name": "OCR Test",
-          "parameters": "",
-          "notes": "test",
-          "job_type": {
-            "id": 1,
-            "name": "OCR"
-          },
-          "ocr_engine": {
-            "id": 1,
-            "name": "Tesseract"
-          },
-          "font": {
-            "id": 1,
-            "font_name": "baskerville",
-            "font_italic": null,
-            "font_bold": null,
-            "font_fixed": null,
-            "font_serif": null,
-            "font_fraktur": null,
-            "font_line_height": null,
-            "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata"
-          }
-        }
-      },
-      "code": 200,
-      "show_in_doc": 0,
       "recorded": true
     }
   ],
@@ -264,7 +138,7 @@
       "versions": [
         "v1"
       ],
-      "query": "job_status=1",
+      "query": "job_status_id=1",
       "request_data": null,
       "response_data": {
         "job_queue": {
@@ -273,23 +147,6 @@
       },
       "code": 200,
       "show_in_doc": 1,
-      "recorded": true
-    },
-    {
-      "verb": "GET",
-      "path": "/api/job_queues/count",
-      "versions": [
-        "v1"
-      ],
-      "query": "job_status=1",
-      "request_data": null,
-      "response_data": {
-        "job_queue": {
-          "count": 2
-        }
-      },
-      "code": 200,
-      "show_in_doc": 0,
       "recorded": true
     }
   ],
@@ -317,7 +174,7 @@
               "name": "Not Started"
             },
             "batch_job": {
-              "id": 1,
+              "id": 6,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
@@ -330,7 +187,7 @@
                 "name": "Tesseract"
               },
               "font": {
-                "id": 1,
+                "id": 6,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -345,12 +202,37 @@
               "id": 1,
               "pg_ref_number": 1,
               "pg_ground_truth_file": null,
-              "pg_work_id": null,
+              "work": {
+                "id": 1,
+                "wks_tcp_number": null,
+                "wks_estc_number": "T137595",
+                "wks_tcp_bibno": null,
+                "wks_marc_record": null,
+                "wks_eebo_citation_id": null,
+                "wks_eebo_directory": null,
+                "wks_ecco_number": "0212100100",
+                "wks_book_id": null,
+                "wks_author": "Baskerville, John",
+                "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+                "wks_word_count": null,
+                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_eebo_image_id": null,
+                "wks_eebo_url": null,
+                "wks_pub_date": "1765",
+                "wks_ecco_uncorrected_gale_ocr_path": null,
+                "wks_ecco_corrected_xml_path": null,
+                "wks_ecco_corrected_text_path": null,
+                "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+                "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+                "wks_organizational_unit": 265,
+                "wks_primary_print_font": null,
+                "wks_last_trawled": "2013-06-30"
+              },
               "pg_gale_ocr_file": null,
               "pg_image_path": "/data/ecco/somepath"
             },
             "work": {
-              "id": 1,
+              "id": 2,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_tcp_bibno": null,
@@ -386,20 +268,20 @@
               "name": "Not Started"
             },
             "batch_job": {
-              "id": 2,
+              "id": 7,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
               "job_type": {
-                "id": 2,
+                "id": 1,
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 2,
+                "id": 1,
                 "name": "Tesseract"
               },
               "font": {
-                "id": 2,
+                "id": 7,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -414,12 +296,37 @@
               "id": 2,
               "pg_ref_number": 1,
               "pg_ground_truth_file": null,
-              "pg_work_id": null,
+              "work": {
+                "id": 3,
+                "wks_tcp_number": null,
+                "wks_estc_number": "T137595",
+                "wks_tcp_bibno": null,
+                "wks_marc_record": null,
+                "wks_eebo_citation_id": null,
+                "wks_eebo_directory": null,
+                "wks_ecco_number": "0212100100",
+                "wks_book_id": null,
+                "wks_author": "Baskerville, John",
+                "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+                "wks_word_count": null,
+                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_eebo_image_id": null,
+                "wks_eebo_url": null,
+                "wks_pub_date": "1765",
+                "wks_ecco_uncorrected_gale_ocr_path": null,
+                "wks_ecco_corrected_xml_path": null,
+                "wks_ecco_corrected_text_path": null,
+                "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+                "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+                "wks_organizational_unit": 265,
+                "wks_primary_print_font": null,
+                "wks_last_trawled": "2013-06-30"
+              },
               "pg_gale_ocr_file": null,
               "pg_image_path": "/data/ecco/somepath"
             },
             "work": {
-              "id": 2,
+              "id": 4,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_tcp_bibno": null,
@@ -458,7 +365,7 @@
       "versions": [
         "v1"
       ],
-      "query": null,
+      "query": "job_status_id=1",
       "request_data": null,
       "response_data": {
         "total": 2,
@@ -467,7 +374,7 @@
         "total_pages": 1,
         "results": [
           {
-            "id": 1,
+            "id": 3,
             "tries": 0,
             "results": "Foo",
             "status": {
@@ -475,7 +382,7 @@
               "name": "Not Started"
             },
             "batch_job": {
-              "id": 1,
+              "id": 8,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
@@ -488,7 +395,7 @@
                 "name": "Tesseract"
               },
               "font": {
-                "id": 1,
+                "id": 8,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -500,15 +407,40 @@
               }
             },
             "page": {
-              "id": 1,
+              "id": 3,
               "pg_ref_number": 1,
               "pg_ground_truth_file": null,
-              "pg_work_id": null,
+              "work": {
+                "id": 5,
+                "wks_tcp_number": null,
+                "wks_estc_number": "T137595",
+                "wks_tcp_bibno": null,
+                "wks_marc_record": null,
+                "wks_eebo_citation_id": null,
+                "wks_eebo_directory": null,
+                "wks_ecco_number": "0212100100",
+                "wks_book_id": null,
+                "wks_author": "Baskerville, John",
+                "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+                "wks_word_count": null,
+                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_eebo_image_id": null,
+                "wks_eebo_url": null,
+                "wks_pub_date": "1765",
+                "wks_ecco_uncorrected_gale_ocr_path": null,
+                "wks_ecco_corrected_xml_path": null,
+                "wks_ecco_corrected_text_path": null,
+                "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+                "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+                "wks_organizational_unit": 265,
+                "wks_primary_print_font": null,
+                "wks_last_trawled": "2013-06-30"
+              },
               "pg_gale_ocr_file": null,
               "pg_image_path": "/data/ecco/somepath"
             },
             "work": {
-              "id": 1,
+              "id": 6,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_tcp_bibno": null,
@@ -536,7 +468,7 @@
             "proc_id": null
           },
           {
-            "id": 2,
+            "id": 4,
             "tries": 0,
             "results": "Foo",
             "status": {
@@ -544,96 +476,7 @@
               "name": "Not Started"
             },
             "batch_job": {
-              "id": 2,
-              "name": "OCR Test",
-              "parameters": "",
-              "notes": "test",
-              "job_type": {
-                "id": 2,
-                "name": "OCR"
-              },
-              "ocr_engine": {
-                "id": 2,
-                "name": "Tesseract"
-              },
-              "font": {
-                "id": 2,
-                "font_name": "baskerville",
-                "font_italic": null,
-                "font_bold": null,
-                "font_fixed": null,
-                "font_serif": null,
-                "font_fraktur": null,
-                "font_line_height": null,
-                "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata"
-              }
-            },
-            "page": {
-              "id": 2,
-              "pg_ref_number": 1,
-              "pg_ground_truth_file": null,
-              "pg_work_id": null,
-              "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath"
-            },
-            "work": {
-              "id": 2,
-              "wks_tcp_number": null,
-              "wks_estc_number": "T137595",
-              "wks_tcp_bibno": null,
-              "wks_marc_record": null,
-              "wks_eebo_citation_id": null,
-              "wks_eebo_directory": null,
-              "wks_ecco_number": "0212100100",
-              "wks_book_id": null,
-              "wks_author": "Baskerville, John",
-              "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
-              "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
-              "wks_eebo_image_id": null,
-              "wks_eebo_url": null,
-              "wks_pub_date": "1765",
-              "wks_ecco_uncorrected_gale_ocr_path": null,
-              "wks_ecco_corrected_xml_path": null,
-              "wks_ecco_corrected_text_path": null,
-              "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
-              "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
-              "wks_organizational_unit": 265,
-              "wks_primary_print_font": null,
-              "wks_last_trawled": "2013-06-30"
-            },
-            "proc_id": null
-          }
-        ]
-      },
-      "code": 200,
-      "show_in_doc": 0,
-      "recorded": true
-    },
-    {
-      "verb": "GET",
-      "path": "/api/job_queues",
-      "versions": [
-        "v1"
-      ],
-      "query": "job_status=1",
-      "request_data": null,
-      "response_data": {
-        "total": 2,
-        "page": 1,
-        "per_page": 2,
-        "total_pages": 1,
-        "results": [
-          {
-            "id": 1,
-            "tries": 0,
-            "results": "Foo",
-            "status": {
-              "id": 1,
-              "name": "Not Started"
-            },
-            "batch_job": {
-              "id": 1,
+              "id": 9,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
@@ -646,7 +489,7 @@
                 "name": "Tesseract"
               },
               "font": {
-                "id": 1,
+                "id": 9,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -658,242 +501,40 @@
               }
             },
             "page": {
-              "id": 1,
+              "id": 4,
               "pg_ref_number": 1,
               "pg_ground_truth_file": null,
-              "pg_work_id": null,
+              "work": {
+                "id": 7,
+                "wks_tcp_number": null,
+                "wks_estc_number": "T137595",
+                "wks_tcp_bibno": null,
+                "wks_marc_record": null,
+                "wks_eebo_citation_id": null,
+                "wks_eebo_directory": null,
+                "wks_ecco_number": "0212100100",
+                "wks_book_id": null,
+                "wks_author": "Baskerville, John",
+                "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+                "wks_word_count": null,
+                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_eebo_image_id": null,
+                "wks_eebo_url": null,
+                "wks_pub_date": "1765",
+                "wks_ecco_uncorrected_gale_ocr_path": null,
+                "wks_ecco_corrected_xml_path": null,
+                "wks_ecco_corrected_text_path": null,
+                "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+                "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+                "wks_organizational_unit": 265,
+                "wks_primary_print_font": null,
+                "wks_last_trawled": "2013-06-30"
+              },
               "pg_gale_ocr_file": null,
               "pg_image_path": "/data/ecco/somepath"
             },
             "work": {
-              "id": 1,
-              "wks_tcp_number": null,
-              "wks_estc_number": "T137595",
-              "wks_tcp_bibno": null,
-              "wks_marc_record": null,
-              "wks_eebo_citation_id": null,
-              "wks_eebo_directory": null,
-              "wks_ecco_number": "0212100100",
-              "wks_book_id": null,
-              "wks_author": "Baskerville, John",
-              "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
-              "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
-              "wks_eebo_image_id": null,
-              "wks_eebo_url": null,
-              "wks_pub_date": "1765",
-              "wks_ecco_uncorrected_gale_ocr_path": null,
-              "wks_ecco_corrected_xml_path": null,
-              "wks_ecco_corrected_text_path": null,
-              "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
-              "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
-              "wks_organizational_unit": 265,
-              "wks_primary_print_font": null,
-              "wks_last_trawled": "2013-06-30"
-            },
-            "proc_id": null
-          },
-          {
-            "id": 2,
-            "tries": 0,
-            "results": "Foo",
-            "status": {
-              "id": 1,
-              "name": "Not Started"
-            },
-            "batch_job": {
-              "id": 2,
-              "name": "OCR Test",
-              "parameters": "",
-              "notes": "test",
-              "job_type": {
-                "id": 2,
-                "name": "OCR"
-              },
-              "ocr_engine": {
-                "id": 2,
-                "name": "Tesseract"
-              },
-              "font": {
-                "id": 2,
-                "font_name": "baskerville",
-                "font_italic": null,
-                "font_bold": null,
-                "font_fixed": null,
-                "font_serif": null,
-                "font_fraktur": null,
-                "font_line_height": null,
-                "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata"
-              }
-            },
-            "page": {
-              "id": 2,
-              "pg_ref_number": 1,
-              "pg_ground_truth_file": null,
-              "pg_work_id": null,
-              "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath"
-            },
-            "work": {
-              "id": 2,
-              "wks_tcp_number": null,
-              "wks_estc_number": "T137595",
-              "wks_tcp_bibno": null,
-              "wks_marc_record": null,
-              "wks_eebo_citation_id": null,
-              "wks_eebo_directory": null,
-              "wks_ecco_number": "0212100100",
-              "wks_book_id": null,
-              "wks_author": "Baskerville, John",
-              "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
-              "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
-              "wks_eebo_image_id": null,
-              "wks_eebo_url": null,
-              "wks_pub_date": "1765",
-              "wks_ecco_uncorrected_gale_ocr_path": null,
-              "wks_ecco_corrected_xml_path": null,
-              "wks_ecco_corrected_text_path": null,
-              "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
-              "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
-              "wks_organizational_unit": 265,
-              "wks_primary_print_font": null,
-              "wks_last_trawled": "2013-06-30"
-            },
-            "proc_id": null
-          }
-        ]
-      },
-      "code": 200,
-      "show_in_doc": 0,
-      "recorded": true
-    },
-    {
-      "verb": "GET",
-      "path": "/api/job_queues",
-      "versions": [
-        "v1"
-      ],
-      "query": "job_status=1",
-      "request_data": null,
-      "response_data": {
-        "total": 2,
-        "page": 1,
-        "per_page": 2,
-        "total_pages": 1,
-        "results": [
-          {
-            "id": 1,
-            "tries": 0,
-            "results": "Foo",
-            "status": {
-              "id": 1,
-              "name": "Not Started"
-            },
-            "batch_job": {
-              "id": 1,
-              "name": "OCR Test",
-              "parameters": "",
-              "notes": "test",
-              "job_type": {
-                "id": 1,
-                "name": "OCR"
-              },
-              "ocr_engine": {
-                "id": 1,
-                "name": "Tesseract"
-              },
-              "font": {
-                "id": 1,
-                "font_name": "baskerville",
-                "font_italic": null,
-                "font_bold": null,
-                "font_fixed": null,
-                "font_serif": null,
-                "font_fraktur": null,
-                "font_line_height": null,
-                "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata"
-              }
-            },
-            "page": {
-              "id": 1,
-              "pg_ref_number": 1,
-              "pg_ground_truth_file": null,
-              "pg_work_id": null,
-              "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath"
-            },
-            "work": {
-              "id": 1,
-              "wks_tcp_number": null,
-              "wks_estc_number": "T137595",
-              "wks_tcp_bibno": null,
-              "wks_marc_record": null,
-              "wks_eebo_citation_id": null,
-              "wks_eebo_directory": null,
-              "wks_ecco_number": "0212100100",
-              "wks_book_id": null,
-              "wks_author": "Baskerville, John",
-              "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
-              "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
-              "wks_eebo_image_id": null,
-              "wks_eebo_url": null,
-              "wks_pub_date": "1765",
-              "wks_ecco_uncorrected_gale_ocr_path": null,
-              "wks_ecco_corrected_xml_path": null,
-              "wks_ecco_corrected_text_path": null,
-              "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
-              "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
-              "wks_organizational_unit": 265,
-              "wks_primary_print_font": null,
-              "wks_last_trawled": "2013-06-30"
-            },
-            "proc_id": null
-          },
-          {
-            "id": 2,
-            "tries": 0,
-            "results": "Foo",
-            "status": {
-              "id": 1,
-              "name": "Not Started"
-            },
-            "batch_job": {
-              "id": 2,
-              "name": "OCR Test",
-              "parameters": "",
-              "notes": "test",
-              "job_type": {
-                "id": 2,
-                "name": "OCR"
-              },
-              "ocr_engine": {
-                "id": 2,
-                "name": "Tesseract"
-              },
-              "font": {
-                "id": 2,
-                "font_name": "baskerville",
-                "font_italic": null,
-                "font_bold": null,
-                "font_fixed": null,
-                "font_serif": null,
-                "font_fraktur": null,
-                "font_line_height": null,
-                "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata"
-              }
-            },
-            "page": {
-              "id": 2,
-              "pg_ref_number": 1,
-              "pg_ground_truth_file": null,
-              "pg_work_id": null,
-              "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath"
-            },
-            "work": {
-              "id": 2,
+              "id": 8,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_tcp_bibno": null,
@@ -939,10 +580,10 @@
       "response_data": {
         "requested": 2,
         "reserved": 2,
-        "proc_id": "20141107222904285",
+        "proc_id": "20141109175407875",
         "results": [
           {
-            "id": 3,
+            "id": 16,
             "tries": 0,
             "results": "Foo",
             "status": {
@@ -950,20 +591,20 @@
               "name": "Not Started"
             },
             "batch_job": {
-              "id": 3,
+              "id": 21,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
               "job_type": {
-                "id": 3,
+                "id": 1,
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 3,
+                "id": 1,
                 "name": "Tesseract"
               },
               "font": {
-                "id": 3,
+                "id": 21,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -975,15 +616,40 @@
               }
             },
             "page": {
-              "id": 3,
+              "id": 16,
               "pg_ref_number": 1,
               "pg_ground_truth_file": null,
-              "pg_work_id": null,
+              "work": {
+                "id": 31,
+                "wks_tcp_number": null,
+                "wks_estc_number": "T137595",
+                "wks_tcp_bibno": null,
+                "wks_marc_record": null,
+                "wks_eebo_citation_id": null,
+                "wks_eebo_directory": null,
+                "wks_ecco_number": "0212100100",
+                "wks_book_id": null,
+                "wks_author": "Baskerville, John",
+                "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+                "wks_word_count": null,
+                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_eebo_image_id": null,
+                "wks_eebo_url": null,
+                "wks_pub_date": "1765",
+                "wks_ecco_uncorrected_gale_ocr_path": null,
+                "wks_ecco_corrected_xml_path": null,
+                "wks_ecco_corrected_text_path": null,
+                "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+                "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+                "wks_organizational_unit": 265,
+                "wks_primary_print_font": null,
+                "wks_last_trawled": "2013-06-30"
+              },
               "pg_gale_ocr_file": null,
               "pg_image_path": "/data/ecco/somepath"
             },
             "work": {
-              "id": 3,
+              "id": 32,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_tcp_bibno": null,
@@ -1011,7 +677,7 @@
             "proc_id": null
           },
           {
-            "id": 4,
+            "id": 17,
             "tries": 0,
             "results": "Foo",
             "status": {
@@ -1019,20 +685,20 @@
               "name": "Not Started"
             },
             "batch_job": {
-              "id": 4,
+              "id": 22,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
               "job_type": {
-                "id": 4,
+                "id": 1,
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 4,
+                "id": 1,
                 "name": "Tesseract"
               },
               "font": {
-                "id": 4,
+                "id": 22,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -1044,15 +710,40 @@
               }
             },
             "page": {
-              "id": 4,
+              "id": 17,
               "pg_ref_number": 1,
               "pg_ground_truth_file": null,
-              "pg_work_id": null,
+              "work": {
+                "id": 33,
+                "wks_tcp_number": null,
+                "wks_estc_number": "T137595",
+                "wks_tcp_bibno": null,
+                "wks_marc_record": null,
+                "wks_eebo_citation_id": null,
+                "wks_eebo_directory": null,
+                "wks_ecco_number": "0212100100",
+                "wks_book_id": null,
+                "wks_author": "Baskerville, John",
+                "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+                "wks_word_count": null,
+                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_eebo_image_id": null,
+                "wks_eebo_url": null,
+                "wks_pub_date": "1765",
+                "wks_ecco_uncorrected_gale_ocr_path": null,
+                "wks_ecco_corrected_xml_path": null,
+                "wks_ecco_corrected_text_path": null,
+                "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+                "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+                "wks_organizational_unit": 265,
+                "wks_primary_print_font": null,
+                "wks_last_trawled": "2013-06-30"
+              },
               "pg_gale_ocr_file": null,
               "pg_image_path": "/data/ecco/somepath"
             },
             "work": {
-              "id": 4,
+              "id": 34,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_tcp_bibno": null,
@@ -1083,170 +774,13 @@
       },
       "code": 200,
       "show_in_doc": 1,
-      "recorded": true
-    },
-    {
-      "verb": "PUT",
-      "path": "/api/job_queues/reserve",
-      "versions": [
-        "v1"
-      ],
-      "query": null,
-      "request_data": "job_queue[num_pages]=2",
-      "response_data": {
-        "requested": 2,
-        "reserved": 2,
-        "proc_id": "20141107222904387",
-        "results": [
-          {
-            "id": 3,
-            "tries": 0,
-            "results": "Foo",
-            "status": {
-              "id": 1,
-              "name": "Not Started"
-            },
-            "batch_job": {
-              "id": 3,
-              "name": "OCR Test",
-              "parameters": "",
-              "notes": "test",
-              "job_type": {
-                "id": 3,
-                "name": "OCR"
-              },
-              "ocr_engine": {
-                "id": 3,
-                "name": "Tesseract"
-              },
-              "font": {
-                "id": 3,
-                "font_name": "baskerville",
-                "font_italic": null,
-                "font_bold": null,
-                "font_fixed": null,
-                "font_serif": null,
-                "font_fraktur": null,
-                "font_line_height": null,
-                "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata"
-              }
-            },
-            "page": {
-              "id": 3,
-              "pg_ref_number": 1,
-              "pg_ground_truth_file": null,
-              "pg_work_id": null,
-              "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath"
-            },
-            "work": {
-              "id": 3,
-              "wks_tcp_number": null,
-              "wks_estc_number": "T137595",
-              "wks_tcp_bibno": null,
-              "wks_marc_record": null,
-              "wks_eebo_citation_id": null,
-              "wks_eebo_directory": null,
-              "wks_ecco_number": "0212100100",
-              "wks_book_id": null,
-              "wks_author": "Baskerville, John",
-              "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
-              "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
-              "wks_eebo_image_id": null,
-              "wks_eebo_url": null,
-              "wks_pub_date": "1765",
-              "wks_ecco_uncorrected_gale_ocr_path": null,
-              "wks_ecco_corrected_xml_path": null,
-              "wks_ecco_corrected_text_path": null,
-              "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
-              "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
-              "wks_organizational_unit": 265,
-              "wks_primary_print_font": null,
-              "wks_last_trawled": "2013-06-30"
-            },
-            "proc_id": null
-          },
-          {
-            "id": 4,
-            "tries": 0,
-            "results": "Foo",
-            "status": {
-              "id": 1,
-              "name": "Not Started"
-            },
-            "batch_job": {
-              "id": 4,
-              "name": "OCR Test",
-              "parameters": "",
-              "notes": "test",
-              "job_type": {
-                "id": 4,
-                "name": "OCR"
-              },
-              "ocr_engine": {
-                "id": 4,
-                "name": "Tesseract"
-              },
-              "font": {
-                "id": 4,
-                "font_name": "baskerville",
-                "font_italic": null,
-                "font_bold": null,
-                "font_fixed": null,
-                "font_serif": null,
-                "font_fraktur": null,
-                "font_line_height": null,
-                "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata"
-              }
-            },
-            "page": {
-              "id": 4,
-              "pg_ref_number": 1,
-              "pg_ground_truth_file": null,
-              "pg_work_id": null,
-              "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath"
-            },
-            "work": {
-              "id": 4,
-              "wks_tcp_number": null,
-              "wks_estc_number": "T137595",
-              "wks_tcp_bibno": null,
-              "wks_marc_record": null,
-              "wks_eebo_citation_id": null,
-              "wks_eebo_directory": null,
-              "wks_ecco_number": "0212100100",
-              "wks_book_id": null,
-              "wks_author": "Baskerville, John",
-              "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
-              "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
-              "wks_eebo_image_id": null,
-              "wks_eebo_url": null,
-              "wks_pub_date": "1765",
-              "wks_ecco_uncorrected_gale_ocr_path": null,
-              "wks_ecco_corrected_xml_path": null,
-              "wks_ecco_corrected_text_path": null,
-              "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
-              "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
-              "wks_organizational_unit": 265,
-              "wks_primary_print_font": null,
-              "wks_last_trawled": "2013-06-30"
-            },
-            "proc_id": null
-          }
-        ]
-      },
-      "code": 200,
-      "show_in_doc": 0,
       "recorded": true
     }
   ],
   "job_queues#show": [
     {
       "verb": "GET",
-      "path": "/api/job_queues/1",
+      "path": "/api/job_queues/8",
       "versions": [
         "v1"
       ],
@@ -1254,7 +788,7 @@
       "request_data": null,
       "response_data": {
         "job_queue": {
-          "id": 1,
+          "id": 8,
           "tries": 0,
           "results": "Foo",
           "status": {
@@ -1262,7 +796,7 @@
             "name": "Not Started"
           },
           "batch_job": {
-            "id": 1,
+            "id": 13,
             "name": "OCR Test",
             "parameters": "",
             "notes": "test",
@@ -1275,7 +809,7 @@
               "name": "Tesseract"
             },
             "font": {
-              "id": 1,
+              "id": 13,
               "font_name": "baskerville",
               "font_italic": null,
               "font_bold": null,
@@ -1287,15 +821,40 @@
             }
           },
           "page": {
-            "id": 1,
+            "id": 8,
             "pg_ref_number": 1,
             "pg_ground_truth_file": null,
-            "pg_work_id": null,
+            "work": {
+              "id": 15,
+              "wks_tcp_number": null,
+              "wks_estc_number": "T137595",
+              "wks_tcp_bibno": null,
+              "wks_marc_record": null,
+              "wks_eebo_citation_id": null,
+              "wks_eebo_directory": null,
+              "wks_ecco_number": "0212100100",
+              "wks_book_id": null,
+              "wks_author": "Baskerville, John",
+              "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+              "wks_word_count": null,
+              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+              "wks_eebo_image_id": null,
+              "wks_eebo_url": null,
+              "wks_pub_date": "1765",
+              "wks_ecco_uncorrected_gale_ocr_path": null,
+              "wks_ecco_corrected_xml_path": null,
+              "wks_ecco_corrected_text_path": null,
+              "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+              "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+              "wks_organizational_unit": 265,
+              "wks_primary_print_font": null,
+              "wks_last_trawled": "2013-06-30"
+            },
             "pg_gale_ocr_file": null,
             "pg_image_path": "/data/ecco/somepath"
           },
           "work": {
-            "id": 1,
+            "id": 16,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_tcp_bibno": null,
@@ -1325,89 +884,6 @@
       },
       "code": 200,
       "show_in_doc": 1,
-      "recorded": true
-    },
-    {
-      "verb": "GET",
-      "path": "/api/job_queues/1",
-      "versions": [
-        "v1"
-      ],
-      "query": null,
-      "request_data": null,
-      "response_data": {
-        "job_queue": {
-          "id": 1,
-          "tries": 0,
-          "results": "Foo",
-          "status": {
-            "id": 1,
-            "name": "Not Started"
-          },
-          "batch_job": {
-            "id": 1,
-            "name": "OCR Test",
-            "parameters": "",
-            "notes": "test",
-            "job_type": {
-              "id": 1,
-              "name": "OCR"
-            },
-            "ocr_engine": {
-              "id": 1,
-              "name": "Tesseract"
-            },
-            "font": {
-              "id": 1,
-              "font_name": "baskerville",
-              "font_italic": null,
-              "font_bold": null,
-              "font_fixed": null,
-              "font_serif": null,
-              "font_fraktur": null,
-              "font_line_height": null,
-              "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata"
-            }
-          },
-          "page": {
-            "id": 1,
-            "pg_ref_number": 1,
-            "pg_ground_truth_file": null,
-            "pg_work_id": null,
-            "pg_gale_ocr_file": null,
-            "pg_image_path": "/data/ecco/somepath"
-          },
-          "work": {
-            "id": 1,
-            "wks_tcp_number": null,
-            "wks_estc_number": "T137595",
-            "wks_tcp_bibno": null,
-            "wks_marc_record": null,
-            "wks_eebo_citation_id": null,
-            "wks_eebo_directory": null,
-            "wks_ecco_number": "0212100100",
-            "wks_book_id": null,
-            "wks_author": "Baskerville, John",
-            "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
-            "wks_word_count": null,
-            "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
-            "wks_eebo_image_id": null,
-            "wks_eebo_url": null,
-            "wks_pub_date": "1765",
-            "wks_ecco_uncorrected_gale_ocr_path": null,
-            "wks_ecco_corrected_xml_path": null,
-            "wks_ecco_corrected_text_path": null,
-            "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
-            "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
-            "wks_organizational_unit": 265,
-            "wks_primary_print_font": null,
-            "wks_last_trawled": "2013-06-30"
-          },
-          "proc_id": null
-        }
-      },
-      "code": 200,
-      "show_in_doc": 0,
       "recorded": true
     }
   ],
@@ -1459,54 +935,6 @@
       "code": 200,
       "show_in_doc": 1,
       "recorded": true
-    },
-    {
-      "verb": "GET",
-      "path": "/api/job_statuses",
-      "versions": [
-        "v1"
-      ],
-      "query": null,
-      "request_data": null,
-      "response_data": {
-        "total": 7,
-        "page": 1,
-        "per_page": 7,
-        "total_pages": 1,
-        "results": [
-          {
-            "id": 1,
-            "name": "Not Started"
-          },
-          {
-            "id": 2,
-            "name": "Processing"
-          },
-          {
-            "id": 3,
-            "name": "Pending Postprocess"
-          },
-          {
-            "id": 4,
-            "name": "Postprocessing"
-          },
-          {
-            "id": 5,
-            "name": "Done"
-          },
-          {
-            "id": 6,
-            "name": "Failed"
-          },
-          {
-            "id": 7,
-            "name": "Ingest Failed"
-          }
-        ]
-      },
-      "code": 200,
-      "show_in_doc": 0,
-      "recorded": true
     }
   ],
   "job_statuses#show": [
@@ -1526,24 +954,6 @@
       },
       "code": 200,
       "show_in_doc": 1,
-      "recorded": true
-    },
-    {
-      "verb": "GET",
-      "path": "/api/job_statuses/1",
-      "versions": [
-        "v1"
-      ],
-      "query": null,
-      "request_data": null,
-      "response_data": {
-        "job_status": {
-          "id": 1,
-          "name": "Not Started"
-        }
-      },
-      "code": 200,
-      "show_in_doc": 0,
       "recorded": true
     }
   ]
