@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe JobStatus, :type => :model do
-  let(:job_status) { create(:job_status) }
+  let(:job_status) { JobStatus.first }
 
   it "is valid" do
     expect(job_status).to be_valid

@@ -11,13 +11,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20141106195822) do
 
-  create_table "eebo_word_freq", primary_key: "word", force: true do |t|
-    t.integer "frequency", limit: 8, null: false
+  create_table "batch_jobs", force: true do |t|
+    t.integer "job_type_id"
+    t.integer "ocr_engine_id", limit: 8,  default: 4, null: false
+    t.string  "parameters"
+    t.string  "name",          limit: 50,             null: false
+    t.string  "notes"
+    t.integer "font_id"
   end
 
-  add_index "eebo_word_freq", ["frequency"], name: "freq", using: :btree
+  add_index "batch_jobs", ["font_id"], name: "font_id", using: :btree
+  add_index "batch_jobs", ["job_type_id"], name: "index_batch_job_on_job_type_id", using: :btree
+  add_index "batch_jobs", ["job_type_id"], name: "index_batch_jobs_on_job_type_id", using: :btree
+  add_index "batch_jobs", ["job_type_id"], name: "job_type", using: :btree
+  add_index "batch_jobs", ["ocr_engine_id"], name: "ocr_engine_id", using: :btree
+
+  create_table "fonts", primary_key: "font_id", force: true do |t|
+    t.string  "font_name",         limit: 50
+    t.integer "font_italic",       limit: 1
+    t.integer "font_bold",         limit: 1
+    t.integer "font_fixed",        limit: 1
+    t.integer "font_serif",        limit: 1
+    t.integer "font_fraktur",      limit: 1
+    t.integer "font_line_height"
+    t.string  "font_library_path", limit: 200
+  end
+
+  create_table "innodb_lock_monitor", id: false, force: true do |t|
+    t.integer "a"
+  end
 
   create_table "job_lock", primary_key: "jl_job", force: true do |t|
     t.integer  "jl_locked"
@@ -29,33 +53,34 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer  "jl_run_sequence",  limit: 8
   end
 
-  create_table "job_queue", force: true do |t|
-    t.integer   "batch_id",    limit: 8,              null: false
-    t.integer   "page_id",     limit: 8,              null: false
-    t.integer   "job_status",  limit: 8,  default: 1, null: false
-    t.timestamp "created",                            null: false
-    t.timestamp "last_update",                        null: false
+  create_table "job_queues", force: true do |t|
+    t.integer   "batch_id",      limit: 8,              null: false
+    t.integer   "page_id",       limit: 8,              null: false
+    t.integer   "job_status_id"
+    t.timestamp "created",                              null: false
+    t.timestamp "last_update",                          null: false
     t.string    "results"
     t.integer   "work_id"
-    t.string    "proc_id",     limit: 20
-    t.integer   "tries",                  default: 0
+    t.string    "proc_id",       limit: 20
+    t.integer   "tries",                    default: 0
   end
 
-  add_index "job_queue", ["batch_id"], name: "job_queue_ibfk_2", using: :btree
-  add_index "job_queue", ["job_status"], name: "job_queue_ibfk_3", using: :btree
-  add_index "job_queue", ["page_id"], name: "page_id", using: :btree
-  add_index "job_queue", ["proc_id"], name: "proc_id_indx", using: :btree
-  add_index "job_queue", ["work_id"], name: "job_queue_ibfk_4", using: :btree
+  add_index "job_queues", ["batch_id"], name: "job_queue_ibfk_2", using: :btree
+  add_index "job_queues", ["job_status_id"], name: "index_job_queues_on_job_status_id", using: :btree
+  add_index "job_queues", ["job_status_id"], name: "job_queue_ibfk_3", using: :btree
+  add_index "job_queues", ["page_id"], name: "page_id", using: :btree
+  add_index "job_queues", ["proc_id"], name: "proc_id_indx", using: :btree
+  add_index "job_queues", ["work_id"], name: "job_queue_ibfk_4", using: :btree
 
-  create_table "job_status", force: true do |t|
+  create_table "job_statuses", force: true do |t|
     t.string "name", limit: 20
   end
 
-  create_table "job_type", force: true do |t|
+  create_table "job_types", force: true do |t|
     t.string "name", limit: 20
   end
 
-  create_table "ocr_engine", force: true do |t|
+  create_table "ocr_engines", force: true do |t|
     t.string "name", limit: 20
   end
 
@@ -84,13 +109,13 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "pages", ["pg_work_id"], name: "pages_work_id_index", using: :btree
 
   create_table "postproc_pages", id: false, force: true do |t|
-    t.integer "pp_page_id",  limit: 8,  null: false
-    t.integer "pp_batch_id", limit: 8,  null: false
-    t.float   "pp_ecorr",    limit: 24
-    t.float   "pp_juxta",    limit: 24
-    t.float   "pp_retas",    limit: 24
+    t.integer "page_id",      limit: 8,  null: false
+    t.integer "batch_job_id", limit: 8,  null: false
+    t.float   "pp_ecorr",     limit: 24
+    t.float   "pp_juxta",     limit: 24
+    t.float   "pp_retas",     limit: 24
     t.string  "pp_health"
-    t.float   "pp_stats",    limit: 24
+    t.float   "pp_stats",     limit: 24
   end
 
   create_table "postproc_tagged_pages", id: false, force: true do |t|
@@ -123,16 +148,6 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer  "twl_gale_page_text",    limit: 1
     t.integer  "twl_tcp_page_text",     limit: 1
     t.integer  "twl_metadata",          limit: 1
-  end
-
-  create_table "work_ocr_results", id: false, force: true do |t|
-    t.integer  "work_id"
-    t.datetime "ocr_completed",                         null: false
-    t.integer  "batch_id",       limit: 8,              null: false
-    t.string   "batch_name",     limit: 50,             null: false
-    t.integer  "ocr_engine_id",  limit: 8,  default: 4, null: false
-    t.float    "juxta_accuracy", limit: 53
-    t.float    "retas_accuracy", limit: 53
   end
 
   create_table "works", primary_key: "wks_work_id", force: true do |t|

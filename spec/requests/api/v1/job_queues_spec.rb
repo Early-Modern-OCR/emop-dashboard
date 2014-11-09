@@ -4,9 +4,9 @@ RSpec.describe "JobQueues", :type => :request do
   let(:api_headers) { {'Accept' => 'application/emop; version=1'} }
 
   before(:each) do
-    @not_started_status = create(:job_status)
-    @processing_status  = create(:processing)
-    @done_status        = create(:done)
+    @not_started_status = JobStatus.not_started
+    @processing_status  = JobStatus.processing
+    @done_status        = JobStatus.done
   end
 
   describe "GET /api/job_queues" do
@@ -22,7 +22,7 @@ RSpec.describe "JobQueues", :type => :request do
       job_queues_not_started = create_list(:job_queue, 2, status: @not_started_status)
       job_queues_done = create_list(:job_queue, 3, status: @done_status)
 
-      get '/api/job_queues', {job_status: @not_started_status.id}, api_headers
+      get '/api/job_queues', {job_status_id: @not_started_status.id}, api_headers
 
       expect(response).to be_success
       expect(json['results'].length).to eq(job_queues_not_started.length)
@@ -53,14 +53,14 @@ RSpec.describe "JobQueues", :type => :request do
     end
 
     it 'sends the count of not started job queues', :show_in_doc do
-      get '/api/job_queues/count', {job_status: @not_started_status.id}, api_headers
+      get '/api/job_queues/count', {job_status_id: @not_started_status.id}, api_headers
 
       expect(response).to be_success
       expect(json['job_queue']['count']).to eq(@job_queues_not_started.length)
     end
 
     it 'sends the count of done job queues' do
-      get '/api/job_queues/count', {job_status: @done_status.id}, api_headers
+      get '/api/job_queues/count', {job_status_id: @done_status.id}, api_headers
 
       expect(response).to be_success
       expect(json['job_queue']['count']).to eq(@job_queues_done.length)

@@ -10,17 +10,14 @@ RSpec.configure do |config|
       DatabaseCleaner.clean
     end
 
-    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
-    DatabaseCleaner[:active_record,{:connection => :emop_test}].strategy = :truncation
-    DatabaseCleaner[:active_record,{:connection => :emop_test}].clean_with(:truncation)
+
+    load File.join(Rails.root, "db/seeds.rb")
   end
 
   config.around(:each) do |example|
     DatabaseCleaner.cleaning do
-      example.run
-    end
-    DatabaseCleaner[:active_record,{:connection => :emop_test}].cleaning do
       example.run
     end
   end

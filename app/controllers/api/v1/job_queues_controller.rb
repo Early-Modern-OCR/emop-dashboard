@@ -4,7 +4,7 @@ module Api
 
       api :GET, '/job_queues', 'List job queues'
       param_group :pagination, V1::BaseController
-      param :job_status, /^[0-9]+$/, desc: 'Job status ID'
+      param :job_status_id, /^[0-9]+$/, desc: 'Job status ID'
       def index
         super
       end
@@ -16,7 +16,7 @@ module Api
       end
 
       api :GET, '/job_queues/count', 'Count of job queues'
-      param :job_status, /^[0-9]+$/, desc: 'Job status ID'
+      param :job_status_id, /^[0-9]+$/, desc: 'Job status ID'
       def count
         @count = JobQueue.where(query_params).count
         respond_with @count
@@ -31,7 +31,7 @@ module Api
         @job_queues = JobQueue.unreserved.limit(@num_pages)
         @proc_id = JobQueue.generate_proc_id
 
-        @job_queues.update_all(proc_id: @proc_id, job_status: JobStatus.processing.id)
+        @job_queues.update_all(proc_id: @proc_id, job_status_id: JobStatus.processing.id)
 
         respond_with @job_queues
       end
@@ -43,7 +43,7 @@ module Api
       end
 
       def query_params
-        params.permit(:job_status, :num_pages, :proc_id)
+        params.permit(:job_status_id, :num_pages, :proc_id)
       end
 
     end

@@ -22,8 +22,8 @@ class DashboardController < ApplicationController
    #
    def batch      
       @batch = BatchJob.find( params[:id] )
-      @job_type = JobType.find( @batch.job_type.id )
-      @ocr_engine = OcrEngine.find( @batch.ocr_engine_id )
+      @job_type = @batch.job_type
+      @ocr_engine = @batch.ocr_engine
       @font = @batch.font
       out = render_to_string( :partial => 'batch_tooltip', :layout => false )
       render :text => out.strip
@@ -90,9 +90,9 @@ class DashboardController < ApplicationController
    def get_work_errors
       work_id = params[:work]
       batch_id = params[:batch]
-      query = "select pg_ref_number, results from job_queue "
+      query = "select pg_ref_number, results from job_queues "
       query = query << " inner join pages on pg_page_id=page_id"
-      query = query << " where job_status=? and batch_id=? and work_id=?"
+      query = query << " where job_status_id=? and batch_id=? and work_id=?"
       sql = [query, 6,batch_id,work_id]
       page_errors = JobQueue.find_by_sql( sql )
       out = {}
@@ -122,12 +122,12 @@ class DashboardController < ApplicationController
 			sql = "delete from page_results where batch_id=#{batch_id} "
 			sql = sql << " and page_id in (select pg_page_id from pages where pg_work_id=#{work_id})"
 			PageResult.connection.execute( sql )
-			sql = "delete from postproc_pages where pp_batch_id=#{batch_id} "
-			sql = sql << " and pp_page_id in (select pg_page_id from pages where pg_work_id=#{work_id})"
+			sql = "delete from postproc_pages where batch_job_id=#{batch_id} "
+			sql = sql << " and page_id in (select pg_page_id from pages where pg_work_id=#{work_id})"
 			PostprocPage.connection.execute( sql )
 
 			# set job status back to scheduled
-            sql = "update job_queue set job_status=1,results=NULL,proc_id=NULL where batch_id=#{batch_id} and work_id=#{work_id}"
+            sql = "update job_queues set job_status_id=1,results=NULL,proc_id=NULL where batch_id=#{batch_id} and work_id=#{work_id}"
             JobQueue.connection.execute(sql);
          end
          
@@ -145,7 +145,7 @@ class DashboardController < ApplicationController
          # create the new batch
          batch = BatchJob.new
          batch.name = params[:name]
-         batch.job_type = JobType.find(params[:type_id])
+         batch.job_type_id = params[:type_id]
          batch.ocr_engine_id = params[:engine_id]
          batch.font_id = params[:font_id]
          batch.parameters = params[:params]
@@ -176,7 +176,7 @@ class DashboardController < ApplicationController
                job = JobQueue.new
                job.batch_id = batch.id
                job.page_id = page.pg_page_id
-               job.job_status = 1
+               job.job_status_id = 1
                job.work_id=page.pg_work_id
                jobs << job
                if jobs.size >= jobs_batch_size
@@ -198,7 +198,7 @@ class DashboardController < ApplicationController
                job = JobQueue.new
                job.batch_id = batch.id
                job.page_id = page.pg_page_id
-               job.job_status = 1
+               job.job_status_id = 1
                job.work_id=page.pg_work_id
                jobs << job
             end
@@ -274,7 +274,7 @@ class DashboardController < ApplicationController
    private
    def get_status(result)
       if result.batch_id.nil?
-          sql=["select count(*) as cnt from job_queue where page_id in (select pg_page_id from pages where pg_work_id=?)",result.work_id] 
+          sql=["select count(*) as cnt from job_queues where page_id in (select pg_page_id from pages where pg_work_id=?)",result.work_id] 
           cnt = JobQueue.find_by_sql(sql).first.cnt
           if cnt == 0
              return "<div class='status-icon idle' title='Untested'></div>"
@@ -283,26 +283,26 @@ class DashboardController < ApplicationController
           end
       end
       
-      sql = ["select job_status from job_queue where batch_id=? and page_id in (select pg_page_id from pages where pg_work_id=?)",
+      sql = ["select job_status_id from job_queues where batch_id=? and page_id in (select pg_page_id from pages where pg_work_id=?)",
          result.batch_id, result.work_id]
       jobs = JobQueue.find_by_sql(sql)
       status = "idle"
       msg = "Untested"
       id=nil
       jobs.each do |job|
-         if job.job_status ==1 || job.job_status ==2
+         if job.job_status_id ==1 || job.job_status_id ==2
             if status != "error"
                status = "scheduled"
                msg = "OCR jobs are scheduled"   
             end
          end
-         if job.job_status==6
+         if job.job_status_id==6
             status = "error"
             msg = "OCR jobs have failed"
             id = "id='status-#{result.batch_id}-#{result.work_id}'"
             break
          end
-         if job.job_status > 2 && job.job_status < 6
+         if job.job_status_id > 2 && job.job_status_id < 6
             if status != "error"
                status = "success"
                msg = "Success"
@@ -332,29 +332,30 @@ class DashboardController < ApplicationController
    end
    
    private 
+   #TODO: Use Ruby not raw SQL
    def get_job_queue_status()
       summary = {}
-      sql = ["select count(*) as cnt from job_queue where job_status=?"]
+      sql = ["select count(*) as cnt from job_queues where job_status_id=?"]
       sql = sql << 1
       summary[:pending] = JobQueue.find_by_sql(sql).first.cnt
       
-      sql = ["select count(*) as cnt from job_queue where job_status=?"]
+      sql = ["select count(*) as cnt from job_queues where job_status_id=?"]
       sql = sql << 2
       summary[:running] = JobQueue.find_by_sql(sql).first.cnt
       
-      sql = ["select count(*) as cnt from job_queue where job_status=?"]
+      sql = ["select count(*) as cnt from job_queues where job_status_id=?"]
       sql = sql << 3
       summary[:postprocess] = JobQueue.find_by_sql(sql).first.cnt
 
-      sql = ["select count(*) as cnt from job_queue where job_status=?"]
+      sql = ["select count(*) as cnt from job_queues where job_status_id=?"]
       sql = sql << 5
       summary[:done] = JobQueue.find_by_sql(sql).first.cnt
 
-      sql = ["select count(*) as cnt from job_queue where job_status=?"]
+      sql = ["select count(*) as cnt from job_queues where job_status_id=?"]
       sql = sql << 6
       summary[:failed] = JobQueue.find_by_sql(sql).first.cnt
 
-      sql = ["select count(*) as cnt from job_queue where job_status=?"]
+      sql = ["select count(*) as cnt from job_queues where job_status_id=?"]
       sql = sql << 7
       summary[:ingestfailed] = JobQueue.find_by_sql(sql).first.cnt
 
@@ -380,10 +381,10 @@ class DashboardController < ApplicationController
       work_fields = "wks_work_id as work_id, wks_tcp_number, wks_title as title, wks_author as author, wks_ecco_number as ecco_number"
       if session[:ocr] == 'ocr_sched'
          # special query to get SCHEDULED works; dont use work_ocr_results
-         v_fields = ", pf_id, pf_name as font_name, batch_id, batch_job.name as batch_name, ocr_engine_id"
+         v_fields = ", pf_id, pf_name as font_name, batch_id, batch_jobs.name as batch_name, ocr_engine_id"
          sel = "select #{work_fields} #{v_fields} from works left outer join print_fonts on pf_id=wks_primary_print_font"
-         sel << " left outer join job_queue on wks_work_id=job_queue.work_id "
-         sel << " inner join batch_job on batch_job.id = batch_id "
+         sel << " left outer join job_queues on wks_work_id=job_queues.work_id "
+         sel << " inner join batch_jobs on batch_jobs.id = batch_id "
       else
          v_fields = ", pf_id,pf_name as font_name, batch_id, ocr_completed, batch_name, ocr_engine_id, juxta_accuracy, retas_accuracy"
          sel = "select #{work_fields} #{v_fields} from works left outer join work_ocr_results on wks_work_id=work_id"
@@ -447,23 +448,23 @@ class DashboardController < ApplicationController
       
       if session[:ocr] == 'ocr_done'
          cond << " and" if cond.length > 0
-         cond << " (select max(job_status) as js from job_queue where job_queue.batch_id=work_ocr_results.batch_id and job_queue.work_id=wks_work_id) in (3,4,5)"
-         cond << " and (select min(job_status) as js from job_queue where  job_queue.batch_id=work_ocr_results.batch_id and job_queue.work_id=wks_work_id) > 2"
+         cond << " (select max(job_status_id) as js from job_queues where job_queues.batch_id=work_ocr_results.batch_id and job_queues.work_id=wks_work_id) in (3,4,5)"
+         cond << " and (select min(job_status_id) as js from job_queues where  job_queues.batch_id=work_ocr_results.batch_id and job_queues.work_id=wks_work_id) > 2"
       elsif  session[:ocr] == 'ocr_sched'
          cond << " and" if cond.length > 0
-         cond << " job_status < 3"
+         cond << " job_status_id < 3"
       elsif  session[:ocr] == 'ocr_ingest'
         cond << " and" if cond.length > 0
-        cond << " (select max(job_status) as js from job_queue where job_queue.batch_id=work_ocr_results.batch_id and job_queue.work_id=wks_work_id)=5"
+        cond << " (select max(job_status_id) as js from job_queues where job_queues.batch_id=work_ocr_results.batch_id and job_queues.work_id=wks_work_id)=5"
       elsif  session[:ocr] == 'ocr_ingest_error'
         cond << " and" if cond.length > 0
-        cond << " (select max(job_status) as js from job_queue where job_queue.batch_id=work_ocr_results.batch_id and job_queue.work_id=wks_work_id)=7"
+        cond << " (select max(job_status_id) as js from job_queues where job_queues.batch_id=work_ocr_results.batch_id and job_queues.work_id=wks_work_id)=7"
       elsif  session[:ocr] == 'ocr_none'
          cond << " and" if cond.length > 0
          cond << " work_ocr_results.ocr_completed is null"
       elsif session[:ocr] == 'ocr_error'
          cond << " and" if cond.length > 0
-         cond << " (select max(job_status) as js from job_queue where job_queue.batch_id=work_ocr_results.batch_id and job_queue.work_id=wks_work_id)=6"
+         cond << " (select max(job_status_id) as js from job_queues where job_queues.batch_id=work_ocr_results.batch_id and job_queues.work_id=wks_work_id)=6"
       end
       return cond, vals
    end
@@ -521,7 +522,7 @@ class DashboardController < ApplicationController
 	   if params[:ocr] == 'ocr_sched'
 		   # search for scheduled uses different query to get data. Also need slightly
 		   # different query to get counts
-		   count_sel = "select count(distinct batch_id) as cnt from works #{pf_join} inner join job_queue on wks_work_id=job_queue.work_id "
+		   count_sel = "select count(distinct batch_id) as cnt from works #{pf_join} inner join job_queues on wks_work_id=job_queues.work_id "
 	   else
 		   count_sel = "select count(*) as cnt from works  #{pf_join} left outer join work_ocr_results on wks_work_id=work_id "
 	   end

@@ -15,8 +15,10 @@
 /tmp
 
 config/database.yml
+config/database_legacy.yml
 config/secrets.yml
 config/deploy/*/config/database.yml
+config/deploy/*/config/database_legacy.yml
 config/deploy/*/config/secrets.yml
 
 # Ignore locations resulting from tests

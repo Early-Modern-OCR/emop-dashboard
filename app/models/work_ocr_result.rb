@@ -1,8 +1,17 @@
-
 # Describes OCR accuracy for a batch of eMOP work.
 #
 class WorkOcrResult < ActiveRecord::Base
-   establish_connection("emop_#{Rails.env}".to_sym)
-   self.table_name = :work_ocr_results
-   self.primary_key = :work_id
+  self.primary_key = :work_id
+  belongs_to :work
+  belongs_to :batch_job, foreign_key: 'batch_id'
+
+  # Attempt to make this MySQL view read-only
+  def readonly?
+    true
+  end
+
+  # Attempt to make this MySQL view read-only
+  def before_destroy
+    raise ActiveRecord::ReadOnlyRecord
+  end
 end

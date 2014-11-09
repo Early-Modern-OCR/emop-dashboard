@@ -1,13 +1,20 @@
 # Describes the emop job queue
 #
 class JobQueue < ActiveRecord::Base
-  establish_connection("emop_#{Rails.env}".to_sym)
-  self.table_name = :job_queue
-  self.primary_key = :id
   belongs_to :batch_job, foreign_key: 'batch_id'
-  belongs_to :page, foreign_key: 'page_id'
-  belongs_to :status, class_name: 'JobStatus', foreign_key: 'job_status'
-  belongs_to :work, foreign_key: 'work_id'
+  belongs_to :page
+  belongs_to :status, class_name: 'JobStatus', foreign_key: 'job_status_id'
+  belongs_to :work
+
+  validates :batch_job, presence: true
+  validates :page, presence: true
+  validates :status, presence: true
+
+  after_initialize :set_defaults, if: :new_record?
+
+  def set_defaults
+    self.status ||= JobStatus.find_by_name('Not Started')
+  end
 
   def self.generate_proc_id
     Time.now.strftime('%Y%m%d%H%M%S%L')
@@ -15,7 +22,7 @@ class JobQueue < ActiveRecord::Base
 
   def self.unreserved
     @job_status = JobStatus.find_by_name('Not Started')
-    where(proc_id: nil, job_status: @job_status.id)
+    where(proc_id: nil, job_status_id: @job_status.id)
   end
 
   def to_builder(version = 'v1')

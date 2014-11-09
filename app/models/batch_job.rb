@@ -1,15 +1,23 @@
 # Describes an eMOP batch job
 #
 class BatchJob < ActiveRecord::Base
-  establish_connection("emop_#{Rails.env}".to_sym)
-  self.table_name = :batch_job
-  self.primary_key = :id
-  belongs_to :font, foreign_key: 'font_id'
-  belongs_to :ocr_engine, foreign_key: 'ocr_engine_id'
-  belongs_to :job_type, foreign_key: 'job_type'
+  belongs_to :font
+  belongs_to :ocr_engine
+  belongs_to :job_type
   has_many :job_queues, foreign_key: 'batch_id'
+  has_many :postproc_pages
+  has_many :postprocesses, through: :postproc_pages
+  has_many :work_ocr_results
+  has_many :ocr_results, through: :work_ocr_results
 
   validates :name, presence: true
+
+  after_initialize :set_defaults
+
+  def set_defaults
+    self.ocr_engine ||= OcrEngine.find_by_name('Tesseract')
+    self.job_type   ||= JobType.find_by_name('OCR')
+  end
 
   def to_builder(version = 'v1')
     case version

@@ -1,9 +1,4 @@
 FactoryGirl.define do
-  factory :page do
-    pg_ref_number 1
-    pg_image_path "/data/ecco/somepath"
-  end
-
   factory :ocr_engine do
     name "Tesseract"
   end
@@ -28,6 +23,12 @@ FactoryGirl.define do
     wks_ecco_gale_ocr_xml_path "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml"
     wks_organizational_unit 265
     wks_last_trawled "2013-06-30"
+  end
+
+  factory :page do
+    pg_ref_number 1
+    pg_image_path "/data/ecco/somepath"
+    work { FactoryGirl.build(:work) }
   end
 
   factory :job_status do
@@ -66,7 +67,7 @@ FactoryGirl.define do
     tries     0
     results   "Foo"
     batch_job { FactoryGirl.build(:batch_job) }
-    status    { FactoryGirl.build(:job_status) }
+    status    { JobStatus.first }
     page      { FactoryGirl.build(:page) }
     work      { FactoryGirl.build(:work) }
   end

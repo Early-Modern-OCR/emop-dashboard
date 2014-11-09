@@ -5,3 +5,33 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+[
+  'Not Started',
+  'Processing',
+  'Pending Postprocess',
+  'Postprocessing',
+  'Done',
+  'Failed',
+  'Ingest Failed',
+].each do |name|
+  JobStatus.find_or_create_by(name: name)
+end
+
+[
+  'OCR',
+  'Ground Truth Compare',
+  'Other',
+].each do |name|
+  JobType.find_or_create_by(name: name)
+end
+
+[
+  'Tesseract',
+  'Gale',
+  'Gamera',
+  'OCROpus',
+  'Not Applicable',
+].each do |name|
+  OcrEngine.find_or_create_by(name: name)
+end
