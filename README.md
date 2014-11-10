@@ -1,5 +1,10 @@
 # eMOP Dashboard
 
+[![Build Status](https://travis-ci.org/idhmc-tamu/emop-dashboard.svg?branch=master)](https://travis-ci.org/idhmc-tamu/emop-dashboard)
+
+[![Coverage Status](https://img.shields.io/coveralls/idhmc-tamu/emop-dashboard.svg)](https://coveralls.io/r/idhmc-tamu/emop-dashboard?branch=master)
+
+
 This is the eMOP Dashboard application. It shows a table of OCR
 results from a variety of OCR engines and helps track the overall
 quality of the OCR.
@@ -56,7 +61,10 @@ This copies the data from the legacy database into the Rails database.
 
 ```
 
-mysqldump --extended-insert=FALSE -t emop_dev pages | sed 's/emop_dev/emop_dashboard_dev/' | mysql -Demop_dashboard_dev
+mkdir /tmp/emop
+cd /tmp/emop
+mysqldump --tab=/tmp/emop --skip-extended-insert --compact emop
+for file in chunks/pages_* ; do  echo $file ; mysql emop_dashboard_dev -e "LOAD DATA INFILE '/tmp/emop/$file' INTO TABLE pages"; done
 
 tables=(
 print_fonts
@@ -70,6 +78,6 @@ works
 
 for table in "${tables[@]}"; do
   echo "Importing ${table}"
-  mysql -e "INSERT INTO emop_dashboard_dev.${table} SELECT * FROM emop_dev.${table}"
+  mysqlimport --local emop_dashboard_dev /tmp/emop/${table}.txt
 done
 ```
