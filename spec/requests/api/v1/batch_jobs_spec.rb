@@ -1,7 +1,25 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::BatchJobsController, :type => :request do
-  let(:api_headers) { {'Accept' => 'application/emop; version=1'} }
+  let(:api_headers) do
+    {
+      'Accept' => 'application/emop; version=1',
+      'Authorization' => "Token token=#{User.first.auth_token}",
+    }
+  end
+
+  describe "Unauthorized access" do
+    let(:api_headers) do
+      {
+        'Accept' => 'application/emop; version=1',
+      }
+    end
+
+    it 'should not be successful' do
+      get '/api/batch_jobs', {}, api_headers
+      expect(response).not_to be_success
+    end
+  end
 
   describe "GET /api/batch_jobs" do
     it 'sends a list of batch jobs', :show_in_doc do

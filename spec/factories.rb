@@ -79,4 +79,10 @@ FactoryGirl.define do
     ocr_xml_path  '/some/path/output.xml'
     ocr_completed '2014-11-09 00:00:00'
   end
+
+  factory :user do
+    email "admin@example.com"
+    password "changeme"
+    password_confirmation "changeme"
+  end
 end

@@ -1,12 +1,30 @@
 require 'rails_helper'
 
 RSpec.describe "JobQueues", :type => :request do
-  let(:api_headers) { {'Accept' => 'application/emop; version=1'} }
+  let(:api_headers) do
+    {
+      'Accept' => 'application/emop; version=1',
+      'Authorization' => "Token token=#{User.first.auth_token}",
+    }
+  end
 
   before(:each) do
     @not_started_status = JobStatus.not_started
     @processing_status  = JobStatus.processing
     @done_status        = JobStatus.done
+  end
+
+  describe "Unauthorized access" do
+    let(:api_headers) do
+      {
+        'Accept' => 'application/emop; version=1',
+      }
+    end
+
+    it 'should not be successful' do
+      get '/api/job_queues', {}, api_headers
+      expect(response).not_to be_success
+    end
   end
 
   describe "GET /api/job_queues" do
