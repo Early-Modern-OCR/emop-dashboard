@@ -15,7 +15,7 @@ class DashboardController < ApplicationController
       @print_font_filter = session[:font]
        
       # get summary for queue
-      @queue_status = get_job_queue_status()
+      @queue_status = JobQueue.status_summary
    end
    
    # Get an HTML fragment for the batch details tooltip
@@ -206,7 +206,7 @@ class DashboardController < ApplicationController
          end   
 
          # get a new summary for the job queue
-         status = get_job_queue_status()
+         status = JobQueue.status_summary
          render  :json => ActiveSupport::JSON.encode(status), :status => :ok  
          
       rescue => e
@@ -329,44 +329,6 @@ class DashboardController < ApplicationController
       end
 
       return out
-   end
-   
-   private 
-   #TODO: Use Ruby not raw SQL
-   def get_job_queue_status()
-      summary = {}
-      sql = ["select count(*) as cnt from job_queues where job_status_id=?"]
-      sql = sql << 1
-      summary[:pending] = JobQueue.find_by_sql(sql).first.cnt
-      
-      sql = ["select count(*) as cnt from job_queues where job_status_id=?"]
-      sql = sql << 2
-      summary[:running] = JobQueue.find_by_sql(sql).first.cnt
-      
-      sql = ["select count(*) as cnt from job_queues where job_status_id=?"]
-      sql = sql << 3
-      summary[:postprocess] = JobQueue.find_by_sql(sql).first.cnt
-
-      sql = ["select count(*) as cnt from job_queues where job_status_id=?"]
-      sql = sql << 5
-      summary[:done] = JobQueue.find_by_sql(sql).first.cnt
-
-      sql = ["select count(*) as cnt from job_queues where job_status_id=?"]
-      sql = sql << 6
-      summary[:failed] = JobQueue.find_by_sql(sql).first.cnt
-
-      sql = ["select count(*) as cnt from job_queues where job_status_id=?"]
-      sql = sql << 7
-      summary[:ingestfailed] = JobQueue.find_by_sql(sql).first.cnt
-
-      summary[:total] =  summary[:ingestfailed] +
-                         summary[:failed] +
-                         summary[:done] +
-                         summary[:postprocess] +
-                         summary[:running] +
-                         summary[:pending]
-
-      return summary
    end
 
    # Create the monster select & where portion of the dashboard

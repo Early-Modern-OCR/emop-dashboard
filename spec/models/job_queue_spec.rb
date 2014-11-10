@@ -25,6 +25,25 @@ RSpec.describe JobQueue, :type => :model do
     end
   end
 
+  describe "#status_summary" do
+    it "should generate status counts" do
+      create_list(:job_queue, 2, status: JobStatus.not_started)
+      create_list(:job_queue, 3, status: JobStatus.processing)
+      create_list(:job_queue, 5, status: JobStatus.done)
+      create_list(:job_queue, 8, status: JobStatus.failed)
+      create_list(:job_queue, 10, status: JobStatus.ingest_failed)
+
+      summary = JobQueue.status_summary
+      expect(summary[:pending]).to eq(2)
+      expect(summary[:running]).to eq(3)
+      expect(summary[:postprocess]).to eq(0)
+      expect(summary[:done]).to eq(5)
+      expect(summary[:failed]).to eq(8)
+      expect(summary[:ingestfailed]).to eq(10)
+      expect(summary[:total]).to eq(28)
+    end
+  end
+
   describe "to_builder" do
     it "has valid to_builder - v1" do
       json = job_queue.to_builder('v1').attributes!

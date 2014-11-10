@@ -12,6 +12,13 @@ class JobQueue < ActiveRecord::Base
 
   after_initialize :set_defaults, if: :new_record?
 
+  scope :pending, -> { joins(:status).where(job_statuses: {name: 'Not Started'}) }
+  scope :running, -> { joins(:status).where(job_statuses: {name: 'Processing'}) }
+  scope :postprocess, -> { joins(:status).where(job_statuses: {name: 'Pending Postprocess'}) }
+  scope :done, -> { joins(:status).where(job_statuses: {name: 'Done'}) }
+  scope :failed, -> { joins(:status).where(job_statuses: {name: 'Failed'}) }
+  scope :ingest_failed, -> { joins(:status).where(job_statuses: {name: 'Ingest Failed'}) }
+
   def set_defaults
     self.status ||= JobStatus.find_by_name('Not Started')
   end
@@ -23,6 +30,25 @@ class JobQueue < ActiveRecord::Base
   def self.unreserved
     @job_status = JobStatus.find_by_name('Not Started')
     where(proc_id: nil, job_status_id: @job_status.id)
+  end
+
+  def self.status_summary
+    summary = {}
+    summary[:pending] = self.pending.count
+    summary[:running] = self.running.count
+    summary[:postprocess] = self.postprocess.count
+    summary[:done] = self.done.count
+    summary[:failed] = self.failed.count
+    summary[:ingestfailed] = self.ingest_failed.count
+
+    summary[:total] =  summary[:ingestfailed] +
+                       summary[:failed] +
+                       summary[:done] +
+                       summary[:postprocess] +
+                       summary[:running] +
+                       summary[:pending]
+
+    return summary
   end
 
   def to_builder(version = 'v1')
