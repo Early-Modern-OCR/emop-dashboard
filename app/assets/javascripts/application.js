@@ -20,4 +20,4 @@
 //= require juxta-ws-common
 //= require raphael-min
 //= require sidebyside
-//= require_tree .
+//= require_directory .

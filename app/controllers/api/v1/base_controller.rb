@@ -30,7 +30,7 @@ module Api
       end
 
       def metadata_per_page
-        @per_page ||= page_params[:per_page].present? ? page_params[:per_page].to_i : resource_class.try(:per_page).to_i
+        @per_page ||= page_params[:per_page].present? ? page_params[:per_page].to_i : resource_class.try(:paginates_per).to_i
         if @per_page > @total
           @per_page = @total
         end
@@ -61,7 +61,7 @@ module Api
       def index
         plural_resource_name = "@#{resource_name.pluralize}"
         resources = resource_class.where(query_params)
-                                  .paginate(page: page_params[:page], per_page: page_params[:per_page])
+                                  .page(page_params[:page]).per(page_params[:per_page])
 
         instance_variable_set('@total', resources.length)
         instance_variable_set(plural_resource_name, resources)
