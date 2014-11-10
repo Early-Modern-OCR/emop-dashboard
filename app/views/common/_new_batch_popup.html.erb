@@ -4,11 +4,11 @@
       <tr><td class="table-label">Name:</td><td class="table-input"><input type="text" id="new-name"/></td></tr>
       <tr>
          <td class="table-label">Batch Type:</td>
-         <td class="table-input"><%= select_tag "new-type", options_from_collection_for_select(@job_types, "id", "name",2) %></td>
+         <td class="table-input"><%= select_tag "new-type", options_from_collection_for_select(@job_types, :id, :name) %></td>
       </tr>
       <tr class="engine-row">
          <td class="table-label">OCR Engine:</td>
-         <td class="table-input"><%= select_tag "new-ocr", options_from_collection_for_select(@engines, "id", "name") %></td>
+         <td class="table-input"><%= select_tag "new-ocr", options_from_collection_for_select(@engines, :id, :name) %></td>
       </tr>
       <tr class="font-row">
          <td class="table-label">Font Training Library:</td>

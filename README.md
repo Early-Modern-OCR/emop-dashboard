@@ -64,7 +64,7 @@ This copies the data from the legacy database into the Rails database.
 mkdir /tmp/emop
 cd /tmp/emop
 mysqldump --tab=/tmp/emop --skip-extended-insert --compact emop_dev
-for file in chunks/pages_* ; do  echo $file ; mysql emop_dashboard_dev -e "LOAD DATA INFILE '/tmp/emop/$file' INTO TABLE pages"; done
+for file in chunks/pages_* ; do  echo $file ; mysql emop_dashboard -e "LOAD DATA INFILE '/tmp/emop/$file' INTO TABLE pages"; done
 
 tables=(
 print_fonts
@@ -78,7 +78,7 @@ works
 
 for table in "${tables[@]}"; do
   echo "Importing ${table}"
-  mysqlimport --local emop_dashboard_dev /tmp/emop/${table}.txt
+  mysqlimport --local emop_dashboard /tmp/emop/${table}.txt
 done
 ```
 
@@ -98,8 +98,8 @@ works
 
 for table in "${tables[@]}"; do
   mysql emop_dev -e "SHOW FIELDS FROM ${table}" >> /tmp/emop_dev_tables
-  mysql emop_dashboard_dev -e "SHOW FIELDS FROM ${table}" >> /tmp/emop_dashboard_dev_tables
+  mysql emop_dashboard -e "SHOW FIELDS FROM ${table}" >> /tmp/emop_dashboard_tables
 done
 
-diff -u /tmp/emop_dev_tables /tmp/emop_dashboard_dev_tables
+diff -u /tmp/emop_dev_tables /tmp/emop_dashboard_tables
 ```

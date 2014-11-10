@@ -14,9 +14,17 @@ class BatchJob < ActiveRecord::Base
 
   after_initialize :set_defaults
 
+  def self.default_ocr_engine
+    OcrEngine.find_by_name('Tesseract')
+  end
+
+  def self.default_job_type
+    JobType.find_by_name('OCR')
+  end
+
   def set_defaults
-    self.ocr_engine ||= OcrEngine.find_by_name('Tesseract')
-    self.job_type   ||= JobType.find_by_name('OCR')
+    self.ocr_engine ||= BatchJob.default_ocr_engine
+    self.job_type   ||= BatchJob.default_job_type
   end
 
   def to_builder(version = 'v1')

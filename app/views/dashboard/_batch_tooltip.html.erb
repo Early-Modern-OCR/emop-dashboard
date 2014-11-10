@@ -1,7 +1,7 @@
 <div id="batch-tooltip">
     <p><span class="tt-label">Name:</span><span class="tt-data"><%= @batch.name %></span></p>
     <p><span class="tt-label">Type:</span><span class="tt-data"><%= @job_type.name %></span></p>
-    <% if @batch.job_type == 2 %>
+    <% if @batch.job_type.id == BatchJob.default_job_type.id %>
       <p><span class="tt-label">OCR Engine:</span><span class="tt-data"><%= @ocr_engine.name %></span></p>
       <% if !@font.nil? %>
          <p><span class="tt-label">Font:</span><span class="tt-data"><%= @font.font_name %></span></p>

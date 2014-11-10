@@ -43,6 +43,19 @@ namespace :deploy do
     end
   end
 
+  desc 'Run db:seed'
+  task :seed do
+    on roles(:db) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rake, 'db:seed'
+        end
+      end
+    end
+  end
+
+  after :migrate, :seed
+
   desc "Upload config files"
   task :upload_configs do
     on roles(:app) do |server|

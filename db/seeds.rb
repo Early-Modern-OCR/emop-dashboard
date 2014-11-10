@@ -19,16 +19,16 @@
 end
 
 [
-  'OCR',
   'Ground Truth Compare',
+  'OCR',
   'Other',
 ].each do |name|
   JobType.find_or_create_by(name: name)
 end
 
 [
-  'Tesseract',
   'Gale',
+  'Tesseract',
   'Gamera',
   'OCROpus',
   'Not Applicable',
