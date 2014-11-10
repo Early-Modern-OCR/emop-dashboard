@@ -1,4 +1,3 @@
-require 'activerecord-import'
 require 'csv'
 
 class DashboardController < ApplicationController
@@ -180,13 +179,13 @@ class DashboardController < ApplicationController
                job.work_id=page.pg_work_id
                jobs << job
                if jobs.size >= jobs_batch_size
-                  puts "Write #{jobs.size} jobs..."
+                  logger.debug "Write #{jobs.size} jobs..."
                   JobQueue.import jobs
                   jobs = []  
                end
             end 
             if jobs.size> 0
-               puts "Write #{jobs.size} jobs..."
+               logger.debug "Write #{jobs.size} jobs..."
                JobQueue.import jobs  
             end
          else 
@@ -202,6 +201,7 @@ class DashboardController < ApplicationController
                job.work_id=page.pg_work_id
                jobs << job
             end
+            logger.debug "Write #{jobs.size} jobs..."
             JobQueue.import jobs
          end   
 
