@@ -35,3 +35,10 @@ end
 ].each do |name|
   OcrEngine.find_or_create_by(name: name)
 end
+
+admin = User.find_or_create_by(email: 'admin@internal.local')
+if admin.new_record?
+  admin.password = 'changeme'
+  admin.password_confirmation = 'changeme'
+  admin.save!
+end

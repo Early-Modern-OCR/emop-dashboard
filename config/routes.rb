@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users, skip: [:registration]
   # API docs
   apipie
 
@@ -43,7 +44,7 @@ Rails.application.routes.draw do
    get "dashboard/:batch/:work/error" => "dashboard#get_work_errors"
 
    # site root is the dashboard
-   root :to => "dashboard#index"
+   root to: "dashboard#index"
 
    # for testing the server setup
    get "/test_exception_notifier" => "dashboard#test_exception_notifier"

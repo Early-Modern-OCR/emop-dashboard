@@ -24,6 +24,9 @@ gem 'apipie-rails'
 gem 'maruku', group: :development
 gem 'versionist'
 
+# Authentication and authorization
+gem 'devise'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
