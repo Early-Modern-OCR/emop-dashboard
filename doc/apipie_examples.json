@@ -39,11 +39,11 @@
             "parameters": "",
             "notes": "test",
             "job_type": {
-              "id": 1,
+              "id": 2,
               "name": "OCR"
             },
             "ocr_engine": {
-              "id": 1,
+              "id": 2,
               "name": "Tesseract"
             },
             "font": {
@@ -64,11 +64,11 @@
             "parameters": "",
             "notes": "test",
             "job_type": {
-              "id": 1,
+              "id": 2,
               "name": "OCR"
             },
             "ocr_engine": {
-              "id": 1,
+              "id": 2,
               "name": "Tesseract"
             },
             "font": {
@@ -106,11 +106,11 @@
           "parameters": "",
           "notes": "test",
           "job_type": {
-            "id": 1,
+            "id": 2,
             "name": "OCR"
           },
           "ocr_engine": {
-            "id": 1,
+            "id": 2,
             "name": "Tesseract"
           },
           "font": {
@@ -179,11 +179,11 @@
               "parameters": "",
               "notes": "test",
               "job_type": {
-                "id": 1,
+                "id": 2,
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 1,
+                "id": 2,
                 "name": "Tesseract"
               },
               "font": {
@@ -273,11 +273,11 @@
               "parameters": "",
               "notes": "test",
               "job_type": {
-                "id": 1,
+                "id": 2,
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 1,
+                "id": 2,
                 "name": "Tesseract"
               },
               "font": {
@@ -387,11 +387,11 @@
               "parameters": "",
               "notes": "test",
               "job_type": {
-                "id": 1,
+                "id": 2,
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 1,
+                "id": 2,
                 "name": "Tesseract"
               },
               "font": {
@@ -481,11 +481,11 @@
               "parameters": "",
               "notes": "test",
               "job_type": {
-                "id": 1,
+                "id": 2,
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 1,
+                "id": 2,
                 "name": "Tesseract"
               },
               "font": {
@@ -580,7 +580,7 @@
       "response_data": {
         "requested": 2,
         "reserved": 2,
-        "proc_id": "20141109175407875",
+        "proc_id": "20141109000000000",
         "results": [
           {
             "id": 16,
@@ -596,11 +596,11 @@
               "parameters": "",
               "notes": "test",
               "job_type": {
-                "id": 1,
+                "id": 2,
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 1,
+                "id": 2,
                 "name": "Tesseract"
               },
               "font": {
@@ -690,11 +690,11 @@
               "parameters": "",
               "notes": "test",
               "job_type": {
-                "id": 1,
+                "id": 2,
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 1,
+                "id": 2,
                 "name": "Tesseract"
               },
               "font": {
@@ -801,11 +801,11 @@
             "parameters": "",
             "notes": "test",
             "job_type": {
-              "id": 1,
+              "id": 2,
               "name": "OCR"
             },
             "ocr_engine": {
-              "id": 1,
+              "id": 2,
               "name": "Tesseract"
             },
             "font": {

@@ -88,6 +88,8 @@ RSpec.describe "JobQueues", :type => :request do
   describe "PUT /api/job_queues/reserve" do
     it 'reserves multiple items from job_queues', :show_in_doc do
       create_list(:job_queue, 5, status: @not_started_status)
+      @time_now = Time.parse("Nov 09 2014")
+      allow(Time).to receive(:now).and_return(@time_now)
 
       put '/api/job_queues/reserve', {job_queue: {num_pages: 2}}, api_headers
 
