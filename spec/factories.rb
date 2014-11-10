@@ -71,4 +71,12 @@ FactoryGirl.define do
     page      { FactoryGirl.build(:page) }
     work      { FactoryGirl.build(:work) }
   end
+
+  factory :page_result do
+    page { FactoryGirl.build(:page) }
+    batch_job { FactoryGirl.build(:batch_job) }
+    ocr_text_path '/some/path/output.txt'
+    ocr_xml_path  '/some/path/output.xml'
+    ocr_completed '2014-11-09 00:00:00'
+  end
 end
