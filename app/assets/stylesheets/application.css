@@ -14,7 +14,7 @@
  *= require jquery.dataTables
  *= require_self
  *= require sidebyside
- *= require_tree .
+ *= require_directory .
  */
 body {
    margin: 0;

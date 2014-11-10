@@ -27,6 +27,9 @@ gem 'versionist'
 # Authentication and authorization
 gem 'devise'
 
+# Administration
+gem 'activeadmin', github: 'activeadmin'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
@@ -34,7 +37,7 @@ gem 'jquery-ui-rails'
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/kaminarier
 gem 'jbuilder', '~> 2.0'
-gem 'will_paginate', '~> 3.0.5'
+gem 'kaminari'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
