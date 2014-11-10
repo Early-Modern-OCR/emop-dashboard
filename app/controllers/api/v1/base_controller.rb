@@ -30,7 +30,7 @@ module Api
       end
 
       def metadata_per_page
-        @per_page ||= page_params[:per_page].present? ? page_params[:per_page].to_i : resource_class.try(:paginates_per).to_i
+        @per_page ||= page_params[:per_page].present? ? page_params[:per_page].to_i : resource_class.try(:default_per_page).to_i
         if @per_page > @total
           @per_page = @total
         end
