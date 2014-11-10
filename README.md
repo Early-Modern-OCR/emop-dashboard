@@ -63,7 +63,7 @@ This copies the data from the legacy database into the Rails database.
 
 mkdir /tmp/emop
 cd /tmp/emop
-mysqldump --tab=/tmp/emop --skip-extended-insert --compact emop
+mysqldump --tab=/tmp/emop --skip-extended-insert --compact emop_dev
 for file in chunks/pages_* ; do  echo $file ; mysql emop_dashboard_dev -e "LOAD DATA INFILE '/tmp/emop/$file' INTO TABLE pages"; done
 
 tables=(
@@ -80,4 +80,26 @@ for table in "${tables[@]}"; do
   echo "Importing ${table}"
   mysqlimport --local emop_dashboard_dev /tmp/emop/${table}.txt
 done
+```
+
+Below is a method for comparing the database structure to ensure table columns match (position and name)
+
+```
+tables=(
+pages
+print_fonts
+batch_jobs
+fonts
+job_queues
+page_results
+postproc_pages
+works
+)
+
+for table in "${tables[@]}"; do
+  mysql emop_dev -e "SHOW FIELDS FROM ${table}" >> /tmp/emop_dev_tables
+  mysql emop_dashboard_dev -e "SHOW FIELDS FROM ${table}" >> /tmp/emop_dashboard_dev_tables
+done
+
+diff -u /tmp/emop_dev_tables /tmp/emop_dashboard_dev_tables
 ```
