@@ -14,12 +14,12 @@
 ActiveRecord::Schema.define(version: 20141106195826) do
 
   create_table "batch_jobs", force: true do |t|
+    t.integer "job_type_id"
+    t.integer "ocr_engine_id"
     t.string  "parameters"
     t.string  "name"
     t.string  "notes"
     t.integer "font_id"
-    t.integer "ocr_engine_id"
-    t.integer "job_type_id"
   end
 
   add_index "batch_jobs", ["font_id"], name: "index_batch_jobs_on_font_id", using: :btree
@@ -41,12 +41,12 @@ ActiveRecord::Schema.define(version: 20141106195826) do
     t.integer  "batch_id"
     t.integer  "page_id"
     t.integer  "job_status_id"
+    t.datetime "created"
+    t.datetime "last_update"
     t.string   "results"
     t.integer  "work_id"
     t.string   "proc_id"
     t.integer  "tries",         default: 0
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   add_index "job_queues", ["batch_id"], name: "index_job_queues_on_batch_id", using: :btree
@@ -68,8 +68,8 @@ ActiveRecord::Schema.define(version: 20141106195826) do
     t.integer  "jx_gt_source_id"
     t.integer  "jx_ocr_source_id"
     t.integer  "jx_set_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
     t.string   "status",            limit: 13, default: "uninitialized"
     t.integer  "jx_gt_witness_id"
     t.integer  "jx_ocr_witness_id"

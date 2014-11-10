@@ -4,12 +4,12 @@ class CreateJobQueues < ActiveRecord::Migration
       t.references :batch
       t.references :page
       t.references :job_status
+      t.timestamp :created
+      t.timestamp :last_update
       t.string :results
       t.references :work
       t.string :proc_id
       t.integer :tries, default: 0
-
-      t.timestamps
     end
 
     add_index :job_queues, :batch_id
