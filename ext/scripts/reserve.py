@@ -3,6 +3,7 @@
 import requests
 import json
 import ConfigParser
+import sys
 import os
 
 config_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.ini')
