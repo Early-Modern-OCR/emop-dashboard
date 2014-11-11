@@ -21,6 +21,7 @@
       <li><a href='#batch_jobs-index'>index</a></li>
       <li><a href='#batch_jobs-show'>show</a></li>
       <li><a href='#batch_jobs-count'>count</a></li>
+      <li><a href='#batch_jobs-upload_results'>upload_results</a></li>
   </ul>
   <h4><a href='#job_queues'>Job queues</a></h4>
   <ul>
@@ -87,6 +88,7 @@
 200
 {
   &quot;total&quot;: 2,
+  &quot;subtotal&quot;: 2,
   &quot;page&quot;: 1,
   &quot;per_page&quot;: 2,
   &quot;total_pages&quot;: 1,
@@ -279,7 +281,7 @@
 <p>Batch job ID</p>
 
         <br>
-        Value: Must match regular expression /^[0-9]+$/.
+        Value: Must be Integer.
 
 
     </td>
@@ -326,6 +328,463 @@
 }</pre>
 
 
+      </div>
+      <hr>
+
+      <ul class='breadcrumb' id='batch_jobs-upload_results'>
+        <li>
+          <a href='#'>eMOP Dashboard</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#batch_jobs'>Batch jobs</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>upload_results</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#batch_jobs-upload_results'>
+              PUT /api/batch_jobs/upload_results
+            </a><br>
+            <small>Upload batch job results</small>
+          </h3>
+      </div>
+
+      <div>
+        
+          <h2>Examples</h2>
+            <pre>PUT /api/batch_jobs/upload_results
+{
+  &quot;job_queues&quot;: {
+    &quot;completed&quot;: [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    &quot;failed&quot;: [
+      6,
+      7
+    ]
+  },
+  &quot;page_results&quot;: [
+    {
+      &quot;page_id&quot;: 8,
+      &quot;batch_id&quot;: 13,
+      &quot;ocr_text_path&quot;: &quot;/some/path/output.txt&quot;,
+      &quot;ocr_xml_path&quot;: &quot;/some/path/output.xml&quot;,
+      &quot;juxta_change_index&quot;: null,
+      &quot;alt_change_index&quot;: null,
+      &quot;noisiness_idx&quot;: null
+    }
+  ],
+  &quot;postproc_results&quot;: [
+    {
+      &quot;page_id&quot;: 9,
+      &quot;batch_job_id&quot;: 14,
+      &quot;pp_ecorr&quot;: 0.0,
+      &quot;pp_juxta&quot;: 0.0,
+      &quot;pp_retas&quot;: 0.0,
+      &quot;pp_health&quot;: 0.0,
+      &quot;pp_stats&quot;: 0.0
+    }
+  ]
+}
+200
+{
+  &quot;page_results&quot;: {
+    &quot;imported&quot;: 1
+  },
+  &quot;postproc_results&quot;: {
+    &quot;imported&quot;: 1
+  }
+}</pre>
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>job_queues </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be a Hash
+
+
+    </td>
+
+  </tr>
+
+    <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>job_queues[completed] </strong><br>
+      <small>
+        required
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      
+<p>Array of Job Queue IDs that completed</p>
+
+        <br>
+        Value: Must be an array of any type
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>job_queues[failed] </strong><br>
+      <small>
+        required
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      
+<p>Array of Job Queue IDs that failed</p>
+
+        <br>
+        Value: Must be an array of any type
+
+
+    </td>
+
+  </tr>
+
+  
+
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>page_results </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Page results</p>
+
+        <br>
+        Value: Must be an Array of nested elements
+
+
+    </td>
+
+  </tr>
+
+    <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>page_results[page_id] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be Integer.
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>page_results[batch_id] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be Integer.
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>page_results[ocr_text_path] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>page_results[ocr_xml_path] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>page_results[juxta_change_index] </strong><br>
+      <small>
+        optional
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be Float.
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>page_results[alt_change_index] </strong><br>
+      <small>
+        optional
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be Float.
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>page_results[noisiness_idx] </strong><br>
+      <small>
+        optional
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be Float.
+
+
+    </td>
+
+  </tr>
+
+  
+
+  <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>postproc_results </strong><br>
+      <small>
+        optional
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Post process results</p>
+
+        <br>
+        Value: Must be an Array of nested elements
+
+
+    </td>
+
+  </tr>
+
+    <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>postproc_results[page_id] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be Integer.
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>postproc_results[batch_job_id] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be Integer.
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>postproc_results[pp_ecorr] </strong><br>
+      <small>
+        optional
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be Float.
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>postproc_results[pp_stats] </strong><br>
+      <small>
+        optional
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be Float.
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>postproc_results[pp_juxta] </strong><br>
+      <small>
+        optional
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be Float.
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>postproc_results[pp_retas] </strong><br>
+      <small>
+        optional
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be Float.
+
+
+    </td>
+
+  </tr>
+
+  
+  <tr style='background-color:rgb(250,250,250);'>
+    <td>
+      <strong>postproc_results[pp_health] </strong><br>
+      <small>
+        optional
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be Float.
+
+
+    </td>
+
+  </tr>
+
+  
+
+
+            </tbody>
+          </table>
       </div>
   </div>
 
@@ -374,12 +833,13 @@
 200
 {
   &quot;total&quot;: 2,
+  &quot;subtotal&quot;: 2,
   &quot;page&quot;: 1,
   &quot;per_page&quot;: 2,
   &quot;total_pages&quot;: 1,
   &quot;results&quot;: [
     {
-      &quot;id&quot;: 1,
+      &quot;id&quot;: 8,
       &quot;tries&quot;: 0,
       &quot;results&quot;: &quot;Foo&quot;,
       &quot;status&quot;: {
@@ -387,7 +847,7 @@
         &quot;name&quot;: &quot;Not Started&quot;
       },
       &quot;batch_job&quot;: {
-        &quot;id&quot;: 6,
+        &quot;id&quot;: 15,
         &quot;name&quot;: &quot;OCR Test&quot;,
         &quot;parameters&quot;: &quot;&quot;,
         &quot;notes&quot;: &quot;test&quot;,
@@ -400,7 +860,7 @@
           &quot;name&quot;: &quot;Tesseract&quot;
         },
         &quot;font&quot;: {
-          &quot;id&quot;: 6,
+          &quot;id&quot;: 15,
           &quot;font_name&quot;: &quot;baskerville&quot;,
           &quot;font_italic&quot;: null,
           &quot;font_bold&quot;: null,
@@ -412,11 +872,11 @@
         }
       },
       &quot;page&quot;: {
-        &quot;id&quot;: 1,
+        &quot;id&quot;: 10,
         &quot;pg_ref_number&quot;: 1,
         &quot;pg_ground_truth_file&quot;: null,
         &quot;work&quot;: {
-          &quot;id&quot;: 1,
+          &quot;id&quot;: 17,
           &quot;wks_tcp_number&quot;: null,
           &quot;wks_estc_number&quot;: &quot;T137595&quot;,
           &quot;wks_tcp_bibno&quot;: null,
@@ -445,7 +905,7 @@
         &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
       },
       &quot;work&quot;: {
-        &quot;id&quot;: 2,
+        &quot;id&quot;: 18,
         &quot;wks_tcp_number&quot;: null,
         &quot;wks_estc_number&quot;: &quot;T137595&quot;,
         &quot;wks_tcp_bibno&quot;: null,
@@ -473,7 +933,7 @@
       &quot;proc_id&quot;: null
     },
     {
-      &quot;id&quot;: 2,
+      &quot;id&quot;: 9,
       &quot;tries&quot;: 0,
       &quot;results&quot;: &quot;Foo&quot;,
       &quot;status&quot;: {
@@ -481,7 +941,7 @@
         &quot;name&quot;: &quot;Not Started&quot;
       },
       &quot;batch_job&quot;: {
-        &quot;id&quot;: 7,
+        &quot;id&quot;: 16,
         &quot;name&quot;: &quot;OCR Test&quot;,
         &quot;parameters&quot;: &quot;&quot;,
         &quot;notes&quot;: &quot;test&quot;,
@@ -494,7 +954,7 @@
           &quot;name&quot;: &quot;Tesseract&quot;
         },
         &quot;font&quot;: {
-          &quot;id&quot;: 7,
+          &quot;id&quot;: 16,
           &quot;font_name&quot;: &quot;baskerville&quot;,
           &quot;font_italic&quot;: null,
           &quot;font_bold&quot;: null,
@@ -506,11 +966,11 @@
         }
       },
       &quot;page&quot;: {
-        &quot;id&quot;: 2,
+        &quot;id&quot;: 11,
         &quot;pg_ref_number&quot;: 1,
         &quot;pg_ground_truth_file&quot;: null,
         &quot;work&quot;: {
-          &quot;id&quot;: 3,
+          &quot;id&quot;: 19,
           &quot;wks_tcp_number&quot;: null,
           &quot;wks_estc_number&quot;: &quot;T137595&quot;,
           &quot;wks_tcp_bibno&quot;: null,
@@ -539,7 +999,7 @@
         &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
       },
       &quot;work&quot;: {
-        &quot;id&quot;: 4,
+        &quot;id&quot;: 20,
         &quot;wks_tcp_number&quot;: null,
         &quot;wks_estc_number&quot;: &quot;T137595&quot;,
         &quot;wks_tcp_bibno&quot;: null,
@@ -634,7 +1094,7 @@
 <p>Job status ID</p>
 
         <br>
-        Value: Must match regular expression /^[0-9]+$/.
+        Value: Must be Integer.
 
 
     </td>
@@ -672,11 +1132,11 @@
       <div>
         
           <h2>Examples</h2>
-            <pre>GET /api/job_queues/8
+            <pre>GET /api/job_queues/15
 200
 {
   &quot;job_queue&quot;: {
-    &quot;id&quot;: 8,
+    &quot;id&quot;: 15,
     &quot;tries&quot;: 0,
     &quot;results&quot;: &quot;Foo&quot;,
     &quot;status&quot;: {
@@ -684,7 +1144,7 @@
       &quot;name&quot;: &quot;Not Started&quot;
     },
     &quot;batch_job&quot;: {
-      &quot;id&quot;: 13,
+      &quot;id&quot;: 22,
       &quot;name&quot;: &quot;OCR Test&quot;,
       &quot;parameters&quot;: &quot;&quot;,
       &quot;notes&quot;: &quot;test&quot;,
@@ -697,7 +1157,7 @@
         &quot;name&quot;: &quot;Tesseract&quot;
       },
       &quot;font&quot;: {
-        &quot;id&quot;: 13,
+        &quot;id&quot;: 22,
         &quot;font_name&quot;: &quot;baskerville&quot;,
         &quot;font_italic&quot;: null,
         &quot;font_bold&quot;: null,
@@ -709,11 +1169,11 @@
       }
     },
     &quot;page&quot;: {
-      &quot;id&quot;: 8,
+      &quot;id&quot;: 17,
       &quot;pg_ref_number&quot;: 1,
       &quot;pg_ground_truth_file&quot;: null,
       &quot;work&quot;: {
-        &quot;id&quot;: 15,
+        &quot;id&quot;: 31,
         &quot;wks_tcp_number&quot;: null,
         &quot;wks_estc_number&quot;: &quot;T137595&quot;,
         &quot;wks_tcp_bibno&quot;: null,
@@ -742,7 +1202,7 @@
       &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
     },
     &quot;work&quot;: {
-      &quot;id&quot;: 16,
+      &quot;id&quot;: 32,
       &quot;wks_tcp_number&quot;: null,
       &quot;wks_estc_number&quot;: &quot;T137595&quot;,
       &quot;wks_tcp_bibno&quot;: null,
@@ -794,7 +1254,7 @@
 <p>Job queue ID</p>
 
         <br>
-        Value: Must match regular expression /^[0-9]+$/.
+        Value: Must be Integer.
 
 
     </td>
@@ -863,7 +1323,7 @@
 <p>Job status ID</p>
 
         <br>
-        Value: Must match regular expression /^[0-9]+$/.
+        Value: Must be Integer.
 
 
     </td>
@@ -902,7 +1362,11 @@
         
           <h2>Examples</h2>
             <pre>PUT /api/job_queues/reserve
-job_queue[num_pages]=2
+{
+  &quot;job_queue&quot;: {
+    &quot;num_pages&quot;: 2
+  }
+}
 200
 {
   &quot;requested&quot;: 2,
@@ -910,7 +1374,7 @@ job_queue[num_pages]=2
   &quot;proc_id&quot;: &quot;20141109000000000&quot;,
   &quot;results&quot;: [
     {
-      &quot;id&quot;: 16,
+      &quot;id&quot;: 23,
       &quot;tries&quot;: 0,
       &quot;results&quot;: &quot;Foo&quot;,
       &quot;status&quot;: {
@@ -918,7 +1382,7 @@ job_queue[num_pages]=2
         &quot;name&quot;: &quot;Not Started&quot;
       },
       &quot;batch_job&quot;: {
-        &quot;id&quot;: 21,
+        &quot;id&quot;: 30,
         &quot;name&quot;: &quot;OCR Test&quot;,
         &quot;parameters&quot;: &quot;&quot;,
         &quot;notes&quot;: &quot;test&quot;,
@@ -931,7 +1395,7 @@ job_queue[num_pages]=2
           &quot;name&quot;: &quot;Tesseract&quot;
         },
         &quot;font&quot;: {
-          &quot;id&quot;: 21,
+          &quot;id&quot;: 30,
           &quot;font_name&quot;: &quot;baskerville&quot;,
           &quot;font_italic&quot;: null,
           &quot;font_bold&quot;: null,
@@ -943,11 +1407,11 @@ job_queue[num_pages]=2
         }
       },
       &quot;page&quot;: {
-        &quot;id&quot;: 16,
+        &quot;id&quot;: 25,
         &quot;pg_ref_number&quot;: 1,
         &quot;pg_ground_truth_file&quot;: null,
         &quot;work&quot;: {
-          &quot;id&quot;: 31,
+          &quot;id&quot;: 47,
           &quot;wks_tcp_number&quot;: null,
           &quot;wks_estc_number&quot;: &quot;T137595&quot;,
           &quot;wks_tcp_bibno&quot;: null,
@@ -976,7 +1440,7 @@ job_queue[num_pages]=2
         &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
       },
       &quot;work&quot;: {
-        &quot;id&quot;: 32,
+        &quot;id&quot;: 48,
         &quot;wks_tcp_number&quot;: null,
         &quot;wks_estc_number&quot;: &quot;T137595&quot;,
         &quot;wks_tcp_bibno&quot;: null,
@@ -1004,7 +1468,7 @@ job_queue[num_pages]=2
       &quot;proc_id&quot;: null
     },
     {
-      &quot;id&quot;: 17,
+      &quot;id&quot;: 24,
       &quot;tries&quot;: 0,
       &quot;results&quot;: &quot;Foo&quot;,
       &quot;status&quot;: {
@@ -1012,7 +1476,7 @@ job_queue[num_pages]=2
         &quot;name&quot;: &quot;Not Started&quot;
       },
       &quot;batch_job&quot;: {
-        &quot;id&quot;: 22,
+        &quot;id&quot;: 31,
         &quot;name&quot;: &quot;OCR Test&quot;,
         &quot;parameters&quot;: &quot;&quot;,
         &quot;notes&quot;: &quot;test&quot;,
@@ -1025,7 +1489,7 @@ job_queue[num_pages]=2
           &quot;name&quot;: &quot;Tesseract&quot;
         },
         &quot;font&quot;: {
-          &quot;id&quot;: 22,
+          &quot;id&quot;: 31,
           &quot;font_name&quot;: &quot;baskerville&quot;,
           &quot;font_italic&quot;: null,
           &quot;font_bold&quot;: null,
@@ -1037,11 +1501,11 @@ job_queue[num_pages]=2
         }
       },
       &quot;page&quot;: {
-        &quot;id&quot;: 17,
+        &quot;id&quot;: 26,
         &quot;pg_ref_number&quot;: 1,
         &quot;pg_ground_truth_file&quot;: null,
         &quot;work&quot;: {
-          &quot;id&quot;: 33,
+          &quot;id&quot;: 49,
           &quot;wks_tcp_number&quot;: null,
           &quot;wks_estc_number&quot;: &quot;T137595&quot;,
           &quot;wks_tcp_bibno&quot;: null,
@@ -1070,7 +1534,7 @@ job_queue[num_pages]=2
         &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
       },
       &quot;work&quot;: {
-        &quot;id&quot;: 34,
+        &quot;id&quot;: 50,
         &quot;wks_tcp_number&quot;: null,
         &quot;wks_estc_number&quot;: &quot;T137595&quot;,
         &quot;wks_tcp_bibno&quot;: null,
@@ -1141,7 +1605,7 @@ job_queue[num_pages]=2
 <p>Number of pages to reserve</p>
 
         <br>
-        Value: Must match regular expression /^[0-9]+$/.
+        Value: Must be Integer.
 
 
     </td>
@@ -1201,6 +1665,7 @@ job_queue[num_pages]=2
 200
 {
   &quot;total&quot;: 7,
+  &quot;subtotal&quot;: 7,
   &quot;page&quot;: 1,
   &quot;per_page&quot;: 7,
   &quot;total_pages&quot;: 1,
@@ -1329,7 +1794,7 @@ job_queue[num_pages]=2
 <p>Status ID</p>
 
         <br>
-        Value: Must match regular expression /^[0-9]+$/.
+        Value: Must be Integer.
 
 
     </td>

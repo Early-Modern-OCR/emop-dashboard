@@ -70,12 +70,13 @@
 200
 {
   &quot;total&quot;: 2,
+  &quot;subtotal&quot;: 2,
   &quot;page&quot;: 1,
   &quot;per_page&quot;: 2,
   &quot;total_pages&quot;: 1,
   &quot;results&quot;: [
     {
-      &quot;id&quot;: 1,
+      &quot;id&quot;: 8,
       &quot;tries&quot;: 0,
       &quot;results&quot;: &quot;Foo&quot;,
       &quot;status&quot;: {
@@ -83,7 +84,7 @@
         &quot;name&quot;: &quot;Not Started&quot;
       },
       &quot;batch_job&quot;: {
-        &quot;id&quot;: 6,
+        &quot;id&quot;: 15,
         &quot;name&quot;: &quot;OCR Test&quot;,
         &quot;parameters&quot;: &quot;&quot;,
         &quot;notes&quot;: &quot;test&quot;,
@@ -96,7 +97,7 @@
           &quot;name&quot;: &quot;Tesseract&quot;
         },
         &quot;font&quot;: {
-          &quot;id&quot;: 6,
+          &quot;id&quot;: 15,
           &quot;font_name&quot;: &quot;baskerville&quot;,
           &quot;font_italic&quot;: null,
           &quot;font_bold&quot;: null,
@@ -108,11 +109,11 @@
         }
       },
       &quot;page&quot;: {
-        &quot;id&quot;: 1,
+        &quot;id&quot;: 10,
         &quot;pg_ref_number&quot;: 1,
         &quot;pg_ground_truth_file&quot;: null,
         &quot;work&quot;: {
-          &quot;id&quot;: 1,
+          &quot;id&quot;: 17,
           &quot;wks_tcp_number&quot;: null,
           &quot;wks_estc_number&quot;: &quot;T137595&quot;,
           &quot;wks_tcp_bibno&quot;: null,
@@ -141,7 +142,7 @@
         &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
       },
       &quot;work&quot;: {
-        &quot;id&quot;: 2,
+        &quot;id&quot;: 18,
         &quot;wks_tcp_number&quot;: null,
         &quot;wks_estc_number&quot;: &quot;T137595&quot;,
         &quot;wks_tcp_bibno&quot;: null,
@@ -169,7 +170,7 @@
       &quot;proc_id&quot;: null
     },
     {
-      &quot;id&quot;: 2,
+      &quot;id&quot;: 9,
       &quot;tries&quot;: 0,
       &quot;results&quot;: &quot;Foo&quot;,
       &quot;status&quot;: {
@@ -177,7 +178,7 @@
         &quot;name&quot;: &quot;Not Started&quot;
       },
       &quot;batch_job&quot;: {
-        &quot;id&quot;: 7,
+        &quot;id&quot;: 16,
         &quot;name&quot;: &quot;OCR Test&quot;,
         &quot;parameters&quot;: &quot;&quot;,
         &quot;notes&quot;: &quot;test&quot;,
@@ -190,7 +191,7 @@
           &quot;name&quot;: &quot;Tesseract&quot;
         },
         &quot;font&quot;: {
-          &quot;id&quot;: 7,
+          &quot;id&quot;: 16,
           &quot;font_name&quot;: &quot;baskerville&quot;,
           &quot;font_italic&quot;: null,
           &quot;font_bold&quot;: null,
@@ -202,11 +203,11 @@
         }
       },
       &quot;page&quot;: {
-        &quot;id&quot;: 2,
+        &quot;id&quot;: 11,
         &quot;pg_ref_number&quot;: 1,
         &quot;pg_ground_truth_file&quot;: null,
         &quot;work&quot;: {
-          &quot;id&quot;: 3,
+          &quot;id&quot;: 19,
           &quot;wks_tcp_number&quot;: null,
           &quot;wks_estc_number&quot;: &quot;T137595&quot;,
           &quot;wks_tcp_bibno&quot;: null,
@@ -235,7 +236,7 @@
         &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
       },
       &quot;work&quot;: {
-        &quot;id&quot;: 4,
+        &quot;id&quot;: 20,
         &quot;wks_tcp_number&quot;: null,
         &quot;wks_estc_number&quot;: &quot;T137595&quot;,
         &quot;wks_tcp_bibno&quot;: null,
@@ -329,7 +330,7 @@
 <p>Job status ID</p>
 
         <br>
-        Value: Must match regular expression /^[0-9]+$/.
+        Value: Must be Integer.
 
 
     </td>
@@ -367,11 +368,11 @@
 
 
   <h3>Examples</h3>
-    <pre class="prettyprint">GET /api/job_queues/8
+    <pre class="prettyprint">GET /api/job_queues/15
 200
 {
   &quot;job_queue&quot;: {
-    &quot;id&quot;: 8,
+    &quot;id&quot;: 15,
     &quot;tries&quot;: 0,
     &quot;results&quot;: &quot;Foo&quot;,
     &quot;status&quot;: {
@@ -379,7 +380,7 @@
       &quot;name&quot;: &quot;Not Started&quot;
     },
     &quot;batch_job&quot;: {
-      &quot;id&quot;: 13,
+      &quot;id&quot;: 22,
       &quot;name&quot;: &quot;OCR Test&quot;,
       &quot;parameters&quot;: &quot;&quot;,
       &quot;notes&quot;: &quot;test&quot;,
@@ -392,7 +393,7 @@
         &quot;name&quot;: &quot;Tesseract&quot;
       },
       &quot;font&quot;: {
-        &quot;id&quot;: 13,
+        &quot;id&quot;: 22,
         &quot;font_name&quot;: &quot;baskerville&quot;,
         &quot;font_italic&quot;: null,
         &quot;font_bold&quot;: null,
@@ -404,11 +405,11 @@
       }
     },
     &quot;page&quot;: {
-      &quot;id&quot;: 8,
+      &quot;id&quot;: 17,
       &quot;pg_ref_number&quot;: 1,
       &quot;pg_ground_truth_file&quot;: null,
       &quot;work&quot;: {
-        &quot;id&quot;: 15,
+        &quot;id&quot;: 31,
         &quot;wks_tcp_number&quot;: null,
         &quot;wks_estc_number&quot;: &quot;T137595&quot;,
         &quot;wks_tcp_bibno&quot;: null,
@@ -437,7 +438,7 @@
       &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
     },
     &quot;work&quot;: {
-      &quot;id&quot;: 16,
+      &quot;id&quot;: 32,
       &quot;wks_tcp_number&quot;: null,
       &quot;wks_estc_number&quot;: &quot;T137595&quot;,
       &quot;wks_tcp_bibno&quot;: null,
@@ -488,7 +489,7 @@
 <p>Job queue ID</p>
 
         <br>
-        Value: Must match regular expression /^[0-9]+$/.
+        Value: Must be Integer.
 
 
     </td>
@@ -556,7 +557,7 @@
 <p>Job status ID</p>
 
         <br>
-        Value: Must match regular expression /^[0-9]+$/.
+        Value: Must be Integer.
 
 
     </td>
@@ -595,7 +596,11 @@
 
   <h3>Examples</h3>
     <pre class="prettyprint">PUT /api/job_queues/reserve
-job_queue[num_pages]=2
+{
+  &quot;job_queue&quot;: {
+    &quot;num_pages&quot;: 2
+  }
+}
 200
 {
   &quot;requested&quot;: 2,
@@ -603,7 +608,7 @@ job_queue[num_pages]=2
   &quot;proc_id&quot;: &quot;20141109000000000&quot;,
   &quot;results&quot;: [
     {
-      &quot;id&quot;: 16,
+      &quot;id&quot;: 23,
       &quot;tries&quot;: 0,
       &quot;results&quot;: &quot;Foo&quot;,
       &quot;status&quot;: {
@@ -611,7 +616,7 @@ job_queue[num_pages]=2
         &quot;name&quot;: &quot;Not Started&quot;
       },
       &quot;batch_job&quot;: {
-        &quot;id&quot;: 21,
+        &quot;id&quot;: 30,
         &quot;name&quot;: &quot;OCR Test&quot;,
         &quot;parameters&quot;: &quot;&quot;,
         &quot;notes&quot;: &quot;test&quot;,
@@ -624,7 +629,7 @@ job_queue[num_pages]=2
           &quot;name&quot;: &quot;Tesseract&quot;
         },
         &quot;font&quot;: {
-          &quot;id&quot;: 21,
+          &quot;id&quot;: 30,
           &quot;font_name&quot;: &quot;baskerville&quot;,
           &quot;font_italic&quot;: null,
           &quot;font_bold&quot;: null,
@@ -636,11 +641,11 @@ job_queue[num_pages]=2
         }
       },
       &quot;page&quot;: {
-        &quot;id&quot;: 16,
+        &quot;id&quot;: 25,
         &quot;pg_ref_number&quot;: 1,
         &quot;pg_ground_truth_file&quot;: null,
         &quot;work&quot;: {
-          &quot;id&quot;: 31,
+          &quot;id&quot;: 47,
           &quot;wks_tcp_number&quot;: null,
           &quot;wks_estc_number&quot;: &quot;T137595&quot;,
           &quot;wks_tcp_bibno&quot;: null,
@@ -669,7 +674,7 @@ job_queue[num_pages]=2
         &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
       },
       &quot;work&quot;: {
-        &quot;id&quot;: 32,
+        &quot;id&quot;: 48,
         &quot;wks_tcp_number&quot;: null,
         &quot;wks_estc_number&quot;: &quot;T137595&quot;,
         &quot;wks_tcp_bibno&quot;: null,
@@ -697,7 +702,7 @@ job_queue[num_pages]=2
       &quot;proc_id&quot;: null
     },
     {
-      &quot;id&quot;: 17,
+      &quot;id&quot;: 24,
       &quot;tries&quot;: 0,
       &quot;results&quot;: &quot;Foo&quot;,
       &quot;status&quot;: {
@@ -705,7 +710,7 @@ job_queue[num_pages]=2
         &quot;name&quot;: &quot;Not Started&quot;
       },
       &quot;batch_job&quot;: {
-        &quot;id&quot;: 22,
+        &quot;id&quot;: 31,
         &quot;name&quot;: &quot;OCR Test&quot;,
         &quot;parameters&quot;: &quot;&quot;,
         &quot;notes&quot;: &quot;test&quot;,
@@ -718,7 +723,7 @@ job_queue[num_pages]=2
           &quot;name&quot;: &quot;Tesseract&quot;
         },
         &quot;font&quot;: {
-          &quot;id&quot;: 22,
+          &quot;id&quot;: 31,
           &quot;font_name&quot;: &quot;baskerville&quot;,
           &quot;font_italic&quot;: null,
           &quot;font_bold&quot;: null,
@@ -730,11 +735,11 @@ job_queue[num_pages]=2
         }
       },
       &quot;page&quot;: {
-        &quot;id&quot;: 17,
+        &quot;id&quot;: 26,
         &quot;pg_ref_number&quot;: 1,
         &quot;pg_ground_truth_file&quot;: null,
         &quot;work&quot;: {
-          &quot;id&quot;: 33,
+          &quot;id&quot;: 49,
           &quot;wks_tcp_number&quot;: null,
           &quot;wks_estc_number&quot;: &quot;T137595&quot;,
           &quot;wks_tcp_bibno&quot;: null,
@@ -763,7 +768,7 @@ job_queue[num_pages]=2
         &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
       },
       &quot;work&quot;: {
-        &quot;id&quot;: 34,
+        &quot;id&quot;: 50,
         &quot;wks_tcp_number&quot;: null,
         &quot;wks_estc_number&quot;: &quot;T137595&quot;,
         &quot;wks_tcp_bibno&quot;: null,
@@ -833,7 +838,7 @@ job_queue[num_pages]=2
 <p>Number of pages to reserve</p>
 
         <br>
-        Value: Must match regular expression /^[0-9]+$/.
+        Value: Must be Integer.
 
 
     </td>

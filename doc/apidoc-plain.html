@@ -3,6 +3,7 @@
       <li><a href='#batch_jobs-index'>index</a></li>
       <li><a href='#batch_jobs-show'>show</a></li>
       <li><a href='#batch_jobs-count'>count</a></li>
+      <li><a href='#batch_jobs-upload_results'>upload_results</a></li>
   </ul>
   <h4><a href='#job_queues'>Job queues</a></h4>
   <ul>
@@ -52,6 +53,7 @@
 200
 {
   &quot;total&quot;: 2,
+  &quot;subtotal&quot;: 2,
   &quot;page&quot;: 1,
   &quot;per_page&quot;: 2,
   &quot;total_pages&quot;: 1,
@@ -194,7 +196,7 @@
       <small>
         required
         
-          [ Must match regular expression /^[0-9]+$/. ]
+          [ Must be Integer. ]
       </small>
       
 <p>Batch job ID</p>
@@ -229,6 +231,281 @@
   }
 }</pre>
 
+
+      </div>
+      <hr/>
+
+      <h3 id="batch_jobs-upload_results">
+      <a href='#batch_jobs'>Batch jobs</a> / <a href='#batch_jobs-upload_results'>upload_results</a>
+      </h3>
+
+      <div>
+          <h4>
+              PUT /api/batch_jobs/upload_results
+            <br>
+            <small>Upload batch job results</small>
+          </h4>
+      </div>
+
+      <div>
+        
+          <h4>Examples</h4>
+            <pre class="wiki">PUT /api/batch_jobs/upload_results
+{
+  &quot;job_queues&quot;: {
+    &quot;completed&quot;: [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    &quot;failed&quot;: [
+      6,
+      7
+    ]
+  },
+  &quot;page_results&quot;: [
+    {
+      &quot;page_id&quot;: 8,
+      &quot;batch_id&quot;: 13,
+      &quot;ocr_text_path&quot;: &quot;/some/path/output.txt&quot;,
+      &quot;ocr_xml_path&quot;: &quot;/some/path/output.xml&quot;,
+      &quot;juxta_change_index&quot;: null,
+      &quot;alt_change_index&quot;: null,
+      &quot;noisiness_idx&quot;: null
+    }
+  ],
+  &quot;postproc_results&quot;: [
+    {
+      &quot;page_id&quot;: 9,
+      &quot;batch_job_id&quot;: 14,
+      &quot;pp_ecorr&quot;: 0.0,
+      &quot;pp_juxta&quot;: 0.0,
+      &quot;pp_retas&quot;: 0.0,
+      &quot;pp_health&quot;: 0.0,
+      &quot;pp_stats&quot;: 0.0
+    }
+  ]
+}
+200
+{
+  &quot;page_results&quot;: {
+    &quot;imported&quot;: 1
+  },
+  &quot;postproc_results&quot;: {
+    &quot;imported&quot;: 1
+  }
+}</pre>
+
+
+          <h4>Params</h4>
+          <ul>
+    <li>
+      <strong>job_queues </strong>:
+      <small>
+        required
+        
+          [ Must be a Hash ]
+      </small>
+      
+    </li>
+    <ul>
+    <li>
+      <strong>completed </strong>:
+      <small>
+        required
+        , nil allowed
+          [ Must be an array of any type ]
+      </small>
+      
+<p>Array of Job Queue IDs that completed</p>
+
+    </li>
+    
+    <li>
+      <strong>failed </strong>:
+      <small>
+        required
+        , nil allowed
+          [ Must be an array of any type ]
+      </small>
+      
+<p>Array of Job Queue IDs that failed</p>
+
+    </li>
+    
+</ul>
+
+    <li>
+      <strong>page_results </strong>:
+      <small>
+        optional
+        
+          [ Must be an Array of nested elements ]
+      </small>
+      
+<p>Page results</p>
+
+    </li>
+    <ul>
+    <li>
+      <strong>page_id </strong>:
+      <small>
+        required
+        
+          [ Must be Integer. ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>batch_id </strong>:
+      <small>
+        required
+        
+          [ Must be Integer. ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>ocr_text_path </strong>:
+      <small>
+        required
+        
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>ocr_xml_path </strong>:
+      <small>
+        required
+        
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>juxta_change_index </strong>:
+      <small>
+        optional
+        , nil allowed
+          [ Must be Float. ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>alt_change_index </strong>:
+      <small>
+        optional
+        , nil allowed
+          [ Must be Float. ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>noisiness_idx </strong>:
+      <small>
+        optional
+        , nil allowed
+          [ Must be Float. ]
+      </small>
+      
+    </li>
+    
+</ul>
+
+    <li>
+      <strong>postproc_results </strong>:
+      <small>
+        optional
+        
+          [ Must be an Array of nested elements ]
+      </small>
+      
+<p>Post process results</p>
+
+    </li>
+    <ul>
+    <li>
+      <strong>page_id </strong>:
+      <small>
+        required
+        
+          [ Must be Integer. ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>batch_job_id </strong>:
+      <small>
+        required
+        
+          [ Must be Integer. ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>pp_ecorr </strong>:
+      <small>
+        optional
+        , nil allowed
+          [ Must be Float. ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>pp_stats </strong>:
+      <small>
+        optional
+        , nil allowed
+          [ Must be Float. ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>pp_juxta </strong>:
+      <small>
+        optional
+        , nil allowed
+          [ Must be Float. ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>pp_retas </strong>:
+      <small>
+        optional
+        , nil allowed
+          [ Must be Float. ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>pp_health </strong>:
+      <small>
+        optional
+        , nil allowed
+          [ Must be Float. ]
+      </small>
+      
+    </li>
+    
+</ul>
+
+</ul>
 
       </div>
   </div>
@@ -266,12 +543,13 @@
 200
 {
   &quot;total&quot;: 2,
+  &quot;subtotal&quot;: 2,
   &quot;page&quot;: 1,
   &quot;per_page&quot;: 2,
   &quot;total_pages&quot;: 1,
   &quot;results&quot;: [
     {
-      &quot;id&quot;: 1,
+      &quot;id&quot;: 8,
       &quot;tries&quot;: 0,
       &quot;results&quot;: &quot;Foo&quot;,
       &quot;status&quot;: {
@@ -279,7 +557,7 @@
         &quot;name&quot;: &quot;Not Started&quot;
       },
       &quot;batch_job&quot;: {
-        &quot;id&quot;: 6,
+        &quot;id&quot;: 15,
         &quot;name&quot;: &quot;OCR Test&quot;,
         &quot;parameters&quot;: &quot;&quot;,
         &quot;notes&quot;: &quot;test&quot;,
@@ -292,7 +570,7 @@
           &quot;name&quot;: &quot;Tesseract&quot;
         },
         &quot;font&quot;: {
-          &quot;id&quot;: 6,
+          &quot;id&quot;: 15,
           &quot;font_name&quot;: &quot;baskerville&quot;,
           &quot;font_italic&quot;: null,
           &quot;font_bold&quot;: null,
@@ -304,11 +582,11 @@
         }
       },
       &quot;page&quot;: {
-        &quot;id&quot;: 1,
+        &quot;id&quot;: 10,
         &quot;pg_ref_number&quot;: 1,
         &quot;pg_ground_truth_file&quot;: null,
         &quot;work&quot;: {
-          &quot;id&quot;: 1,
+          &quot;id&quot;: 17,
           &quot;wks_tcp_number&quot;: null,
           &quot;wks_estc_number&quot;: &quot;T137595&quot;,
           &quot;wks_tcp_bibno&quot;: null,
@@ -337,7 +615,7 @@
         &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
       },
       &quot;work&quot;: {
-        &quot;id&quot;: 2,
+        &quot;id&quot;: 18,
         &quot;wks_tcp_number&quot;: null,
         &quot;wks_estc_number&quot;: &quot;T137595&quot;,
         &quot;wks_tcp_bibno&quot;: null,
@@ -365,7 +643,7 @@
       &quot;proc_id&quot;: null
     },
     {
-      &quot;id&quot;: 2,
+      &quot;id&quot;: 9,
       &quot;tries&quot;: 0,
       &quot;results&quot;: &quot;Foo&quot;,
       &quot;status&quot;: {
@@ -373,7 +651,7 @@
         &quot;name&quot;: &quot;Not Started&quot;
       },
       &quot;batch_job&quot;: {
-        &quot;id&quot;: 7,
+        &quot;id&quot;: 16,
         &quot;name&quot;: &quot;OCR Test&quot;,
         &quot;parameters&quot;: &quot;&quot;,
         &quot;notes&quot;: &quot;test&quot;,
@@ -386,7 +664,7 @@
           &quot;name&quot;: &quot;Tesseract&quot;
         },
         &quot;font&quot;: {
-          &quot;id&quot;: 7,
+          &quot;id&quot;: 16,
           &quot;font_name&quot;: &quot;baskerville&quot;,
           &quot;font_italic&quot;: null,
           &quot;font_bold&quot;: null,
@@ -398,11 +676,11 @@
         }
       },
       &quot;page&quot;: {
-        &quot;id&quot;: 2,
+        &quot;id&quot;: 11,
         &quot;pg_ref_number&quot;: 1,
         &quot;pg_ground_truth_file&quot;: null,
         &quot;work&quot;: {
-          &quot;id&quot;: 3,
+          &quot;id&quot;: 19,
           &quot;wks_tcp_number&quot;: null,
           &quot;wks_estc_number&quot;: &quot;T137595&quot;,
           &quot;wks_tcp_bibno&quot;: null,
@@ -431,7 +709,7 @@
         &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
       },
       &quot;work&quot;: {
-        &quot;id&quot;: 4,
+        &quot;id&quot;: 20,
         &quot;wks_tcp_number&quot;: null,
         &quot;wks_estc_number&quot;: &quot;T137595&quot;,
         &quot;wks_tcp_bibno&quot;: null,
@@ -493,7 +771,7 @@
       <small>
         optional
         
-          [ Must match regular expression /^[0-9]+$/. ]
+          [ Must be Integer. ]
       </small>
       
 <p>Job status ID</p>
@@ -520,11 +798,11 @@
       <div>
         
           <h4>Examples</h4>
-            <pre class="wiki">GET /api/job_queues/8
+            <pre class="wiki">GET /api/job_queues/15
 200
 {
   &quot;job_queue&quot;: {
-    &quot;id&quot;: 8,
+    &quot;id&quot;: 15,
     &quot;tries&quot;: 0,
     &quot;results&quot;: &quot;Foo&quot;,
     &quot;status&quot;: {
@@ -532,7 +810,7 @@
       &quot;name&quot;: &quot;Not Started&quot;
     },
     &quot;batch_job&quot;: {
-      &quot;id&quot;: 13,
+      &quot;id&quot;: 22,
       &quot;name&quot;: &quot;OCR Test&quot;,
       &quot;parameters&quot;: &quot;&quot;,
       &quot;notes&quot;: &quot;test&quot;,
@@ -545,7 +823,7 @@
         &quot;name&quot;: &quot;Tesseract&quot;
       },
       &quot;font&quot;: {
-        &quot;id&quot;: 13,
+        &quot;id&quot;: 22,
         &quot;font_name&quot;: &quot;baskerville&quot;,
         &quot;font_italic&quot;: null,
         &quot;font_bold&quot;: null,
@@ -557,11 +835,11 @@
       }
     },
     &quot;page&quot;: {
-      &quot;id&quot;: 8,
+      &quot;id&quot;: 17,
       &quot;pg_ref_number&quot;: 1,
       &quot;pg_ground_truth_file&quot;: null,
       &quot;work&quot;: {
-        &quot;id&quot;: 15,
+        &quot;id&quot;: 31,
         &quot;wks_tcp_number&quot;: null,
         &quot;wks_estc_number&quot;: &quot;T137595&quot;,
         &quot;wks_tcp_bibno&quot;: null,
@@ -590,7 +868,7 @@
       &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
     },
     &quot;work&quot;: {
-      &quot;id&quot;: 16,
+      &quot;id&quot;: 32,
       &quot;wks_tcp_number&quot;: null,
       &quot;wks_estc_number&quot;: &quot;T137595&quot;,
       &quot;wks_tcp_bibno&quot;: null,
@@ -627,7 +905,7 @@
       <small>
         required
         
-          [ Must match regular expression /^[0-9]+$/. ]
+          [ Must be Integer. ]
       </small>
       
 <p>Job queue ID</p>
@@ -670,7 +948,7 @@
       <small>
         optional
         
-          [ Must match regular expression /^[0-9]+$/. ]
+          [ Must be Integer. ]
       </small>
       
 <p>Job status ID</p>
@@ -698,7 +976,11 @@
         
           <h4>Examples</h4>
             <pre class="wiki">PUT /api/job_queues/reserve
-job_queue[num_pages]=2
+{
+  &quot;job_queue&quot;: {
+    &quot;num_pages&quot;: 2
+  }
+}
 200
 {
   &quot;requested&quot;: 2,
@@ -706,7 +988,7 @@ job_queue[num_pages]=2
   &quot;proc_id&quot;: &quot;20141109000000000&quot;,
   &quot;results&quot;: [
     {
-      &quot;id&quot;: 16,
+      &quot;id&quot;: 23,
       &quot;tries&quot;: 0,
       &quot;results&quot;: &quot;Foo&quot;,
       &quot;status&quot;: {
@@ -714,7 +996,7 @@ job_queue[num_pages]=2
         &quot;name&quot;: &quot;Not Started&quot;
       },
       &quot;batch_job&quot;: {
-        &quot;id&quot;: 21,
+        &quot;id&quot;: 30,
         &quot;name&quot;: &quot;OCR Test&quot;,
         &quot;parameters&quot;: &quot;&quot;,
         &quot;notes&quot;: &quot;test&quot;,
@@ -727,7 +1009,7 @@ job_queue[num_pages]=2
           &quot;name&quot;: &quot;Tesseract&quot;
         },
         &quot;font&quot;: {
-          &quot;id&quot;: 21,
+          &quot;id&quot;: 30,
           &quot;font_name&quot;: &quot;baskerville&quot;,
           &quot;font_italic&quot;: null,
           &quot;font_bold&quot;: null,
@@ -739,11 +1021,11 @@ job_queue[num_pages]=2
         }
       },
       &quot;page&quot;: {
-        &quot;id&quot;: 16,
+        &quot;id&quot;: 25,
         &quot;pg_ref_number&quot;: 1,
         &quot;pg_ground_truth_file&quot;: null,
         &quot;work&quot;: {
-          &quot;id&quot;: 31,
+          &quot;id&quot;: 47,
           &quot;wks_tcp_number&quot;: null,
           &quot;wks_estc_number&quot;: &quot;T137595&quot;,
           &quot;wks_tcp_bibno&quot;: null,
@@ -772,7 +1054,7 @@ job_queue[num_pages]=2
         &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
       },
       &quot;work&quot;: {
-        &quot;id&quot;: 32,
+        &quot;id&quot;: 48,
         &quot;wks_tcp_number&quot;: null,
         &quot;wks_estc_number&quot;: &quot;T137595&quot;,
         &quot;wks_tcp_bibno&quot;: null,
@@ -800,7 +1082,7 @@ job_queue[num_pages]=2
       &quot;proc_id&quot;: null
     },
     {
-      &quot;id&quot;: 17,
+      &quot;id&quot;: 24,
       &quot;tries&quot;: 0,
       &quot;results&quot;: &quot;Foo&quot;,
       &quot;status&quot;: {
@@ -808,7 +1090,7 @@ job_queue[num_pages]=2
         &quot;name&quot;: &quot;Not Started&quot;
       },
       &quot;batch_job&quot;: {
-        &quot;id&quot;: 22,
+        &quot;id&quot;: 31,
         &quot;name&quot;: &quot;OCR Test&quot;,
         &quot;parameters&quot;: &quot;&quot;,
         &quot;notes&quot;: &quot;test&quot;,
@@ -821,7 +1103,7 @@ job_queue[num_pages]=2
           &quot;name&quot;: &quot;Tesseract&quot;
         },
         &quot;font&quot;: {
-          &quot;id&quot;: 22,
+          &quot;id&quot;: 31,
           &quot;font_name&quot;: &quot;baskerville&quot;,
           &quot;font_italic&quot;: null,
           &quot;font_bold&quot;: null,
@@ -833,11 +1115,11 @@ job_queue[num_pages]=2
         }
       },
       &quot;page&quot;: {
-        &quot;id&quot;: 17,
+        &quot;id&quot;: 26,
         &quot;pg_ref_number&quot;: 1,
         &quot;pg_ground_truth_file&quot;: null,
         &quot;work&quot;: {
-          &quot;id&quot;: 33,
+          &quot;id&quot;: 49,
           &quot;wks_tcp_number&quot;: null,
           &quot;wks_estc_number&quot;: &quot;T137595&quot;,
           &quot;wks_tcp_bibno&quot;: null,
@@ -866,7 +1148,7 @@ job_queue[num_pages]=2
         &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
       },
       &quot;work&quot;: {
-        &quot;id&quot;: 34,
+        &quot;id&quot;: 50,
         &quot;wks_tcp_number&quot;: null,
         &quot;wks_estc_number&quot;: &quot;T137595&quot;,
         &quot;wks_tcp_bibno&quot;: null,
@@ -914,7 +1196,7 @@ job_queue[num_pages]=2
       <small>
         required
         
-          [ Must match regular expression /^[0-9]+$/. ]
+          [ Must be Integer. ]
       </small>
       
 <p>Number of pages to reserve</p>
@@ -961,6 +1243,7 @@ job_queue[num_pages]=2
 200
 {
   &quot;total&quot;: 7,
+  &quot;subtotal&quot;: 7,
   &quot;page&quot;: 1,
   &quot;per_page&quot;: 7,
   &quot;total_pages&quot;: 1,
@@ -1048,7 +1331,7 @@ job_queue[num_pages]=2
       <small>
         required
         
-          [ Must match regular expression /^[0-9]+$/. ]
+          [ Must be Integer. ]
       </small>
       
 <p>Status ID</p>
