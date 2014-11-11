@@ -4,19 +4,19 @@ module Api
 
       api :GET, '/job_queues', 'List job queues'
       param_group :pagination, V1::BaseController
-      param :job_status_id, /^[0-9]+$/, desc: 'Job status ID'
+      param :job_status_id, Integer, desc: 'Job status ID'
       def index
         super
       end
 
       api :GET, '/job_queues/:id', 'Show a job queue'
-      param :id, /^[0-9]+$/, desc: "Job queue ID", required: true
+      param :id, Integer, desc: "Job queue ID", required: true
       def show
         super
       end
 
       api :GET, '/job_queues/count', 'Count of job queues'
-      param :job_status_id, /^[0-9]+$/, desc: 'Job status ID'
+      param :job_status_id, Integer, desc: 'Job status ID'
       def count
         @count = JobQueue.where(query_params).count
         respond_with @count
@@ -24,7 +24,7 @@ module Api
 
       api :PUT, '/job_queues/reserve', 'Reserve job queues'
       param :job_queue, Hash, required: true do
-        param :num_pages, /^[0-9]+$/, desc: 'Number of pages to reserve', required: true
+        param :num_pages, Integer, desc: 'Number of pages to reserve', required: true
       end
       def reserve
         @num_pages = params['job_queue']['num_pages'].to_i

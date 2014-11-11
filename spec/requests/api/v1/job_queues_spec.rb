@@ -5,6 +5,7 @@ RSpec.describe "JobQueues", :type => :request do
     {
       'Accept' => 'application/emop; version=1',
       'Authorization' => "Token token=#{User.first.auth_token}",
+      'Content-Type' => 'application/json',
     }
   end
 
@@ -114,7 +115,7 @@ RSpec.describe "JobQueues", :type => :request do
       @time_now = Time.parse("Nov 09 2014")
       allow(Time).to receive(:now).and_return(@time_now)
 
-      put '/api/job_queues/reserve', {job_queue: {num_pages: 2}}, api_headers
+      put '/api/job_queues/reserve', {job_queue: {num_pages: 2}}.to_json, api_headers
 
       expect(response).to be_success
       expect(json['requested']).to eq(2)

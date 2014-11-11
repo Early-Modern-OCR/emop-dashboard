@@ -29,6 +29,7 @@
       "request_data": null,
       "response_data": {
         "total": 2,
+        "subtotal": 2,
         "page": 1,
         "per_page": 2,
         "total_pages": 1,
@@ -131,6 +132,64 @@
       "recorded": true
     }
   ],
+  "batch_jobs#upload_results": [
+    {
+      "verb": "PUT",
+      "path": "/api/batch_jobs/upload_results",
+      "versions": [
+        "v1"
+      ],
+      "query": null,
+      "request_data": {
+        "job_queues": {
+          "completed": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "failed": [
+            6,
+            7
+          ]
+        },
+        "page_results": [
+          {
+            "page_id": 9,
+            "batch_id": 14,
+            "ocr_text_path": "/some/path/output.txt",
+            "ocr_xml_path": "/some/path/output.xml",
+            "juxta_change_index": null,
+            "alt_change_index": null,
+            "noisiness_idx": null
+          }
+        ],
+        "postproc_results": [
+          {
+            "page_id": 10,
+            "batch_job_id": 15,
+            "pp_ecorr": 0.0,
+            "pp_juxta": 0.0,
+            "pp_retas": 0.0,
+            "pp_health": 0.0,
+            "pp_stats": 0.0
+          }
+        ]
+      },
+      "response_data": {
+        "page_results": {
+          "imported": 1
+        },
+        "postproc_results": {
+          "imported": 1
+        }
+      },
+      "code": 200,
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
   "job_queues#count": [
     {
       "verb": "GET",
@@ -161,12 +220,13 @@
       "request_data": null,
       "response_data": {
         "total": 2,
+        "subtotal": 2,
         "page": 1,
         "per_page": 2,
         "total_pages": 1,
         "results": [
           {
-            "id": 1,
+            "id": 8,
             "tries": 0,
             "results": "Foo",
             "status": {
@@ -174,7 +234,7 @@
               "name": "Not Started"
             },
             "batch_job": {
-              "id": 6,
+              "id": 16,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
@@ -187,7 +247,7 @@
                 "name": "Tesseract"
               },
               "font": {
-                "id": 6,
+                "id": 16,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -199,11 +259,11 @@
               }
             },
             "page": {
-              "id": 1,
+              "id": 11,
               "pg_ref_number": 1,
               "pg_ground_truth_file": null,
               "work": {
-                "id": 1,
+                "id": 18,
                 "wks_tcp_number": null,
                 "wks_estc_number": "T137595",
                 "wks_tcp_bibno": null,
@@ -232,7 +292,7 @@
               "pg_image_path": "/data/ecco/somepath"
             },
             "work": {
-              "id": 2,
+              "id": 19,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_tcp_bibno": null,
@@ -260,7 +320,7 @@
             "proc_id": null
           },
           {
-            "id": 2,
+            "id": 9,
             "tries": 0,
             "results": "Foo",
             "status": {
@@ -268,7 +328,7 @@
               "name": "Not Started"
             },
             "batch_job": {
-              "id": 7,
+              "id": 17,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
@@ -281,7 +341,7 @@
                 "name": "Tesseract"
               },
               "font": {
-                "id": 7,
+                "id": 17,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -293,11 +353,11 @@
               }
             },
             "page": {
-              "id": 2,
+              "id": 12,
               "pg_ref_number": 1,
               "pg_ground_truth_file": null,
               "work": {
-                "id": 3,
+                "id": 20,
                 "wks_tcp_number": null,
                 "wks_estc_number": "T137595",
                 "wks_tcp_bibno": null,
@@ -326,7 +386,7 @@
               "pg_image_path": "/data/ecco/somepath"
             },
             "work": {
-              "id": 4,
+              "id": 21,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_tcp_bibno": null,
@@ -369,12 +429,13 @@
       "request_data": null,
       "response_data": {
         "total": 2,
+        "subtotal": 2,
         "page": 1,
         "per_page": 2,
         "total_pages": 1,
         "results": [
           {
-            "id": 3,
+            "id": 10,
             "tries": 0,
             "results": "Foo",
             "status": {
@@ -382,7 +443,7 @@
               "name": "Not Started"
             },
             "batch_job": {
-              "id": 8,
+              "id": 18,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
@@ -395,7 +456,7 @@
                 "name": "Tesseract"
               },
               "font": {
-                "id": 8,
+                "id": 18,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -407,11 +468,11 @@
               }
             },
             "page": {
-              "id": 3,
+              "id": 13,
               "pg_ref_number": 1,
               "pg_ground_truth_file": null,
               "work": {
-                "id": 5,
+                "id": 22,
                 "wks_tcp_number": null,
                 "wks_estc_number": "T137595",
                 "wks_tcp_bibno": null,
@@ -440,7 +501,7 @@
               "pg_image_path": "/data/ecco/somepath"
             },
             "work": {
-              "id": 6,
+              "id": 23,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_tcp_bibno": null,
@@ -468,7 +529,7 @@
             "proc_id": null
           },
           {
-            "id": 4,
+            "id": 11,
             "tries": 0,
             "results": "Foo",
             "status": {
@@ -476,7 +537,7 @@
               "name": "Not Started"
             },
             "batch_job": {
-              "id": 9,
+              "id": 19,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
@@ -489,7 +550,7 @@
                 "name": "Tesseract"
               },
               "font": {
-                "id": 9,
+                "id": 19,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -501,11 +562,11 @@
               }
             },
             "page": {
-              "id": 4,
+              "id": 14,
               "pg_ref_number": 1,
               "pg_ground_truth_file": null,
               "work": {
-                "id": 7,
+                "id": 24,
                 "wks_tcp_number": null,
                 "wks_estc_number": "T137595",
                 "wks_tcp_bibno": null,
@@ -534,7 +595,7 @@
               "pg_image_path": "/data/ecco/somepath"
             },
             "work": {
-              "id": 8,
+              "id": 25,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_tcp_bibno": null,
@@ -576,14 +637,18 @@
         "v1"
       ],
       "query": null,
-      "request_data": "job_queue[num_pages]=2",
+      "request_data": {
+        "job_queue": {
+          "num_pages": 2
+        }
+      },
       "response_data": {
         "requested": 2,
         "reserved": 2,
         "proc_id": "20141109000000000",
         "results": [
           {
-            "id": 16,
+            "id": 23,
             "tries": 0,
             "results": "Foo",
             "status": {
@@ -591,7 +656,7 @@
               "name": "Not Started"
             },
             "batch_job": {
-              "id": 21,
+              "id": 31,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
@@ -604,7 +669,7 @@
                 "name": "Tesseract"
               },
               "font": {
-                "id": 21,
+                "id": 31,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -616,11 +681,11 @@
               }
             },
             "page": {
-              "id": 16,
+              "id": 26,
               "pg_ref_number": 1,
               "pg_ground_truth_file": null,
               "work": {
-                "id": 31,
+                "id": 48,
                 "wks_tcp_number": null,
                 "wks_estc_number": "T137595",
                 "wks_tcp_bibno": null,
@@ -649,7 +714,7 @@
               "pg_image_path": "/data/ecco/somepath"
             },
             "work": {
-              "id": 32,
+              "id": 49,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_tcp_bibno": null,
@@ -677,7 +742,7 @@
             "proc_id": null
           },
           {
-            "id": 17,
+            "id": 24,
             "tries": 0,
             "results": "Foo",
             "status": {
@@ -685,7 +750,7 @@
               "name": "Not Started"
             },
             "batch_job": {
-              "id": 22,
+              "id": 32,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
@@ -698,7 +763,7 @@
                 "name": "Tesseract"
               },
               "font": {
-                "id": 22,
+                "id": 32,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -710,11 +775,11 @@
               }
             },
             "page": {
-              "id": 17,
+              "id": 27,
               "pg_ref_number": 1,
               "pg_ground_truth_file": null,
               "work": {
-                "id": 33,
+                "id": 50,
                 "wks_tcp_number": null,
                 "wks_estc_number": "T137595",
                 "wks_tcp_bibno": null,
@@ -743,7 +808,7 @@
               "pg_image_path": "/data/ecco/somepath"
             },
             "work": {
-              "id": 34,
+              "id": 51,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_tcp_bibno": null,
@@ -780,7 +845,7 @@
   "job_queues#show": [
     {
       "verb": "GET",
-      "path": "/api/job_queues/8",
+      "path": "/api/job_queues/15",
       "versions": [
         "v1"
       ],
@@ -788,7 +853,7 @@
       "request_data": null,
       "response_data": {
         "job_queue": {
-          "id": 8,
+          "id": 15,
           "tries": 0,
           "results": "Foo",
           "status": {
@@ -796,7 +861,7 @@
             "name": "Not Started"
           },
           "batch_job": {
-            "id": 13,
+            "id": 23,
             "name": "OCR Test",
             "parameters": "",
             "notes": "test",
@@ -809,7 +874,7 @@
               "name": "Tesseract"
             },
             "font": {
-              "id": 13,
+              "id": 23,
               "font_name": "baskerville",
               "font_italic": null,
               "font_bold": null,
@@ -821,11 +886,11 @@
             }
           },
           "page": {
-            "id": 8,
+            "id": 18,
             "pg_ref_number": 1,
             "pg_ground_truth_file": null,
             "work": {
-              "id": 15,
+              "id": 32,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_tcp_bibno": null,
@@ -854,7 +919,7 @@
             "pg_image_path": "/data/ecco/somepath"
           },
           "work": {
-            "id": 16,
+            "id": 33,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_tcp_bibno": null,
@@ -898,6 +963,7 @@
       "request_data": null,
       "response_data": {
         "total": 7,
+        "subtotal": 7,
         "page": 1,
         "per_page": 7,
         "total_pages": 1,

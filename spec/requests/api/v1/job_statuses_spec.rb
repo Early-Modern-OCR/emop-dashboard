@@ -5,6 +5,7 @@ RSpec.describe "JobStatuses", :type => :request do
     {
       'Accept' => 'application/emop; version=1',
       'Authorization' => "Token token=#{User.first.auth_token}",
+      'Content-Type' => 'application/json',
     }
   end
 

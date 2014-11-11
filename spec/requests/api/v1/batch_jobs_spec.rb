@@ -5,6 +5,7 @@ RSpec.describe Api::V1::BatchJobsController, :type => :request do
     {
       'Accept' => 'application/emop; version=1',
       'Authorization' => "Token token=#{User.first.auth_token}",
+      'Content-Type' => 'application/json',
     }
   end
 
@@ -66,6 +67,32 @@ RSpec.describe Api::V1::BatchJobsController, :type => :request do
 
       expect(response).to be_success
       expect(json['batch_job']['count']).to eq(2)
+    end
+  end
+
+  describe "PUT /api/batch_jobs/upload_results" do
+    it 'uploads page and postproc page results', :show_in_doc do
+      @completed_job_queues = create_list(:job_queue, 5, status: JobStatus.processing)
+      @failed_job_queues = create_list(:job_queue, 2, status: JobStatus.processing)
+
+      data = {
+        job_queues: {
+          completed: @completed_job_queues.collect{|j| j.id},
+          failed: @failed_job_queues.collect{|j| j.id},
+        },
+        page_results: [
+          build_attributes(:page_result),
+        ],
+        postproc_results: [
+          build_attributes(:postproc_page),
+        ]
+      }
+
+      put '/api/batch_jobs/upload_results', data.to_json, api_headers
+
+      expect(response).to be_success
+      expect(json['page_results']['imported']).to eq(1)
+      expect(json['postproc_results']['imported']).to eq(1)
     end
   end
 end

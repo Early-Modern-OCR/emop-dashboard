@@ -1,3 +1,15 @@
+def create_attributes(*args)
+  FactoryGirl.create(*args).attributes.delete_if do |k, v|
+    ["id", "created_at", "updated_at", "ocr_completed", nil].member?(k)
+  end
+end
+
+def build_attributes(*args)
+  FactoryGirl.build(*args).attributes.delete_if do |k, v|
+    ["id", "created_at", "updated_at", "ocr_completed", nil].member?(k)
+  end
+end
+
 FactoryGirl.define do
   factory :ocr_engine do
     name "Tesseract"
@@ -77,7 +89,26 @@ FactoryGirl.define do
     batch_job { FactoryGirl.build(:batch_job) }
     ocr_text_path '/some/path/output.txt'
     ocr_xml_path  '/some/path/output.xml'
-    ocr_completed '2014-11-09 00:00:00'
+
+    after(:build) do |p|
+      p.page = create(:page)
+      p.batch_job = create(:batch_job)
+    end
+  end
+
+  factory :postproc_page do
+    page { FactoryGirl.build(:page) }
+    batch_job { FactoryGirl.build(:batch_job) }
+    pp_ecorr 0.0
+    pp_juxta 0.0
+    pp_retas 0.0
+    pp_health 0.0
+    pp_stats 0.0
+
+    after(:build) do |p|
+      p.page = create(:page)
+      p.batch_job = create(:batch_job)
+    end
   end
 
   factory :user do

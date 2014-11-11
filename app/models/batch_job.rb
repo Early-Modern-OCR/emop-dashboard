@@ -5,6 +5,7 @@ class BatchJob < ActiveRecord::Base
   belongs_to :ocr_engine
   belongs_to :job_type
   has_many :job_queues, foreign_key: 'batch_id'
+  has_many :page_results, foreign_key: 'batch_id'
   has_many :postproc_pages
   has_many :postprocesses, through: :postproc_pages
   has_many :work_ocr_results

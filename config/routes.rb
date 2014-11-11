@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     api_version(module: "V1", defaults: {format: :json}, header: {name: "Accept", value: "application/emop; version=1"}, default: true) do
       resources :batch_jobs, only: [:index,:show] do
         get 'count', on: :collection
+        put 'upload_results', on: :collection
       end
       resources :job_queues, only: [:index,:show] do
         get 'count', on: :collection

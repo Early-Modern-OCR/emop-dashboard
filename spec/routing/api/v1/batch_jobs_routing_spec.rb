@@ -14,6 +14,10 @@ RSpec.describe Api::V1::BatchJobsController, :type => :routing do
     it "routes to #count" do
       expect(:get => "/api/batch_jobs/count").to route_to(controller: "api/v1/batch_jobs", action: "count", format: :json)
     end
+
+    it "routes to #upload_results" do
+      expect(:put => "/api/batch_jobs/upload_results").to route_to(controller: "api/v1/batch_jobs", action: "upload_results", format: :json)
+    end
 =begin
     it "routes to #new" do
       skip "Not yet used"

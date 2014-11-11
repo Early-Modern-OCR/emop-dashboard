@@ -9,7 +9,7 @@ module Api
       end
 
       api :GET, '/job_statuses/:id', 'Show a job status'
-      param :id, /^[0-9]+$/, desc: 'Status ID', required: true
+      param :id, Integer, desc: 'Status ID', required: true
       def show
         super
       end
