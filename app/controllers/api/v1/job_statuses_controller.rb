@@ -16,10 +16,6 @@ module Api
 
       private
 
-      def job_status_params
-        params.require(:job_status).permit()
-      end
-
       def query_params
         params.permit(:id, :name)
       end

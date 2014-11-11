@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141110030226) do
+ActiveRecord::Schema.define(version: 20141111212951) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -119,7 +119,7 @@ ActiveRecord::Schema.define(version: 20141110030226) do
 
   add_index "pages", ["pg_work_id"], name: "index_pages_on_pg_work_id", using: :btree
 
-  create_table "postproc_pages", id: false, force: true do |t|
+  create_table "postproc_pages", force: true do |t|
     t.integer "page_id"
     t.integer "batch_job_id"
     t.float   "pp_ecorr",     limit: 24

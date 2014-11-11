@@ -27,7 +27,7 @@ module Api
         param :num_pages, Integer, desc: 'Number of pages to reserve', required: true
       end
       def reserve
-        @num_pages = params['job_queue']['num_pages'].to_i
+        @num_pages = job_queue_params[:num_pages].to_i
         @job_queues = JobQueue.unreserved.limit(@num_pages)
         @proc_id = JobQueue.generate_proc_id
 

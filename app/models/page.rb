@@ -7,18 +7,6 @@ class Page < ActiveRecord::Base
   has_many :postproc_pages
   has_many :postprocesses, through: :postproc_pages
 
-  # TODO: Appears unused
-  def get_latest_result( ocr_engine )
-    pages = PageResult.where(:page_id => self.id).order("ocr_completed desc")
-    pages.each do |page|
-       res_ocr = page.get_ocr_engine
-       if res_ocr == ocr_engine
-          return page
-       end
-    end
-    return  nil
-  end
-
   def to_builder(version = 'v1')
     case version
     when 'v1'
