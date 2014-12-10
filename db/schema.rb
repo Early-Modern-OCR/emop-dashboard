@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141111212951) do
+ActiveRecord::Schema.define(version: 20141210211219) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -103,7 +103,6 @@ ActiveRecord::Schema.define(version: 20141111212951) do
     t.datetime "ocr_completed"
     t.float    "juxta_change_index", limit: 24
     t.float    "alt_change_index",   limit: 24
-    t.float    "noisiness_idx",      limit: 24
   end
 
   add_index "page_results", ["batch_id"], name: "index_page_results_on_batch_id", using: :btree
@@ -122,12 +121,17 @@ ActiveRecord::Schema.define(version: 20141111212951) do
   create_table "postproc_pages", force: true do |t|
     t.integer "page_id"
     t.integer "batch_job_id"
-    t.float   "pp_ecorr",     limit: 24
-    t.float   "pp_juxta",     limit: 24
-    t.float   "pp_retas",     limit: 24
-    t.float   "pp_health",    limit: 24
-    t.float   "pp_stats",     limit: 24
+    t.float   "pp_ecorr",      limit: 24
+    t.float   "pp_juxta",      limit: 24
+    t.float   "pp_retas",      limit: 24
+    t.float   "pp_health",     limit: 24
+    t.float   "pp_stats",      limit: 24
+    t.float   "noisiness_idx", limit: 24
+    t.string  "multicol"
+    t.string  "skew_idx"
   end
+
+  add_index "postproc_pages", ["page_id", "batch_job_id"], name: "index_postproc_pages_on_page_id_and_batch_job_id", unique: true, using: :btree
 
   create_table "print_fonts", primary_key: "pf_id", force: true do |t|
     t.string "pf_name"

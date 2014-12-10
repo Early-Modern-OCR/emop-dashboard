@@ -11,7 +11,8 @@ class PostprocPage < ActiveRecord::Base
     case version
     when 'v1'
       Jbuilder.new do |json|
-        json.(self, :pp_ecorr, :pp_juxta, :pp_retas, :pp_health, :pp_stats)
+        json.(self, :pp_ecorr, :pp_juxta, :pp_retas, :pp_health, :pp_stats, :noisiness_idx)
+        json.(self, :multicol, :skew_idx)
         json.page       page.to_builder
         json.batch_job  batch_job.to_builder
       end
