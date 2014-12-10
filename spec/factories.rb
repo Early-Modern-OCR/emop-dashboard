@@ -104,6 +104,9 @@ FactoryGirl.define do
     pp_retas 0.0
     pp_health 0.0
     pp_stats 0.0
+    noisiness_idx 0.0
+    multicol '0;1;2'
+    skew_idx '1;0;1'
 
     after(:build) do |p|
       p.page = create(:page)

@@ -32,7 +32,6 @@ module Api
         param :ocr_xml_path, String, required: true
         param :juxta_change_index, Float, allow_nil:  true
         param :alt_change_index, Float, allow_nil:  true
-        param :noisiness_idx, Float, allow_nil:  true
       end
       param :postproc_results, Array, desc: 'Post process results', required: false do
         param :page_id, Integer, required: true
@@ -42,6 +41,9 @@ module Api
         param :pp_juxta, Float, allow_nil:  true
         param :pp_retas, Float, allow_nil:  true
         param :pp_health, Float, allow_nil:  true
+        param :noisiness_idx, Float, allow_nil:  true
+        param :multicol, String, allow_nil: true
+        param :skew_idx, String, allow_nil: true
       end
       def upload_results
         job_queues = params[:job_queues]
@@ -63,7 +65,7 @@ module Api
         unless page_results.blank?
           pg_results = []
           page_results.each do |page_result|
-            @page_result = PageResult.new(page_result.permit(:page_id, :batch_id, :ocr_text_path, :ocr_xml_path, :juxta_change_index, :alt_change_index, :noisiness_idx))
+            @page_result = PageResult.new(page_result.permit(:page_id, :batch_id, :ocr_text_path, :ocr_xml_path, :juxta_change_index, :alt_change_index))
             @page_result.ocr_completed = Time.now
             pg_results << @page_result
           end
@@ -74,7 +76,7 @@ module Api
         unless postproc_results.blank?
           pp_results = []
           postproc_results.each do |postproc_result|
-            pp_results << PostprocPage.new(postproc_result.permit(:page_id, :batch_job_id, :pp_ecorr, :pp_stats, :pp_juxta, :pp_retas, :pp_health))
+            pp_results << PostprocPage.new(postproc_result.permit(:page_id, :batch_job_id, :pp_ecorr, :pp_stats, :pp_juxta, :pp_retas, :pp_health, :noisiness_idx, :multicol, :skew_idx))
           end
 
           @pp_imports = PostprocPage.import(pp_results)

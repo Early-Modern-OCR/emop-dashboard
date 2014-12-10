@@ -31,7 +31,6 @@ RSpec.describe PageResult, :type => :model do
         'ocr_completed'       => page_result.ocr_completed,
         'juxta_change_index'  => page_result.juxta_change_index,
         'alt_change_index'    => page_result.alt_change_index,
-        'noisiness_idx'       => page_result.noisiness_idx,
         'page'                => include(page_result.page.to_builder.attributes!),
         'batch_job'           => include(page_result.batch_job.to_builder.attributes!),
       )
