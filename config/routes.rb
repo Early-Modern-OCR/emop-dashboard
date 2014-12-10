@@ -16,6 +16,7 @@ Rails.application.routes.draw do
         put 'reserve', on: :collection
       end
       resources :job_statuses, only: [:index,:show]
+      resources :works, only: [:index,:show,:update]
     end
   end
 
