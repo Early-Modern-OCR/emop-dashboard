@@ -19,6 +19,10 @@ FactoryGirl.define do
     name "OCR"
   end
 
+  factory :print_font do
+    pf_name "Test Training Suite-ECCO"
+  end
+
   factory :font do
     font_name         "baskerville"
     font_library_path "/data/shared/fonts/baskerville/emop.traineddata"

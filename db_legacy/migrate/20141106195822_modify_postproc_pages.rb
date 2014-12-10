@@ -3,5 +3,6 @@ class ModifyPostprocPages < ActiveRecord::Migration
     rename_column :postproc_pages, :pp_page_id, :page_id
     rename_column :postproc_pages, :pp_batch_id, :batch_job_id
     add_column :postproc_pages, :id, :primary_key
+    add_column :postproc_pages, :noisiness_idx, :float
   end
 end
