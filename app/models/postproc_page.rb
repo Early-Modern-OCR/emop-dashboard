@@ -6,6 +6,8 @@ class PostprocPage < ActiveRecord::Base
   belongs_to :batch_job
 
   validates :page, uniqueness: { scope: :batch_job }
+  validates :page, presence: true
+  validates :batch_job, presence: true
 
   def to_builder(version = 'v1')
     case version
