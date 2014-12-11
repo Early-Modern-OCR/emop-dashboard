@@ -44,9 +44,14 @@ match the Rail's DB schema so a 1:1 copy can be performed.
 The following SQL commands may need to be executed to remove constraints that prevent the migration from working:
 
 ```
-ALTER TABLE batch_job DROP FOREIGN KEY batch_job_ibfk_1
-ALTER TABLE batch_job DROP FOREIGN KEY batch_job_ibfk_2
-ALTER TABLE batch_job DROP FOREIGN KEY batch_job_ibfk_3
+mysql emop_dev -e 'ALTER TABLE batch_job DROP FOREIGN KEY batch_job_ibfk_1'
+mysql emop_dev -e 'ALTER TABLE batch_job DROP FOREIGN KEY batch_job_ibfk_2'
+mysql emop_dev -e 'ALTER TABLE batch_job DROP FOREIGN KEY batch_job_ibfk_3'
+mysql emop_dev -e 'ALTER TABLE postproc_pages MODIFY pp_page_id INT NOT NULL'
+mysql emop_dev -e 'ALTER TABLE postproc_pages MODIFY pp_batch_id INT NOT NULL'
+mysql emop_dev -e 'ALTER TABLE postproc_pages DROP PRIMARY KEY'
+
+
 ```
 
 Then run the Rails migrations against the legacy database
@@ -60,11 +65,15 @@ The next step assumes all Rails migrations have been applied.
 This copies the data from the legacy database into the Rails database.
 
 ```
+EMOP_DATABASE=emop_dev
+EMOP_DASHBOARD_DATABASE=emop_dashboard
 
 mkdir /tmp/emop
 cd /tmp/emop
-mysqldump --tab=/tmp/emop --skip-extended-insert --compact emop_dev
-for file in chunks/pages_* ; do  echo $file ; mysql emop_dashboard -e "LOAD DATA INFILE '/tmp/emop/$file' INTO TABLE pages"; done
+mysqldump --tab=/tmp/emop --skip-extended-insert --compact ${EMOP_DATABASE}
+mkdir chunks
+split -l 1000000 pages.txt chunks/pages_
+for file in chunks/pages_* ; do  echo $file ; mysql ${EMOP_DASHBOARD_DATABASE} -e "LOAD DATA INFILE '/tmp/emop/$file' INTO TABLE pages"; done
 
 tables=(
 print_fonts
@@ -78,7 +87,7 @@ works
 
 for table in "${tables[@]}"; do
   echo "Importing ${table}"
-  mysqlimport --local emop_dashboard /tmp/emop/${table}.txt
+  mysqlimport --local ${EMOP_DASHBOARD_DATABASE} /tmp/emop/${table}.txt
 done
 ```
 
@@ -97,9 +106,9 @@ works
 )
 
 for table in "${tables[@]}"; do
-  mysql emop_dev -e "SHOW FIELDS FROM ${table}" >> /tmp/emop_dev_tables
-  mysql emop_dashboard -e "SHOW FIELDS FROM ${table}" >> /tmp/emop_dashboard_tables
+  mysql ${EMOP_DATABASE} -e "SHOW FIELDS FROM ${table}" >> /tmp/${EMOP_DATABASE}_tables
+  mysql ${EMOP_DASHBOARD_DATABASE} -e "SHOW FIELDS FROM ${table}" >> /tmp/${EMOP_DASHBOARD_DATABASE}_tables
 done
 
-diff -u /tmp/emop_dev_tables /tmp/emop_dashboard_tables
+diff -u /tmp/${EMOP_DATABASE}_tables /tmp/${EMOP_DASHBOARD_DATABASE}_tables
 ```
