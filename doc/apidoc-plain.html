@@ -17,6 +17,12 @@
       <li><a href='#job_statuses-index'>index</a></li>
       <li><a href='#job_statuses-show'>show</a></li>
   </ul>
+  <h4><a href='#works'>Works</a></h4>
+  <ul>
+      <li><a href='#works-index'>index</a></li>
+      <li><a href='#works-show'>show</a></li>
+      <li><a href='#works-update'>update</a></li>
+  </ul>
 
 
 
@@ -409,16 +415,6 @@
       
     </li>
     
-    <li>
-      <strong>noisiness_idx </strong>:
-      <small>
-        optional
-        , nil allowed
-          [ Must be Float. ]
-      </small>
-      
-    </li>
-    
 </ul>
 
     <li>
@@ -499,6 +495,36 @@
         optional
         , nil allowed
           [ Must be Float. ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>noisiness_idx </strong>:
+      <small>
+        optional
+        , nil allowed
+          [ Must be Float. ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>multicol </strong>:
+      <small>
+        optional
+        , nil allowed
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>skew_idx </strong>:
+      <small>
+        optional
+        , nil allowed
+          [ Must be String ]
       </small>
       
     </li>
@@ -1338,6 +1364,367 @@
 
     </li>
     
+</ul>
+
+      </div>
+  </div>
+
+  <hr/>
+
+  <div>
+    <h2 id="works">
+      <a href='#works'>Works</a><br>
+      <small></small>
+    </h2>
+  </div>
+
+
+  <div>
+
+      <hr/>
+
+      <h3 id="works-index">
+      <a href='#works'>Works</a> / <a href='#works-index'>index</a>
+      </h3>
+
+      <div>
+          <h4>
+              GET /api/works
+            <br>
+            <small>List works</small>
+          </h4>
+      </div>
+
+      <div>
+        
+
+
+          <h4>Params</h4>
+          <ul>
+    <li>
+      <strong>page </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+<p>paginate results</p>
+
+    </li>
+    
+    <li>
+      <strong>page_size </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+<p>number of entries per request</p>
+
+    </li>
+    
+</ul>
+
+      </div>
+      <hr/>
+
+      <h3 id="works-show">
+      <a href='#works'>Works</a> / <a href='#works-show'>show</a>
+      </h3>
+
+      <div>
+          <h4>
+              GET /api/works/:id
+            <br>
+            <small>Show a work</small>
+          </h4>
+      </div>
+
+      <div>
+        
+
+
+          <h4>Params</h4>
+          <ul>
+    <li>
+      <strong>id </strong>:
+      <small>
+        required
+        
+          [ Must be Integer. ]
+      </small>
+      
+<p>Work ID</p>
+
+    </li>
+    
+</ul>
+
+      </div>
+      <hr/>
+
+      <h3 id="works-update">
+      <a href='#works'>Works</a> / <a href='#works-update'>update</a>
+      </h3>
+
+      <div>
+          <h4>
+              PUT /api/works/:id
+            <br>
+            <small>Update a work</small>
+          </h4>
+      </div>
+
+      <div>
+        
+
+
+          <h4>Params</h4>
+          <ul>
+    <li>
+      <strong>work </strong>:
+      <small>
+        required
+        
+          [ Must be a Hash ]
+      </small>
+      
+    </li>
+    <ul>
+    <li>
+      <strong>wks_tcp_number </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_estc_number </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_tcp_bibno </strong>:
+      <small>
+        optional
+        
+          [ Must be Integer. ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_marc_record </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_eebo_citation_id </strong>:
+      <small>
+        optional
+        
+          [ Must be Integer. ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_eebo_directory </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_ecco_number </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_book_id </strong>:
+      <small>
+        optional
+        
+          [ Must be Integer. ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_author </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_publisher </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_word_count </strong>:
+      <small>
+        optional
+        
+          [ Must be Integer. ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_title </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_eebo_image_id </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_eebo_url </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_pub_date </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_ecco_uncorrected_gale_ocr_path </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_ecco_corrected_xml_path </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_ecco_corrected_text_path </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_ecco_directory </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_ecco_gale_ocr_xml_path </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_organizational_unit </strong>:
+      <small>
+        optional
+        
+          [ Must be Integer. ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_primary_print_font </strong>:
+      <small>
+        optional
+        
+          [ Must be Integer. ]
+      </small>
+      
+    </li>
+    
+    <li>
+      <strong>wks_last_trawled </strong>:
+      <small>
+        optional
+        
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+</ul>
+
 </ul>
 
       </div>

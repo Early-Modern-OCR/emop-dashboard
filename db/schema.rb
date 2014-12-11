@@ -83,8 +83,8 @@ ActiveRecord::Schema.define(version: 20141210211219) do
     t.integer  "jx_gt_source_id"
     t.integer  "jx_ocr_source_id"
     t.integer  "jx_set_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
     t.string   "status",            limit: 13, default: "uninitialized"
     t.integer  "jx_gt_witness_id"
     t.integer  "jx_ocr_witness_id"
