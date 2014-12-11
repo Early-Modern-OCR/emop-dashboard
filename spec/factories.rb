@@ -106,7 +106,7 @@ FactoryGirl.define do
     pp_ecorr 0.0
     pp_juxta 0.0
     pp_retas 0.0
-    pp_health 0.0
+    pp_health 'good'
     pp_stats 0.0
     noisiness_idx 0.0
     multicol '0;1;2'

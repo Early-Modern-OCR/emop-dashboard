@@ -40,7 +40,7 @@ module Api
         param :pp_stats, Float, allow_nil:  true
         param :pp_juxta, Float, allow_nil:  true
         param :pp_retas, Float, allow_nil:  true
-        param :pp_health, Float, allow_nil:  true
+        param :pp_health, String, allow_nil:  true
         param :noisiness_idx, Float, allow_nil:  true
         param :multicol, String, allow_nil: true
         param :skew_idx, String, allow_nil: true

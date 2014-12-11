@@ -278,8 +278,7 @@
       &quot;ocr_text_path&quot;: &quot;/some/path/output.txt&quot;,
       &quot;ocr_xml_path&quot;: &quot;/some/path/output.xml&quot;,
       &quot;juxta_change_index&quot;: null,
-      &quot;alt_change_index&quot;: null,
-      &quot;noisiness_idx&quot;: null
+      &quot;alt_change_index&quot;: null
     }
   ],
   &quot;postproc_results&quot;: [
@@ -289,8 +288,11 @@
       &quot;pp_ecorr&quot;: 0.0,
       &quot;pp_juxta&quot;: 0.0,
       &quot;pp_retas&quot;: 0.0,
-      &quot;pp_health&quot;: 0.0,
-      &quot;pp_stats&quot;: 0.0
+      &quot;pp_health&quot;: &quot;good&quot;,
+      &quot;pp_stats&quot;: 0.0,
+      &quot;noisiness_idx&quot;: 0.0,
+      &quot;multicol&quot;: &quot;0;1;2&quot;,
+      &quot;skew_idx&quot;: &quot;1;0;1&quot;
     }
   ]
 }
@@ -494,7 +496,7 @@
       <small>
         optional
         , nil allowed
-          [ Must be Float. ]
+          [ Must be String ]
       </small>
       
     </li>
@@ -1397,6 +1399,70 @@
 
       <div>
         
+          <h4>Examples</h4>
+            <pre class="wiki">GET /api/works
+200
+{
+  &quot;total&quot;: 2,
+  &quot;subtotal&quot;: 2,
+  &quot;page&quot;: 1,
+  &quot;per_page&quot;: 2,
+  &quot;total_pages&quot;: 1,
+  &quot;results&quot;: [
+    {
+      &quot;id&quot;: 53,
+      &quot;wks_tcp_number&quot;: null,
+      &quot;wks_estc_number&quot;: &quot;T137595&quot;,
+      &quot;wks_tcp_bibno&quot;: null,
+      &quot;wks_marc_record&quot;: null,
+      &quot;wks_eebo_citation_id&quot;: null,
+      &quot;wks_eebo_directory&quot;: null,
+      &quot;wks_ecco_number&quot;: &quot;0212100100&quot;,
+      &quot;wks_book_id&quot;: null,
+      &quot;wks_author&quot;: &quot;Baskerville, John&quot;,
+      &quot;wks_publisher&quot;: &quot;Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].&quot;,
+      &quot;wks_word_count&quot;: null,
+      &quot;wks_title&quot;: &quot;A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.&quot;,
+      &quot;wks_eebo_image_id&quot;: null,
+      &quot;wks_eebo_url&quot;: null,
+      &quot;wks_pub_date&quot;: &quot;1765&quot;,
+      &quot;wks_ecco_uncorrected_gale_ocr_path&quot;: null,
+      &quot;wks_ecco_corrected_xml_path&quot;: null,
+      &quot;wks_ecco_corrected_text_path&quot;: null,
+      &quot;wks_ecco_directory&quot;: &quot;/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images&quot;,
+      &quot;wks_ecco_gale_ocr_xml_path&quot;: &quot;/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml&quot;,
+      &quot;wks_organizational_unit&quot;: 265,
+      &quot;wks_primary_print_font&quot;: null,
+      &quot;wks_last_trawled&quot;: &quot;2013-06-30&quot;
+    },
+    {
+      &quot;id&quot;: 54,
+      &quot;wks_tcp_number&quot;: null,
+      &quot;wks_estc_number&quot;: &quot;T137595&quot;,
+      &quot;wks_tcp_bibno&quot;: null,
+      &quot;wks_marc_record&quot;: null,
+      &quot;wks_eebo_citation_id&quot;: null,
+      &quot;wks_eebo_directory&quot;: null,
+      &quot;wks_ecco_number&quot;: &quot;0212100100&quot;,
+      &quot;wks_book_id&quot;: null,
+      &quot;wks_author&quot;: &quot;Baskerville, John&quot;,
+      &quot;wks_publisher&quot;: &quot;Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].&quot;,
+      &quot;wks_word_count&quot;: null,
+      &quot;wks_title&quot;: &quot;A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.&quot;,
+      &quot;wks_eebo_image_id&quot;: null,
+      &quot;wks_eebo_url&quot;: null,
+      &quot;wks_pub_date&quot;: &quot;1765&quot;,
+      &quot;wks_ecco_uncorrected_gale_ocr_path&quot;: null,
+      &quot;wks_ecco_corrected_xml_path&quot;: null,
+      &quot;wks_ecco_corrected_text_path&quot;: null,
+      &quot;wks_ecco_directory&quot;: &quot;/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images&quot;,
+      &quot;wks_ecco_gale_ocr_xml_path&quot;: &quot;/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml&quot;,
+      &quot;wks_organizational_unit&quot;: 265,
+      &quot;wks_primary_print_font&quot;: null,
+      &quot;wks_last_trawled&quot;: &quot;2013-06-30&quot;
+    }
+  ]
+}</pre>
 
 
           <h4>Params</h4>
@@ -1444,6 +1510,37 @@
 
       <div>
         
+          <h4>Examples</h4>
+            <pre class="wiki">GET /api/works/55
+200
+{
+  &quot;work&quot;: {
+    &quot;id&quot;: 55,
+    &quot;wks_tcp_number&quot;: null,
+    &quot;wks_estc_number&quot;: &quot;T137595&quot;,
+    &quot;wks_tcp_bibno&quot;: null,
+    &quot;wks_marc_record&quot;: null,
+    &quot;wks_eebo_citation_id&quot;: null,
+    &quot;wks_eebo_directory&quot;: null,
+    &quot;wks_ecco_number&quot;: &quot;0212100100&quot;,
+    &quot;wks_book_id&quot;: null,
+    &quot;wks_author&quot;: &quot;Baskerville, John&quot;,
+    &quot;wks_publisher&quot;: &quot;Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].&quot;,
+    &quot;wks_word_count&quot;: null,
+    &quot;wks_title&quot;: &quot;A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.&quot;,
+    &quot;wks_eebo_image_id&quot;: null,
+    &quot;wks_eebo_url&quot;: null,
+    &quot;wks_pub_date&quot;: &quot;1765&quot;,
+    &quot;wks_ecco_uncorrected_gale_ocr_path&quot;: null,
+    &quot;wks_ecco_corrected_xml_path&quot;: null,
+    &quot;wks_ecco_corrected_text_path&quot;: null,
+    &quot;wks_ecco_directory&quot;: &quot;/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images&quot;,
+    &quot;wks_ecco_gale_ocr_xml_path&quot;: &quot;/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml&quot;,
+    &quot;wks_organizational_unit&quot;: 265,
+    &quot;wks_primary_print_font&quot;: null,
+    &quot;wks_last_trawled&quot;: &quot;2013-06-30&quot;
+  }
+}</pre>
 
 
           <h4>Params</h4>
@@ -1479,6 +1576,42 @@
 
       <div>
         
+          <h4>Examples</h4>
+            <pre class="wiki">PUT /api/works/56
+{
+  &quot;work&quot;: {
+    &quot;wks_estc_number&quot;: &quot;T0001&quot;
+  }
+}
+200
+{
+  &quot;work&quot;: {
+    &quot;id&quot;: 56,
+    &quot;wks_tcp_number&quot;: null,
+    &quot;wks_estc_number&quot;: &quot;T0001&quot;,
+    &quot;wks_tcp_bibno&quot;: null,
+    &quot;wks_marc_record&quot;: null,
+    &quot;wks_eebo_citation_id&quot;: null,
+    &quot;wks_eebo_directory&quot;: null,
+    &quot;wks_ecco_number&quot;: &quot;0212100100&quot;,
+    &quot;wks_book_id&quot;: null,
+    &quot;wks_author&quot;: &quot;Baskerville, John&quot;,
+    &quot;wks_publisher&quot;: &quot;Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].&quot;,
+    &quot;wks_word_count&quot;: null,
+    &quot;wks_title&quot;: &quot;A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.&quot;,
+    &quot;wks_eebo_image_id&quot;: null,
+    &quot;wks_eebo_url&quot;: null,
+    &quot;wks_pub_date&quot;: &quot;1765&quot;,
+    &quot;wks_ecco_uncorrected_gale_ocr_path&quot;: null,
+    &quot;wks_ecco_corrected_xml_path&quot;: null,
+    &quot;wks_ecco_corrected_text_path&quot;: null,
+    &quot;wks_ecco_directory&quot;: &quot;/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images&quot;,
+    &quot;wks_ecco_gale_ocr_xml_path&quot;: &quot;/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml&quot;,
+    &quot;wks_organizational_unit&quot;: 265,
+    &quot;wks_primary_print_font&quot;: null,
+    &quot;wks_last_trawled&quot;: &quot;2013-06-30&quot;
+  }
+}</pre>
 
 
           <h4>Params</h4>
