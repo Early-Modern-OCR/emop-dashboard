@@ -60,8 +60,14 @@
       5
     ],
     &quot;failed&quot;: [
-      6,
-      7
+      {
+        &quot;id&quot;: 6,
+        &quot;results&quot;: &quot;some error message&quot;
+      },
+      {
+        &quot;id&quot;: 7,
+        &quot;results&quot;: &quot;some error message&quot;
+      }
     ]
   },
   &quot;page_results&quot;: [
@@ -157,10 +163,28 @@
     </td>
     <td>
       
-<p>Array of Job Queue IDs that failed</p>
+<p>Array of Job Queues that failed</p>
 
         <br>
-        Value: Must be an array of any type
+        Value: Must be an Array of nested elements
+
+
+    </td>
+
+  </tr>
+
+    <tr style='background-color:rgb(245,245,245);'>
+    <td>
+      <strong>job_queues[failed][id] </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be Integer.
 
 
     </td>
@@ -168,6 +192,26 @@
   </tr>
 
   
+  <tr style='background-color:rgb(245,245,245);'>
+    <td>
+      <strong>job_queues[failed][results] </strong><br>
+      <small>
+        optional
+        , nil allowed
+      </small>
+    </td>
+    <td>
+      
+        <br>
+        Value: Must be String
+
+
+    </td>
+
+  </tr>
+
+  
+
 
   <tr style='background-color:rgb(255,255,255);'>
     <td>

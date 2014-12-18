@@ -22,8 +22,11 @@ module Api
 
       api :PUT, '/batch_jobs/upload_results', 'Upload batch job results'
       param :job_queues, Hash, required: true do
-        param :completed, Array, desc: 'Array of Job Queue IDs that completed', required: true, allow_nil:  true
-        param :failed, Array, desc: 'Array of Job Queue IDs that failed', required: true, allow_nil:  true
+        param :completed, Array, desc: 'Array of Job Queue IDs that completed', required: true, allow_nil: true
+        param :failed, Array, desc: 'Array of Job Queues that failed', required: true, allow_nil: true do
+          param :id, Integer, required: true
+          param :results, String, required: false, allow_nil: true
+        end
       end
       param :page_results, Array, desc: 'Page results', required: false do
         param :page_id, Integer, required: true
@@ -58,8 +61,10 @@ module Api
         end
 
         unless job_queues[:failed].blank?
-          @failed_job_queues = JobQueue.where("id IN (?)", job_queues[:failed])
-          @failed_job_queues.update_all(job_status_id: JobStatus.failed.id)
+          job_queues[:failed].each do |failed|
+            @failed_job_queue = JobQueue.find(failed[:id])
+            @failed_job_queue.update(job_status_id: JobStatus.failed.id, results: failed[:results])
+          end
         end
 
         unless page_results.blank?

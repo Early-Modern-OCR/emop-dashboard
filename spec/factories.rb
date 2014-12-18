@@ -81,7 +81,6 @@ FactoryGirl.define do
 
   factory :job_queue do
     tries     0
-    results   "Foo"
     batch_job { FactoryGirl.build(:batch_job) }
     status    { JobStatus.first }
     page      { FactoryGirl.build(:page) }

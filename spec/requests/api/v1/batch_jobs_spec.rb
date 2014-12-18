@@ -72,13 +72,13 @@ RSpec.describe Api::V1::BatchJobsController, :type => :request do
 
   describe "PUT /api/batch_jobs/upload_results" do
     it 'uploads page and postproc page results', :show_in_doc do
-      @completed_job_queues = create_list(:job_queue, 5, status: JobStatus.processing)
-      @failed_job_queues = create_list(:job_queue, 2, status: JobStatus.processing)
+      completed_job_queues = create_list(:job_queue, 5, status: JobStatus.processing)
+      failed_job_queues = create_list(:job_queue, 2, status: JobStatus.processing)
 
       data = {
         job_queues: {
-          completed: @completed_job_queues.collect{|j| j.id},
-          failed: @failed_job_queues.collect{|j| j.id},
+          completed: completed_job_queues.collect{|j| j.id},
+          failed: failed_job_queues.collect{|j| { id: j.id, results: "some error message" } },
         },
         page_results: [
           build_attributes(:page_result),
@@ -93,6 +93,15 @@ RSpec.describe Api::V1::BatchJobsController, :type => :request do
       expect(response).to be_success
       expect(json['page_results']['imported']).to eq(1)
       expect(json['postproc_results']['imported']).to eq(1)
+      completed_job_queues.each do |job_queue|
+        @job_queue = JobQueue.find(job_queue.id)
+        expect(@job_queue.status.id).to eq(JobStatus.done.id)
+      end
+      failed_job_queues.each do |job_queue|
+        @job_queue = JobQueue.find(job_queue.id)
+        expect(@job_queue.status.id).to eq(JobStatus.failed.id)
+        expect(@job_queue.results).to eq("some error message")
+      end
     end
   end
 end

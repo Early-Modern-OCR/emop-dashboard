@@ -267,8 +267,14 @@
       5
     ],
     &quot;failed&quot;: [
-      6,
-      7
+      {
+        &quot;id&quot;: 6,
+        &quot;results&quot;: &quot;some error message&quot;
+      },
+      {
+        &quot;id&quot;: 7,
+        &quot;results&quot;: &quot;some error message&quot;
+      }
     ]
   },
   &quot;page_results&quot;: [
@@ -336,13 +342,35 @@
       <small>
         required
         , nil allowed
-          [ Must be an array of any type ]
+          [ Must be an Array of nested elements ]
       </small>
       
-<p>Array of Job Queue IDs that failed</p>
+<p>Array of Job Queues that failed</p>
 
     </li>
+    <ul>
+    <li>
+      <strong>id </strong>:
+      <small>
+        required
+        
+          [ Must be Integer. ]
+      </small>
+      
+    </li>
     
+    <li>
+      <strong>results </strong>:
+      <small>
+        optional
+        , nil allowed
+          [ Must be String ]
+      </small>
+      
+    </li>
+    
+</ul>
+
 </ul>
 
     <li>
@@ -579,7 +607,7 @@
     {
       &quot;id&quot;: 8,
       &quot;tries&quot;: 0,
-      &quot;results&quot;: &quot;Foo&quot;,
+      &quot;results&quot;: null,
       &quot;status&quot;: {
         &quot;id&quot;: 1,
         &quot;name&quot;: &quot;Not Started&quot;
@@ -673,7 +701,7 @@
     {
       &quot;id&quot;: 9,
       &quot;tries&quot;: 0,
-      &quot;results&quot;: &quot;Foo&quot;,
+      &quot;results&quot;: null,
       &quot;status&quot;: {
         &quot;id&quot;: 1,
         &quot;name&quot;: &quot;Not Started&quot;
@@ -832,7 +860,7 @@
   &quot;job_queue&quot;: {
     &quot;id&quot;: 15,
     &quot;tries&quot;: 0,
-    &quot;results&quot;: &quot;Foo&quot;,
+    &quot;results&quot;: null,
     &quot;status&quot;: {
       &quot;id&quot;: 1,
       &quot;name&quot;: &quot;Not Started&quot;
@@ -1018,7 +1046,7 @@
     {
       &quot;id&quot;: 23,
       &quot;tries&quot;: 0,
-      &quot;results&quot;: &quot;Foo&quot;,
+      &quot;results&quot;: null,
       &quot;status&quot;: {
         &quot;id&quot;: 1,
         &quot;name&quot;: &quot;Not Started&quot;
@@ -1112,7 +1140,7 @@
     {
       &quot;id&quot;: 24,
       &quot;tries&quot;: 0,
-      &quot;results&quot;: &quot;Foo&quot;,
+      &quot;results&quot;: null,
       &quot;status&quot;: {
         &quot;id&quot;: 1,
         &quot;name&quot;: &quot;Not Started&quot;

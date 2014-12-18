@@ -150,8 +150,14 @@
             5
           ],
           "failed": [
-            6,
-            7
+            {
+              "id": 6,
+              "results": "some error message"
+            },
+            {
+              "id": 7,
+              "results": "some error message"
+            }
           ]
         },
         "page_results": [
@@ -230,7 +236,7 @@
           {
             "id": 8,
             "tries": 0,
-            "results": "Foo",
+            "results": null,
             "status": {
               "id": 1,
               "name": "Not Started"
@@ -324,7 +330,7 @@
           {
             "id": 9,
             "tries": 0,
-            "results": "Foo",
+            "results": null,
             "status": {
               "id": 1,
               "name": "Not Started"
@@ -439,7 +445,7 @@
           {
             "id": 10,
             "tries": 0,
-            "results": "Foo",
+            "results": null,
             "status": {
               "id": 1,
               "name": "Not Started"
@@ -533,7 +539,7 @@
           {
             "id": 11,
             "tries": 0,
-            "results": "Foo",
+            "results": null,
             "status": {
               "id": 1,
               "name": "Not Started"
@@ -652,7 +658,7 @@
           {
             "id": 23,
             "tries": 0,
-            "results": "Foo",
+            "results": null,
             "status": {
               "id": 1,
               "name": "Not Started"
@@ -746,7 +752,7 @@
           {
             "id": 24,
             "tries": 0,
-            "results": "Foo",
+            "results": null,
             "status": {
               "id": 1,
               "name": "Not Started"
@@ -857,7 +863,7 @@
         "job_queue": {
           "id": 15,
           "tries": 0,
-          "results": "Foo",
+          "results": null,
           "status": {
             "id": 1,
             "name": "Not Started"
