@@ -92,9 +92,7 @@ for file in chunks/pages_* ; do  echo $file ; mysql ${EMOP_DASHBOARD_DATABASE} -
 
 tables=(
 print_fonts
-batch_jobs
 fonts
-job_queues
 works
 )
 
@@ -110,9 +108,7 @@ Below is a method for comparing the database structure to ensure table columns m
 tables=(
 pages
 print_fonts
-batch_jobs
 fonts
-job_queues
 works
 )
 
