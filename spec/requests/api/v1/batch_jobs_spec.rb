@@ -74,6 +74,8 @@ RSpec.describe Api::V1::BatchJobsController, :type => :request do
     it 'uploads page and postproc page results', :show_in_doc do
       completed_job_queues = create_list(:job_queue, 5, status: JobStatus.processing)
       failed_job_queues = create_list(:job_queue, 2, status: JobStatus.processing)
+      page_result = build_attributes(:page_result)
+      postproc_page = build_attributes(:postproc_page)
 
       data = {
         job_queues: {
@@ -81,10 +83,10 @@ RSpec.describe Api::V1::BatchJobsController, :type => :request do
           failed: failed_job_queues.collect{|j| { id: j.id, results: "some error message" } },
         },
         page_results: [
-          build_attributes(:page_result),
+          page_result,
         ],
         postproc_results: [
-          build_attributes(:postproc_page),
+          postproc_page,
         ]
       }
 
@@ -102,6 +104,39 @@ RSpec.describe Api::V1::BatchJobsController, :type => :request do
         expect(@job_queue.status.id).to eq(JobStatus.failed.id)
         expect(@job_queue.results).to eq("some error message")
       end
+      @page_result = PageResult.find_by(page_id: page_result['page_id'], batch_id: page_result['batch_id'])
+      expect(@page_result.ocr_completed).to_not be_nil
+    end
+
+    it 'updates page and postproc page results' do
+      completed_job_queues = create_list(:job_queue, 5, status: JobStatus.processing)
+      failed_job_queues = create_list(:job_queue, 2, status: JobStatus.processing)
+      page_result = create_attributes(:page_result)
+      postproc_page = create_attributes(:postproc_page)
+      page_result['juxta_change_index'] = 0.1
+      postproc_page['pp_stats'] = 0.1
+
+      data = {
+        job_queues: {
+          completed: completed_job_queues.collect{|j| j.id},
+          failed: failed_job_queues.collect{|j| { id: j.id, results: "some error message" } },
+        },
+        page_results: [
+          page_result,
+        ],
+        postproc_results: [
+          postproc_page,
+        ]
+      }
+
+      put '/api/batch_jobs/upload_results', data.to_json, api_headers
+
+      @page_result = PageResult.find_by(page_id: page_result['page_id'], batch_id: page_result['batch_id'])
+      @postproc_page = PostprocPage.find_by(page_id: postproc_page['page_id'], batch_job_id: postproc_page['batch_job_id'])
+
+      expect(response).to be_success
+      expect(@page_result.juxta_change_index).to eq(0.1)
+      expect(@postproc_page.pp_stats).to eq(0.1)
     end
   end
 end

@@ -70,9 +70,15 @@ module Api
         unless page_results.blank?
           pg_results = []
           page_results.each do |page_result|
-            @page_result = PageResult.new(page_result.permit(:page_id, :batch_id, :ocr_text_path, :ocr_xml_path, :juxta_change_index, :alt_change_index))
-            @page_result.ocr_completed = Time.now
-            pg_results << @page_result
+            @page_result = PageResult.where(page_id: page_result[:page_id], batch_id: page_result[:batch_id]).first_or_initialize
+            if @page_result.new_record?
+              @page_result = PageResult.new(page_result.permit(:page_id, :batch_id, :ocr_text_path, :ocr_xml_path, :juxta_change_index, :alt_change_index))
+              @page_result.ocr_completed = Time.now
+              pg_results << @page_result
+            else
+              page_result = page_result.merge({ocr_completed: Time.now})
+              @page_result.update(page_result.permit(:page_id, :batch_id, :ocr_text_path, :ocr_xml_path, :juxta_change_index, :alt_change_index, :ocr_completed))
+            end
           end
 
           @pg_imports = PageResult.import(pg_results)
@@ -81,7 +87,12 @@ module Api
         unless postproc_results.blank?
           pp_results = []
           postproc_results.each do |postproc_result|
-            pp_results << PostprocPage.new(postproc_result.permit(:page_id, :batch_job_id, :pp_ecorr, :pp_stats, :pp_juxta, :pp_retas, :pp_health, :noisiness_idx, :multicol, :skew_idx))
+            @postproc_page = PostprocPage.where(page_id: postproc_result[:page_id], batch_job_id: postproc_result[:batch_job_id]).first_or_initialize
+            if @postproc_page.new_record?
+              pp_results << PostprocPage.new(postproc_result.permit(:page_id, :batch_job_id, :pp_ecorr, :pp_stats, :pp_juxta, :pp_retas, :pp_health, :noisiness_idx, :multicol, :skew_idx))
+            else
+              @postproc_page.update_attributes(postproc_result.permit(:page_id, :batch_job_id, :pp_ecorr, :pp_stats, :pp_juxta, :pp_retas, :pp_health, :noisiness_idx, :multicol, :skew_idx))
+            end
           end
 
           @pp_imports = PostprocPage.import(pp_results)

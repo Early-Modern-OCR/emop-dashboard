@@ -34,6 +34,22 @@ disable the prompt by adding this line to your user rvm file in ~/.rvmrc
 This tells rvm to trust all rvmrc files, which is documented here: 
 http://wayneeseguin.beginrescueend.com/2010/08/22/ruby-environment-version-manager-rvm-1-0-0/
 
+## Development
+
+Running unit tests requires the database be created first.  See `.travis.yml` for examples.
+
+Unit tests:
+
+    bundle exec rake spec
+
+Generating API doc examples from unit tests
+
+    APIPIE_RECORD=examples bundle exec rake spec
+
+Generate static API docs
+
+    bundle exec rake apipie:static
+
 ## Legacy DB migration
 
 This operation is time consuming and is intended to migrate away from using an external database.
@@ -50,7 +66,6 @@ mysql emop_dev -e 'ALTER TABLE batch_job DROP FOREIGN KEY batch_job_ibfk_3'
 mysql emop_dev -e 'ALTER TABLE postproc_pages MODIFY pp_page_id INT NOT NULL'
 mysql emop_dev -e 'ALTER TABLE postproc_pages MODIFY pp_batch_id INT NOT NULL'
 mysql emop_dev -e 'ALTER TABLE postproc_pages DROP PRIMARY KEY'
-
 
 ```
 
@@ -80,8 +95,6 @@ print_fonts
 batch_jobs
 fonts
 job_queues
-page_results
-postproc_pages
 works
 )
 
@@ -100,8 +113,6 @@ print_fonts
 batch_jobs
 fonts
 job_queues
-page_results
-postproc_pages
 works
 )
 
