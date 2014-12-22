@@ -123,5 +123,24 @@ RSpec.describe "JobQueues", :type => :request do
       expect(json['proc_id']).to_not be_empty
       expect(json['results'].length).to eq(2)
     end
+
+    it 'sets proc_id for job_queue' do
+      job_queue = create(:job_queue, status: @not_started_status)
+      @time_now = Time.parse("Nov 09 2014")
+      allow(Time).to receive(:now).and_return(@time_now)
+
+      put '/api/job_queues/reserve', {job_queue: {num_pages: 1}}.to_json, api_headers
+      results = json['results']
+
+      expect(response).to be_success
+      expect(json['requested']).to eq(1)
+      expect(json['reserved']).to eq(1)
+      expect(json['proc_id']).to_not be_empty
+      expect(results.length).to eq(1)
+
+      @job_queue = JobQueue.find(job_queue.id)
+      expect(@job_queue.proc_id).to eq(json['proc_id'])
+      expect(@job_queue.proc_id).to eq(results.first['proc_id'])
+    end
   end
 end

@@ -28,11 +28,12 @@ module Api
       end
       def reserve
         @num_pages = job_queue_params[:num_pages].to_i
-        @job_queues = JobQueue.unreserved.limit(@num_pages)
         @proc_id = JobQueue.generate_proc_id
+        processing_id = JobStatus.processing.id
 
-        @job_queues.update_all(proc_id: @proc_id, job_status_id: JobStatus.processing.id)
+        JobQueue.unreserved.limit(@num_pages).update_all(proc_id: @proc_id, job_status_id: processing_id)
 
+        @job_queues = JobQueue.where(proc_id: @proc_id, job_status_id: processing_id)
         respond_with @job_queues
       end
 
