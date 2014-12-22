@@ -104,6 +104,7 @@ FactoryGirl.define do
   factory :postproc_page do
     page { FactoryGirl.build(:page) }
     batch_job { FactoryGirl.build(:batch_job) }
+    pp_noisemsr 0.0
     pp_ecorr 0.0
     pp_juxta 0.0
     pp_retas 0.0

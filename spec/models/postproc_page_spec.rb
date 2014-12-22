@@ -25,6 +25,7 @@ RSpec.describe PostprocPage, :type => :model do
     it "has valid to_builder - v1" do
       json = postproc_page.to_builder('v1').attributes!
       expect(json).to match(
+        'pp_noisemsr'   => postproc_page.pp_noisemsr,
         'pp_ecorr'      => postproc_page.pp_ecorr,
         'pp_juxta'      => postproc_page.pp_juxta,
         'pp_retas'      => postproc_page.pp_retas,

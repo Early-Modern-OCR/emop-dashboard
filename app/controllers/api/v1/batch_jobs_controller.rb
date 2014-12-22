@@ -39,12 +39,13 @@ module Api
       param :postproc_results, Array, desc: 'Post process results', required: false do
         param :page_id, Integer, required: true
         param :batch_job_id, Integer, required: true
-        param :pp_ecorr, Float, allow_nil:  true
-        param :pp_stats, Float, allow_nil:  true
-        param :pp_juxta, Float, allow_nil:  true
-        param :pp_retas, Float, allow_nil:  true
-        param :pp_health, String, allow_nil:  true
-        param :noisiness_idx, Float, allow_nil:  true
+        param :pp_noisemsr, Float, allow_nil: true
+        param :pp_ecorr, Float, allow_nil: true
+        param :pp_stats, Float, allow_nil: true
+        param :pp_juxta, Float, allow_nil: true
+        param :pp_retas, Float, allow_nil: true
+        param :pp_health, String, allow_nil: true
+        param :noisiness_idx, Float, allow_nil: true
         param :multicol, String, allow_nil: true
         param :skew_idx, String, allow_nil: true
       end
@@ -89,9 +90,9 @@ module Api
           postproc_results.each do |postproc_result|
             @postproc_page = PostprocPage.where(page_id: postproc_result[:page_id], batch_job_id: postproc_result[:batch_job_id]).first_or_initialize
             if @postproc_page.new_record?
-              pp_results << PostprocPage.new(postproc_result.permit(:page_id, :batch_job_id, :pp_ecorr, :pp_stats, :pp_juxta, :pp_retas, :pp_health, :noisiness_idx, :multicol, :skew_idx))
+              pp_results << PostprocPage.new(postproc_result.permit(:page_id, :batch_job_id, :pp_noisemsr, :pp_ecorr, :pp_stats, :pp_juxta, :pp_retas, :pp_health, :noisiness_idx, :multicol, :skew_idx))
             else
-              @postproc_page.update_attributes(postproc_result.permit(:page_id, :batch_job_id, :pp_ecorr, :pp_stats, :pp_juxta, :pp_retas, :pp_health, :noisiness_idx, :multicol, :skew_idx))
+              @postproc_page.update_attributes(postproc_result.permit(:page_id, :batch_job_id, :pp_noisemsr, :pp_ecorr, :pp_stats, :pp_juxta, :pp_retas, :pp_health, :noisiness_idx, :multicol, :skew_idx))
             end
           end
 

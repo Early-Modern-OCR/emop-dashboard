@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141211002819) do
+ActiveRecord::Schema.define(version: 20141222175956) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -83,8 +83,8 @@ ActiveRecord::Schema.define(version: 20141211002819) do
     t.integer  "jx_gt_source_id"
     t.integer  "jx_ocr_source_id"
     t.integer  "jx_set_id"
-    t.datetime "created_at",                                             null: false
-    t.datetime "updated_at",                                             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "status",            limit: 13, default: "uninitialized"
     t.integer  "jx_gt_witness_id"
     t.integer  "jx_ocr_witness_id"
@@ -129,6 +129,7 @@ ActiveRecord::Schema.define(version: 20141211002819) do
     t.float   "noisiness_idx", limit: 24
     t.string  "multicol"
     t.string  "skew_idx"
+    t.float   "pp_noisemsr",   limit: 24
   end
 
   add_index "postproc_pages", ["page_id", "batch_job_id"], name: "index_postproc_pages_on_page_id_and_batch_job_id", unique: true, using: :btree
