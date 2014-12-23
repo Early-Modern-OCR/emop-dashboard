@@ -54,38 +54,17 @@ Generate static API docs
 
 This operation is time consuming and is intended to migrate away from using an external database.
 
-First step is to run "legacy" migrations against the external emop database.  This makes the schema 
-match the Rail's DB schema so a 1:1 copy can be performed.
+These steps assumes all Rails migrations have been applied.
 
-The following SQL commands may need to be executed to remove constraints that prevent the migration from working:
-
-```
-mysql emop_dev -e 'ALTER TABLE batch_job DROP FOREIGN KEY batch_job_ibfk_1'
-mysql emop_dev -e 'ALTER TABLE batch_job DROP FOREIGN KEY batch_job_ibfk_2'
-mysql emop_dev -e 'ALTER TABLE batch_job DROP FOREIGN KEY batch_job_ibfk_3'
-mysql emop_dev -e 'ALTER TABLE postproc_pages MODIFY pp_page_id INT NOT NULL'
-mysql emop_dev -e 'ALTER TABLE postproc_pages MODIFY pp_batch_id INT NOT NULL'
-mysql emop_dev -e 'ALTER TABLE postproc_pages DROP PRIMARY KEY'
-
-```
-
-Then run the Rails migrations against the legacy database
-
-```
-RAILS_ENV=production bundle exec rake legacy:db:migrate
-```
-
-The next step assumes all Rails migrations have been applied.
-
-This copies the data from the legacy database into the Rails database.
+The steps below copy the data from the legacy database into the Rails database.
 
 ```
 EMOP_DATABASE=emop_dev
 EMOP_DASHBOARD_DATABASE=emop_dashboard
 
-mkdir /tmp/emop
+install -d -o mysql -g mysql /tmp/emop
 cd /tmp/emop
-mysqldump --tab=/tmp/emop --skip-extended-insert --compact ${EMOP_DATABASE}
+mysqldump --tab=/tmp/emop --skip-extended-insert --compact ${EMOP_DATABASE} pages print_fonts fonts works
 mkdir chunks
 split -l 1000000 pages.txt chunks/pages_
 for file in chunks/pages_* ; do  echo $file ; mysql ${EMOP_DASHBOARD_DATABASE} -e "LOAD DATA INFILE '/tmp/emop/$file' INTO TABLE pages"; done

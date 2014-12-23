@@ -9,7 +9,6 @@ set :log_level, :debug
 
 set :linked_files, %w{
 config/database.yml
-config/database_legacy.yml
 config/secrets.yml
 }
 
