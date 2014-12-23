@@ -27,6 +27,11 @@ class JobQueue < ActiveRecord::Base
     Time.now.strftime('%Y%m%d%H%M%S%L')
   end
 
+  def results=(value)
+    new_value = value.truncate(255)
+    write_attribute(:results, new_value)
+  end
+
   def self.unreserved
     @job_status = JobStatus.find_by_name('Not Started')
     where(proc_id: nil, job_status_id: @job_status.id)

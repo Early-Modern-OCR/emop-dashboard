@@ -7,6 +7,23 @@ RSpec.describe JobQueue, :type => :model do
     expect(job_queue).to be_valid
   end
 
+  describe "results" do
+    it "should not modify strings less than 255 bytes" do
+      str = "test"
+      job_queue.results = str
+      job_queue.save!
+      expect(job_queue.results).to eq(str)
+    end
+
+    it "should truncate strings that are too long" do
+      long_str = "test" * 256
+      truncated_str = long_str.truncate(255)
+      job_queue.results = long_str
+      job_queue.save!
+      expect(job_queue.results).to eq(truncated_str)
+    end
+  end
+
   describe "set_defaults" do
     let(:job_queue) { JobQueue.new }
 
