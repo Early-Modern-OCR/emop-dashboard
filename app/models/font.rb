@@ -27,4 +27,9 @@ class Font < ActiveRecord::Base
   def id
     read_attribute(:font_id)
   end
+
+  #TODO: Remove once schema is sane
+  def name
+    read_attribute(:font_name)
+  end
 end

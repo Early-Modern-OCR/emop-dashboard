@@ -32,6 +32,14 @@ class JobQueue < ActiveRecord::Base
     write_attribute(:results, new_value)
   end
 
+  def mark_not_started!
+    update(proc_id: nil, status: JobStatus.find_by_name('Not Started'))
+  end
+
+  def mark_failed!
+    update(results: "Marked failed using dashboard.", status: JobStatus.find_by_name("Failed"))
+  end
+
   def self.unreserved
     @job_status = JobStatus.find_by_name('Not Started')
     where(proc_id: nil, job_status_id: @job_status.id)

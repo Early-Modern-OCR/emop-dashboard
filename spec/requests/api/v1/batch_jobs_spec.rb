@@ -74,8 +74,8 @@ RSpec.describe Api::V1::BatchJobsController, :type => :request do
     it 'uploads page and postproc page results', :show_in_doc do
       completed_job_queues = create_list(:job_queue, 5, status: JobStatus.processing)
       failed_job_queues = create_list(:job_queue, 2, status: JobStatus.processing)
-      page_result = build_attributes(:page_result)
-      postproc_page = build_attributes(:postproc_page)
+      page_result = build_attributes(:page_result, batch_job: create(:batch_job), page: create(:page))
+      postproc_page = build_attributes(:postproc_page, batch_job: create(:batch_job), page: create(:page))
 
       data = {
         job_queues: {

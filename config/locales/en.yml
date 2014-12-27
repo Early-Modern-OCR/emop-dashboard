@@ -21,3 +21,9 @@
 
 en:
   hello: "Hello world"
+  active_admin:
+    batch_actions:
+      action_label: "%{title}"
+      labels:
+        mark_not_started: "Mark Not Started"
+        mark_failed: "Mark Failed"

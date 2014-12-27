@@ -4,10 +4,9 @@ class BatchJob < ActiveRecord::Base
   belongs_to :font
   belongs_to :ocr_engine
   belongs_to :job_type
-  has_many :job_queues, foreign_key: 'batch_id'
-  has_many :page_results, foreign_key: 'batch_id'
-  has_many :postproc_pages
-  has_many :postprocesses, through: :postproc_pages
+  has_many :job_queues, foreign_key: 'batch_id', dependent: :destroy
+  has_many :page_results, foreign_key: 'batch_id', dependent: :destroy
+  has_many :postproc_pages, dependent: :destroy
   has_many :work_ocr_results
   has_many :ocr_results, through: :work_ocr_results
 
