@@ -42,6 +42,25 @@ RSpec.describe JobQueue, :type => :model do
     end
   end
 
+  describe "mark_not_started!" do
+    it "resets proc_id and status" do
+      job_queue = create(:job_queue, status: JobStatus.processing, proc_id: '000001')
+      job_queue.mark_not_started!
+      expect(job_queue.proc_id).to be_nil
+      expect(job_queue.status).to eq(JobStatus.not_started)
+    end
+  end
+
+  describe "mark_failed!" do
+    it "sets status to failed" do
+      job_queue = create(:job_queue, status: JobStatus.processing, proc_id: '000001')
+      job_queue.mark_failed!
+      expect(job_queue.proc_id).to eq('000001')
+      expect(job_queue.status).to eq(JobStatus.failed)
+      expect(job_queue.results).to eq("Marked failed using dashboard.")
+    end
+  end
+
   describe "#status_summary" do
     it "should generate status counts" do
       create_list(:job_queue, 2, status: JobStatus.not_started)

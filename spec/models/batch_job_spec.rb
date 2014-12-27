@@ -7,6 +7,32 @@ RSpec.describe BatchJob, :type => :model do
     expect(batch_job).to be_valid
   end
 
+  describe "dependent :destroy" do
+    it "should destroy associated job_queues" do
+      job_queue = create(:job_queue, batch_job: batch_job)
+      expect(batch_job.job_queues.present?).to be true
+      expect(JobQueue.find(job_queue.id)).to_not be_nil
+      batch_job.destroy!
+      expect { JobQueue.find(job_queue.id) }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    it "should destroy associated page_results" do
+      page_result = create(:page_result, batch_job: batch_job)
+      expect(batch_job.page_results.present?).to be true
+      expect(PageResult.find(page_result.id)).to_not be_nil
+      batch_job.destroy!
+      expect { PageResult.find(page_result.id) }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    it "should destroy associated postproc_pages" do
+      postproc_page = create(:postproc_page, batch_job: batch_job)
+      expect(batch_job.postproc_pages.present?).to be true
+      expect(PostprocPage.find(postproc_page.id)).to_not be_nil
+      batch_job.destroy!
+      expect { PostprocPage.find(postproc_page.id) }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
   describe "set_defaults" do
     let(:batch_job) { BatchJob.new }
 

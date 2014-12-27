@@ -1,7 +1,9 @@
 ActiveAdmin.register User do
 
+  ## Permit these attributes to be updated
   permit_params :email, :password, :password_confirmation
 
+  ## Controller customizations
   controller do
     skip_before_filter :get_dropdown_data
 
@@ -15,8 +17,10 @@ ActiveAdmin.register User do
     end
   end
 
+  ## Index search filters
   filter :email
 
+  ## INDEX
   index do
     id_column
     column :email
@@ -26,6 +30,7 @@ ActiveAdmin.register User do
     actions
   end
 
+  ## NEW / EDIT
   form do |f|
     f.semantic_errors
     f.inputs do

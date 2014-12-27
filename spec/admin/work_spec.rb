@@ -10,6 +10,10 @@ RSpec.describe 'Work' do
   end
 
   it 'should have actions' do
-    expect(resource.defined_actions).to include(:update, :index, :show, :new, :edit, :create, :destroy)
+    expect(resource.defined_actions).to include(:update, :index, :show, :edit)
+  end
+
+  it 'should not have new or create actions' do
+    expect(resource.defined_actions).to_not include(:new, :create, :destroy)
   end
 end
