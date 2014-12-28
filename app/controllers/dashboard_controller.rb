@@ -377,8 +377,8 @@ class DashboardController < ApplicationController
       
       if !session[:batch].nil?
          cond << " and" if cond.length > 0
-         cond << " wks_work_id IN (?)"
-         vals << JobQueue.where(batch_id: 3).select("work_id").map(&:work_id).uniq.join(",")
+         cond << " batch_id=?"
+         vals << session[:batch]
       end    
       
       if !session[:font].nil?
