@@ -22,6 +22,12 @@ RSpec.describe JobQueue, :type => :model do
       job_queue.save!
       expect(job_queue.results).to eq(truncated_str)
     end
+
+    it "should not truncate when nil" do
+      job_queue.results = nil
+      job_queue.save!
+      expect(job_queue.results).to be_nil
+    end
   end
 
   describe "set_defaults" do

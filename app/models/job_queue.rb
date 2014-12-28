@@ -28,7 +28,11 @@ class JobQueue < ActiveRecord::Base
   end
 
   def results=(value)
-    new_value = value.truncate(255)
+    if value.present?
+      new_value = value.truncate(255)
+    else
+      new_value = value
+    end
     write_attribute(:results, new_value)
   end
 
