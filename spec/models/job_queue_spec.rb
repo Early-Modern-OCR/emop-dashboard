@@ -50,10 +50,11 @@ RSpec.describe JobQueue, :type => :model do
 
   describe "mark_not_started!" do
     it "resets proc_id and status" do
-      job_queue = create(:job_queue, status: JobStatus.processing, proc_id: '000001')
+      job_queue = create(:job_queue, status: JobStatus.processing, proc_id: '000001', results: "foo")
       job_queue.mark_not_started!
       expect(job_queue.proc_id).to be_nil
       expect(job_queue.status).to eq(JobStatus.not_started)
+      expect(job_queue.results).to be_nil
     end
   end
 

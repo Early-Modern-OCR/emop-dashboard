@@ -9,9 +9,7 @@ ActiveAdmin.register JobQueue do
   ## Batch Actions
   batch_action :destroy, false #TODO: Reevaluate if we want this disabled
   batch_action :mark_not_started, confirm: "Are you sure you want to mark Not Started?" do |ids|
-    JobQueue.find(ids).each do |job_queue|
-      job_queue.mark_not_started!
-    end
+    JobQueue.where(id: ids).reschedule!
 
     redirect_to collection_path, alert: "The job queues have been marked Not Started."
   end

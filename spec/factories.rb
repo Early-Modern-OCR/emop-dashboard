@@ -95,10 +95,10 @@ FactoryGirl.define do
     juxta_change_index 0.0
     alt_change_index 0.0
 
-    after(:create) do |p|
-      p.page = create(:page)
-      p.batch_job = create(:batch_job)
-    end
+    #after(:create) do |p|
+    #  p.page = create(:page)
+    #  p.batch_job = create(:batch_job)
+    #end
   end
 
   factory :postproc_page do
@@ -114,10 +114,10 @@ FactoryGirl.define do
     multicol '0;1;2'
     skew_idx '1;0;1'
 
-    after(:create) do |p|
-      p.page = create(:page)
-      p.batch_job = create(:batch_job)
-    end
+    #after(:create) do |p|
+    #  p.page = create(:page)
+    #  p.batch_job = create(:batch_job)
+    #end
   end
 
   factory :user do

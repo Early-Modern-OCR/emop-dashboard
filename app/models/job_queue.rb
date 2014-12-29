@@ -36,8 +36,12 @@ class JobQueue < ActiveRecord::Base
     write_attribute(:results, new_value)
   end
 
+  def self.reschedule!
+    update_all(proc_id: nil, job_status_id: JobStatus.not_started.id, results: nil)
+  end
+
   def mark_not_started!
-    update(proc_id: nil, status: JobStatus.find_by_name('Not Started'))
+    update(proc_id: nil, status: JobStatus.find_by_name('Not Started'), results: nil)
   end
 
   def mark_failed!
