@@ -40,6 +40,19 @@ ActiveAdmin.register BatchJob do
       row :parameters
       row :notes
     end
+
+    panel "Job Queues" do
+      job_queues = JobQueue.where(batch_id: batch_job.id)
+      paginated_collection(job_queues.page(params[:page]).per(15), download_links: false) do
+        table_for collection do
+          column :id do  |j|
+            link_to j.id, admin_job_queue_path(j)
+          end
+          column :status
+          column :proc_id
+        end
+      end
+    end
   end
 
   ## EDIT / UPDATE
