@@ -112,9 +112,7 @@ class DashboardController < ApplicationController
       # job info is passed down as a json string. String
       # is an array of objects. Each object has work and batch.
       # Decode the string and handle the request
-      logger.debug("DEBUG: #{params.inspect}")
       jobs = ActiveSupport::JSON.decode(params[:jobs])
-      logger.debug("DEBUG: #{jobs.inspect}")
       jobs.each do | job |
         work_id = job['work']
         batch_id = job['batch']
@@ -128,7 +126,7 @@ class DashboardController < ApplicationController
       end
       render :text => "ok", :status => :ok
     rescue => e
-      logger.debug("ERROR: #{e.message}")
+      logger.error("DashboardController#reschedule error: #{e.message}")
       render :text => e.message, :status => :error
     end        
   end
@@ -138,41 +136,76 @@ class DashboardController < ApplicationController
   def create_batch
     begin
       # create the new batch
-      batch = BatchJob.new
-      batch.name = params[:name]
-      batch.job_type_id = params[:type_id]
-      batch.ocr_engine_id = params[:engine_id]
-      batch.font_id = params[:font_id]
-      batch.parameters = params[:params]
-      batch.notes = params[:notes]
-      batch.save!
+      job_type = JobType.find(params[:type_id])
+      ocr_engine = OcrEngine.find(params[:engine_id])
+      font = Font.find(params[:font_id])
+      batch_job_params = {
+        name: params[:name],
+        parameters: params[:params],
+        notes: params[:notes],
+        job_type: job_type,
+        ocr_engine: ocr_engine,
+        font: font,
+      }
+      batch = BatchJob.create!(batch_job_params)
 
       # get the work id payload. If it is ALL, generate a 
       # query to get all of the work IDs based on the current 
       # filter settings
       json_payload = ActiveSupport::JSON.decode(params[:json])
       if json_payload['works'] == 'all'
-        cond, vals = generate_conditions()
-        where_clause = ""
-        where_clause = "where #{cond}" if cond.length > 0
-   
-        sql = ["select distinct(wks_work_id) from works #{where_clause}"]
-        sql = sql + vals
-        results = WorkOcrResult.find_by_sql(sql)
+        works = Work.all
+        if session[:gt].present?
+          works = works.with_gt
+        end
+        if session[:batch].present?
+          works = works.by_batch_job(session[:batch])
+        end
+        if session[:font].present?
+          works = works.where(wks_primary_print_font: session[:font])
+        end
+        if session[:set].present?
+          case session[:set]
+          when 'EEBO'
+            works = works.is_eebo
+          when 'ECCO'
+            works = works.is_ecco
+          end
+        end
+        if session[:from].present?
+          works = works.joins(:work_ocr_results).where("work_ocr_results.ocr_completed > ?", fix_date_format(session[:from]))
+        end
+        if session[:to].present?
+          works = works.joins(:work_ocr_results).where("work_ocr_results.ocr_completed < ?", fix_date_format(session[:to]))
+        end
+
+        if session[:ocr].present?
+          case session[:ocr]
+          when 'ocr_done'
+            works = works.ocr_done
+          when 'ocr_sched'
+            works = works.ocr_sched
+          when 'ocr_ingest'
+            works = works.ocr_ingest
+          when 'ocr_ingest_error'
+            works = works.ocr_ingest_error
+          when 'ocr_none'
+            works = works.ocr_none
+          when 'ocr_error'
+            works = works.ocr_error
+          end
+        end
+
         work_ids = []
-        results.each do | res |
-          work_ids << res.wks_work_id
+        works.each do |work|
+          work_ids << work.id
         end
 
         jobs = []
         jobs_batch_size = 5000
-        pages = Page.select("pg_page_id, pg_work_id").where("pg_work_id in (?)", work_ids)
+        pages = Page.where(pg_work_id: work_ids)
         pages.each do | page |
-          job = JobQueue.new
-          job.batch_id = batch.id
-          job.page_id = page.pg_page_id
-          job.job_status_id = 1
-          job.work_id = page.pg_work_id
+          job = JobQueue.new(batch_job: batch, page: page, status: JobStatus.not_started, work: page.work)
           jobs << job
           if jobs.size >= jobs_batch_size
             logger.debug "Write #{jobs.size} jobs..."
@@ -188,13 +221,9 @@ class DashboardController < ApplicationController
         # populate it with pages from the selected works
         jobs = []
         work_ids = json_payload['works']
-        pages = Page.select("pg_page_id, pg_work_id").where("pg_work_id in (?)", work_ids)
+        pages = Page.where(pg_work_id: work_ids)
         pages.each do | page |
-          job = JobQueue.new
-          job.batch_id = batch.id
-          job.page_id = page.pg_page_id
-          job.job_status_id = 1
-          job.work_id = page.pg_work_id
+          job = JobQueue.new(batch_job: batch, page: page, status: JobStatus.not_started, work: page.work)
           jobs << job
         end
         logger.debug "Write #{jobs.size} jobs..."
@@ -206,6 +235,7 @@ class DashboardController < ApplicationController
       render  :json => ActiveSupport::JSON.encode(status), :status => :ok  
          
     rescue => e
+      logger.error("DashboardController#create_batch error: #{e.message}")
       render :text => e.message, :status => :error
     end 
   end

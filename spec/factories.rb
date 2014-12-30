@@ -39,6 +39,10 @@ FactoryGirl.define do
     wks_ecco_gale_ocr_xml_path "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml"
     wks_organizational_unit 265
     wks_last_trawled "2013-06-30"
+
+    before(:create) do |work|
+      work.pages << build(:page, work: work)
+    end
   end
 
   factory :page do
