@@ -2,17 +2,36 @@
 #
 class Work < ActiveRecord::Base
   self.primary_key = :wks_work_id
-  has_many :pages
+  has_many :pages, foreign_key: :pg_work_id
   has_many :job_queues
   has_many :work_ocr_results
   has_many :ocr_results, through: :work_ocr_results
 
-   def isECCO?
-      if !self.wks_ecco_number.nil? && self.wks_ecco_number.length > 0
-         return true
-      end
+  # NOTES: for ECCO, non-null TCP means GT is available
+  #        for EEBO, non-null MARC means GT is available
+  scope :with_gt, -> { where('wks_tcp_number IS NOT NULL OR wks_marc_record IS NOT NULL') }
+  scope :is_ecco, -> { where.not(wks_ecco_number: nil) }
+  scope :is_eebo, -> { where(wks_ecco_number: nil) }
+  scope :by_batch_job, ->(batch_job_id = nil) { joins(:job_queues).where(job_queues: {batch_id: batch_job_id}) }
+  scope :ocr_done, -> { joins(:job_queues).where(job_queues: { job_status_id: JobStatus.done.id }) }
+  scope :ocr_sched, -> {
+    job_status_ids = []
+    job_status_ids << JobStatus.not_started.id
+    job_status_ids << JobStatus.processing.id
+    joins(:job_queues).where(job_queues: { job_status_id: job_status_ids })
+  }
+  scope :ocr_ingest, -> { joins(:job_queues).where(job_queues: { job_status_id: JobStatus.done.id }) }
+  scope :ocr_ingest_error, -> { joins(:job_queues).where(job_queues: { job_status_id: JobStatus.ingest_failed.id }) }
+  scope :ocr_none, -> { includes(:job_queues).where(job_queues: { id: nil }) }
+  scope :ocr_error, -> { joins(:job_queues).where(job_queues: { job_status_id: JobStatus.failed.id }) }
+
+  def isECCO?
+    if self.wks_ecco_number.present?
+      return true
+    else
       return false
-   end
+    end
+  end
 
   def to_builder(version = 'v1')
     case version
