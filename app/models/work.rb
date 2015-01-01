@@ -6,6 +6,7 @@ class Work < ActiveRecord::Base
   has_many :job_queues
   has_many :work_ocr_results
   has_many :ocr_results, through: :work_ocr_results
+  belongs_to :print_font, foreign_key: :wks_primary_print_font
 
   # NOTES: for ECCO, non-null TCP means GT is available
   #        for EEBO, non-null MARC means GT is available

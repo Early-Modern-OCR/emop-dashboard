@@ -3,7 +3,9 @@
 class PrintFont < ActiveRecord::Base
   self.primary_key = :pf_id
 
-  validates :pf_name, presence: true
+  has_many :works, foreign_key: :wks_primary_print_font
+
+  validates :pf_name, presence: true, uniqueness: true
 
   def to_builder(version = 'v1')
     case version

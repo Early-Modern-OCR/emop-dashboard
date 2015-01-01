@@ -32,4 +32,8 @@ class Font < ActiveRecord::Base
   def name
     read_attribute(:font_name)
   end
+
+  def traineddata_path
+    File.join(Rails.application.secrets.emop_font_dir, "#{self.font_name}.traineddata")
+  end
 end
