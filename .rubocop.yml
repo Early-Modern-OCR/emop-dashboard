@@ -1,2 +1,10 @@
 AllCops:
   RunRailsCops: true
+Metrics/AbcSize:
+  Enabled: false #TODO
+Metrics/MethodLength:
+  Enabled: false #TODO?
+Metrics/LineLength:
+  Max: 120
+Style/Documentation:
+  Enabled: false #TODO
