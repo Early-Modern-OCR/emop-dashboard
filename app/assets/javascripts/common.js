@@ -278,4 +278,10 @@ $(function() {
       $("#new-font-popup").dialog("open");
    });
 
+   $('[data-dismiss="alert"]').on('click', function() {
+      var $this = $(this);
+      var $parent = $this.parent();
+      $parent.detach().trigger('closed.bs.alert').remove();
+   });
+
 });

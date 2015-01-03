@@ -22,8 +22,7 @@
          <span>eMOP Dashboard</span>
          <div style="clear: both"></div>
       </div>
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
+      <%= render 'layouts/messages' %>
       <%= yield %>
       
       <% if !@juxta.nil? && @juxta == true %>
