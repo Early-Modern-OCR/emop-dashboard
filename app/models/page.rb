@@ -4,6 +4,7 @@ class Page < ActiveRecord::Base
   self.primary_key = :pg_page_id
   has_many :job_queues
   belongs_to :work, foreign_key: :pg_work_id
+  has_many :page_results
   has_many :postproc_pages
   has_many :postprocesses, through: :postproc_pages
 
