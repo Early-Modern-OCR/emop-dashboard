@@ -5,7 +5,9 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
   SimpleCov::Formatter::HTMLFormatter,
   Coveralls::SimpleCov::Formatter
 ]
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  add_filter 'app/admin' #TODO: Remove once a method to write these tests is developed
+end
 
 ENV["RAILS_ENV"] ||= 'test'
 require 'spec_helper'
