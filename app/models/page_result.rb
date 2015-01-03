@@ -12,11 +12,38 @@ class PageResult < ActiveRecord::Base
     case version
     when 'v1'
       Jbuilder.new do |json|
-        json.(self, :id, :ocr_text_path, :ocr_xml_path, :ocr_completed)
-        json.(self, :juxta_change_index, :alt_change_index)
-        json.page       page.to_builder
-        json.batch_job  batch_job.to_builder
+        json.call(self, :id, :ocr_text_path, :ocr_xml_path, :ocr_completed)
+        json.call(self, :juxta_change_index, :alt_change_index)
+        json.page page.to_builder
+        json.batch_job batch_job.to_builder
       end
     end
+  end
+
+  def local_text_path
+    File.join(Rails.application.secrets.emop_path_prefix, ocr_text_path)
+  end
+
+  def local_xml_path
+    File.join(Rails.application.secrets.emop_path_prefix, ocr_xml_path)
+  end
+
+  def local_idhmc_text_path
+    local_idhmc_path(local_text_path)
+  end
+
+  def local_idhmc_xml_path
+    local_idhmc_path(local_xml_path)
+  end
+
+  private
+
+  def local_idhmc_path(path)
+    dir = File.dirname(path)
+    ext = File.extname(path)
+    name = File.basename(path, ext)
+    new_name = "#{name}_IDHMC#{ext}"
+    idhmc_path = File.join(Rails.application.secrets.emop_path_prefix, dir, new_name)
+    idhmc_path
   end
 end

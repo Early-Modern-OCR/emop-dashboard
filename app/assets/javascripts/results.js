@@ -17,7 +17,23 @@ $(function() {
          $(this).prop('checked', checkIt);
       });
    });
-   
+
+   // Select/unselect failed
+   $('#select-failed-pages').on('click', function(event) {
+      var inputs = $('td div.error').closest('tr').find('input.sel-cb');
+      var select = false;
+      if ($(this).val() == 'Select Failed') {
+         $(this).val('Deselect Failed');
+         select = true;
+      } else {
+         $(this).val('Select Failed');
+         select = false;
+      }
+      $(inputs).each(function() {
+         this.checked = select;
+      });
+   });
+
    // set status ucons based on newly scheduled job                
    var updatePageStatusIcons = function() {
       $(".sel-cb").each(function () {
@@ -164,7 +180,6 @@ $(function() {
       },
       "aoColumnDefs": [
          { "aTargets": [0], "bSortable": false},
-         { "aTargets": [1], "bSortable": false},
          { "aTargets": [2], "bSortable": false},
          { "aTargets": [3], "bSortable": false},
          { "aTargets": [4], "bSortable": false}
@@ -178,7 +193,8 @@ $(function() {
          { "mData": "detail_link" },
          { "mData": "page_number" },
          { "mData": "juxta_accuracy" },
-         { "mData": "retas_accuracy" }
+         { "mData": "retas_accuracy" },
+         { "mData": "pp_ecorr" }
        ]
    }).fnFilterOnReturn();
    
@@ -234,6 +250,10 @@ $(function() {
    
    // get OCR results as TEXT
    $("#results-detail").on("click", ".ocr-txt", function() {
+      // Exit function if the element is disabled
+      if ($(this).hasClass("disabled")) {
+         return;
+      }
       showWaitPopup("Retrieving OCR results...");
       var id = $(this).attr("id").substring("result-".length);
       $.ajax({
@@ -256,6 +276,10 @@ $(function() {
    
     // get OCR results as hOCR
    $("#results-detail").on("click", ".ocr-hocr", function() {
+      // Exit function if the element is disabled
+      if ($(this).hasClass("disabled")) {
+         return;
+      }
       showWaitPopup("Retrieving hOCR results...");
       var id = $(this).attr("id").substring("hocr-".length);
       $.ajax({
@@ -303,7 +327,11 @@ $(function() {
       reschedulePages(data);
    });
    
-   $("#results-detail").on("click", ".detail-link", function() {
+   $("#results-detail").on("click", ".juxta-link", function() {
+      // Exit function if the element is disabled
+      if ($(this).hasClass("disabled")) {
+         return;
+      }
       showWaitPopup("Visualizing");
    });
 });

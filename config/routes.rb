@@ -29,12 +29,12 @@ Rails.application.routes.draw do
 
    # page results routes
    get "results" => "results#show"
-   get "results/:work/page/:num" => "results#get_page_image"
+   get "results/:work/page/:num" => "results#page_image"
    get "results/fetch" => "results#fetch"
    post "results/batch" => "results#create_batch"
-   get "results/:id/text" => "results#get_page_text"
-   get "results/:id/hocr" => "results#get_page_hocr"
-   get "results/:batch/:page/error" => "results#get_page_error"
+   get "results/:id/text" => "results#page_text"
+   get "results/:id/hocr" => "results#page_hocr"
+   get "results/:batch/:page/error" => "results#page_error"
    post "results/reschedule" => "results#reschedule"
 
    # main dashboard routes

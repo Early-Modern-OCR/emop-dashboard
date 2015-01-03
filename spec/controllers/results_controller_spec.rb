@@ -55,6 +55,7 @@ RSpec.describe ResultsController, :type => :controller do
       @batch_job = create(:batch_job)
       @job_queue = create(:job_queue, page: @page, work: @work, batch_job: @batch_job, status: JobStatus.done)
       @page_result = create(:page_result, page: @page, batch_job: @batch_job)
+      @postproc_page = create(:postproc_page, page: @page, batch_job: @batch_job)
 
       @params = {
         work: @work.id,
@@ -64,82 +65,197 @@ RSpec.describe ResultsController, :type => :controller do
 
     it "should respond successfully" do
       get :fetch, @params
-
       expect(response).to be_success
     end
 
     it "should not respond successfully" do
       @params[:work] = nil
       get :fetch, @params
-
       expect(response).to_not be_success
     end
 
-    it "should render page info" do
-      @params[:batch] = nil
+    it "returns page_select data" do
       get :fetch, @params
-
-      expect(json['isEcho']).to be_nil
-      expect(json['iTotalRecords']).to eq(@work.pages.count)
-      expect(json['iTotalDisplayRecords']).to eq(@work.pages.count)
-      expected_data = {
-        'page_select' => "<input class='sel-cb' type='checkbox' id='sel-page-#{@work.pages.first.id}'>",
-        'detail_link' => "<div class='detail-link disabled'>",
-        'ocr_text' => "<div class='ocr-txt  disabled' title='View OCR text output'>",
-        'ocr_hocr' => "<div class='ocr-hocr  disabled' title='View hOCR output'>",
-        'status' => "<div  class='status-icon success' title='Success'></div>",
-        'page_number' => @page.pg_ref_number,
-        'page_select' => "<input class='sel-cb' type='checkbox' id='sel-page-#{@work.pages.first.id}'>",
-        'juxta_accuracy' => "-",
-        'retas_accuracy' => "-",
-        'page_image' => "<a href=\"/results/#{@work.id}/page/#{@page.pg_ref_number}\"><div title='View page image' class='page-view'></div></a>",
-      }
-      expect(json['data']).to include(expected_data)
+      html = "<input class='sel-cb' type='checkbox' id='sel-page-#{@work.pages.first.id}'>"
+      expect(json['data'].first['page_select']).to eq(html)
     end
 
-    it "should render batch results" do
+    it "returns status data" do
       get :fetch, @params
-
-      expect(json['isEcho']).to be_nil
-      expect(json['iTotalRecords']).to eq(@work.pages.count)
-      expect(json['iTotalDisplayRecords']).to eq(@work.pages.count)
-      expected_data = {
-        'page_select' => "<input class='sel-cb' type='checkbox' id='sel-page-#{@work.pages.first.id}'>",
-        'ocr_text' => "<div id='result-#{@page_result.id}' class='ocr-txt' title='View OCR text output'>",
-        'ocr_hocr' => "<div id='hocr-#{@page_result.id}' class='ocr-hocr' title='View hOCR output'>",
-        'juxta_accuracy' => @page_result.juxta_change_index,
-        'retas_accuracy' => @page_result.alt_change_index,
-        'detail_link' => "<a href='/juxta?work=#{@work.id}&batch=#{@batch_job.id}&page=#{@page.pg_ref_number}&result=#{@page_result.id}' title='View side-by-side comparison with GT'><div class='juxta-link'></div></a>",
-        'status' => "<div  class='status-icon success' title='Success'></div>",
-        'page_number' => @page.pg_ref_number,
-        'page_image' => "<a href=\"/results/#{@work.id}/page/#{@page.pg_ref_number}\"><div title='View page image' class='page-view'></div></a>",
-      }
-      expect(json['data']).to include(expected_data)
+      html = "<div class='status-icon success' title='Success'></div>"
+      expect(json['data'].first['status']).to eq(html)
     end
 
-    it "should render batch results without Juxta data" do
-      @page_result.update!(juxta_change_index: nil)
+    it "returns page_image data" do
       get :fetch, @params
+      html = "<a href=\"/results/#{@work.id}/page/#{@page.pg_ref_number}\"><div title='View page image' class='page-view'></div></a>"
+      expect(json['data'].first['page_image']).to eq(html)
+    end
 
-      expect(json['isEcho']).to be_nil
-      expect(json['iTotalRecords']).to eq(@work.pages.count)
-      expect(json['iTotalDisplayRecords']).to eq(@work.pages.count)
-      expected_data = {
-        'page_select' => "<input class='sel-cb' type='checkbox' id='sel-page-#{@work.pages.first.id}'>",
-        'ocr_text' => "<div id='result-#{@page_result.id}' class='ocr-txt' title='View OCR text output'>",
-        'ocr_hocr' => "<div id='hocr-#{@page_result.id}' class='ocr-hocr' title='View hOCR output'>",
-        'juxta_accuracy' => '-',
-        'retas_accuracy' => '-',
-        'detail_link' => "<div class='juxta-link disabled'>",
-        'status' => "<div  class='status-icon success' title='Success'></div>",
-        'page_number' => @page.pg_ref_number,
-        'page_image' => "<a href=\"/results/#{@work.id}/page/#{@page.pg_ref_number}\"><div title='View page image' class='page-view'></div></a>",
-      }
-      expect(json['data']).to include(expected_data)
+    it "returns ocr_text data" do
+      get :fetch, @params
+      html = "<div id='result-#{@page_result.id}' class='ocr-txt' title='View OCR text output'>"
+      expect(json['data'].first['ocr_text']).to eq(html)
+    end
+
+    it "returns ocr_hocr data" do
+      get :fetch, @params
+      html = "<div id='hocr-#{@page_result.id}' class='ocr-hocr' title='View hOCR output'>"
+      expect(json['data'].first['ocr_hocr']).to eq(html)
+    end
+
+    it "returns detail_link data" do
+      get :fetch, @params
+      html = "<a href='/juxta?work=#{@work.id}&batch=#{@batch_job.id}&page=#{@page.pg_ref_number}&result=#{@page_result.id}' title='View side-by-side comparison with GT'><div class='juxta-link'></div></a>"
+      expect(json['data'].first['detail_link']).to eq(html)
+    end
+
+    it "returns page_number data" do
+      get :fetch, @params
+      expect(json['data'].first['page_number']).to eq(@page.pg_ref_number)
+    end
+
+    it "returns juxta_accuracy data" do
+      get :fetch, @params
+      expect(json['data'].first['juxta_accuracy']).to eq(@page_result.juxta_change_index)
+    end
+
+    it "returns retas_accuracy data" do
+      get :fetch, @params
+      expect(json['data'].first['retas_accuracy']).to eq(@page_result.alt_change_index)
+    end
+
+    it "returns pp_ecorr data" do
+      get :fetch, @params
+      expect(json['data'].first['pp_ecorr']).to eq(@postproc_page.pp_ecorr)
+    end
+
+    context 'when no juxta_change_index is present' do
+      before(:each) do
+        @page_result.update!(juxta_change_index: nil)
+      end
+
+      it "returns disabled detail_link data" do
+        get :fetch, @params
+        html = "<div class='juxta-link disabled'>"
+        expect(json['data'].first['detail_link']).to eq(html)
+      end
+
+      it "returns no juxta_accuracy data" do
+        get :fetch, @params
+        expect(json['data'].first['juxta_accuracy']).to eq('-')
+      end
+    end
+
+    context 'when no alt_change_index is present' do
+      before(:each) do
+        @page_result.update!(alt_change_index: nil)
+      end
+
+      it "returns no retas_accuracy data" do
+        get :fetch, @params
+        expect(json['data'].first['retas_accuracy']).to eq('-')
+      end
+    end
+
+    context "when no page_result exists" do
+      before(:each) do
+        @page_result.destroy!
+      end
+
+      it "returns disabled ocr_text data" do
+        get :fetch, @params
+        html = "<div class='ocr-txt disabled' title='View OCR text output'>"
+        expect(json['data'].first['ocr_text']).to eq(html)
+      end
+
+      it "returns disabled ocr_hocr data" do
+        get :fetch, @params
+        html = "<div class='ocr-hocr disabled' title='View hOCR output'>"
+        expect(json['data'].first['ocr_hocr']).to eq(html)
+      end
+
+      it "returns disabled detail_link data" do
+        get :fetch, @params
+        html = "<div class='juxta-link disabled'>"
+        expect(json['data'].first['detail_link']).to eq(html)
+      end
+
+      it "returns no juxta_accuracy data" do
+        get :fetch, @params
+        expect(json['data'].first['juxta_accuracy']).to eq('-')
+      end
+
+      it "returns no retas_accuracy data" do
+        get :fetch, @params
+        expect(json['data'].first['retas_accuracy']).to eq('-')
+      end
+    end
+
+    context 'when no pp_ecorr value is present' do
+      before(:each) do
+        @postproc_page.update!(pp_ecorr: nil)
+      end
+
+      it "returns no pp_ecorr data" do
+        get :fetch, @params
+        expect(json['data'].first['pp_ecorr']).to eq('-')
+      end
+    end
+
+    context 'when no postproc_page exists' do
+      before(:each) do
+        @postproc_page.destroy!
+      end
+
+      it "returns no pp_ecorr data" do
+        get :fetch, @params
+        expect(json['data'].first['pp_ecorr']).to eq('-')
+      end
+    end
+
+    context 'when no batch param is used' do
+      before(:each) do
+        @params[:batch] = nil
+        @batch_job.destroy!
+      end
+
+      it "returns disabled ocr_text data" do
+        get :fetch, @params
+        html = "<div class='ocr-txt disabled' title='View OCR text output'>"
+        expect(json['data'].first['ocr_text']).to eq(html)
+      end
+
+      it "returns disabled ocr_hocr data" do
+        get :fetch, @params
+        html = "<div class='ocr-hocr disabled' title='View hOCR output'>"
+        expect(json['data'].first['ocr_hocr']).to eq(html)
+      end
+
+      it "returns disabled detail_link data" do
+        get :fetch, @params
+        html = "<div class='juxta-link disabled'>"
+        expect(json['data'].first['detail_link']).to eq(html)
+      end
+
+      it "returns no juxta_accuracy data" do
+        get :fetch, @params
+        expect(json['data'].first['juxta_accuracy']).to eq('-')
+      end
+
+      it "returns no retas_accuracy data" do
+        get :fetch, @params
+        expect(json['data'].first['retas_accuracy']).to eq('-')
+      end
+
+      it "returns no pp_ecorr data" do
+        get :fetch, @params
+        expect(json['data'].first['pp_ecorr']).to eq('-')
+      end
     end
   end
 
- describe "GET get_page_text" do
+ describe "GET page_text" do
     before(:each) do
       @print_font = create(:print_font)
       @work = create(:work, print_font: @print_font)
@@ -155,52 +271,67 @@ RSpec.describe ResultsController, :type => :controller do
       @emop_path_prefix = Dir.mktmpdir
       allow(Rails.application.secrets).to receive(:emop_path_prefix) { @emop_path_prefix }
       # Mock text output
-      txt_filename = File.join(@emop_path_prefix, @page_result.ocr_text_path)
-      @file = double('ocr-text-output')
-      allow(File).to receive(:open).with(txt_filename, 'r').and_return(@file)
-      allow(@file).to receive(:read).and_return('ocr-text-output')
-      allow(ResultsController).to receive(:get_idhmc_page).with(@page_result.ocr_text_path).and_return([txt_filename, 'ocr-text-output'])
+      FileUtils.mkdir_p(File.dirname(@page_result.local_text_path))
+      File.open(@page_result.local_text_path, "w") {|f| f.write "ocr-text-output" }
+    end
+
+    after(:each) do
+      FileUtils.rm_rf(@emop_path_prefix)
     end
 
     it "should respond successfully" do
-      get :get_page_text, @params
+      get :page_text, @params
 
       expect(response).to be_success
     end
 
     it "should respond with page result information" do
-      get :get_page_text, @params
+      get :page_text, @params
 
       expect(json['page']).to eq(@page.pg_ref_number)
       expect(json['content']).to eq('ocr-text-output')
     end
 
     it "should respond with page result information for IDHMC page" do
-      #TODO Move this logic into model
-      ext = File.extname(@page_result.ocr_text_path)
-      name = File.basename(@page_result.ocr_text_path, ext)
-      new_name = "#{name}_IDHMC#{ext}"
-      idhmc_file = File.join(@emop_path_prefix, File.dirname(@page_result.ocr_text_path), new_name)
-      allow(File).to receive('exist?').with(idhmc_file).and_return(true)
-      allow(File).to receive(:open).with(idhmc_file, 'r').and_return(@file)
+      FileUtils.mkdir_p(File.dirname(@page_result.local_idhmc_text_path))
+      File.open(@page_result.local_idhmc_text_path, "w") {|f| f.write "ocr-idhmc-text-output" }
 
-      get :get_page_text, @params
+      get :page_text, @params
 
       expect(json['page']).to eq(@page.pg_ref_number)
-      expect(json['content']).to eq('ocr-text-output')
+      expect(json['content']).to eq('ocr-idhmc-text-output')
     end
 
     it "should send data" do
       @params[:download] = true
 
-      get :get_page_text, @params
+      get :page_text, @params
 
       expect(response.headers['Content-Disposition']).to eq("attachment; filename=\"#{File.basename(@page_result.ocr_text_path)}\"")
       expect(response.headers['Content-Type']).to eq('text/plain')
     end
+
+    context 'when the requested file does not exist' do
+      before(:each) do
+        FileUtils.rm_rf(@emop_path_prefix)
+      end
+
+      it "should alert when file not found" do
+        get :page_text, @params
+        expect(response).to be_success
+        expect(json['content']).to eq('File not found!')
+      end
+
+      it "should not allow download" do
+        @params[:download] = true
+        get :page_text, @params
+        expect(response).to be_success
+        expect(json['content']).to eq('File not found!')
+      end
+    end
   end
 
- describe "GET get_page_hocr" do
+ describe "GET page_hocr" do
     before(:each) do
       @print_font = create(:print_font)
       @work = create(:work, print_font: @print_font)
@@ -215,55 +346,69 @@ RSpec.describe ResultsController, :type => :controller do
       # Mock directory storing OCR output
       @emop_path_prefix = Dir.mktmpdir
       allow(Rails.application.secrets).to receive(:emop_path_prefix) { @emop_path_prefix }
-      # Mock text output
-      xml_filename = File.join(@emop_path_prefix, @page_result.ocr_xml_path)
-      @file = double('ocr-xml-output')
-      allow(File).to receive(:open).with(xml_filename, 'r').and_return(@file)
-      allow(@file).to receive(:read).and_return('ocr-xml-output')
-      allow(ResultsController).to receive(:get_idhmc_page).with(@page_result.ocr_xml_path).and_return([xml_filename, 'ocr-xml-output'])
+      # Mock xml output
+      FileUtils.mkdir_p(File.dirname(@page_result.local_xml_path))
+      File.open(@page_result.local_xml_path, "w") {|f| f.write "ocr-xml-output" }
+    end
+
+    after(:each) do
+      FileUtils.rm_rf(@emop_path_prefix)
     end
 
     it "should respond successfully" do
-      get :get_page_hocr, @params
+      get :page_hocr, @params
 
       expect(response).to be_success
     end
 
     it "should respond with page result information" do
-      get :get_page_hocr, @params
+      get :page_hocr, @params
 
       expect(json['page']).to eq(@page.pg_ref_number)
       expect(json['content']).to eq('ocr-xml-output')
     end
 
     it "should respond with page result information for IDHMC page" do
-      #TODO Move this logic into model
-      ext = File.extname(@page_result.ocr_xml_path)
-      name = File.basename(@page_result.ocr_xml_path, ext)
-      new_name = "#{name}_IDHMC#{ext}"
-      idhmc_file = File.join(@emop_path_prefix, File.dirname(@page_result.ocr_xml_path), new_name)
-      allow(File).to receive('exist?').with(idhmc_file).and_return(true)
-      allow(File).to receive(:open).with(idhmc_file, 'r').and_return(@file)
+      FileUtils.mkdir_p(File.dirname(@page_result.local_idhmc_xml_path))
+      File.open(@page_result.local_idhmc_xml_path, "w") {|f| f.write "ocr-idhmc-xml-output" }
 
-      get :get_page_hocr, @params
+      get :page_hocr, @params
 
       expect(json['page']).to eq(@page.pg_ref_number)
-      expect(json['content']).to eq('ocr-xml-output')
+      expect(json['content']).to eq('ocr-idhmc-xml-output')
     end
 
     it "should send data" do
       @params[:download] = true
 
-      get :get_page_hocr, @params
+      get :page_hocr, @params
 
       expect(response.headers['Content-Disposition']).to eq("attachment; filename=\"#{File.basename(@page_result.ocr_xml_path)}\"")
       expect(response.headers['Content-Type']).to eq('text/xml')
     end
+
+    context 'when the requested file does not exist' do
+      before(:each) do
+        FileUtils.rm_rf(@emop_path_prefix)
+      end
+
+      it "should alert when file not found" do
+        get :page_hocr, @params
+        expect(response).to be_success
+        expect(json['content']).to eq('File not found!')
+      end
+
+      it "should not allow download" do
+        @params[:download] = true
+        get :page_hocr, @params
+        expect(response).to be_success
+        expect(json['content']).to eq('File not found!')
+      end
+    end
   end
 
-  describe "GET get_page_image" do
+  describe "GET page_image" do
     before(:each) do
-      skip "Unable to mock ImageMagick"
       @print_font = create(:print_font)
       @work = create(:work, print_font: @print_font)
       @page = @work.pages.first
@@ -275,22 +420,50 @@ RSpec.describe ResultsController, :type => :controller do
       # Mock directory storing OCR output
       @emop_path_prefix = Dir.mktmpdir
       allow(Rails.application.secrets).to receive(:emop_path_prefix) { @emop_path_prefix }
+      image_file = Rails.root.join("spec/fixtures/files/phototest.tif")
+      # Set page image path as /phototest.tif
+      pg_image_path = File.join('/', File.basename(image_file))
+      @page.update!(pg_image_path: pg_image_path)
+      # Copy the fixture to mocked directory
+      FileUtils.cp(image_file, File.join(@emop_path_prefix, pg_image_path))
+
+      # Load converted fixture into tests
+      require 'RMagick'
+      @png_image = Magick::Image.read(Rails.root.join('spec/fixtures/files/phototest.png')).first
+
+      # Mock referer URL to test if redirect occurs
+      @referer = "http://localhost/results?work=#{@work.id}"
+      allow(controller.request).to receive(:referer).and_return(@referer)
+    end
+
+    after(:each) do
+      FileUtils.rm_rf(@emop_path_prefix)
     end
 
     it "should respond successfully" do
-      get :get_page_image, @params
-
+      get :page_image, @params
       expect(response).to be_success
     end
 
-    it "should send valid data" do
-      get :get_page_image, @params
-
+    it "should have valid headers" do
+      get :page_image, @params
       expect(response.headers['Content-Type']).to eq('image/png')
+    end
+
+    it "should send image" do
+      get :page_image, @params
+      sent_image = Magick::Image.from_blob(response.body).first
+      expect(sent_image.export_pixels.join).to be_same_md5sum(@png_image.export_pixels.join)
+    end
+
+    it "should redirect when file does not exist" do
+      FileUtils.rm_rf(@emop_path_prefix)
+      get :page_image, @params
+      expect(subject).to redirect_to(@referer)
     end
   end
 
-  describe "GET get_page_error" do
+  describe "GET page_error" do
     before(:each) do
       @work = create(:work)
       @page = @work.pages.first
@@ -304,13 +477,13 @@ RSpec.describe ResultsController, :type => :controller do
     end
 
     it "should respond successfully" do
-      get :get_page_error, @params
+      get :page_error, @params
 
       expect(response).to be_success
     end
 
     it "should respond with a jobs results" do
-      get :get_page_error, @params
+      get :page_error, @params
 
       expect(json).to match(
         'page' => @page.pg_ref_number,
@@ -356,7 +529,8 @@ RSpec.describe ResultsController, :type => :controller do
       @job_type = JobType.find_by(name: 'OCR')
       @ocr_engine = OcrEngine.find_by(name: 'Tesseract')
       @font = create(:font)
-      @pages = create_list(:page, 2)
+      @work = create(:work)
+      @pages = create_list(:page, 2, work: @work)
       @page_ids = @pages.map(&:id)
 
       @params = {
@@ -367,7 +541,7 @@ RSpec.describe ResultsController, :type => :controller do
         #Can't use params in params
         #params: '',
         notes: '',
-        json: {pages: @page_ids}.to_json,
+        json: {pages: @page_ids, work: @work.id}.to_json,
       }
     end
 
