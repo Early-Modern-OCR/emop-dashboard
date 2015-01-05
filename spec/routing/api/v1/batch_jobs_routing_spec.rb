@@ -11,6 +11,10 @@ RSpec.describe Api::V1::BatchJobsController, :type => :routing do
       expect(:get => "/api/batch_jobs/1").to route_to(controller: "api/v1/batch_jobs", action: "show", format: :json, id: "1")
     end
 
+    it "routes to #page_results" do
+      expect(:get => "/api/batch_jobs/1/page_results").to route_to(controller: "api/v1/batch_jobs", action: "page_results", format: :json, id: '1')
+    end
+
     it "routes to #count" do
       expect(:get => "/api/batch_jobs/count").to route_to(controller: "api/v1/batch_jobs", action: "count", format: :json)
     end

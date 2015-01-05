@@ -20,6 +20,7 @@
   <ul>
       <li><a href='#batch_jobs-index'>index</a></li>
       <li><a href='#batch_jobs-show'>show</a></li>
+      <li><a href='#batch_jobs-page_results'>page_results</a></li>
       <li><a href='#batch_jobs-count'>count</a></li>
       <li><a href='#batch_jobs-upload_results'>upload_results</a></li>
   </ul>
@@ -301,6 +302,165 @@
       </div>
       <hr>
 
+      <ul class='breadcrumb' id='batch_jobs-page_results'>
+        <li>
+          <a href='#'>eMOP Dashboard</a>
+          <span class='divider'>/</span>
+        </li>
+        <li>
+          <a href='#batch_jobs'>Batch jobs</a>
+          <span class='divider'>/</span>
+        </li>
+        <li class='active'>page_results</li>
+      </ul>
+
+      <div>
+          <h3>
+            <a href='#batch_jobs-page_results'>
+              GET /api/batch_jobs/:id/page_results
+            </a><br>
+            <small>Show a batch job' page results</small>
+          </h3>
+      </div>
+
+      <div>
+        
+          <h2>Examples</h2>
+            <pre>GET /api/batch_jobs/4/page_results
+200
+{
+  &quot;batch_job&quot;: {
+    &quot;id&quot;: 4,
+    &quot;name&quot;: &quot;OCR Test&quot;,
+    &quot;parameters&quot;: &quot;&quot;,
+    &quot;notes&quot;: &quot;test&quot;,
+    &quot;job_type&quot;: {
+      &quot;id&quot;: 2,
+      &quot;name&quot;: &quot;OCR&quot;
+    },
+    &quot;ocr_engine&quot;: {
+      &quot;id&quot;: 2,
+      &quot;name&quot;: &quot;Tesseract&quot;
+    },
+    &quot;font&quot;: {
+      &quot;id&quot;: 4,
+      &quot;font_name&quot;: &quot;baskerville&quot;,
+      &quot;font_italic&quot;: null,
+      &quot;font_bold&quot;: null,
+      &quot;font_fixed&quot;: null,
+      &quot;font_serif&quot;: null,
+      &quot;font_fraktur&quot;: null,
+      &quot;font_line_height&quot;: null,
+      &quot;font_library_path&quot;: &quot;/data/shared/fonts/baskerville/emop.traineddata&quot;
+    },
+    &quot;page_results&quot;: [
+      {
+        &quot;id&quot;: 1,
+        &quot;ocr_text_path&quot;: &quot;/some/path/output.txt&quot;,
+        &quot;ocr_xml_path&quot;: &quot;/some/path/output.xml&quot;,
+        &quot;ocr_completed&quot;: null,
+        &quot;juxta_change_index&quot;: 0.0,
+        &quot;alt_change_index&quot;: 0.0,
+        &quot;page&quot;: {
+          &quot;id&quot;: 2,
+          &quot;pg_ref_number&quot;: 1,
+          &quot;pg_ground_truth_file&quot;: null,
+          &quot;work&quot;: {
+            &quot;id&quot;: 1,
+            &quot;wks_tcp_number&quot;: null,
+            &quot;wks_estc_number&quot;: &quot;T137595&quot;,
+            &quot;wks_tcp_bibno&quot;: null,
+            &quot;wks_marc_record&quot;: null,
+            &quot;wks_eebo_citation_id&quot;: null,
+            &quot;wks_eebo_directory&quot;: null,
+            &quot;wks_ecco_number&quot;: &quot;0212100100&quot;,
+            &quot;wks_book_id&quot;: null,
+            &quot;wks_author&quot;: &quot;Baskerville, John&quot;,
+            &quot;wks_publisher&quot;: &quot;Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].&quot;,
+            &quot;wks_word_count&quot;: null,
+            &quot;wks_title&quot;: &quot;A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.&quot;,
+            &quot;wks_eebo_image_id&quot;: null,
+            &quot;wks_eebo_url&quot;: null,
+            &quot;wks_pub_date&quot;: &quot;1765&quot;,
+            &quot;wks_ecco_uncorrected_gale_ocr_path&quot;: null,
+            &quot;wks_ecco_corrected_xml_path&quot;: null,
+            &quot;wks_ecco_corrected_text_path&quot;: null,
+            &quot;wks_ecco_directory&quot;: &quot;/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images&quot;,
+            &quot;wks_ecco_gale_ocr_xml_path&quot;: &quot;/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml&quot;,
+            &quot;wks_organizational_unit&quot;: 265,
+            &quot;wks_primary_print_font&quot;: null,
+            &quot;wks_last_trawled&quot;: &quot;2013-06-30&quot;
+          },
+          &quot;pg_gale_ocr_file&quot;: null,
+          &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
+        },
+        &quot;batch_job&quot;: {
+          &quot;id&quot;: 4,
+          &quot;name&quot;: &quot;OCR Test&quot;,
+          &quot;parameters&quot;: &quot;&quot;,
+          &quot;notes&quot;: &quot;test&quot;,
+          &quot;job_type&quot;: {
+            &quot;id&quot;: 2,
+            &quot;name&quot;: &quot;OCR&quot;
+          },
+          &quot;ocr_engine&quot;: {
+            &quot;id&quot;: 2,
+            &quot;name&quot;: &quot;Tesseract&quot;
+          },
+          &quot;font&quot;: {
+            &quot;id&quot;: 4,
+            &quot;font_name&quot;: &quot;baskerville&quot;,
+            &quot;font_italic&quot;: null,
+            &quot;font_bold&quot;: null,
+            &quot;font_fixed&quot;: null,
+            &quot;font_serif&quot;: null,
+            &quot;font_fraktur&quot;: null,
+            &quot;font_line_height&quot;: null,
+            &quot;font_library_path&quot;: &quot;/data/shared/fonts/baskerville/emop.traineddata&quot;
+          }
+        }
+      }
+    ]
+  }
+}</pre>
+
+
+          <h2>Params</h2>
+          <table class='table'>
+            <thead>
+              <tr>
+                <th>Param name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr style='background-color:rgb(255,255,255);'>
+    <td>
+      <strong>id </strong><br>
+      <small>
+        required
+        
+      </small>
+    </td>
+    <td>
+      
+<p>Batch job ID</p>
+
+        <br>
+        Value: Must be Integer.
+
+
+    </td>
+
+  </tr>
+
+  
+
+            </tbody>
+          </table>
+      </div>
+      <hr>
+
       <ul class='breadcrumb' id='batch_jobs-count'>
         <li>
           <a href='#'>eMOP Dashboard</a>
@@ -384,8 +544,8 @@
   },
   &quot;page_results&quot;: [
     {
-      &quot;page_id&quot;: 8,
-      &quot;batch_id&quot;: 13,
+      &quot;page_id&quot;: 10,
+      &quot;batch_id&quot;: 14,
       &quot;ocr_text_path&quot;: &quot;/some/path/output.txt&quot;,
       &quot;ocr_xml_path&quot;: &quot;/some/path/output.xml&quot;,
       &quot;juxta_change_index&quot;: 0.0,
@@ -394,8 +554,8 @@
   ],
   &quot;postproc_results&quot;: [
     {
-      &quot;page_id&quot;: 9,
-      &quot;batch_job_id&quot;: 14,
+      &quot;page_id&quot;: 11,
+      &quot;batch_job_id&quot;: 15,
       &quot;pp_ecorr&quot;: 0.0,
       &quot;pp_juxta&quot;: 0.0,
       &quot;pp_retas&quot;: 0.0,
@@ -957,7 +1117,7 @@
         &quot;name&quot;: &quot;Not Started&quot;
       },
       &quot;batch_job&quot;: {
-        &quot;id&quot;: 15,
+        &quot;id&quot;: 16,
         &quot;name&quot;: &quot;OCR Test&quot;,
         &quot;parameters&quot;: &quot;&quot;,
         &quot;notes&quot;: &quot;test&quot;,
@@ -970,7 +1130,7 @@
           &quot;name&quot;: &quot;Tesseract&quot;
         },
         &quot;font&quot;: {
-          &quot;id&quot;: 15,
+          &quot;id&quot;: 16,
           &quot;font_name&quot;: &quot;baskerville&quot;,
           &quot;font_italic&quot;: null,
           &quot;font_bold&quot;: null,
@@ -982,11 +1142,11 @@
         }
       },
       &quot;page&quot;: {
-        &quot;id&quot;: 10,
+        &quot;id&quot;: 12,
         &quot;pg_ref_number&quot;: 1,
         &quot;pg_ground_truth_file&quot;: null,
         &quot;work&quot;: {
-          &quot;id&quot;: 17,
+          &quot;id&quot;: 18,
           &quot;wks_tcp_number&quot;: null,
           &quot;wks_estc_number&quot;: &quot;T137595&quot;,
           &quot;wks_tcp_bibno&quot;: null,
@@ -1015,7 +1175,7 @@
         &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
       },
       &quot;work&quot;: {
-        &quot;id&quot;: 18,
+        &quot;id&quot;: 19,
         &quot;wks_tcp_number&quot;: null,
         &quot;wks_estc_number&quot;: &quot;T137595&quot;,
         &quot;wks_tcp_bibno&quot;: null,
@@ -1051,7 +1211,7 @@
         &quot;name&quot;: &quot;Not Started&quot;
       },
       &quot;batch_job&quot;: {
-        &quot;id&quot;: 16,
+        &quot;id&quot;: 17,
         &quot;name&quot;: &quot;OCR Test&quot;,
         &quot;parameters&quot;: &quot;&quot;,
         &quot;notes&quot;: &quot;test&quot;,
@@ -1064,7 +1224,7 @@
           &quot;name&quot;: &quot;Tesseract&quot;
         },
         &quot;font&quot;: {
-          &quot;id&quot;: 16,
+          &quot;id&quot;: 17,
           &quot;font_name&quot;: &quot;baskerville&quot;,
           &quot;font_italic&quot;: null,
           &quot;font_bold&quot;: null,
@@ -1076,11 +1236,11 @@
         }
       },
       &quot;page&quot;: {
-        &quot;id&quot;: 11,
+        &quot;id&quot;: 13,
         &quot;pg_ref_number&quot;: 1,
         &quot;pg_ground_truth_file&quot;: null,
         &quot;work&quot;: {
-          &quot;id&quot;: 19,
+          &quot;id&quot;: 20,
           &quot;wks_tcp_number&quot;: null,
           &quot;wks_estc_number&quot;: &quot;T137595&quot;,
           &quot;wks_tcp_bibno&quot;: null,
@@ -1109,7 +1269,7 @@
         &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
       },
       &quot;work&quot;: {
-        &quot;id&quot;: 20,
+        &quot;id&quot;: 21,
         &quot;wks_tcp_number&quot;: null,
         &quot;wks_estc_number&quot;: &quot;T137595&quot;,
         &quot;wks_tcp_bibno&quot;: null,
@@ -1254,7 +1414,7 @@
       &quot;name&quot;: &quot;Not Started&quot;
     },
     &quot;batch_job&quot;: {
-      &quot;id&quot;: 22,
+      &quot;id&quot;: 23,
       &quot;name&quot;: &quot;OCR Test&quot;,
       &quot;parameters&quot;: &quot;&quot;,
       &quot;notes&quot;: &quot;test&quot;,
@@ -1267,7 +1427,7 @@
         &quot;name&quot;: &quot;Tesseract&quot;
       },
       &quot;font&quot;: {
-        &quot;id&quot;: 22,
+        &quot;id&quot;: 23,
         &quot;font_name&quot;: &quot;baskerville&quot;,
         &quot;font_italic&quot;: null,
         &quot;font_bold&quot;: null,
@@ -1279,11 +1439,11 @@
       }
     },
     &quot;page&quot;: {
-      &quot;id&quot;: 17,
+      &quot;id&quot;: 19,
       &quot;pg_ref_number&quot;: 1,
       &quot;pg_ground_truth_file&quot;: null,
       &quot;work&quot;: {
-        &quot;id&quot;: 31,
+        &quot;id&quot;: 32,
         &quot;wks_tcp_number&quot;: null,
         &quot;wks_estc_number&quot;: &quot;T137595&quot;,
         &quot;wks_tcp_bibno&quot;: null,
@@ -1312,7 +1472,7 @@
       &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
     },
     &quot;work&quot;: {
-      &quot;id&quot;: 32,
+      &quot;id&quot;: 33,
       &quot;wks_tcp_number&quot;: null,
       &quot;wks_estc_number&quot;: &quot;T137595&quot;,
       &quot;wks_tcp_bibno&quot;: null,
@@ -1484,12 +1644,106 @@
   &quot;proc_id&quot;: &quot;20141109000000000&quot;,
   &quot;results&quot;: [
     {
-      &quot;id&quot;: 23,
+      &quot;id&quot;: 21,
       &quot;tries&quot;: 0,
       &quot;results&quot;: null,
       &quot;status&quot;: {
-        &quot;id&quot;: 1,
-        &quot;name&quot;: &quot;Not Started&quot;
+        &quot;id&quot;: 2,
+        &quot;name&quot;: &quot;Processing&quot;
+      },
+      &quot;batch_job&quot;: {
+        &quot;id&quot;: 29,
+        &quot;name&quot;: &quot;OCR Test&quot;,
+        &quot;parameters&quot;: &quot;&quot;,
+        &quot;notes&quot;: &quot;test&quot;,
+        &quot;job_type&quot;: {
+          &quot;id&quot;: 2,
+          &quot;name&quot;: &quot;OCR&quot;
+        },
+        &quot;ocr_engine&quot;: {
+          &quot;id&quot;: 2,
+          &quot;name&quot;: &quot;Tesseract&quot;
+        },
+        &quot;font&quot;: {
+          &quot;id&quot;: 29,
+          &quot;font_name&quot;: &quot;baskerville&quot;,
+          &quot;font_italic&quot;: null,
+          &quot;font_bold&quot;: null,
+          &quot;font_fixed&quot;: null,
+          &quot;font_serif&quot;: null,
+          &quot;font_fraktur&quot;: null,
+          &quot;font_line_height&quot;: null,
+          &quot;font_library_path&quot;: &quot;/data/shared/fonts/baskerville/emop.traineddata&quot;
+        }
+      },
+      &quot;page&quot;: {
+        &quot;id&quot;: 25,
+        &quot;pg_ref_number&quot;: 1,
+        &quot;pg_ground_truth_file&quot;: null,
+        &quot;work&quot;: {
+          &quot;id&quot;: 44,
+          &quot;wks_tcp_number&quot;: null,
+          &quot;wks_estc_number&quot;: &quot;T137595&quot;,
+          &quot;wks_tcp_bibno&quot;: null,
+          &quot;wks_marc_record&quot;: null,
+          &quot;wks_eebo_citation_id&quot;: null,
+          &quot;wks_eebo_directory&quot;: null,
+          &quot;wks_ecco_number&quot;: &quot;0212100100&quot;,
+          &quot;wks_book_id&quot;: null,
+          &quot;wks_author&quot;: &quot;Baskerville, John&quot;,
+          &quot;wks_publisher&quot;: &quot;Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].&quot;,
+          &quot;wks_word_count&quot;: null,
+          &quot;wks_title&quot;: &quot;A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.&quot;,
+          &quot;wks_eebo_image_id&quot;: null,
+          &quot;wks_eebo_url&quot;: null,
+          &quot;wks_pub_date&quot;: &quot;1765&quot;,
+          &quot;wks_ecco_uncorrected_gale_ocr_path&quot;: null,
+          &quot;wks_ecco_corrected_xml_path&quot;: null,
+          &quot;wks_ecco_corrected_text_path&quot;: null,
+          &quot;wks_ecco_directory&quot;: &quot;/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images&quot;,
+          &quot;wks_ecco_gale_ocr_xml_path&quot;: &quot;/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml&quot;,
+          &quot;wks_organizational_unit&quot;: 265,
+          &quot;wks_primary_print_font&quot;: null,
+          &quot;wks_last_trawled&quot;: &quot;2013-06-30&quot;
+        },
+        &quot;pg_gale_ocr_file&quot;: null,
+        &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
+      },
+      &quot;work&quot;: {
+        &quot;id&quot;: 45,
+        &quot;wks_tcp_number&quot;: null,
+        &quot;wks_estc_number&quot;: &quot;T137595&quot;,
+        &quot;wks_tcp_bibno&quot;: null,
+        &quot;wks_marc_record&quot;: null,
+        &quot;wks_eebo_citation_id&quot;: null,
+        &quot;wks_eebo_directory&quot;: null,
+        &quot;wks_ecco_number&quot;: &quot;0212100100&quot;,
+        &quot;wks_book_id&quot;: null,
+        &quot;wks_author&quot;: &quot;Baskerville, John&quot;,
+        &quot;wks_publisher&quot;: &quot;Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].&quot;,
+        &quot;wks_word_count&quot;: null,
+        &quot;wks_title&quot;: &quot;A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.&quot;,
+        &quot;wks_eebo_image_id&quot;: null,
+        &quot;wks_eebo_url&quot;: null,
+        &quot;wks_pub_date&quot;: &quot;1765&quot;,
+        &quot;wks_ecco_uncorrected_gale_ocr_path&quot;: null,
+        &quot;wks_ecco_corrected_xml_path&quot;: null,
+        &quot;wks_ecco_corrected_text_path&quot;: null,
+        &quot;wks_ecco_directory&quot;: &quot;/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images&quot;,
+        &quot;wks_ecco_gale_ocr_xml_path&quot;: &quot;/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml&quot;,
+        &quot;wks_organizational_unit&quot;: 265,
+        &quot;wks_primary_print_font&quot;: null,
+        &quot;wks_last_trawled&quot;: &quot;2013-06-30&quot;
+      },
+      &quot;proc_id&quot;: &quot;20141109000000000&quot;
+    },
+    {
+      &quot;id&quot;: 22,
+      &quot;tries&quot;: 0,
+      &quot;results&quot;: null,
+      &quot;status&quot;: {
+        &quot;id&quot;: 2,
+        &quot;name&quot;: &quot;Processing&quot;
       },
       &quot;batch_job&quot;: {
         &quot;id&quot;: 30,
@@ -1517,105 +1771,11 @@
         }
       },
       &quot;page&quot;: {
-        &quot;id&quot;: 25,
-        &quot;pg_ref_number&quot;: 1,
-        &quot;pg_ground_truth_file&quot;: null,
-        &quot;work&quot;: {
-          &quot;id&quot;: 47,
-          &quot;wks_tcp_number&quot;: null,
-          &quot;wks_estc_number&quot;: &quot;T137595&quot;,
-          &quot;wks_tcp_bibno&quot;: null,
-          &quot;wks_marc_record&quot;: null,
-          &quot;wks_eebo_citation_id&quot;: null,
-          &quot;wks_eebo_directory&quot;: null,
-          &quot;wks_ecco_number&quot;: &quot;0212100100&quot;,
-          &quot;wks_book_id&quot;: null,
-          &quot;wks_author&quot;: &quot;Baskerville, John&quot;,
-          &quot;wks_publisher&quot;: &quot;Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].&quot;,
-          &quot;wks_word_count&quot;: null,
-          &quot;wks_title&quot;: &quot;A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.&quot;,
-          &quot;wks_eebo_image_id&quot;: null,
-          &quot;wks_eebo_url&quot;: null,
-          &quot;wks_pub_date&quot;: &quot;1765&quot;,
-          &quot;wks_ecco_uncorrected_gale_ocr_path&quot;: null,
-          &quot;wks_ecco_corrected_xml_path&quot;: null,
-          &quot;wks_ecco_corrected_text_path&quot;: null,
-          &quot;wks_ecco_directory&quot;: &quot;/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images&quot;,
-          &quot;wks_ecco_gale_ocr_xml_path&quot;: &quot;/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml&quot;,
-          &quot;wks_organizational_unit&quot;: 265,
-          &quot;wks_primary_print_font&quot;: null,
-          &quot;wks_last_trawled&quot;: &quot;2013-06-30&quot;
-        },
-        &quot;pg_gale_ocr_file&quot;: null,
-        &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
-      },
-      &quot;work&quot;: {
-        &quot;id&quot;: 48,
-        &quot;wks_tcp_number&quot;: null,
-        &quot;wks_estc_number&quot;: &quot;T137595&quot;,
-        &quot;wks_tcp_bibno&quot;: null,
-        &quot;wks_marc_record&quot;: null,
-        &quot;wks_eebo_citation_id&quot;: null,
-        &quot;wks_eebo_directory&quot;: null,
-        &quot;wks_ecco_number&quot;: &quot;0212100100&quot;,
-        &quot;wks_book_id&quot;: null,
-        &quot;wks_author&quot;: &quot;Baskerville, John&quot;,
-        &quot;wks_publisher&quot;: &quot;Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].&quot;,
-        &quot;wks_word_count&quot;: null,
-        &quot;wks_title&quot;: &quot;A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.&quot;,
-        &quot;wks_eebo_image_id&quot;: null,
-        &quot;wks_eebo_url&quot;: null,
-        &quot;wks_pub_date&quot;: &quot;1765&quot;,
-        &quot;wks_ecco_uncorrected_gale_ocr_path&quot;: null,
-        &quot;wks_ecco_corrected_xml_path&quot;: null,
-        &quot;wks_ecco_corrected_text_path&quot;: null,
-        &quot;wks_ecco_directory&quot;: &quot;/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images&quot;,
-        &quot;wks_ecco_gale_ocr_xml_path&quot;: &quot;/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml&quot;,
-        &quot;wks_organizational_unit&quot;: 265,
-        &quot;wks_primary_print_font&quot;: null,
-        &quot;wks_last_trawled&quot;: &quot;2013-06-30&quot;
-      },
-      &quot;proc_id&quot;: null
-    },
-    {
-      &quot;id&quot;: 24,
-      &quot;tries&quot;: 0,
-      &quot;results&quot;: null,
-      &quot;status&quot;: {
-        &quot;id&quot;: 1,
-        &quot;name&quot;: &quot;Not Started&quot;
-      },
-      &quot;batch_job&quot;: {
-        &quot;id&quot;: 31,
-        &quot;name&quot;: &quot;OCR Test&quot;,
-        &quot;parameters&quot;: &quot;&quot;,
-        &quot;notes&quot;: &quot;test&quot;,
-        &quot;job_type&quot;: {
-          &quot;id&quot;: 2,
-          &quot;name&quot;: &quot;OCR&quot;
-        },
-        &quot;ocr_engine&quot;: {
-          &quot;id&quot;: 2,
-          &quot;name&quot;: &quot;Tesseract&quot;
-        },
-        &quot;font&quot;: {
-          &quot;id&quot;: 31,
-          &quot;font_name&quot;: &quot;baskerville&quot;,
-          &quot;font_italic&quot;: null,
-          &quot;font_bold&quot;: null,
-          &quot;font_fixed&quot;: null,
-          &quot;font_serif&quot;: null,
-          &quot;font_fraktur&quot;: null,
-          &quot;font_line_height&quot;: null,
-          &quot;font_library_path&quot;: &quot;/data/shared/fonts/baskerville/emop.traineddata&quot;
-        }
-      },
-      &quot;page&quot;: {
         &quot;id&quot;: 26,
         &quot;pg_ref_number&quot;: 1,
         &quot;pg_ground_truth_file&quot;: null,
         &quot;work&quot;: {
-          &quot;id&quot;: 49,
+          &quot;id&quot;: 46,
           &quot;wks_tcp_number&quot;: null,
           &quot;wks_estc_number&quot;: &quot;T137595&quot;,
           &quot;wks_tcp_bibno&quot;: null,
@@ -1644,7 +1804,7 @@
         &quot;pg_image_path&quot;: &quot;/data/ecco/somepath&quot;
       },
       &quot;work&quot;: {
-        &quot;id&quot;: 50,
+        &quot;id&quot;: 47,
         &quot;wks_tcp_number&quot;: null,
         &quot;wks_estc_number&quot;: &quot;T137595&quot;,
         &quot;wks_tcp_bibno&quot;: null,
@@ -1669,7 +1829,7 @@
         &quot;wks_primary_print_font&quot;: null,
         &quot;wks_last_trawled&quot;: &quot;2013-06-30&quot;
       },
-      &quot;proc_id&quot;: null
+      &quot;proc_id&quot;: &quot;20141109000000000&quot;
     }
   ]
 }</pre>
@@ -1969,7 +2129,7 @@
   &quot;total_pages&quot;: 1,
   &quot;results&quot;: [
     {
-      &quot;id&quot;: 53,
+      &quot;id&quot;: 54,
       &quot;wks_tcp_number&quot;: null,
       &quot;wks_estc_number&quot;: &quot;T137595&quot;,
       &quot;wks_tcp_bibno&quot;: null,
@@ -1995,7 +2155,7 @@
       &quot;wks_last_trawled&quot;: &quot;2013-06-30&quot;
     },
     {
-      &quot;id&quot;: 54,
+      &quot;id&quot;: 55,
       &quot;wks_tcp_number&quot;: null,
       &quot;wks_estc_number&quot;: &quot;T137595&quot;,
       &quot;wks_tcp_bibno&quot;: null,
@@ -2105,11 +2265,11 @@
       <div>
         
           <h2>Examples</h2>
-            <pre>GET /api/works/55
+            <pre>GET /api/works/56
 200
 {
   &quot;work&quot;: {
-    &quot;id&quot;: 55,
+    &quot;id&quot;: 56,
     &quot;wks_tcp_number&quot;: null,
     &quot;wks_estc_number&quot;: &quot;T137595&quot;,
     &quot;wks_tcp_bibno&quot;: null,
@@ -2197,7 +2357,7 @@
       <div>
         
           <h2>Examples</h2>
-            <pre>PUT /api/works/56
+            <pre>PUT /api/works/57
 {
   &quot;work&quot;: {
     &quot;wks_estc_number&quot;: &quot;T0001&quot;
@@ -2206,7 +2366,7 @@
 200
 {
   &quot;work&quot;: {
-    &quot;id&quot;: 56,
+    &quot;id&quot;: 57,
     &quot;wks_tcp_number&quot;: null,
     &quot;wks_estc_number&quot;: &quot;T0001&quot;,
     &quot;wks_tcp_bibno&quot;: null,
