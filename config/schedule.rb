@@ -18,6 +18,8 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+require File.expand_path(File.dirname(__FILE__) + "/environment")
+
 every 4.hours do
   runner "JuxtaCollation.expire_old_sets"
 end
