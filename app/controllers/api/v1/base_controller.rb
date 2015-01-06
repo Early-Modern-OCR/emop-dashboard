@@ -10,7 +10,7 @@ module Api
       layout 'api/v1/layouts/index_layout', :only => :index
 
       def_param_group :pagination do
-        param :page, String, :desc => 'paginate results'
+        param :page_num, String, :desc => 'paginate results'
         param :page_size, String, :desc => 'number of entries per request'
       end
 
@@ -30,11 +30,11 @@ module Api
       end
 
       def metadata_page
-        @page ||= page_params[:page].present? ? page_params[:page].to_i : 1
+        @page_num ||= paginate_params[:page_num].present? ? paginate_params[:page_num].to_i : 1
       end
 
       def metadata_per_page
-        per_page ||= page_params[:per_page].present? ? page_params[:per_page].to_i : resource_class.try(:default_per_page).to_i
+        per_page ||= paginate_params[:per_page].present? ? paginate_params[:per_page].to_i : resource_class.try(:default_per_page).to_i
         if per_page > @total
           per_page = @total
         end
@@ -66,7 +66,7 @@ module Api
       def index
         plural_resource_name = "@#{resource_name.pluralize}"
         resources = resource_class.where(query_params)
-                                  .page(page_params[:page]).per(page_params[:per_page])
+                                  .page(paginate_params[:page_num]).per(paginate_params[:per_page])
 
         #instance_variable_set('@total', resources.length)
         instance_variable_set(plural_resource_name, resources)
@@ -105,8 +105,8 @@ module Api
 
       # Returns the allowed parameters for pagination
       # @return [Hash]
-      def page_params
-        params.permit(:page, :per_page)
+      def paginate_params
+        params.permit(:page_num, :per_page)
       end
 
       # The resource class based on the controller

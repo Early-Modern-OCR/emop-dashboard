@@ -51,7 +51,7 @@ RSpec.describe Api::V1::WorksController, :type => :request do
   end
 
   describe "GET /api/works/:id" do
-    it 'retrieves a specific batch job', :show_in_doc do
+    it 'retrieves a specific work', :show_in_doc do
       work = FactoryGirl.create(:work)
       get "/api/works/#{work.id}", {}, api_headers
 

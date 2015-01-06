@@ -19,10 +19,6 @@ module Api
       def query_params
         params.permit(:id, :name)
       end
-
-      def page_params
-        params.permit()
-      end
     end
   end
 end
