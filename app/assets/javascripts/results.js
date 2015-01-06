@@ -194,7 +194,8 @@ $(function() {
          { "mData": "page_number" },
          { "mData": "juxta_accuracy" },
          { "mData": "retas_accuracy" },
-         { "mData": "pp_ecorr" }
+         { "mData": "pp_ecorr" },
+         { "mData": "pp_stats" }
        ]
    }).fnFilterOnReturn();
    

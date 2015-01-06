@@ -44,7 +44,8 @@ class ResultsController < ApplicationController
       search_col_idx = params[:iSortCol_0].to_i
       cols = [
         nil, 'job_queues.job_status_id', nil, nil, nil, nil,
-        'pg_ref_number', 'page_results.juxta_change_index', 'page_results.alt_change_index'
+        'pg_ref_number', 'page_results.juxta_change_index', 'page_results.alt_change_index',
+        'postproc_pages.pp_ecorr', 'postproc_pages.pp_stats'
       ]
       dir = params[:sSortDir_0]
       dir = 'asc' if dir.nil?
@@ -84,6 +85,7 @@ class ResultsController < ApplicationController
       rec[:juxta_accuracy] = '-'
       rec[:retas_accuracy] = '-'
       rec[:pp_ecorr] = '-'
+      rec[:pp_stats] = '-'
       # Items from page_results
       if page_result.present?
         rec[:ocr_text] = "<div id='result-#{page_result.id}' class='ocr-txt' title='View OCR text output'>"
@@ -101,6 +103,9 @@ class ResultsController < ApplicationController
       if postproc_page.present?
         if postproc_page.pp_ecorr.present?
           rec[:pp_ecorr] = postproc_page.pp_ecorr
+        end
+        if postproc_page.pp_stats.present?
+          rec[:pp_stats] = postproc_page.pp_stats
         end
       end
       data << rec

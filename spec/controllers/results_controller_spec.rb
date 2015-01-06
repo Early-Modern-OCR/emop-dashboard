@@ -130,6 +130,11 @@ RSpec.describe ResultsController, :type => :controller do
       expect(json['data'].first['pp_ecorr']).to eq(@postproc_page.pp_ecorr)
     end
 
+    it "returns pp_stats data" do
+      get :fetch, @params
+      expect(json['data'].first['pp_stats']).to eq(@postproc_page.pp_stats)
+    end
+
     context 'when no juxta_change_index is present' do
       before(:each) do
         @page_result.update!(juxta_change_index: nil)
@@ -203,6 +208,17 @@ RSpec.describe ResultsController, :type => :controller do
       end
     end
 
+    context 'when no pp_stats value is present' do
+      before(:each) do
+        @postproc_page.update!(pp_stats: nil)
+      end
+
+      it "returns no pp_stats data" do
+        get :fetch, @params
+        expect(json['data'].first['pp_stats']).to eq('-')
+      end
+    end
+
     context 'when no postproc_page exists' do
       before(:each) do
         @postproc_page.destroy!
@@ -211,6 +227,11 @@ RSpec.describe ResultsController, :type => :controller do
       it "returns no pp_ecorr data" do
         get :fetch, @params
         expect(json['data'].first['pp_ecorr']).to eq('-')
+      end
+
+      it "returns no pp_stats data" do
+        get :fetch, @params
+        expect(json['data'].first['pp_stats']).to eq('-')
       end
     end
 
@@ -251,6 +272,11 @@ RSpec.describe ResultsController, :type => :controller do
       it "returns no pp_ecorr data" do
         get :fetch, @params
         expect(json['data'].first['pp_ecorr']).to eq('-')
+      end
+
+      it "returns no pp_stats data" do
+        get :fetch, @params
+        expect(json['data'].first['pp_stats']).to eq('-')
       end
     end
   end
