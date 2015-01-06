@@ -128,7 +128,7 @@ RSpec.describe Api::V1::BatchJobsController, :type => :request do
       page_result = create_attributes(:page_result)
       postproc_page = create_attributes(:postproc_page)
       page_result['juxta_change_index'] = 0.1
-      postproc_page['pp_stats'] = 0.1
+      postproc_page['pp_pg_quality'] = 0.1
 
       data = {
         job_queues: {
@@ -150,7 +150,7 @@ RSpec.describe Api::V1::BatchJobsController, :type => :request do
 
       expect(response).to be_success
       expect(@page_result.juxta_change_index).to eq(0.1)
-      expect(@postproc_page.pp_stats).to eq(0.1)
+      expect(@postproc_page.pp_pg_quality).to eq(0.1)
     end
   end
 end

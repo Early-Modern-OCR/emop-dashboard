@@ -113,7 +113,7 @@ FactoryGirl.define do
     pp_juxta 0.0
     pp_retas 0.0
     pp_health '{"total":365,"ignored":22,"correct":119,"corrected":40,"unchanged":184}'
-    pp_stats 0.0
+    pp_pg_quality 0.0
     noisiness_idx 0.0
     multicol '0;1;2'
     skew_idx '1;0;1'

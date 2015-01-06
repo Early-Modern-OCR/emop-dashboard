@@ -195,7 +195,7 @@ $(function() {
          { "mData": "juxta_accuracy" },
          { "mData": "retas_accuracy" },
          { "mData": "pp_ecorr" },
-         { "mData": "pp_stats" }
+         { "mData": "pp_pg_quality" }
        ]
    }).fnFilterOnReturn();
    

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150106014039) do
+ActiveRecord::Schema.define(version: 20150106183403) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -125,7 +125,7 @@ ActiveRecord::Schema.define(version: 20150106014039) do
     t.float   "pp_juxta",      limit: 24
     t.float   "pp_retas",      limit: 24
     t.string  "pp_health"
-    t.float   "pp_stats",      limit: 24
+    t.float   "pp_pg_quality", limit: 24
     t.float   "noisiness_idx", limit: 24
     t.string  "multicol"
     t.string  "skew_idx"
