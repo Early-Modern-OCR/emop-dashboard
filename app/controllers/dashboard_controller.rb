@@ -270,7 +270,7 @@ class DashboardController < ApplicationController
       rec[:detail_link] = "<a href='results?work=#{result.work_id}&batch=#{result.batch_id}'><div class='detail-link' title='View pages'></div></a>"
     end
 
-    rec[:status] = get_status(result)
+    rec[:status] = view_context.work_status(result.batch_id, result.work_id)
 
     if !result.ecco_number.nil? && result.ecco_number.length > 0
       rec[:data_set] = 'ECCO'
@@ -297,7 +297,9 @@ class DashboardController < ApplicationController
     return rec
   end
 
+=begin TODO: Remove once sure no longer needed
   def get_status(result)
+    logger.debug("DEBUG: #{result.inspect}")
     if result.batch_id.nil?
       sql=["select count(*) as cnt from job_queues where page_id in (select pg_page_id from pages where pg_work_id=?)",result.work_id] 
       cnt = JobQueue.find_by_sql(sql).first.cnt
@@ -336,6 +338,7 @@ class DashboardController < ApplicationController
     end
     return "<div #{id} class='status-icon #{status}' title='#{msg}'></div>"
   end
+=end
 
   def gen_pages_link(work_id, batch_id, accuracy)
     link_class = ""

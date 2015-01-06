@@ -118,8 +118,28 @@
 .status-icon.scheduled {
    background-position: 0 -48px;
 }
-
-
+.status-icon.processing {
+  background-position: 0 -64px;
+}
+.status-text.idle {
+  color: gray;
+}
+.status-text.scheduled {
+  color: black;
+}
+.status-text.processing {
+  color: blue;
+}
+.status-text.success {
+  color: green;
+}
+.status-text.failed {
+  color: red;
+}
+.status-text.error {
+  color: red;
+  cursor: pointer;
+}
 
 #dim-overlay {
    z-index: 1000;
