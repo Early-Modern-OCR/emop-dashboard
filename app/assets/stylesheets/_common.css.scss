@@ -121,8 +121,8 @@
 .status-icon.processing {
   background-position: 0 -64px;
 }
-.status-text.idle {
-  color: gray;
+.status-text {
+  margin: 0px 1px 0px 1px;
 }
 .status-text.scheduled {
   color: black;
