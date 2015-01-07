@@ -14,13 +14,6 @@ module Api
         super
       end
 
-      api :GET, '/batch_jobs/:id/page_results', 'Show a batch job\' page results'
-      param :id, Integer, desc: 'Batch job ID', required: true
-      def page_results
-        @batch_job = BatchJob.find(params[:id])
-        respond_with @batch_job
-      end
-
       api :GET, '/batch_jobs/count', 'Count of batch jobs'
       def count
         @count = BatchJob.count(:all)

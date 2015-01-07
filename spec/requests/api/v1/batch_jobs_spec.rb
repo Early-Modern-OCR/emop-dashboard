@@ -60,20 +60,6 @@ RSpec.describe Api::V1::BatchJobsController, :type => :request do
     end
   end
 
-  describe "GET /api/batch_jobs/:id/page_results" do
-    it 'retrieves page_results for a batch job', :show_in_doc do
-      batch_job = create(:batch_job)
-      work = create(:work)
-      page = create(:page, work: work)
-      page_result = create(:page_result, batch_job: batch_job, page: page)
-      get "/api/batch_jobs/#{batch_job.id}/page_results", {}, api_headers
-
-      expect(response).to be_success
-      expect(json['batch_job']['id']).to eq(batch_job.id)
-      expect(json['batch_job']['page_results'].first['id']).to eq(page_result.id)
-    end
-  end
-
   describe "GET /api/batch_jobs/count" do
     it 'sends the count of batch jobs', :show_in_doc do
       FactoryGirl.create_list(:batch_job, 2)

@@ -96,6 +96,7 @@ FactoryGirl.define do
     batch_job { FactoryGirl.build(:batch_job) }
     ocr_text_path '/some/path/output.txt'
     ocr_xml_path  '/some/path/output.xml'
+    ocr_completed Time.parse("Nov 09 2014")
     juxta_change_index 0.0
     alt_change_index 0.0
 
