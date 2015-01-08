@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150106183403) do
+ActiveRecord::Schema.define(version: 20150108190145) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -103,6 +103,8 @@ ActiveRecord::Schema.define(version: 20150106183403) do
     t.datetime "ocr_completed"
     t.float    "juxta_change_index", limit: 24
     t.float    "alt_change_index",   limit: 24
+    t.string   "corr_ocr_text_path"
+    t.string   "corr_ocr_xml_path"
   end
 
   add_index "page_results", ["batch_id"], name: "index_page_results_on_batch_id", using: :btree

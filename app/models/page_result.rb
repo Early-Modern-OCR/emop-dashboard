@@ -13,6 +13,7 @@ class PageResult < ActiveRecord::Base
     when 'v1'
       Jbuilder.new do |json|
         json.call(self, :id, :ocr_text_path, :ocr_xml_path, :ocr_completed)
+        json.call(self, :corr_ocr_text_path, :corr_ocr_xml_path)
         json.call(self, :juxta_change_index, :alt_change_index)
         json.page page.to_builder
         json.batch_job batch_job.to_builder

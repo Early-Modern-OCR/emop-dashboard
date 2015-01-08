@@ -1,7 +1,6 @@
 module Api
   module V1
     class BatchJobsController < V1::BaseController
-
       api :GET, '/batch_jobs', 'List batch jobs'
       param_group :pagination, V1::BaseController
       def index
@@ -28,15 +27,17 @@ module Api
           param :results, String, required: false, allow_nil: true
         end
       end
-      param :page_results, Array, desc: 'Page results', required: false do
+      param :page_results, Array, desc: 'Page results', required: false, allow_nil: true do
         param :page_id, Integer, required: true
         param :batch_id, Integer, required: true
         param :ocr_text_path, String, required: true
         param :ocr_xml_path, String, required: true
+        param :corr_ocr_text_path, String, required: false, allow_nil: true
+        param :corr_ocr_xml_path, String, required: false, allow_nil: true
         param :juxta_change_index, Float, allow_nil:  true
         param :alt_change_index, Float, allow_nil:  true
       end
-      param :postproc_results, Array, desc: 'Post process results', required: false do
+      param :postproc_results, Array, desc: 'Post process results', required: false, allow_nil: true do
         param :page_id, Integer, required: true
         param :batch_job_id, Integer, required: true
         param :pp_noisemsr, Float, allow_nil: true
@@ -51,13 +52,13 @@ module Api
       end
       def upload_results
         job_queues = params[:job_queues]
-        page_results = params[:page_results]
-        postproc_results = params[:postproc_results]
+        page_results = params[:page_results] ||= []
+        postproc_results = params[:postproc_results] ||= []
         @pg_imports = 0
         @pp_imports = 0
 
         unless job_queues[:completed].blank?
-          @done_job_queues = JobQueue.where("id IN (?)", job_queues[:completed])
+          @done_job_queues = JobQueue.where(id: job_queues[:completed])
           @done_job_queues.update_all(job_status_id: JobStatus.done.id)
         end
 
@@ -68,36 +69,34 @@ module Api
           end
         end
 
-        unless page_results.blank?
-          pg_results = []
-          page_results.each do |page_result|
-            @page_result = PageResult.where(page_id: page_result[:page_id], batch_id: page_result[:batch_id]).first_or_initialize
-            if @page_result.new_record?
-              @page_result = PageResult.new(page_result.permit(:page_id, :batch_id, :ocr_text_path, :ocr_xml_path, :juxta_change_index, :alt_change_index))
-              @page_result.ocr_completed = Time.now
-              pg_results << @page_result
-            else
-              page_result = page_result.merge({ocr_completed: Time.now})
-              @page_result.update(page_result.permit(:page_id, :batch_id, :ocr_text_path, :ocr_xml_path, :juxta_change_index, :alt_change_index, :ocr_completed))
-            end
+        pg_results = []
+        page_results.each do |page_result|
+          conditions = { page_id: page_result[:page_id], batch_id: page_result[:batch_id] }
+          @page_result = PageResult.where(conditions).first_or_initialize
+          # Merge ocr_completed into results
+          page_result = page_result.merge(ocr_completed: Time.now)
+          if @page_result.new_record?
+            @page_result = PageResult.new(page_result_params(page_result))
+            pg_results << @page_result
+          else
+            @page_result.update(page_result_params(page_result))
           end
-
-          @pg_imports = PageResult.import(pg_results)
         end
 
-        unless postproc_results.blank?
-          pp_results = []
-          postproc_results.each do |postproc_result|
-            @postproc_page = PostprocPage.where(page_id: postproc_result[:page_id], batch_job_id: postproc_result[:batch_job_id]).first_or_initialize
-            if @postproc_page.new_record?
-              pp_results << PostprocPage.new(postproc_result.permit(:page_id, :batch_job_id, :pp_noisemsr, :pp_ecorr, :pp_pg_quality, :pp_juxta, :pp_retas, :pp_health, :noisiness_idx, :multicol, :skew_idx))
-            else
-              @postproc_page.update_attributes(postproc_result.permit(:page_id, :batch_job_id, :pp_noisemsr, :pp_ecorr, :pp_pg_quality, :pp_juxta, :pp_retas, :pp_health, :noisiness_idx, :multicol, :skew_idx))
-            end
-          end
+        @pg_imports = PageResult.import(pg_results)
 
-          @pp_imports = PostprocPage.import(pp_results)
+        pp_results = []
+        postproc_results.each do |postproc_result|
+          conditions = { page_id: postproc_result[:page_id], batch_job_id: postproc_result[:batch_job_id] }
+          @postproc_page = PostprocPage.where(conditions).first_or_initialize
+          if @postproc_page.new_record?
+            pp_results << PostprocPage.new(postproc_page_params(postproc_result))
+          else
+            @postproc_page.update_attributes(postproc_page_params(postproc_result))
+          end
         end
+
+        @pp_imports = PostprocPage.import(pp_results)
       end
 
       private
@@ -106,6 +105,17 @@ module Api
         params.permit()
       end
 
+      def page_result_params(page_result)
+        page_result.permit(:page_id, :batch_id, :ocr_text_path, :ocr_xml_path,
+                           :corr_ocr_text_path, :corr_ocr_xml_path, :juxta_change_index,
+                           :alt_change_index, :ocr_completed)
+      end
+
+      def postproc_page_params(postproc_page)
+        postproc_page.permit(:page_id, :batch_job_id, :pp_noisemsr, :pp_ecorr,
+                             :pp_pg_quality, :pp_juxta, :pp_retas, :pp_health,
+                             :noisiness_idx, :multicol, :skew_idx)
+      end
     end
   end
 end
