@@ -22,7 +22,23 @@ ActiveAdmin.register JobQueue do
     redirect_to collection_path, alert: "The job queues have been marked Failed."
   end
 
-  ## Custom Actions - this setups the controller action
+  ## Collection Actions - these setup controller and routes for action on a collection
+  collection_action :reschedule_all, method: :post do
+    JobQueue.all.reschedule!
+    redirect_to collection_path, notice: "All jobs rescheduled!"
+  end
+
+  collection_action :reschedule_processing, method: :post do
+    JobQueue.running.reschedule!
+    redirect_to collection_path, notice: "All processing jobs rescheduled!"
+  end
+
+  collection_action :reschedule_failed, method: :post do
+    JobQueue.failed.reschedule!
+    redirect_to collection_path, notice: "All failed jobs rescheduled!"
+  end
+
+  ## Member Actions - this setups the controller action for a single resource
   member_action :mark_not_started, method: :put do
     resource.mark_not_started!
     redirect_to resource_path, notice: "Marked Not Started!"
@@ -33,7 +49,20 @@ ActiveAdmin.register JobQueue do
     redirect_to resource_path, notice: "Marked Failed!"
   end
 
-  ## Action Items - this adds the buttons to pages like Show
+  ## Action Items - index page
+  action_item :reschedule_all, only: :index do
+    link_to "Reschedule All", reschedule_all_admin_job_queues_path, method: :post, confirm: 'Are you sure?'
+  end
+
+  action_item :reschedule_processing, only: :index do
+    link_to "Reschedule Processing", reschedule_processing_admin_job_queues_path, method: :post, confirm: 'Are you sure?'
+  end
+
+  action_item :reschedule_failed, only: :index do
+    link_to "Reschedule Failed", reschedule_failed_admin_job_queues_path, method: :post, confirm: 'Are you sure?'
+  end
+
+  ## Action Items - show page
   action_item :mark_not_started, only: :show do
     link_to "Mark Not Started", mark_not_started_admin_job_queue_path(job_queue), method: :put
   end
