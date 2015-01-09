@@ -152,5 +152,22 @@ RSpec.describe Api::V1::BatchJobsController, :type => :request do
       expect(PageResult.count).to eq(0)
       expect(PostprocPage.count).to eq(0)
     end
+
+    context "when error values are produced" do
+      before(:each) do
+        @postproc_page['pp_pg_quality'] = -1
+        @params[:postproc_results] = [@postproc_page]
+      end
+
+      it 'should succeed' do
+        put '/api/batch_jobs/upload_results', @params.to_json, api_headers
+        expect(response).to be_success
+      end
+
+      it 'should have pp_pg_quality of -1.0' do
+        put '/api/batch_jobs/upload_results', @params.to_json, api_headers
+        expect(PostprocPage.first.pp_pg_quality).to eq(-1.0)
+      end
+    end
   end
 end
