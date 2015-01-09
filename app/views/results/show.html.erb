@@ -1,12 +1,20 @@
-
-<span id="work-id" style="display:none"><%= @work_id %></span>
+<span id="work-id" style="display:none"><%= @work.id %></span>
 <span id="batch-id" style="display:none"><%= @batch_id %></span>
 
 <div id="results-summary">
    <table id="results-summary">
-      <tr><td class="summary-label">Work:</td><td><%= @work_title %></td></tr>
-      <tr><td class="summary-label">Batch:</td><td><%= @batch %></td></tr>    
-      <tr><td class="summary-label">Print Font:</td><td><span id="work-print-font"><%= @print_font %></span></td></tr>     
+      <tr>
+        <td class="summary-label">Work:</td>
+        <td><%= @work.wks_title %></td>
+      </tr>
+      <tr>
+        <td class="summary-label">Batch:</td>
+        <td><%= @batch %></td>
+      </tr>
+      <tr>
+        <td class="summary-label">Print Font:</td>
+        <td><span id="work-print-font"><%= @print_font %></span></td>
+      </tr>
    </table>
 </div>
 
@@ -25,20 +33,58 @@
    <table id="pages-table">
       <thead>
          <tr>
-            <th class="check-col"></th>
-            <th class="icon-col">Status</th>
-            <th class="icon-col"></th>
-            <th class="icon-col"></th>
-            <th class="icon-col"></th>
-            <th class="icon-col"></th>
-            <th class="result-col">Page Number</th>
-            <th class="result-col">Juxta</th>
-            <th class="result-col">RETAS</th>
-            <th class="result-col">SEASR ecorr</th>
-            <th class="result-col">Est. Pg. Quality</th>
+            <th rowspan="2" class="check-col"></th>
+            <th rowspan="2" class="icon-col"></th>
+            <th rowspan="2" class="icon-col"></th>
+            <th rowspan="2" class="icon-col"></th>
+            <th rowspan="2" class="icon-col"></th>
+            <th rowspan="2" class="icon-col"></th>
+            <th rowspan="2" class="result-col">Page Number</th>
+            <th rowspan="2" class="result-col">Juxta</th>
+            <th rowspan="2" class="result-col">RETAS</th>
+            <th rowspan="2" class="result-col">SEASR ecorr</th>
+            <th rowspan="2" class="result-col">Est. Pg. Quality</th>
+            <th colspan="<%= @stats.size %>">Correction Stats</th>
+         </tr>
+         <tr>
+           <% @stats.each do |stat| %>
+           <th class="result-col"><%= stat %></th>
+           <% end %>
          </tr>
       </thead>
       <tbody>
+      <% @pages.each do |page| %>
+        <%
+        if @batch_job.present?
+          page_result = page.page_result_by_batch_id(@batch_job.id)
+          postproc_page = page.postproc_page_by_batch_id(@batch_job.id)
+        else
+          page_result = nil
+          postproc_page = nil
+        end
+          job_queue = page.job_queues.first
+        %>
+        <tr>
+          <td><input class='sel-cb' type='checkbox' id='sel-page-<%= page.id %>'></td>
+          <td><%= page_status_icon(job_queue).html_safe %></td>
+          <td><%= page_image(page).html_safe %></td>
+          <td><%= ocr_text(page_result).html_safe %></td>
+          <td><%= ocr_hocr(page_result).html_safe %></td>
+          <td><%= detail_link(page_result).html_safe %></td>
+          <td><%= page.pg_ref_number %></td>
+          <td><%= page_result_data(page_result, 'juxta_change_index') %></td>
+          <td><%= page_result_data(page_result, 'alt_change_index') %></td>
+          <td><%= postproc_page_data(postproc_page, 'pp_ecorr') %></td>
+          <td><%= postproc_page_data(postproc_page, 'pp_pg_quality') %></td>
+          <% @stats.each do |stat| %>
+            <% if postproc_page.present? && postproc_page.pp_health.present? %>
+              <td><%= postproc_page.pp_health[stat] %></td>
+            <% else %>
+              <td>-</td>
+            <% end %>
+          <% end %>
+        </tr>
+      <% end %>
       </tbody>
    </table>
    

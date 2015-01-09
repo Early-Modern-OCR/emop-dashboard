@@ -9,6 +9,12 @@ class PostprocPage < ActiveRecord::Base
   validates :page, presence: true
   validates :batch_job, presence: true
 
+  def pp_health
+    value = read_attribute(:pp_health)
+    return nil if value.nil?
+    JSON.parse(value)
+  end
+
   def to_builder(version = 'v1')
     case version
     when 'v1'

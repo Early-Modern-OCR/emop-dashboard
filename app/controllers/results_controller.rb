@@ -4,25 +4,34 @@ class ResultsController < ApplicationController
   # show the page details for the specified work
   #
   def show
-    @work_id = params[:work]
-    @batch_id = params[:batch]
-    work = Work.find(@work_id)
-    @work_title = work.wks_title
+    @work = Work.find(params[:work])
 
-    if !@batch_id.nil?
-      batch = BatchJob.find(@batch_id)
-      @batch = "#{batch.id}: #{batch.name}"
+    if params[:batch].present?
+      @batch_job = BatchJob.find(params[:batch])
+      @batch = "#{@batch_job.id}: #{@batch_job.name}"
+      @pages = Page.includes(:job_queues, :page_results, :postproc_pages)
+              .where(pg_work_id: @work.id, job_queues: { batch_id: @batch_job.id })
     else
       @batch = 'Not Applicable'
+      @pages = Page.where(pg_work_id: @work.id)
     end
 
-    if work.print_font.present?
-      @print_font = work.print_font.name
+    if @work.print_font.present?
+      @print_font = @work.print_font.name
     else
       @print_font = 'Not Set'
     end
+
+    @stats = [
+      'total',
+      'ignored',
+      'correct',
+      'corrected',
+      'unchanged',
+    ]
   end
 
+=begin
   # Fetch data for dataTable
   #
   def fetch
@@ -45,7 +54,7 @@ class ResultsController < ApplicationController
       cols = [
         nil, 'job_queues.job_status_id', nil, nil, nil, nil,
         'pg_ref_number', 'page_results.juxta_change_index', 'page_results.alt_change_index',
-        'postproc_pages.pp_ecorr', 'postproc_pages.pp_pg_quality'
+        'postproc_pages.pp_ecorr', 'postproc_pages.pp_pg_quality', nil
       ]
       dir = params[:sSortDir_0]
       dir = 'asc' if dir.nil?
@@ -86,6 +95,7 @@ class ResultsController < ApplicationController
       rec[:retas_accuracy] = '-'
       rec[:pp_ecorr] = '-'
       rec[:pp_pg_quality] = '-'
+      rec[:pp_health] = '-'
       # Items from page_results
       if page_result.present?
         rec[:ocr_text] = "<div id='result-#{page_result.id}' class='ocr-txt' title='View OCR text output'>"
@@ -107,6 +117,9 @@ class ResultsController < ApplicationController
         if postproc_page.pp_pg_quality.present?
           rec[:pp_pg_quality] = postproc_page.pp_pg_quality
         end
+        if postproc_page.pp_health.present?
+          rec[:pp_health] = view_context.correction_stats(postproc_page.pp_health)
+        end
       end
       data << rec
     end
@@ -114,6 +127,7 @@ class ResultsController < ApplicationController
     resp['data'] = data
     render json: resp, status: :ok
   end
+=end
 
   # Get the OCR text result for the specified page_result
   #

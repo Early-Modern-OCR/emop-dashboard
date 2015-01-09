@@ -161,44 +161,83 @@ $(function() {
    
    var work_id = $("#work-id").text();
    var batch_id = $("#batch-id").text();
-   var resultTable = $('#pages-table').dataTable( {
-      "bProcessing": true,
-      "bServerSide": true,
-      "bStateSave": false,
-      "bPaginate": false,
-      "bFilter": false,
-      "bInfo": false,
-      "bSortClasses": false,
-      "sAjaxSource": "results/fetch?work="+work_id+"&batch="+batch_id,
-      "sAjaxDataProp": "data",
-      "aaSorting": [],
-      "fnInitComplete": function(oSettings, json) {
-         $(".page-view").on("click", function() {
-            showWaitPopup("Getting page image");
-            setTimeout( hideWaitPopup, 1000);
-         });
-      },
-      "aoColumnDefs": [
-         { "aTargets": [0], "bSortable": false},
-         { "aTargets": [2], "bSortable": false},
-         { "aTargets": [3], "bSortable": false},
-         { "aTargets": [4], "bSortable": false}
-      ],
-      "aoColumns": [
-         { "mData": "page_select" },
-         { "mData": "status" },
-         { "mData": "page_image" },
-         { "mData": "ocr_text" },
-         { "mData": "ocr_hocr" },
-         { "mData": "detail_link" },
-         { "mData": "page_number" },
-         { "mData": "juxta_accuracy" },
-         { "mData": "retas_accuracy" },
-         { "mData": "pp_ecorr" },
-         { "mData": "pp_pg_quality" }
-       ]
-   }).fnFilterOnReturn();
-   
+
+  jQuery.fn.dataTableExt.oSort['results-asc'] = function(x,y) {
+    var retVal;
+    x = $.trim(x);
+    y = $.trim(y);
+
+    if (x==y) retVal= 0;
+    else if (x == "" || x == "-") retVal =  1;
+    else if (y == "" || y == "-") retVal =  -1;
+    else if (parseFloat(x) > parseFloat(y)) retVal =  1;
+    else retVal = -1;
+
+    return retVal;
+  }
+  jQuery.fn.dataTableExt.oSort['results-desc'] = function(y,x) {
+    var retVal;
+    x = $.trim(x);
+    y = $.trim(y);
+    if (x==y) retVal= 0;
+    else if (x == "" || x == "-") retVal =  -1;
+    else if (y == "" || y == "-") retVal =  1;
+    else if (parseFloat(x) > parseFloat(y)) retVal =  1;
+    else retVal = -1;
+
+    return retVal;
+  }
+
+  jQuery.fn.dataTableExt.oSort['data-id-asc'] = function(x,y) {
+    var retVal;
+    x = $(x).data('id');
+    y = $(y).data('id');
+
+    if (x==y) retVal= 0;
+    else if (parseInt(x) > parseInt(y)) retVal =  1;
+    else retVal = -1;
+
+    return retVal;
+  }
+  jQuery.fn.dataTableExt.oSort['data-id-desc'] = function(y,x) {
+    var retVal;
+    x = $(x).data('id');
+    y = $(y).data('id');
+
+    if (x==y) retVal= 0;
+    else if (parseInt(x) > parseInt(y)) retVal =  1;
+    else retVal = -1;
+
+    return retVal;
+   }
+
+   $('#pages-table').dataTable({
+     "bAutoWidth": false,
+     "bProcessing": true,
+     "bPaginate": false,
+     "bFilter": false,
+     "bInfo": false,
+     "bSortClasses": false,
+     "aaSorting": [[6, "asc"]],
+     "aoColumnDefs": [
+       { "aTargets": [0], "bSortable": false }, //select
+       { "aTargets": [1], "sType": "data-id" }, //status
+       { "aTargets": [2], "bSortable": false }, //image
+       { "aTargets": [3], "bSortable": false }, //ocr text
+       { "aTargets": [4], "bSortable": false }, //ocr hocr
+       { "aTargets": [5], "bSortable": false }, //juxta diff
+       { "aTargets": [6] }, //page #
+       { "aTargets": [7], "sType": "results" }, //juxta score
+       { "aTargets": [8], "sType": "results" }, //retas score
+       { "aTargets": [9], "sType": "results" }, //ecorr
+       { "aTargets": [10], "sType": "results" }, //pg quality
+       { "aTargets": [11], "sType": "results" }, //stat-1
+       { "aTargets": [12], "sType": "results" }, //stat-2
+       { "aTargets": [13], "sType": "results" }, //stat-3
+       { "aTargets": [14], "sType": "results" }, //stat-4
+       { "aTargets": [15], "sType": "results" }, //stat-5
+     ]
+   });
    
    // Set work print font
    $("#set-work-font").on("click", function() {
