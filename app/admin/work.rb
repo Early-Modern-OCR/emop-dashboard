@@ -29,4 +29,46 @@ ActiveAdmin.register Work do
     column :wks_eebo_image_id
     actions
   end
+
+  ## SHOW
+  show do
+    attributes_table do
+      row :id
+      row("TCP Number", :wks_tcp_number)
+      row('ESTC Number') { |w| w.wks_estc_number }
+      row('TCP Bibno') { |w| w.wks_tcp_bibno }
+      row('MARC Record') { |w| w.wks_marc_record }
+      row('EEBO Citation ID') { |w| w.wks_eebo_citation_id }
+      row('EEBO Directory') { |w| w.wks_eebo_directory }
+      row('ECCO Number') { |w| w.wks_ecco_number }
+      row('Book ID') { |w| w.wks_book_id }
+      row('Author') { |w| w.wks_author }
+      row('Publisher') { |w| w.wks_publisher }
+      row('Word Count') { |w| w.wks_word_count }
+      row('Title') { |w| w.wks_title }
+      row('EEBO Image ID') { |w| w.wks_eebo_image_id }
+      row('EEBO URL') { |w| w.wks_eebo_url }
+      row('Pub Date') { |w| w.wks_pub_date }
+      row('ECCO Uncorrected Gale OCR Path') { |w| w.wks_ecco_uncorrected_gale_ocr_path }
+      row('ECCO Corrected XML Path') { |w| w.wks_ecco_corrected_xml_path }
+      row('ECCO Corrected Text Path') { |w| w.wks_ecco_corrected_text_path }
+      row('ECCO Directory') { |w| w.wks_ecco_directory }
+      row('ECCO Gale OCR XML Path') { |w| w.wks_ecco_gale_ocr_xml_path }
+      row('Organizational Unit') { |w| w.wks_organizational_unit }
+      row('Primary Print Font') { |w| w.wks_primary_print_font } #TODO link to Admin PrintFont page
+    end
+
+    panel "Pages" do
+      pages = work.pages
+      paginated_collection(pages.page(params[:page]).per(15), download_links: false) do
+        table_for collection do
+          #column :id do  |j| #TODO
+          #  link_to j.id, admin_job_queue_path(j)
+          #end
+          column :id
+          column :pg_ref_number
+        end
+      end
+    end
+  end
 end

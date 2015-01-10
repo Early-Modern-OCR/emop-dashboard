@@ -23,19 +23,12 @@ ActiveAdmin.register JobQueue do
   end
 
   ## Collection Actions - these setup controller and routes for action on a collection
-  collection_action :reschedule_all, method: :post do
-    JobQueue.all.reschedule!
-    redirect_to collection_path, notice: "All jobs rescheduled!"
-  end
-
-  collection_action :reschedule_processing, method: :post do
-    JobQueue.running.reschedule!
-    redirect_to collection_path, notice: "All processing jobs rescheduled!"
-  end
-
-  collection_action :reschedule_failed, method: :post do
-    JobQueue.failed.reschedule!
-    redirect_to collection_path, notice: "All failed jobs rescheduled!"
+  collection_action :reschedule, method: :post do
+    filter = params[:q]
+    query = JobQueue.ransack(filter)
+    job_queues = query.result(distinct: true)
+    count = job_queues.reschedule!
+    redirect_to collection_path, notice: "#{count} jobs rescheduled!"
   end
 
   ## Member Actions - this setups the controller action for a single resource
@@ -50,16 +43,9 @@ ActiveAdmin.register JobQueue do
   end
 
   ## Action Items - index page
-  action_item :reschedule_all, only: :index do
-    link_to "Reschedule All", reschedule_all_admin_job_queues_path, method: :post, confirm: 'Are you sure?'
-  end
-
-  action_item :reschedule_processing, only: :index do
-    link_to "Reschedule Processing", reschedule_processing_admin_job_queues_path, method: :post, confirm: 'Are you sure?'
-  end
-
-  action_item :reschedule_failed, only: :index do
-    link_to "Reschedule Failed", reschedule_failed_admin_job_queues_path, method: :post, confirm: 'Are you sure?'
+  action_item :reschedule, only: :index do
+    link_to "Reschedule All", reschedule_admin_job_queues_path(q: params[:q]),
+      method: :post, confirm: 'Are you sure?'
   end
 
   ## Action Items - show page

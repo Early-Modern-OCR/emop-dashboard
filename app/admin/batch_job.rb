@@ -50,6 +50,8 @@ ActiveAdmin.register BatchJob do
           end
           column :status
           column :proc_id
+          column :page_id
+          column :work_id
         end
       end
     end
