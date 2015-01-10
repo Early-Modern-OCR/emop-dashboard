@@ -8,6 +8,14 @@ class Page < ActiveRecord::Base
   has_many :postproc_pages
   has_many :postprocesses, through: :postproc_pages
 
+  def page_result_by_batch_id(batch_id)
+    self.page_results.select { |pr| pr.batch_id == batch_id.to_i }.first
+  end
+
+  def postproc_page_by_batch_id(batch_id)
+    self.postproc_pages.select { |pp| pp.batch_job_id == batch_id.to_i }.first
+  end
+
   def to_builder(version = 'v1')
     case version
     when 'v1'

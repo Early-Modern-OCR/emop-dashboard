@@ -8,18 +8,10 @@ class ResultsController < ApplicationController
 
     if params[:batch].present?
       @batch_job = BatchJob.find(params[:batch])
-      @batch = "#{@batch_job.id}: #{@batch_job.name}"
       @pages = Page.includes(:job_queues, :page_results, :postproc_pages)
               .where(pg_work_id: @work.id, job_queues: { batch_id: @batch_job.id })
     else
-      @batch = 'Not Applicable'
       @pages = Page.where(pg_work_id: @work.id)
-    end
-
-    if @work.print_font.present?
-      @print_font = @work.print_font.name
-    else
-      @print_font = 'Not Set'
     end
 
     @stats = [
@@ -30,104 +22,6 @@ class ResultsController < ApplicationController
       'unchanged',
     ]
   end
-
-=begin
-  # Fetch data for dataTable
-  #
-  def fetch
-    # This shouldn't get called without parameters.
-    # If it does, then just return nothing, so there aren't exceptions later on.
-    if params[:work].nil?
-      render text: '', status: :unprocessable_entity
-      return
-    end
-
-    work_id = params[:work]
-    batch_id = params[:batch]
-
-    resp = {}
-    resp['sEcho'] = params[:sEcho]
-
-    if batch_id.present?
-      # generate order info based on params
-      search_col_idx = params[:iSortCol_0].to_i
-      cols = [
-        nil, 'job_queues.job_status_id', nil, nil, nil, nil,
-        'pg_ref_number', 'page_results.juxta_change_index', 'page_results.alt_change_index',
-        'postproc_pages.pp_ecorr', 'postproc_pages.pp_pg_quality', nil
-      ]
-      dir = params[:sSortDir_0]
-      dir = 'asc' if dir.nil?
-      order_col = cols[search_col_idx]
-      order_col = cols[6] if order_col.nil?
-
-      pages = Page.includes(:job_queues, :page_results, :postproc_pages)
-              .order("#{order_col} #{dir}")
-              .where(pg_work_id: work_id, job_queues: { batch_id: batch_id })
-    else
-      dir = params[:sSortDir_0]
-      dir = :asc if dir.nil?
-      pages = Page.order(pg_ref_number: dir).where(pg_work_id: work_id)
-    end
-
-    resp['iTotalRecords'] = pages.count
-    resp['iTotalDisplayRecords'] = resp['iTotalRecords']
-
-    # get results and transform them into req'd json structure
-    data = []
-    msg = 'View side-by-side comparison with GT'
-    pages.each do | page |
-      # The use of "select" avoids extra queries on already collected results
-      page_result = page.page_results.select { |pr| pr.batch_id == batch_id.to_i }.first
-      postproc_page = page.postproc_pages.select { |pp| pp.batch_job_id == batch_id.to_i }.first
-      job_queue = page.job_queues.first
-      rec = {}
-      rec[:page_select] = "<input class='sel-cb' type='checkbox' id='sel-page-#{page.id}'>"
-      rec[:status] = view_context.page_status_icon(job_queue)
-      rec[:page_image] = "<a href=\"/results/#{work_id}/page/#{page.pg_ref_number}\">" \
-                         "<div title='View page image' class='page-view'></div></a>"
-      rec[:page_number] = page.pg_ref_number
-      # These are defaults that can be overriden if needed values exist
-      rec[:ocr_text] = "<div class='ocr-txt disabled' title='View OCR text output'>"
-      rec[:ocr_hocr] = "<div class='ocr-hocr disabled' title='View hOCR output'>"
-      rec[:detail_link] = "<div class='juxta-link disabled'>"
-      rec[:juxta_accuracy] = '-'
-      rec[:retas_accuracy] = '-'
-      rec[:pp_ecorr] = '-'
-      rec[:pp_pg_quality] = '-'
-      rec[:pp_health] = '-'
-      # Items from page_results
-      if page_result.present?
-        rec[:ocr_text] = "<div id='result-#{page_result.id}' class='ocr-txt' title='View OCR text output'>"
-        rec[:ocr_hocr] = "<div id='hocr-#{page_result.id}' class='ocr-hocr' title='View hOCR output'>"
-        if page_result.juxta_change_index.present?
-          rec[:juxta_accuracy] = page_result.juxta_change_index
-          rec[:detail_link] = "<a href='/juxta?work=#{work_id}&batch=#{batch_id}&page=#{page.pg_ref_number}" \
-                              "&result=#{page_result.id}' title='#{msg}'><div class='juxta-link'></div></a>"
-        end
-        if page_result.alt_change_index.present?
-          rec[:retas_accuracy] = page_result.alt_change_index
-        end
-      end
-      # Items from postproc_pages
-      if postproc_page.present?
-        if postproc_page.pp_ecorr.present?
-          rec[:pp_ecorr] = postproc_page.pp_ecorr
-        end
-        if postproc_page.pp_pg_quality.present?
-          rec[:pp_pg_quality] = postproc_page.pp_pg_quality
-        end
-        if postproc_page.pp_health.present?
-          rec[:pp_health] = view_context.correction_stats(postproc_page.pp_health)
-        end
-      end
-      data << rec
-    end
-
-    resp['data'] = data
-    render json: resp, status: :ok
-  end
-=end
 
   # Get the OCR text result for the specified page_result
   #

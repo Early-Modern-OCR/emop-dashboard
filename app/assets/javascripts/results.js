@@ -236,9 +236,17 @@ $(function() {
        { "aTargets": [13], "sType": "results" }, //stat-3
        { "aTargets": [14], "sType": "results" }, //stat-4
        { "aTargets": [15], "sType": "results" }, //stat-5
-     ]
+     ],
+     "fnInitComplete": function() {
+       $("#pages-table").show();
+     },
    });
-   
+
+   $(".page-view").on("click", function() {
+     showWaitPopup("Getting page image");
+     setTimeout(hideWaitPopup, 1000);
+   });
+
    // Set work print font
    $("#set-work-font").on("click", function() {
       workIds = [ $("#work-id").text() ];

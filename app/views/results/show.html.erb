@@ -1,5 +1,5 @@
 <span id="work-id" style="display:none"><%= @work.id %></span>
-<span id="batch-id" style="display:none"><%= @batch_id %></span>
+<span id="batch-id" style="display:none"><%= @batch_job.present? ? @batch_job.id : nil %></span>
 
 <div id="results-summary">
    <table id="results-summary">
@@ -9,11 +9,19 @@
       </tr>
       <tr>
         <td class="summary-label">Batch:</td>
-        <td><%= @batch %></td>
+<% if @batch_job.present? %>
+        <td><%= @batch_job.id %>: <%= @batch_job.name %></td>
+<% else %>
+        <td>Not Applicable</td>
+<% end %>
       </tr>
       <tr>
         <td class="summary-label">Print Font:</td>
-        <td><span id="work-print-font"><%= @print_font %></span></td>
+<% if @work.print_font.present? %>
+        <td><span id="work-print-font"><%= @work.print_font.name %></span></td>
+<% else %>
+        <td><span id="work-print-font">Not Set</span></td>
+<% end %>
       </tr>
    </table>
 </div>
@@ -30,7 +38,7 @@
    <input type="button" id="set-work-font" value="Set Print Font for Work" />
    </div>
    
-   <table id="pages-table">
+   <table id="pages-table" style="display:none">
       <thead>
          <tr>
             <th rowspan="2" class="check-col"></th>
@@ -55,14 +63,14 @@
       <tbody>
       <% @pages.each do |page| %>
         <%
-        if @batch_job.present?
-          page_result = page.page_result_by_batch_id(@batch_job.id)
-          postproc_page = page.postproc_page_by_batch_id(@batch_job.id)
-        else
-          page_result = nil
-          postproc_page = nil
-        end
-          job_queue = page.job_queues.first
+          if @batch_job.present?
+            page_result = page.page_result_by_batch_id(@batch_job.id)
+            postproc_page = page.postproc_page_by_batch_id(@batch_job.id)
+          else
+            page_result = nil
+            postproc_page = nil
+          end
+            job_queue = page.job_queues.first
         %>
         <tr>
           <td><input class='sel-cb' type='checkbox' id='sel-page-<%= page.id %>'></td>
