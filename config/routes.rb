@@ -31,7 +31,7 @@ Rails.application.routes.draw do
 
    # page results routes
    get "results" => "results#show"
-   get "results/:work/page/:num" => "results#page_image"
+   get "results/:work/page/:num" => "results#page_image", as: 'page_image'
    post "results/batch" => "results#create_batch"
    get "results/:id/text" => "results#page_text", as: 'page_result_text'
    get "results/:id/hocr" => "results#page_hocr", as: 'page_result_hocr'

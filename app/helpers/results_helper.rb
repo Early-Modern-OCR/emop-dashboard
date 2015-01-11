@@ -1,7 +1,9 @@
 module ResultsHelper
   def page_image(page)
-    "<a href=\"/results/#{page.pg_work_id}/page/#{page.pg_ref_number}\">" \
-    "<div title='View page image' class='page-view'></div></a>"
+    url = page_image_path(work: page.pg_work_id, num: page.pg_ref_number)
+    link_to(url) do
+      content_tag('div', '', title: 'View page image', class: 'page-view')
+    end
   end
 
   def ocr_output_div_by_type(page_result, type)
