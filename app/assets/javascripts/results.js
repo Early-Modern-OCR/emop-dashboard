@@ -256,10 +256,10 @@ $(function() {
    
    // Download text or hOCR results for a page
    // FIXME
-   var downloadItem = function(resultType, id) {
+   var downloadItem = function(url) {
       showWaitPopup("Downloading results...");
       var token = new Date().getTime();
-      window.location = "results/"+id+"/" + resultType + "?download&token=" + token;
+      window.location = url + "?token=" + token;
       var limit = 10;
       var intId = setInterval(function() {
          var cookieValue = $.cookie('fileDownloadToken');
@@ -271,7 +271,10 @@ $(function() {
       }, 500);
    }; 
 
-   
+   $('#ocr-view-info').tabs({
+     active: 2, //Set corrected tab as active by default
+     heightStyle: "auto"
+   });
    // POPUPS
    $("#ocr-view-popup").dialog({
       autoOpen : false,
@@ -284,8 +287,10 @@ $(function() {
             $(this).dialog("close");
          },
          "Download" : function() {
+           var active_tab = $("#ocr-view-info").tabs("option", "active");
+           var url = $(".file-info").eq(active_tab).data("url");
             $(this).dialog("close");
-            downloadItem( $("#result-type").text().toLowerCase(), $("#tgt-result-id").text());
+            downloadItem(url);
           }
       }
    }); 
@@ -303,16 +308,27 @@ $(function() {
          return;
       }
       showWaitPopup("Retrieving OCR results...");
-      var id = $(this).attr("id").substring("result-".length);
+      var id = $(this).data('id');
       $.ajax({
-         url : "results/"+id+"/text",
+         url : $(this).data('source'),
          type : 'GET',
          success : function(resp, textStatus, jqXHR) {
             hideWaitPopup();
             $("#tgt-result-id").text(id);
             $("#result-type").text("Text");
             $("#ocr-page-num").text(resp.page);
-            $("#ocr-text-display").val(resp.content);
+            // Original values
+            $("#ocr-original-path").text(resp.original_path);
+            $(".file-info:eq(0)").attr("data-url", resp.original_url);
+            $("#ocr-original-display").val(resp.original_content);
+            // Processed values
+            $("#ocr-processed-path").text(resp.processed_path);
+            $(".file-info:eq(1)").attr("data-url", resp.processed_url);
+            $("#ocr-processed-display").val(resp.processed_content);
+            // Corrected values
+            $("#ocr-corrected-path").text(resp.corrected_path);
+            $(".file-info:eq(2)").attr("data-url", resp.corrected_url);
+            $("#ocr-corrected-display").val(resp.corrected_content);
             $("#ocr-view-popup").dialog("open");
          },
          error : function( jqXHR, textStatus, errorThrown ) {
@@ -329,16 +345,27 @@ $(function() {
          return;
       }
       showWaitPopup("Retrieving hOCR results...");
-      var id = $(this).attr("id").substring("hocr-".length);
+      var id = $(this).data('id');
       $.ajax({
-         url : "results/"+id+"/hocr",
+         url : $(this).data('source'),
          type : 'GET',
          success : function(resp, textStatus, jqXHR) {
             hideWaitPopup();
             $("#tgt-result-id").text(id);
             $("#result-type").text("hOCR");
             $("#ocr-page-num").text(resp.page);
-            $("#ocr-text-display").val(resp.content);
+            // Original values
+            $("#ocr-original-path").text(resp.original_path);
+            $(".file-info:eq(0)").attr("data-url", resp.original_url);
+            $("#ocr-original-display").val(resp.original_content);
+            // Processed values
+            $("#ocr-processed-path").text(resp.processed_path);
+            $(".file-info:eq(1)").attr("data-url", resp.processed_url);
+            $("#ocr-processed-display").val(resp.processed_content);
+            // Corrected values
+            $("#ocr-corrected-path").text(resp.corrected_path);
+            $(".file-info:eq(2)").attr("data-url", resp.corrected_url);
+            $("#ocr-corrected-display").val(resp.corrected_content);
             $("#ocr-view-popup").dialog("open");
          },
          error : function( jqXHR, textStatus, errorThrown ) {
@@ -347,7 +374,7 @@ $(function() {
          }
       });
    });
-   
+
    $("#results-detail").on("click", ".error", function() {
       showWaitPopup("Retrieving OCR Error");
       var ids = $(this).attr("id").substring("status-".length).split("-");

@@ -4,29 +4,43 @@ module ResultsHelper
     "<div title='View page image' class='page-view'></div></a>"
   end
 
-  def ocr_text(page_result)
-    if page_result.present?
-      "<div id='result-#{page_result.id}' class='ocr-txt' title='View OCR text output'>"
-    else
-      "<div class='ocr-txt disabled' title='View OCR text output'>"
+  def ocr_output_div_by_type(page_result, type)
+    case type
+    when 'text'
+      title_segment = 'OCR text'
+      attr_name = 'ocr_text_path'
+      source_url = page_result_text_path(page_result) if page_result.present?
+      div_class = 'ocr-txt'
+    when 'hocr'
+      title_segment = 'hOCR'
+      attr_name = 'ocr_xml_path'
+      source_url = page_result_hocr_path(page_result) if page_result.present?
+      div_class = 'ocr-hocr'
     end
-  end
 
-  def ocr_hocr(page_result)
-    if page_result.present?
-      "<div id='hocr-#{page_result.id}' class='ocr-hocr' title='View hOCR output'>"
+    options = {}
+    options[:title] = "View #{title_segment} output"
+    if page_result.present? and page_result.send(attr_name).present?
+      options[:class] = div_class
+      options[:data] = { source: source_url, id: page_result.id }
     else
-      "<div class='ocr-hocr disabled' title='View hOCR output'>"
+      options[:class] = "#{div_class} disabled"
     end
+
+    tag('div', options)
   end
 
   def detail_link(page_result)
     if page_result.present? && page_result.juxta_change_index.present?
-      "<a href='/juxta?work=#{page_result.page.pg_work_id}&batch=#{page_result.batch_id}" \
-      "&page=#{page_result.page.pg_ref_number}&result=#{page_result.id}' " \
-      "title='View side-by-side comparison with GT'><div class='juxta-link'></div></a>"
+      url = juxta_path(work: page_result.page.pg_work_id,
+                       batch: page_result.batch_id,
+                       page: page_result.page.pg_ref_number,
+                       result: page_result.id)
+      link_to(url, title: 'View side-by-side comparison with GT') do
+        content_tag('div', '', class: 'juxta-link').html_safe
+      end
     else
-      "<div class='juxta-link disabled'>"
+      content_tag('div', '', class: 'juxta-link disabled')
     end
   end
 

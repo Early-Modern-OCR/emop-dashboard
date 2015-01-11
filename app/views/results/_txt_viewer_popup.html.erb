@@ -1,7 +1,31 @@
 <div id="ocr-view-popup" class="emop-popup" title="OCR Results">
-   <div>
-      <span id="result-type"></span> results for page number: <span id="ocr-page-num"></span>
-   </div>
-   <textarea id="ocr-text-display" readonly></textarea>  
-   <span id="tgt-result-id" style="display:none"></span>
+  <div>
+    <span id="result-type"></span> results for page number: <span id="ocr-page-num"></span>
+  </div>
+  <div id="ocr-view-info">
+    <ul id="ocr-view-tabs">
+      <li><a href="#ocr-view-original">Original</a></li>
+      <li><a href="#ocr-view-processed">Processed</a></li>
+      <li><a href="#ocr-view-corrected">Corrected</a></li>
+    </ul>
+    <div class="tab-content" id="ocr-view-original">
+      <div class="file-info" data-url="">
+        <b>File:</b><span id="ocr-original-path"></span>
+      </div>
+      <textarea id="ocr-original-display" readonly></textarea>
+    </div>
+    <div class="tab-content" id="ocr-view-processed">
+      <div class="file-info" data-url="">
+        <b>File:</b><span id="ocr-processed-path"></span>
+      </div>
+      <textarea id="ocr-processed-display" readonly></textarea>
+    </div>
+    <div class="tab-content" id="ocr-view-corrected">
+      <div class="file-info" data-url="">
+        <b>File:</b><span id="ocr-corrected-path"></span>
+      </div>
+      <textarea id="ocr-corrected-display" readonly></textarea>
+    </div>
+  </div>
+  <span id="tgt-result-id" style="display:none"></span>
 </div>
