@@ -23,6 +23,10 @@ RSpec.describe ResultsController, :type => :routing do
       expect(:get => "/results/1/hocr").to route_to(controller: "results", action: "page_hocr", id: "1")
     end
 
+    it "routes to #download_result" do
+      expect(:get => "/results/1/download/original_text").to route_to(controller: "results", action: "download_result", id: "1", type: 'original_text')
+    end
+
     it "routes to #page_error" do
       expect(:get => "/results/1/2/error").to route_to(controller: "results", action: "page_error", batch: "1", page: "2")
     end

@@ -27,64 +27,82 @@ class ResultsController < ApplicationController
   #
   def page_text
     page_result = PageResult.find(params[:id])
-    if File.exist?(page_result.local_idhmc_text_path)
-      file = File.open(page_result.local_idhmc_text_path, 'r')
-      text_path = page_result.local_idhmc_text_path
-    elsif File.exist?(page_result.local_text_path)
-      file = File.open(page_result.local_text_path, 'r')
-      text_path = page_result.local_text_path
-    end
+    local_text_path = page_result.local_text_path
+    local_idhmc_text_path = page_result.local_idhmc_text_path
+    local_corr_text_path = page_result.local_corr_text_path
+    response = {}
+    response[:page] = page_result.page.pg_ref_number
+    response[:original_content] = get_file_content(local_text_path)
+    response[:original_path] = local_text_path
+    response[:original_url] = download_page_result_path(id: page_result.id, type: 'original_text')
+    response[:processed_content] = get_file_content(local_idhmc_text_path)
+    response[:processed_path] = local_idhmc_text_path
+    response[:processed_url] = download_page_result_path(id: page_result.id, type: 'processed_text')
+    response[:corrected_content] = get_file_content(local_corr_text_path)
+    response[:corrected_path] = local_corr_text_path
+    response[:corrected_url] = download_page_result_path(id: page_result.id, type: 'corrected_text')
 
-    if file.present?
-      contents = file.read
-      file.close
-    else
-      contents = 'File not found!'
-    end
-
-    if text_path.present? && params.key?(:download)
-      token = params[:token]
-      filename = File.basename(text_path)
-      send_data(contents, filename: filename,  type: 'text/plain', disposition: 'attachment')
-      cookies[:fileDownloadToken] = { value: "#{token}", expires: Time.now + 5 }
-    else
-      resp = {}
-      resp[:page] = page_result.page.pg_ref_number
-      resp[:content] = contents
-      render json: resp, status: :ok
-    end
+    render json: response, status: :ok
   end
 
   # Get the hOCR for the specified page_result
   #
   def page_hocr
     page_result = PageResult.find(params[:id])
-    if File.exist?(page_result.local_idhmc_xml_path)
-      file = File.open(page_result.local_idhmc_xml_path)
-      xml_path = page_result.local_idhmc_xml_path
-    elsif File.exist?(page_result.local_xml_path)
-      file = File.open(page_result.local_xml_path)
-      xml_path = page_result.local_xml_path
+    local_xml_path = page_result.local_xml_path
+    local_idhmc_xml_path = page_result.local_idhmc_xml_path
+    local_corr_xml_path = page_result.local_corr_xml_path
+    response = {}
+    response[:page] = page_result.page.pg_ref_number
+    response[:original_content] = get_file_content(local_xml_path)
+    response[:original_path] = local_xml_path
+    response[:original_url] = download_page_result_path(id: page_result.id, type: 'original_xml')
+    response[:processed_content] = get_file_content(local_idhmc_xml_path)
+    response[:processed_path] = local_idhmc_xml_path
+    response[:processed_url] = download_page_result_path(id: page_result.id, type: 'processed_xml')
+    response[:corrected_content] = get_file_content(local_corr_xml_path)
+    response[:corrected_path] = local_corr_xml_path
+    response[:corrected_url] = download_page_result_path(id: page_result.id, type: 'corrected_xml')
+
+    render json: response, status: :ok
+  end
+
+  def download_result
+    page_result = PageResult.find(params[:id])
+    type = params[:type]
+    token = params[:token]
+
+    case type
+    when 'original_text'
+      path = page_result.local_text_path
+      type = 'text/plain'
+    when 'processed_text'
+      path = page_result.local_idhmc_text_path
+      type = 'text/plain'
+    when 'corrected_text'
+      path = page_result.local_corr_text_path
+      type = 'text/plain'
+    when 'original_xml'
+      path = page_result.local_xml_path
+      type = 'text/xml'
+    when 'processed_xml'
+      path = page_result.local_idhmc_xml_path
+      type = 'text/xml'
+    when 'corrected_xml'
+      path = page_result.local_corr_xml_path
+      type = 'text/xml'
     end
 
-    if file.present?
-      contents = file.read
-      file.close
-    else
-      contents = 'File not found!'
+    unless File.exist?(path)
+      flash[:alert] = 'Page result file not found!'
+      redirect_to_referrer && return
     end
 
-    if xml_path.present? && params.key?(:download)
-      token = params[:token]
-      filename = File.basename(xml_path)
-      send_data(contents, filename: filename,  type: 'text/xml', disposition: 'attachment')
-      cookies[:fileDownloadToken] = { value: "#{token}", expires: Time.now + 5 }
-    else
-      resp = {}
-      resp[:page] = page_result.page.pg_ref_number
-      resp[:content] = contents
-      render json: resp, status: :ok
-    end
+    contents = get_file_content(path)
+    filename = File.basename(path)
+
+    send_data(contents, filename: filename,  type: type, disposition: 'attachment')
+    cookies[:fileDownloadToken] = { value: "#{token}", expires: Time.now + 5 }
   end
 
   # Get the error for a page
@@ -187,5 +205,16 @@ class ResultsController < ApplicationController
       end
       return '' # NOT FOUND!
     end
+  end
+
+  def get_file_content(path)
+    if path && File.exist?(path)
+      file = File.open(path, 'r')
+      contents = file.read
+      file.close
+    else
+      contents = 'File not found!'
+    end
+    contents
   end
 end

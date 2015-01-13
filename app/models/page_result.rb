@@ -22,10 +22,12 @@ class PageResult < ActiveRecord::Base
   end
 
   def local_text_path
+    return nil if ocr_text_path.nil?
     File.join(Rails.application.secrets.emop_path_prefix, ocr_text_path)
   end
 
   def local_xml_path
+    return nil if ocr_xml_path.nil?
     File.join(Rails.application.secrets.emop_path_prefix, ocr_xml_path)
   end
 
@@ -37,14 +39,25 @@ class PageResult < ActiveRecord::Base
     local_idhmc_path(local_xml_path)
   end
 
+  def local_corr_text_path
+    return nil if corr_ocr_text_path.nil?
+    File.join(Rails.application.secrets.emop_path_prefix, corr_ocr_text_path)
+  end
+
+  def local_corr_xml_path
+    return nil if corr_ocr_xml_path.nil?
+    File.join(Rails.application.secrets.emop_path_prefix, corr_ocr_xml_path)
+  end
+
   private
 
   def local_idhmc_path(path)
+    return nil if path.nil?
     dir = File.dirname(path)
     ext = File.extname(path)
     name = File.basename(path, ext)
     new_name = "#{name}_IDHMC#{ext}"
-    idhmc_path = File.join(Rails.application.secrets.emop_path_prefix, dir, new_name)
+    idhmc_path = File.join(dir, new_name)
     idhmc_path
   end
 end

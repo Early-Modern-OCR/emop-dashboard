@@ -76,8 +76,8 @@
           <td><input class='sel-cb' type='checkbox' id='sel-page-<%= page.id %>'></td>
           <td><%= page_status_icon(job_queue).html_safe %></td>
           <td><%= page_image(page).html_safe %></td>
-          <td><%= ocr_text(page_result).html_safe %></td>
-          <td><%= ocr_hocr(page_result).html_safe %></td>
+          <td><%= ocr_output_div_by_type(page_result, 'text').html_safe %></td>
+          <td><%= ocr_output_div_by_type(page_result, 'hocr').html_safe %></td>
           <td><%= detail_link(page_result).html_safe %></td>
           <td><%= page.pg_ref_number %></td>
           <td><%= page_result_data(page_result, 'juxta_change_index') %></td>

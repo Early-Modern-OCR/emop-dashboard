@@ -11,33 +11,45 @@ RSpec.describe ApplicationHelper do
     end
   end
 
-  describe "#ocr_text" do
+  describe '#ocr_output_div_by_type' do
     before(:each) do
       @page_result = create(:page_result)
     end
 
-    it "returns view OCR text HTML" do
-      expect(helper.ocr_text(@page_result)).to \
-        have_tag('div', with: { id: "result-#{@page_result.id}", class: 'ocr-txt', title: 'View OCR text output'})
+    context 'when type is text' do
+      it "returns view OCR text HTML" do
+        expect(helper.ocr_output_div_by_type(@page_result, 'text')).to have_tag('div', with: {
+          title: 'View OCR text output',
+          class: 'ocr-txt',
+          'data-source' => "/results/#{@page_result.id}/text",
+          'data-id' => @page_result.id
+        })
+      end
+
+      it "returns disabled HTML" do
+        expect(helper.ocr_output_div_by_type(nil, 'text')).to have_tag('div', with: {
+          title: 'View OCR text output',
+          class: 'ocr-txt disabled'
+        })
+      end
     end
 
-    it "returns disabled HTML" do
-      expect(helper.ocr_text(nil)).to have_tag('div', with: { class: 'ocr-txt disabled', title: 'View OCR text output'})
-    end
-  end
+    context 'when type is hocr' do
+      it "returns view OCR text HTML" do
+        expect(helper.ocr_output_div_by_type(@page_result, 'hocr')).to have_tag('div', with: {
+          title: 'View hOCR output',
+          class: 'ocr-hocr',
+          'data-source' => "/results/#{@page_result.id}/hocr",
+          'data-id' => @page_result.id
+        })
+      end
 
-  describe "#ocr_hocr" do
-    before(:each) do
-      @page_result = create(:page_result)
-    end
-
-    it "returns view OCR text HTML" do
-      expect(helper.ocr_hocr(@page_result)).to \
-        have_tag('div', with: { id: "hocr-#{@page_result.id}", class: 'ocr-hocr', title: 'View hOCR output'})
-    end
-
-    it "returns disabled HTML" do
-      expect(helper.ocr_hocr(nil)).to have_tag('div', with: { class: 'ocr-hocr disabled', title: 'View hOCR output'})
+      it "returns disabled HTML" do
+        expect(helper.ocr_output_div_by_type(nil, 'hocr')).to have_tag('div', with: {
+          title: 'View hOCR output',
+          class: 'ocr-hocr disabled'
+        })
+      end
     end
   end
 
@@ -47,9 +59,10 @@ RSpec.describe ApplicationHelper do
     end
 
     it "returns GT comparison link" do
-      expected_href = "/juxta?work=#{@page_result.page.pg_work_id}" \
-                      "&batch=#{@page_result.batch_id}&page=#{@page_result.page.pg_ref_number}" \
-                      "&result=#{@page_result.id}"
+      expected_href = "/juxta?batch=#{@page_result.batch_id}&" \
+                      "page=#{@page_result.page.pg_ref_number}&" \
+                      "result=#{@page_result.id}&" \
+                      "work=#{@page_result.page.pg_work_id}"
       expected_title = 'View side-by-side comparison with GT'
       expect(helper.detail_link(@page_result)).to have_tag('a', with: { href: expected_href, title: expected_title }) do
         with_tag 'div', with: { class: 'juxta-link' }
