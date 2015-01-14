@@ -1,6 +1,8 @@
 module Api
   module V1
     class PagesController < V1::BaseController
+      layout 'api/v1/layouts/pages_index_layout', only: :index
+
       api :GET, '/pages', 'List pages'
       param_group :pagination, V1::BaseController
       def index
@@ -33,6 +35,12 @@ module Api
       end
 
       def query_params
+        # Modify values if passed key values to allow special queries
+        case params[:pg_image_path]
+        when /nil|null|NULL/
+          params[:pg_image_path] = nil
+        end
+
         params.permit(:pg_image_path)
       end
     end
