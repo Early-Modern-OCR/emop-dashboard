@@ -282,6 +282,7 @@ $(function() {
       height: 500,
       resizable : true,
       modal : false,
+      dialogClass: "ocr-view-dialog",
       buttons : {
          "Close" : function() {
             $(this).dialog("close");
