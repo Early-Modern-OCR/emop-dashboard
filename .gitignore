@@ -22,3 +22,7 @@ ext/scripts/config.ini
 
 # Ignore locations resulting from tests
 coverage/*
+
+# Ignore static docs
+docs/*
+!doc/apipie_examples.json

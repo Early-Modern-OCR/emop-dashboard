@@ -91,59 +91,6 @@
       "recorded": true
     }
   ],
-  "batch_jobs#page_results": [
-    {
-      "verb": "GET",
-      "path": "/api/batch_jobs/4/page_results",
-      "versions": [
-        "v1"
-      ],
-      "query": null,
-      "request_data": null,
-      "response_data": {
-        "batch_job": {
-          "id": 4,
-          "name": "OCR Test",
-          "parameters": "",
-          "notes": "test",
-          "job_type_id": 2,
-          "ocr_engine_id": 2,
-          "font_id": 4,
-          "page_results": [
-            {
-              "id": 1,
-              "ocr_text_path": "/some/path/output.txt",
-              "ocr_xml_path": "/some/path/output.xml",
-              "ocr_completed": "2014-11-09T06:00:00.000Z",
-              "juxta_change_index": 0.0,
-              "alt_change_index": 0.0,
-              "page": {
-                "id": 1,
-                "work_id": 1
-              },
-              "batch_id": 4
-            },
-            {
-              "id": 2,
-              "ocr_text_path": "/some/path/output.txt",
-              "ocr_xml_path": "/some/path/output.xml",
-              "ocr_completed": "2014-11-09T06:00:00.000Z",
-              "juxta_change_index": 0.0,
-              "alt_change_index": 0.0,
-              "page": {
-                "id": 2,
-                "work_id": 2
-              },
-              "batch_id": 4
-            }
-          ]
-        }
-      },
-      "code": 200,
-      "show_in_doc": 1,
-      "recorded": true
-    }
-  ],
   "batch_jobs#show": [
     {
       "verb": "GET",
@@ -220,7 +167,9 @@
             "ocr_text_path": "/some/path/output.txt",
             "ocr_xml_path": "/some/path/output.xml",
             "juxta_change_index": 0.0,
-            "alt_change_index": 0.0
+            "alt_change_index": 0.0,
+            "corr_ocr_text_path": "/some/path/output_ALTO.txt",
+            "corr_ocr_xml_path": "/some/path/output_ALTO.xml"
           }
         ],
         "postproc_results": [
@@ -1105,6 +1054,8 @@
             "id": 2,
             "ocr_text_path": "/some/path/output.txt",
             "ocr_xml_path": "/some/path/output.xml",
+            "corr_ocr_text_path": "/some/path/output_ALTO.txt",
+            "corr_ocr_xml_path": "/some/path/output_ALTO.xml",
             "ocr_completed": "2014-11-09T06:00:00.000Z",
             "juxta_change_index": 0.0,
             "alt_change_index": 0.0,
@@ -1115,6 +1066,8 @@
             "id": 3,
             "ocr_text_path": "/some/path/output.txt",
             "ocr_xml_path": "/some/path/output.xml",
+            "corr_ocr_text_path": "/some/path/output_ALTO.txt",
+            "corr_ocr_xml_path": "/some/path/output_ALTO.xml",
             "ocr_completed": "2014-11-09T06:00:00.000Z",
             "juxta_change_index": 0.0,
             "alt_change_index": 0.0,
@@ -1126,83 +1079,12 @@
       "code": 200,
       "show_in_doc": 1,
       "recorded": true
-    },
-    {
-      "verb": "GET",
-      "path": "/api/page_results",
-      "versions": [
-        "v1"
-      ],
-      "query": "batch_id=37",
-      "request_data": null,
-      "response_data": {
-        "total": 5,
-        "subtotal": 5,
-        "page": 1,
-        "per_page": 5,
-        "total_pages": 1,
-        "results": [
-          {
-            "id": 6,
-            "ocr_text_path": "/some/path/output.txt",
-            "ocr_xml_path": "/some/path/output.xml",
-            "ocr_completed": "2014-11-09T06:00:00.000Z",
-            "juxta_change_index": 0.0,
-            "alt_change_index": 0.0,
-            "page_id": 32,
-            "batch_id": 37
-          },
-          {
-            "id": 7,
-            "ocr_text_path": "/some/path/output.txt",
-            "ocr_xml_path": "/some/path/output.xml",
-            "ocr_completed": "2014-11-09T06:00:00.000Z",
-            "juxta_change_index": 0.0,
-            "alt_change_index": 0.0,
-            "page_id": 33,
-            "batch_id": 37
-          },
-          {
-            "id": 8,
-            "ocr_text_path": "/some/path/output.txt",
-            "ocr_xml_path": "/some/path/output.xml",
-            "ocr_completed": "2014-11-09T06:00:00.000Z",
-            "juxta_change_index": 0.0,
-            "alt_change_index": 0.0,
-            "page_id": 34,
-            "batch_id": 37
-          },
-          {
-            "id": 9,
-            "ocr_text_path": "/some/path/output.txt",
-            "ocr_xml_path": "/some/path/output.xml",
-            "ocr_completed": "2014-11-09T06:00:00.000Z",
-            "juxta_change_index": 0.0,
-            "alt_change_index": 0.0,
-            "page_id": 35,
-            "batch_id": 37
-          },
-          {
-            "id": 10,
-            "ocr_text_path": "/some/path/output.txt",
-            "ocr_xml_path": "/some/path/output.xml",
-            "ocr_completed": "2014-11-09T06:00:00.000Z",
-            "juxta_change_index": 0.0,
-            "alt_change_index": 0.0,
-            "page_id": 36,
-            "batch_id": 37
-          }
-        ]
-      },
-      "code": 200,
-      "show_in_doc": 0,
-      "recorded": true
     }
   ],
   "page_results#show": [
     {
       "verb": "GET",
-      "path": "/api/page_results/11",
+      "path": "/api/page_results/4",
       "versions": [
         "v1"
       ],
@@ -1210,14 +1092,16 @@
       "request_data": null,
       "response_data": {
         "page_result": {
-          "id": 11,
+          "id": 4,
           "ocr_text_path": "/some/path/output.txt",
           "ocr_xml_path": "/some/path/output.xml",
+          "corr_ocr_text_path": "/some/path/output_ALTO.txt",
+          "corr_ocr_xml_path": "/some/path/output_ALTO.xml",
           "ocr_completed": "2014-11-09T06:00:00.000Z",
           "juxta_change_index": 0.0,
           "alt_change_index": 0.0,
-          "page_id": 37,
-          "batch_id": 38
+          "page_id": 30,
+          "batch_id": 35
         }
       },
       "code": 200,
@@ -1235,18 +1119,14 @@
       "query": null,
       "request_data": null,
       "response_data": {
-        "total": 2,
-        "subtotal": 2,
         "page": 1,
-        "per_page": 2,
-        "total_pages": 1,
         "results": [
           {
-            "id": 38,
+            "id": 31,
             "pg_ref_number": 1,
             "pg_ground_truth_file": null,
             "work": {
-              "id": 63,
+              "id": 56,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_tcp_bibno": null,
@@ -1275,11 +1155,11 @@
             "pg_image_path": "/data/ecco/somepath"
           },
           {
-            "id": 39,
+            "id": 32,
             "pg_ref_number": 1,
             "pg_ground_truth_file": null,
             "work": {
-              "id": 64,
+              "id": 57,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_tcp_bibno": null,
@@ -1317,7 +1197,7 @@
   "pages#show": [
     {
       "verb": "GET",
-      "path": "/api/pages/40",
+      "path": "/api/pages/33",
       "versions": [
         "v1"
       ],
@@ -1325,11 +1205,11 @@
       "request_data": null,
       "response_data": {
         "page": {
-          "id": 40,
+          "id": 33,
           "pg_ref_number": 1,
           "pg_ground_truth_file": null,
           "work": {
-            "id": 65,
+            "id": 58,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_tcp_bibno": null,
@@ -1366,7 +1246,7 @@
   "pages#update": [
     {
       "verb": "PUT",
-      "path": "/api/pages/41",
+      "path": "/api/pages/34",
       "versions": [
         "v1"
       ],
@@ -1378,11 +1258,11 @@
       },
       "response_data": {
         "page": {
-          "id": 41,
+          "id": 34,
           "pg_ref_number": 1,
           "pg_ground_truth_file": null,
           "work": {
-            "id": 66,
+            "id": 59,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_tcp_bibno": null,
@@ -1433,7 +1313,7 @@
         "total_pages": 1,
         "results": [
           {
-            "id": 67,
+            "id": 60,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_tcp_bibno": null,
@@ -1459,7 +1339,7 @@
             "wks_last_trawled": "2013-06-30"
           },
           {
-            "id": 68,
+            "id": 61,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_tcp_bibno": null,
@@ -1494,7 +1374,7 @@
   "works#show": [
     {
       "verb": "GET",
-      "path": "/api/works/69",
+      "path": "/api/works/62",
       "versions": [
         "v1"
       ],
@@ -1502,7 +1382,7 @@
       "request_data": null,
       "response_data": {
         "work": {
-          "id": 69,
+          "id": 62,
           "wks_tcp_number": null,
           "wks_estc_number": "T137595",
           "wks_tcp_bibno": null,
@@ -1536,7 +1416,7 @@
   "works#update": [
     {
       "verb": "PUT",
-      "path": "/api/works/70",
+      "path": "/api/works/63",
       "versions": [
         "v1"
       ],
@@ -1548,7 +1428,7 @@
       },
       "response_data": {
         "work": {
-          "id": 70,
+          "id": 63,
           "wks_tcp_number": null,
           "wks_estc_number": "T0001",
           "wks_tcp_bibno": null,
