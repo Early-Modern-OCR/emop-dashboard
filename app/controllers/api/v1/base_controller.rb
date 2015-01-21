@@ -11,7 +11,7 @@ module Api
 
       def_param_group :pagination do
         param :page_num, String, :desc => 'paginate results'
-        param :page_size, String, :desc => 'number of entries per request'
+        param :per_page, String, :desc => 'number of entries per request'
       end
 
       helper_method :root_node_name, :metadata_total, :metadata_subtotal,

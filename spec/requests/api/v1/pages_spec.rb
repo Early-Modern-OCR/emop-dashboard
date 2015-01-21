@@ -36,6 +36,19 @@ RSpec.describe Api::V1::PagesController, :type => :request do
       expect(json['results'].length).to eq(25)
     end
 
+    it 'respects per_page param' do
+      page = create_list(:page, 30)
+      get '/api/pages', {per_page: 30}, api_headers
+
+      expect(response).to be_success
+      expect(json['total']).to be_nil #eq(30)
+      expect(json['subtotal']).to be_nil # eq(25)
+      expect(json['page']).to eq(1)
+      expect(json['per_page']).to be_nil # eq(25)
+      expect(json['total_pages']).to be_nil # eq(2)
+      expect(json['results'].length).to eq(30)
+    end
+
     it 'sends a list of pages', :show_in_doc do
       page = create_list(:page, 2)
       get '/api/pages', {}, api_headers
