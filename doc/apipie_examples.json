@@ -636,7 +636,7 @@
         ]
       },
       "code": 200,
-      "show_in_doc": 0,
+      "show_in_doc": 1,
       "recorded": true
     }
   ],
@@ -968,19 +968,19 @@
             },
             "page_result": {
               "id": 2,
+              "page_id": 28,
+              "batch_id": 33,
               "ocr_text_path": "/some/path/output.txt",
               "ocr_xml_path": "/some/path/output.xml",
-              "corr_ocr_text_path": "/some/path/output_ALTO.txt",
-              "corr_ocr_xml_path": "/some/path/output_ALTO.xml",
               "ocr_completed": "2014-11-09T06:00:00.000Z",
               "juxta_change_index": 0.0,
               "alt_change_index": 0.0,
-              "page_id": 28,
-              "batch_id": 33
+              "corr_ocr_text_path": "/some/path/output_ALTO.txt",
+              "corr_ocr_xml_path": "/some/path/output_ALTO.xml"
             },
             "postproc_result": {
-              "id": 2,
-              "pp_noisemsr": 0.0,
+              "page_id": 28,
+              "batch_job_id": 33,
               "pp_ecorr": 0.0,
               "pp_juxta": 0.0,
               "pp_retas": 0.0,
@@ -992,11 +992,11 @@
                 "unchanged": 184
               },
               "pp_pg_quality": 0.0,
+              "id": 2,
               "noisiness_idx": 0.0,
               "multicol": "0;1;2",
               "skew_idx": "1;0;1",
-              "page_id": 28,
-              "batch_job_id": 33
+              "pp_noisemsr": 0.0
             }
           },
           {
