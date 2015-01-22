@@ -660,6 +660,7 @@
         "results": [
           {
             "id": 21,
+            "proc_id": "20141109000000000",
             "tries": 0,
             "results": null,
             "status": {
@@ -750,10 +751,12 @@
               "wks_primary_print_font": null,
               "wks_last_trawled": "2013-06-30"
             },
-            "proc_id": "20141109000000000"
+            "page_result": null,
+            "postproc_result": null
           },
           {
             "id": 22,
+            "proc_id": "20141109000000000",
             "tries": 0,
             "results": null,
             "status": {
@@ -844,7 +847,253 @@
               "wks_primary_print_font": null,
               "wks_last_trawled": "2013-06-30"
             },
-            "proc_id": "20141109000000000"
+            "page_result": null,
+            "postproc_result": null
+          }
+        ]
+      },
+      "code": 200,
+      "show_in_doc": 1,
+      "recorded": true
+    },
+    {
+      "verb": "PUT",
+      "path": "/api/job_queues/reserve",
+      "versions": [
+        "v1"
+      ],
+      "query": null,
+      "request_data": {
+        "job_queue": {
+          "num_pages": 2
+        }
+      },
+      "response_data": {
+        "requested": 2,
+        "reserved": 2,
+        "proc_id": "20141109000000000",
+        "results": [
+          {
+            "id": 26,
+            "proc_id": "20141109000000000",
+            "tries": 0,
+            "results": null,
+            "status": {
+              "id": 2,
+              "name": "Processing"
+            },
+            "batch_job": {
+              "id": 33,
+              "name": "OCR Test",
+              "parameters": "",
+              "notes": "test",
+              "job_type": {
+                "id": 2,
+                "name": "OCR"
+              },
+              "ocr_engine": {
+                "id": 2,
+                "name": "Tesseract"
+              },
+              "font": {
+                "id": 33,
+                "font_name": "baskerville",
+                "font_italic": null,
+                "font_bold": null,
+                "font_fixed": null,
+                "font_serif": null,
+                "font_fraktur": null,
+                "font_line_height": null,
+                "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata"
+              }
+            },
+            "page": {
+              "id": 28,
+              "pg_ref_number": 1,
+              "pg_ground_truth_file": null,
+              "work": {
+                "id": 53,
+                "wks_tcp_number": null,
+                "wks_estc_number": "T137595",
+                "wks_tcp_bibno": null,
+                "wks_marc_record": null,
+                "wks_eebo_citation_id": null,
+                "wks_eebo_directory": null,
+                "wks_ecco_number": "0212100100",
+                "wks_book_id": null,
+                "wks_author": "Baskerville, John",
+                "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+                "wks_word_count": null,
+                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_eebo_image_id": null,
+                "wks_eebo_url": null,
+                "wks_pub_date": "1765",
+                "wks_ecco_uncorrected_gale_ocr_path": null,
+                "wks_ecco_corrected_xml_path": null,
+                "wks_ecco_corrected_text_path": null,
+                "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+                "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+                "wks_organizational_unit": 265,
+                "wks_primary_print_font": null,
+                "wks_last_trawled": "2013-06-30"
+              },
+              "pg_gale_ocr_file": null,
+              "pg_image_path": "/data/ecco/somepath"
+            },
+            "work": {
+              "id": 54,
+              "wks_tcp_number": null,
+              "wks_estc_number": "T137595",
+              "wks_tcp_bibno": null,
+              "wks_marc_record": null,
+              "wks_eebo_citation_id": null,
+              "wks_eebo_directory": null,
+              "wks_ecco_number": "0212100100",
+              "wks_book_id": null,
+              "wks_author": "Baskerville, John",
+              "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+              "wks_word_count": null,
+              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+              "wks_eebo_image_id": null,
+              "wks_eebo_url": null,
+              "wks_pub_date": "1765",
+              "wks_ecco_uncorrected_gale_ocr_path": null,
+              "wks_ecco_corrected_xml_path": null,
+              "wks_ecco_corrected_text_path": null,
+              "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+              "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+              "wks_organizational_unit": 265,
+              "wks_primary_print_font": null,
+              "wks_last_trawled": "2013-06-30"
+            },
+            "page_result": {
+              "id": 2,
+              "ocr_text_path": "/some/path/output.txt",
+              "ocr_xml_path": "/some/path/output.xml",
+              "corr_ocr_text_path": "/some/path/output_ALTO.txt",
+              "corr_ocr_xml_path": "/some/path/output_ALTO.xml",
+              "ocr_completed": "2014-11-09T06:00:00.000Z",
+              "juxta_change_index": 0.0,
+              "alt_change_index": 0.0,
+              "page_id": 28,
+              "batch_id": 33
+            },
+            "postproc_result": {
+              "id": 2,
+              "pp_noisemsr": 0.0,
+              "pp_ecorr": 0.0,
+              "pp_juxta": 0.0,
+              "pp_retas": 0.0,
+              "pp_health": {
+                "total": 365,
+                "ignored": 22,
+                "correct": 119,
+                "corrected": 40,
+                "unchanged": 184
+              },
+              "pp_pg_quality": 0.0,
+              "noisiness_idx": 0.0,
+              "multicol": "0;1;2",
+              "skew_idx": "1;0;1",
+              "page_id": 28,
+              "batch_job_id": 33
+            }
+          },
+          {
+            "id": 27,
+            "proc_id": "20141109000000000",
+            "tries": 0,
+            "results": null,
+            "status": {
+              "id": 2,
+              "name": "Processing"
+            },
+            "batch_job": {
+              "id": 34,
+              "name": "OCR Test",
+              "parameters": "",
+              "notes": "test",
+              "job_type": {
+                "id": 2,
+                "name": "OCR"
+              },
+              "ocr_engine": {
+                "id": 2,
+                "name": "Tesseract"
+              },
+              "font": {
+                "id": 34,
+                "font_name": "baskerville",
+                "font_italic": null,
+                "font_bold": null,
+                "font_fixed": null,
+                "font_serif": null,
+                "font_fraktur": null,
+                "font_line_height": null,
+                "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata"
+              }
+            },
+            "page": {
+              "id": 29,
+              "pg_ref_number": 1,
+              "pg_ground_truth_file": null,
+              "work": {
+                "id": 55,
+                "wks_tcp_number": null,
+                "wks_estc_number": "T137595",
+                "wks_tcp_bibno": null,
+                "wks_marc_record": null,
+                "wks_eebo_citation_id": null,
+                "wks_eebo_directory": null,
+                "wks_ecco_number": "0212100100",
+                "wks_book_id": null,
+                "wks_author": "Baskerville, John",
+                "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+                "wks_word_count": null,
+                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_eebo_image_id": null,
+                "wks_eebo_url": null,
+                "wks_pub_date": "1765",
+                "wks_ecco_uncorrected_gale_ocr_path": null,
+                "wks_ecco_corrected_xml_path": null,
+                "wks_ecco_corrected_text_path": null,
+                "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+                "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+                "wks_organizational_unit": 265,
+                "wks_primary_print_font": null,
+                "wks_last_trawled": "2013-06-30"
+              },
+              "pg_gale_ocr_file": null,
+              "pg_image_path": "/data/ecco/somepath"
+            },
+            "work": {
+              "id": 56,
+              "wks_tcp_number": null,
+              "wks_estc_number": "T137595",
+              "wks_tcp_bibno": null,
+              "wks_marc_record": null,
+              "wks_eebo_citation_id": null,
+              "wks_eebo_directory": null,
+              "wks_ecco_number": "0212100100",
+              "wks_book_id": null,
+              "wks_author": "Baskerville, John",
+              "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+              "wks_word_count": null,
+              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+              "wks_eebo_image_id": null,
+              "wks_eebo_url": null,
+              "wks_pub_date": "1765",
+              "wks_ecco_uncorrected_gale_ocr_path": null,
+              "wks_ecco_corrected_xml_path": null,
+              "wks_ecco_corrected_text_path": null,
+              "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+              "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+              "wks_organizational_unit": 265,
+              "wks_primary_print_font": null,
+              "wks_last_trawled": "2013-06-30"
+            },
+            "page_result": null,
+            "postproc_result": null
           }
         ]
       },
@@ -1051,18 +1300,6 @@
         "total_pages": 1,
         "results": [
           {
-            "id": 2,
-            "ocr_text_path": "/some/path/output.txt",
-            "ocr_xml_path": "/some/path/output.xml",
-            "corr_ocr_text_path": "/some/path/output_ALTO.txt",
-            "corr_ocr_xml_path": "/some/path/output_ALTO.xml",
-            "ocr_completed": "2014-11-09T06:00:00.000Z",
-            "juxta_change_index": 0.0,
-            "alt_change_index": 0.0,
-            "page_id": 28,
-            "batch_id": 33
-          },
-          {
             "id": 3,
             "ocr_text_path": "/some/path/output.txt",
             "ocr_xml_path": "/some/path/output.xml",
@@ -1071,8 +1308,20 @@
             "ocr_completed": "2014-11-09T06:00:00.000Z",
             "juxta_change_index": 0.0,
             "alt_change_index": 0.0,
-            "page_id": 29,
-            "batch_id": 34
+            "page_id": 33,
+            "batch_id": 38
+          },
+          {
+            "id": 4,
+            "ocr_text_path": "/some/path/output.txt",
+            "ocr_xml_path": "/some/path/output.xml",
+            "corr_ocr_text_path": "/some/path/output_ALTO.txt",
+            "corr_ocr_xml_path": "/some/path/output_ALTO.xml",
+            "ocr_completed": "2014-11-09T06:00:00.000Z",
+            "juxta_change_index": 0.0,
+            "alt_change_index": 0.0,
+            "page_id": 34,
+            "batch_id": 39
           }
         ]
       },
@@ -1084,7 +1333,7 @@
   "page_results#show": [
     {
       "verb": "GET",
-      "path": "/api/page_results/4",
+      "path": "/api/page_results/5",
       "versions": [
         "v1"
       ],
@@ -1092,7 +1341,7 @@
       "request_data": null,
       "response_data": {
         "page_result": {
-          "id": 4,
+          "id": 5,
           "ocr_text_path": "/some/path/output.txt",
           "ocr_xml_path": "/some/path/output.xml",
           "corr_ocr_text_path": "/some/path/output_ALTO.txt",
@@ -1100,8 +1349,8 @@
           "ocr_completed": "2014-11-09T06:00:00.000Z",
           "juxta_change_index": 0.0,
           "alt_change_index": 0.0,
-          "page_id": 30,
-          "batch_id": 35
+          "page_id": 35,
+          "batch_id": 40
         }
       },
       "code": 200,
@@ -1122,11 +1371,11 @@
         "page": 1,
         "results": [
           {
-            "id": 31,
+            "id": 36,
             "pg_ref_number": 1,
             "pg_ground_truth_file": null,
             "work": {
-              "id": 56,
+              "id": 66,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_tcp_bibno": null,
@@ -1155,11 +1404,11 @@
             "pg_image_path": "/data/ecco/somepath"
           },
           {
-            "id": 32,
+            "id": 37,
             "pg_ref_number": 1,
             "pg_ground_truth_file": null,
             "work": {
-              "id": 57,
+              "id": 67,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_tcp_bibno": null,
@@ -1197,7 +1446,7 @@
   "pages#show": [
     {
       "verb": "GET",
-      "path": "/api/pages/33",
+      "path": "/api/pages/38",
       "versions": [
         "v1"
       ],
@@ -1205,11 +1454,11 @@
       "request_data": null,
       "response_data": {
         "page": {
-          "id": 33,
+          "id": 38,
           "pg_ref_number": 1,
           "pg_ground_truth_file": null,
           "work": {
-            "id": 58,
+            "id": 68,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_tcp_bibno": null,
@@ -1246,7 +1495,7 @@
   "pages#update": [
     {
       "verb": "PUT",
-      "path": "/api/pages/34",
+      "path": "/api/pages/39",
       "versions": [
         "v1"
       ],
@@ -1258,11 +1507,11 @@
       },
       "response_data": {
         "page": {
-          "id": 34,
+          "id": 39,
           "pg_ref_number": 1,
           "pg_ground_truth_file": null,
           "work": {
-            "id": 59,
+            "id": 69,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_tcp_bibno": null,
@@ -1313,7 +1562,7 @@
         "total_pages": 1,
         "results": [
           {
-            "id": 60,
+            "id": 70,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_tcp_bibno": null,
@@ -1339,7 +1588,7 @@
             "wks_last_trawled": "2013-06-30"
           },
           {
-            "id": 61,
+            "id": 71,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_tcp_bibno": null,
@@ -1374,7 +1623,7 @@
   "works#show": [
     {
       "verb": "GET",
-      "path": "/api/works/62",
+      "path": "/api/works/72",
       "versions": [
         "v1"
       ],
@@ -1382,7 +1631,7 @@
       "request_data": null,
       "response_data": {
         "work": {
-          "id": 62,
+          "id": 72,
           "wks_tcp_number": null,
           "wks_estc_number": "T137595",
           "wks_tcp_bibno": null,
@@ -1416,7 +1665,7 @@
   "works#update": [
     {
       "verb": "PUT",
-      "path": "/api/works/63",
+      "path": "/api/works/73",
       "versions": [
         "v1"
       ],
@@ -1428,7 +1677,7 @@
       },
       "response_data": {
         "work": {
-          "id": 63,
+          "id": 73,
           "wks_tcp_number": null,
           "wks_estc_number": "T0001",
           "wks_tcp_bibno": null,

@@ -124,6 +124,38 @@ RSpec.describe "JobQueues", :type => :request do
       expect(json['results'].length).to eq(2)
     end
 
+    it 'results contains associations' do
+      job_queues = create_list(:job_queue, 5, status: @not_started_status)
+      @time_now = Time.parse("Nov 09 2014")
+      allow(Time).to receive(:now).and_return(@time_now)
+
+      put '/api/job_queues/reserve', {job_queue: {num_pages: 2}}.to_json, api_headers
+
+      job_queue = JobQueue.find(job_queues.first.id)
+      result = json['results'].select { |j| j['id'] == job_queue.id }.first
+      expect(result['status']['id']).to eq(job_queue.status.id)
+      expect(result['batch_job']['id']).to eq(job_queue.batch_job.id)
+      expect(result['page']['id']).to eq(job_queue.page.id)
+      expect(result['work']['id']).to eq(job_queue.work.id)
+      expect(result['page_result']).to be_nil
+      expect(result['postproc_result']).to be_nil
+    end
+
+    it 'results contains existing page_results', :show_in_doc do
+      job_queues = create_list(:job_queue, 5)
+      page_result = create(:page_result, page: job_queues.first.page, batch_job: job_queues.first.batch_job)
+      postproc_page = create(:postproc_page, page: job_queues.first.page, batch_job: job_queues.first.batch_job)
+      @time_now = Time.parse("Nov 09 2014")
+      allow(Time).to receive(:now).and_return(@time_now)
+
+      put '/api/job_queues/reserve', {job_queue: {num_pages: 2}}.to_json, api_headers
+
+      job_queue = JobQueue.find(job_queues.first.id)
+      result = json['results'].select { |j| j['id'] == job_queue.id }.first
+      expect(result['page_result']['id']).to eq(page_result.id)
+      expect(result['postproc_result']['id']).to eq(postproc_page.id)
+    end
+
     it 'sets proc_id for job_queue' do
       job_queue = create(:job_queue, status: @not_started_status)
       @time_now = Time.parse("Nov 09 2014")

@@ -48,6 +48,14 @@ class JobQueue < ActiveRecord::Base
     update(results: "Marked failed using dashboard.", status: JobStatus.find_by_name("Failed"))
   end
 
+  def page_result
+    PageResult.find_by(batch_job: batch_job, page: page)
+  end
+
+  def postproc_page
+    PostprocPage.find_by(batch_job: batch_job, page: page)
+  end
+
   def self.unreserved
     @job_status = JobStatus.find_by_name('Not Started')
     where(proc_id: nil, job_status_id: @job_status.id)

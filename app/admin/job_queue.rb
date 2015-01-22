@@ -65,6 +65,7 @@ ActiveAdmin.register JobQueue do
   ## Index search filters
   filter :id
   filter :status
+  filter :results
   filter :proc_id
   filter :batch_job
 
