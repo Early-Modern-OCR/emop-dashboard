@@ -101,6 +101,15 @@ RSpec.describe "JobQueues", :type => :request do
       expect(json['job_queue']['count']).to eq(@job_queues_not_started.length)
     end
 
+    it 'sends the count of not started job queues based on batch_id', :show_in_doc do
+      batch_job = create(:batch_job)
+      job_queues = create_list(:job_queue, 6, status: @not_started_status, batch_job: batch_job)
+      get '/api/job_queues/count', {job_status_id: @not_started_status.id, batch_id: batch_job.id}, api_headers
+
+      expect(response).to be_success
+      expect(json['job_queue']['count']).to eq(job_queues.length)
+    end
+
     it 'sends the count of done job queues' do
       get '/api/job_queues/count', {job_status_id: @done_status.id}, api_headers
 

@@ -5,6 +5,8 @@ module Api
       api :GET, '/job_queues', 'List job queues'
       param_group :pagination, V1::BaseController
       param :job_status_id, Integer, desc: 'Job status ID'
+      param :batch_id, Integer, desc: 'Batch job ID'
+      param :work_id, Integer, desc: 'Work ID'
       def index
         super
       end
@@ -17,6 +19,8 @@ module Api
 
       api :GET, '/job_queues/count', 'Count of job queues'
       param :job_status_id, Integer, desc: 'Job status ID'
+      param :batch_id, Integer, desc: 'Batch job ID'
+      param :work_id, Integer, desc: 'Work ID'
       def count
         @count = JobQueue.where(query_params).count
         respond_with @count
@@ -48,7 +52,7 @@ module Api
       end
 
       def query_params
-        params.permit(:job_status_id, :num_pages, :proc_id)
+        params.permit(:job_status_id, :num_pages, :proc_id, :batch_id, :work_id)
       end
 
     end

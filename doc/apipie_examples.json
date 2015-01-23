@@ -218,6 +218,23 @@
       "code": 200,
       "show_in_doc": 1,
       "recorded": true
+    },
+    {
+      "verb": "GET",
+      "path": "/api/job_queues/count",
+      "versions": [
+        "v1"
+      ],
+      "query": "job_status_id=1&batch_id=33",
+      "request_data": null,
+      "response_data": {
+        "job_queue": {
+          "count": 6
+        }
+      },
+      "code": 200,
+      "show_in_doc": 1,
+      "recorded": true
     }
   ],
   "job_queues#index": [
@@ -667,7 +684,7 @@
         "proc_id": "20141109000000000",
         "results": [
           {
-            "id": 21,
+            "id": 32,
             "proc_id": "20141109000000000",
             "tries": 0,
             "results": null,
@@ -676,7 +693,7 @@
               "name": "Processing"
             },
             "batch_job": {
-              "id": 28,
+              "id": 34,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
@@ -689,7 +706,7 @@
                 "name": "Tesseract"
               },
               "font": {
-                "id": 28,
+                "id": 34,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -701,11 +718,11 @@
               }
             },
             "page": {
-              "id": 23,
+              "id": 34,
               "pg_ref_number": 1,
               "pg_ground_truth_file": null,
               "work": {
-                "id": 43,
+                "id": 65,
                 "wks_tcp_number": null,
                 "wks_estc_number": "T137595",
                 "wks_bib_name": null,
@@ -735,7 +752,7 @@
               "pg_image_path": "/data/ecco/somepath"
             },
             "work": {
-              "id": 44,
+              "id": 66,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_bib_name": null,
@@ -765,7 +782,7 @@
             "postproc_result": null
           },
           {
-            "id": 22,
+            "id": 33,
             "proc_id": "20141109000000000",
             "tries": 0,
             "results": null,
@@ -774,7 +791,7 @@
               "name": "Processing"
             },
             "batch_job": {
-              "id": 29,
+              "id": 35,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
@@ -787,7 +804,7 @@
                 "name": "Tesseract"
               },
               "font": {
-                "id": 29,
+                "id": 35,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -799,11 +816,11 @@
               }
             },
             "page": {
-              "id": 24,
+              "id": 35,
               "pg_ref_number": 1,
               "pg_ground_truth_file": null,
               "work": {
-                "id": 45,
+                "id": 67,
                 "wks_tcp_number": null,
                 "wks_estc_number": "T137595",
                 "wks_bib_name": null,
@@ -833,7 +850,7 @@
               "pg_image_path": "/data/ecco/somepath"
             },
             "work": {
-              "id": 46,
+              "id": 68,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_bib_name": null,
@@ -886,7 +903,7 @@
         "proc_id": "20141109000000000",
         "results": [
           {
-            "id": 26,
+            "id": 37,
             "proc_id": "20141109000000000",
             "tries": 0,
             "results": null,
@@ -895,7 +912,7 @@
               "name": "Processing"
             },
             "batch_job": {
-              "id": 33,
+              "id": 39,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
@@ -908,7 +925,7 @@
                 "name": "Tesseract"
               },
               "font": {
-                "id": 33,
+                "id": 39,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -920,11 +937,11 @@
               }
             },
             "page": {
-              "id": 28,
+              "id": 39,
               "pg_ref_number": 1,
               "pg_ground_truth_file": null,
               "work": {
-                "id": 53,
+                "id": 75,
                 "wks_tcp_number": null,
                 "wks_estc_number": "T137595",
                 "wks_bib_name": null,
@@ -954,7 +971,7 @@
               "pg_image_path": "/data/ecco/somepath"
             },
             "work": {
-              "id": 54,
+              "id": 76,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_bib_name": null,
@@ -982,8 +999,8 @@
             },
             "page_result": {
               "id": 2,
-              "page_id": 28,
-              "batch_id": 33,
+              "page_id": 39,
+              "batch_id": 39,
               "ocr_text_path": "/some/path/output.txt",
               "ocr_xml_path": "/some/path/output.xml",
               "ocr_completed": "2014-11-09T06:00:00.000Z",
@@ -993,8 +1010,8 @@
               "corr_ocr_xml_path": "/some/path/output_ALTO.xml"
             },
             "postproc_result": {
-              "page_id": 28,
-              "batch_job_id": 33,
+              "page_id": 39,
+              "batch_job_id": 39,
               "pp_ecorr": 0.0,
               "pp_juxta": 0.0,
               "pp_retas": 0.0,
@@ -1014,7 +1031,7 @@
             }
           },
           {
-            "id": 27,
+            "id": 38,
             "proc_id": "20141109000000000",
             "tries": 0,
             "results": null,
@@ -1023,7 +1040,7 @@
               "name": "Processing"
             },
             "batch_job": {
-              "id": 34,
+              "id": 40,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
@@ -1036,7 +1053,7 @@
                 "name": "Tesseract"
               },
               "font": {
-                "id": 34,
+                "id": 40,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -1048,11 +1065,11 @@
               }
             },
             "page": {
-              "id": 29,
+              "id": 40,
               "pg_ref_number": 1,
               "pg_ground_truth_file": null,
               "work": {
-                "id": 55,
+                "id": 77,
                 "wks_tcp_number": null,
                 "wks_estc_number": "T137595",
                 "wks_bib_name": null,
@@ -1082,7 +1099,7 @@
               "pg_image_path": "/data/ecco/somepath"
             },
             "work": {
-              "id": 56,
+              "id": 78,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_bib_name": null,
@@ -1326,8 +1343,8 @@
             "ocr_completed": "2014-11-09T06:00:00.000Z",
             "juxta_change_index": 0.0,
             "alt_change_index": 0.0,
-            "page_id": 33,
-            "batch_id": 38
+            "page_id": 44,
+            "batch_id": 44
           },
           {
             "id": 4,
@@ -1338,8 +1355,8 @@
             "ocr_completed": "2014-11-09T06:00:00.000Z",
             "juxta_change_index": 0.0,
             "alt_change_index": 0.0,
-            "page_id": 34,
-            "batch_id": 39
+            "page_id": 45,
+            "batch_id": 45
           }
         ]
       },
@@ -1367,8 +1384,8 @@
           "ocr_completed": "2014-11-09T06:00:00.000Z",
           "juxta_change_index": 0.0,
           "alt_change_index": 0.0,
-          "page_id": 35,
-          "batch_id": 40
+          "page_id": 46,
+          "batch_id": 46
         }
       },
       "code": 200,
@@ -1389,11 +1406,11 @@
         "page": 1,
         "results": [
           {
-            "id": 36,
+            "id": 47,
             "pg_ref_number": 1,
             "pg_ground_truth_file": null,
             "work": {
-              "id": 66,
+              "id": 88,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_bib_name": null,
@@ -1423,11 +1440,11 @@
             "pg_image_path": "/data/ecco/somepath"
           },
           {
-            "id": 37,
+            "id": 48,
             "pg_ref_number": 1,
             "pg_ground_truth_file": null,
             "work": {
-              "id": 67,
+              "id": 89,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_bib_name": null,
@@ -1466,7 +1483,7 @@
   "pages#show": [
     {
       "verb": "GET",
-      "path": "/api/pages/38",
+      "path": "/api/pages/49",
       "versions": [
         "v1"
       ],
@@ -1474,11 +1491,11 @@
       "request_data": null,
       "response_data": {
         "page": {
-          "id": 38,
+          "id": 49,
           "pg_ref_number": 1,
           "pg_ground_truth_file": null,
           "work": {
-            "id": 68,
+            "id": 90,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_bib_name": null,
@@ -1516,7 +1533,7 @@
   "pages#update": [
     {
       "verb": "PUT",
-      "path": "/api/pages/39",
+      "path": "/api/pages/50",
       "versions": [
         "v1"
       ],
@@ -1528,11 +1545,11 @@
       },
       "response_data": {
         "page": {
-          "id": 39,
+          "id": 50,
           "pg_ref_number": 1,
           "pg_ground_truth_file": null,
           "work": {
-            "id": 69,
+            "id": 91,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_bib_name": null,
@@ -1584,7 +1601,7 @@
         "total_pages": 1,
         "results": [
           {
-            "id": 70,
+            "id": 92,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_bib_name": null,
@@ -1611,7 +1628,7 @@
             "wks_last_trawled": "2013-06-30"
           },
           {
-            "id": 71,
+            "id": 93,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_bib_name": null,
@@ -1647,7 +1664,7 @@
   "works#show": [
     {
       "verb": "GET",
-      "path": "/api/works/72",
+      "path": "/api/works/94",
       "versions": [
         "v1"
       ],
@@ -1655,7 +1672,7 @@
       "request_data": null,
       "response_data": {
         "work": {
-          "id": 72,
+          "id": 94,
           "wks_tcp_number": null,
           "wks_estc_number": "T137595",
           "wks_bib_name": null,
@@ -1690,7 +1707,7 @@
   "works#update": [
     {
       "verb": "PUT",
-      "path": "/api/works/73",
+      "path": "/api/works/95",
       "versions": [
         "v1"
       ],
@@ -1702,7 +1719,7 @@
       },
       "response_data": {
         "work": {
-          "id": 73,
+          "id": 95,
           "wks_tcp_number": null,
           "wks_estc_number": "T0001",
           "wks_bib_name": null,
