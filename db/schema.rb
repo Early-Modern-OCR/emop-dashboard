@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150108190145) do
+ActiveRecord::Schema.define(version: 20150123172417) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(version: 20150108190145) do
   create_table "works", primary_key: "wks_work_id", force: true do |t|
     t.string  "wks_tcp_number"
     t.string  "wks_estc_number"
+    t.string  "wks_bib_name"
     t.integer "wks_tcp_bibno"
     t.string  "wks_marc_record"
     t.integer "wks_eebo_citation_id"

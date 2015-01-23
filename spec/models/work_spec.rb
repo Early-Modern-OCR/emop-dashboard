@@ -32,6 +32,7 @@ RSpec.describe Work, :type => :model do
         'id' => work.id,
         'wks_tcp_number' => work.wks_tcp_number,
         'wks_estc_number' => work.wks_estc_number,
+        'wks_bib_name' => work.wks_bib_name,
         'wks_tcp_bibno' => work.wks_tcp_bibno,
         'wks_marc_record' => work.wks_marc_record,
         'wks_eebo_citation_id' => work.wks_eebo_citation_id,

@@ -40,6 +40,7 @@ class Work < ActiveRecord::Base
         json.id id
         json.wks_tcp_number wks_tcp_number
         json.wks_estc_number wks_estc_number
+        json.wks_bib_name wks_bib_name
         json.wks_tcp_bibno wks_tcp_bibno
         json.wks_marc_record wks_marc_record
         json.wks_eebo_citation_id wks_eebo_citation_id
