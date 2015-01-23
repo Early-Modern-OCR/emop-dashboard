@@ -174,5 +174,18 @@ RSpec.describe "JobQueues", :type => :request do
       expect(@job_queue.proc_id).to eq(json['proc_id'])
       expect(@job_queue.proc_id).to eq(results.first['proc_id'])
     end
+
+    it 'filters by batch_job_id' do
+      batch_job = create(:batch_job)
+      create_list(:job_queue, 3, status: @not_started_status)
+      job_queues = create_list(:job_queue, 5, status: @not_started_status, batch_job: batch_job)
+      @time_now = Time.parse("Nov 09 2014")
+      allow(Time).to receive(:now).and_return(@time_now)
+
+      put '/api/job_queues/reserve', {job_queue: {num_pages: 10, batch_id: batch_job.id}}.to_json, api_headers
+
+      expect(json['results'].size).to eq(job_queues.size)
+      expect(JobQueue.running.count).to eq(job_queues.size)
+    end
   end
 end
