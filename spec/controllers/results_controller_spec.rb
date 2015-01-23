@@ -502,8 +502,6 @@ RSpec.describe ResultsController, :type => :controller do
     it "should reschedule a batch job" do
       post :reschedule, @params
 
-      expect { PageResult.find(@page_result.id) }.to raise_error(ActiveRecord::RecordNotFound)
-      expect { PostprocPage.find(@postproc_page.id) }.to raise_error(ActiveRecord::RecordNotFound)
       job_queue = JobQueue.find(@job_queue.id)
       expect(job_queue.status).to eq(JobStatus.not_started)
       expect(job_queue.proc_id).to be_nil

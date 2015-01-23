@@ -124,8 +124,6 @@ class ResultsController < ApplicationController
       job_queues = JobQueue.where(batch_id: batch_id, page_id: page_id)
       job_queues.reschedule!
       job_queues.update_all(last_update: Time.now)
-      PageResult.where(batch_id: batch_id, page_id: page_id).destroy_all
-      PostprocPage.where(batch_job_id: batch_id, page_id: page_id).destroy_all
     end
     render text: 'ok', status: :ok
   rescue => e

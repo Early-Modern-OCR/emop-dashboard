@@ -329,8 +329,6 @@ RSpec.describe DashboardController, :type => :controller do
       }
       post :reschedule, data
 
-      expect { PageResult.find(page_result.id) }.to raise_error(ActiveRecord::RecordNotFound)
-      expect { PostprocPage.find(postproc_page.id) }.to raise_error(ActiveRecord::RecordNotFound)
       expect(JobQueue.find(job_queue.id).status).to eq(JobStatus.not_started)
     end
 
@@ -352,8 +350,6 @@ RSpec.describe DashboardController, :type => :controller do
       }
       post :reschedule, data
 
-      expect(PageResult.all).to be_empty
-      expect(PostprocPage.all).to be_empty
       job_queues.each do |job_queue|
         expect(JobQueue.find(job_queue.id).status).to eq(JobStatus.not_started)
       end

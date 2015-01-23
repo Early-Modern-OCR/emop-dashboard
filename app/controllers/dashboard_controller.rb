@@ -116,10 +116,6 @@ class DashboardController < ApplicationController
       jobs.each do | job |
         work_id = job['work']
         batch_id = job['batch']
-        # remove the page results
-        pages = Page.where(pg_work_id: work_id).pluck(:pg_page_id)
-        PageResult.where(batch_id: batch_id, page_id: pages).destroy_all
-        PostprocPage.where(batch_job_id: batch_id, page_id: pages).destroy_all
         # set job status back to scheduled
         job_queues = JobQueue.where(batch_id: batch_id, work_id: work_id)
         job_queues.reschedule!
