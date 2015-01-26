@@ -63,6 +63,16 @@ RSpec.describe Api::V1::PostprocPagesController, :type => :request do
       expect(json['total_pages']).to eq(1)
       expect(json['results'].length).to eq(5)
     end
+
+    it 'returns association data' do
+      work = create(:work)
+      page = create(:page, work: work)
+      create(:postproc_page, page: page)
+
+      get '/api/postproc_pages', {}, api_headers
+
+      expect(json['results'][0]['work_id']).to eq(work.id)
+    end
   end
 
   describe "GET /api/postproc_pages/:id" do
@@ -72,6 +82,16 @@ RSpec.describe Api::V1::PostprocPagesController, :type => :request do
 
       expect(response).to be_success
       expect(json['postproc_page']['id']).to eq(postproc_page.id)
+    end
+
+    it 'returns association data' do
+      work = create(:work)
+      page = create(:page, work: work)
+      postproc_page = create(:postproc_page, page: page)
+
+      get "/api/postproc_pages/#{postproc_page.id}", {}, api_headers
+
+      expect(json['postproc_page']['work_id']).to eq(work.id)
     end
   end
 end

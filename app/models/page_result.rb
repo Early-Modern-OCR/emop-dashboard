@@ -21,6 +21,10 @@ class PageResult < ActiveRecord::Base
     end
   end
 
+  def work
+    page.work
+  end
+
   def local_text_path
     return nil if ocr_text_path.nil?
     File.join(Rails.application.secrets.emop_path_prefix, ocr_text_path)

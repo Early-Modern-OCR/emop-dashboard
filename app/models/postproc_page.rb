@@ -26,4 +26,8 @@ class PostprocPage < ActiveRecord::Base
       end
     end
   end
+
+  def work
+    page.work
+  end
 end

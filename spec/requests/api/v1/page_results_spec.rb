@@ -63,6 +63,16 @@ RSpec.describe Api::V1::PageResultsController, :type => :request do
       expect(json['total_pages']).to eq(1)
       expect(json['results'].length).to eq(5)
     end
+
+    it 'returns association data' do
+      work = create(:work)
+      page = create(:page, work: work)
+      create(:page_result, page: page)
+
+      get '/api/page_results', {}, api_headers
+
+      expect(json['results'][0]['work_id']).to eq(work.id)
+    end
   end
 
   describe "GET /api/page_results/:id" do
@@ -72,6 +82,16 @@ RSpec.describe Api::V1::PageResultsController, :type => :request do
 
       expect(response).to be_success
       expect(json['page_result']['id']).to eq(page_result.id)
+    end
+
+    it 'returns association data' do
+      work = create(:work)
+      page = create(:page, work: work)
+      page_result = create(:page_result, page: page)
+
+      get "/api/page_results/#{page_result.id}", {}, api_headers
+
+      expect(json['page_result']['work_id']).to eq(work.id)
     end
   end
 end
