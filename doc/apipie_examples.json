@@ -1584,6 +1584,105 @@
       "recorded": true
     }
   ],
+  "postproc_pages#index": [
+    {
+      "verb": "GET",
+      "path": "/api/postproc_pages",
+      "versions": [
+        "v1"
+      ],
+      "query": null,
+      "request_data": null,
+      "response_data": {
+        "total": 2,
+        "subtotal": 2,
+        "page": 1,
+        "per_page": 2,
+        "total_pages": 1,
+        "results": [
+          {
+            "id": 3,
+            "pp_noisemsr": 0.0,
+            "pp_ecorr": 0.0,
+            "pp_juxta": 0.0,
+            "pp_retas": 0.0,
+            "pp_health": {
+              "total": 365,
+              "ignored": 22,
+              "correct": 119,
+              "corrected": 40,
+              "unchanged": 184
+            },
+            "pp_pg_quality": 0.0,
+            "noisiness_idx": 0.0,
+            "multicol": "0;1;2",
+            "skew_idx": "1;0;1",
+            "page_id": 51,
+            "batch_job_id": 47
+          },
+          {
+            "id": 4,
+            "pp_noisemsr": 0.0,
+            "pp_ecorr": 0.0,
+            "pp_juxta": 0.0,
+            "pp_retas": 0.0,
+            "pp_health": {
+              "total": 365,
+              "ignored": 22,
+              "correct": 119,
+              "corrected": 40,
+              "unchanged": 184
+            },
+            "pp_pg_quality": 0.0,
+            "noisiness_idx": 0.0,
+            "multicol": "0;1;2",
+            "skew_idx": "1;0;1",
+            "page_id": 52,
+            "batch_job_id": 48
+          }
+        ]
+      },
+      "code": 200,
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
+  "postproc_pages#show": [
+    {
+      "verb": "GET",
+      "path": "/api/postproc_pages/5",
+      "versions": [
+        "v1"
+      ],
+      "query": null,
+      "request_data": null,
+      "response_data": {
+        "postproc_page": {
+          "page_id": 53,
+          "batch_job_id": 49,
+          "pp_ecorr": 0.0,
+          "pp_juxta": 0.0,
+          "pp_retas": 0.0,
+          "pp_health": {
+            "total": 365,
+            "ignored": 22,
+            "correct": 119,
+            "corrected": 40,
+            "unchanged": 184
+          },
+          "pp_pg_quality": 0.0,
+          "id": 5,
+          "noisiness_idx": 0.0,
+          "multicol": "0;1;2",
+          "skew_idx": "1;0;1",
+          "pp_noisemsr": 0.0
+        }
+      },
+      "code": 200,
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
   "works#index": [
     {
       "verb": "GET",
@@ -1601,7 +1700,7 @@
         "total_pages": 1,
         "results": [
           {
-            "id": 92,
+            "id": 95,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_bib_name": null,
@@ -1628,7 +1727,7 @@
             "wks_last_trawled": "2013-06-30"
           },
           {
-            "id": 93,
+            "id": 96,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_bib_name": null,
@@ -1664,7 +1763,7 @@
   "works#show": [
     {
       "verb": "GET",
-      "path": "/api/works/94",
+      "path": "/api/works/97",
       "versions": [
         "v1"
       ],
@@ -1672,7 +1771,7 @@
       "request_data": null,
       "response_data": {
         "work": {
-          "id": 94,
+          "id": 97,
           "wks_tcp_number": null,
           "wks_estc_number": "T137595",
           "wks_bib_name": null,
@@ -1707,7 +1806,7 @@
   "works#update": [
     {
       "verb": "PUT",
-      "path": "/api/works/95",
+      "path": "/api/works/98",
       "versions": [
         "v1"
       ],
@@ -1719,7 +1818,7 @@
       },
       "response_data": {
         "work": {
-          "id": 95,
+          "id": 98,
           "wks_tcp_number": null,
           "wks_estc_number": "T0001",
           "wks_bib_name": null,

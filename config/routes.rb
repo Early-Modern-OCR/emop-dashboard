@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       resources :works, only: [:index,:show,:update]
       resources :pages, only: [:index,:show,:update]
       resources :page_results, only: [:index, :show]
+      resources :postproc_pages, only: [:index, :show]
     end
   end
 
