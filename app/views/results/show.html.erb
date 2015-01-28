@@ -37,6 +37,12 @@
    <input type="button" id="schedule-pages" value="Schedule Selected" />
    <input type="button" id="set-work-font" value="Set Print Font for Work" />
    </div>
+
+   <div id="toggle-col">
+     Toggle Column: 
+     <a class="toggle-col" data-column="16">Multicol</a> - 
+     <a class="toggle-col" data-column="17">Skew Idx</a>
+   </div>
    
    <table id="pages-table" style="display:none">
       <thead>
@@ -53,6 +59,8 @@
             <th rowspan="2" class="result-col">SEASR ecorr</th>
             <th rowspan="2" class="result-col">Est. Pg. Quality</th>
             <th colspan="<%= @stats.size %>">Correction Stats</th>
+            <th rowspan="2" class="result-col">Mutlicol</th>
+            <th rowspan="2" class="result-col">Skew Idx</th>
          </tr>
          <tr>
            <% @stats.each do |stat| %>
@@ -91,6 +99,8 @@
               <td>-</td>
             <% end %>
           <% end %>
+          <td><%= postproc_page_data(postproc_page, 'multicol') %></td>
+          <td><%= postproc_page_data(postproc_page, 'skew_idx') %></td>
         </tr>
       <% end %>
       </tbody>

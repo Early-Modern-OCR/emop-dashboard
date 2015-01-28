@@ -23,6 +23,17 @@ a.dashboard-back {
 
 #results-detail {
    padding:10px;
+
+   #toggle-col {
+      margin: 10px 0px 0 10px;
+      font-size: 0.9em;
+      font-weight: 200;
+
+      a.toggle-col {
+        color: blue;
+        cursor: pointer;
+      }
+   }
    
    .juxta-link {
       height:16px;
