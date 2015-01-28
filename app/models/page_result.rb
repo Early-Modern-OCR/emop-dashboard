@@ -3,6 +3,7 @@
 class PageResult < ActiveRecord::Base
   belongs_to :page
   belongs_to :batch_job, foreign_key: 'batch_id'
+  has_one :work, through: :page
 
   validates :page, uniqueness: { scope: :batch_job }
   validates :page, presence: true
@@ -19,10 +20,6 @@ class PageResult < ActiveRecord::Base
         json.batch_job batch_job.to_builder
       end
     end
-  end
-
-  def work
-    page.work
   end
 
   def local_text_path

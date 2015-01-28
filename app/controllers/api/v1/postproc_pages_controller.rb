@@ -5,8 +5,13 @@ module Api
       param_group :pagination, V1::BaseController
       param :page_id, Integer, desc: 'Page ID', required: false
       param :batch_job_id, Integer, desc: 'BatchJob ID', required: false
+      param :works, Hash, required: false do
+        param :wks_work_id, Integer, 'Work ID'
+      end
       def index
-        super
+        @postproc_pages = PostprocPage.joins(:work).where(query_params)
+                                  .page(paginate_params[:page_num]).per(paginate_params[:per_page])
+        respond_with @postproc_pages
       end
 
       api :GET, '/postproc_pages/:id', 'Show a postproc page result'
@@ -18,7 +23,7 @@ module Api
       private
 
       def query_params
-        params.permit(:page_id, :batch_job_id)
+        params.permit(:page_id, :batch_job_id, :works => [ :wks_work_id ])
       end
     end
   end

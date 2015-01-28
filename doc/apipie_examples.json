@@ -1365,12 +1365,72 @@
       "code": 200,
       "show_in_doc": 1,
       "recorded": true
+    },
+    {
+      "verb": "GET",
+      "path": "/api/page_results",
+      "versions": [
+        "v1"
+      ],
+      "query": "works[wks_work_id]=87",
+      "request_data": null,
+      "response_data": {
+        "total": 3,
+        "subtotal": 3,
+        "page": 1,
+        "per_page": 3,
+        "total_pages": 1,
+        "results": [
+          {
+            "id": 7,
+            "ocr_text_path": "/some/path/output.txt",
+            "ocr_xml_path": "/some/path/output.xml",
+            "corr_ocr_text_path": "/some/path/output_ALTO.txt",
+            "corr_ocr_xml_path": "/some/path/output_ALTO.xml",
+            "ocr_completed": "2014-11-09T06:00:00.000Z",
+            "juxta_change_index": 0.0,
+            "alt_change_index": 0.0,
+            "page_id": 47,
+            "batch_id": 48,
+            "work_id": 87
+          },
+          {
+            "id": 8,
+            "ocr_text_path": "/some/path/output.txt",
+            "ocr_xml_path": "/some/path/output.xml",
+            "corr_ocr_text_path": "/some/path/output_ALTO.txt",
+            "corr_ocr_xml_path": "/some/path/output_ALTO.xml",
+            "ocr_completed": "2014-11-09T06:00:00.000Z",
+            "juxta_change_index": 0.0,
+            "alt_change_index": 0.0,
+            "page_id": 47,
+            "batch_id": 49,
+            "work_id": 87
+          },
+          {
+            "id": 9,
+            "ocr_text_path": "/some/path/output.txt",
+            "ocr_xml_path": "/some/path/output.xml",
+            "corr_ocr_text_path": "/some/path/output_ALTO.txt",
+            "corr_ocr_xml_path": "/some/path/output_ALTO.xml",
+            "ocr_completed": "2014-11-09T06:00:00.000Z",
+            "juxta_change_index": 0.0,
+            "alt_change_index": 0.0,
+            "page_id": 47,
+            "batch_id": 50,
+            "work_id": 87
+          }
+        ]
+      },
+      "code": 200,
+      "show_in_doc": 1,
+      "recorded": true
     }
   ],
   "page_results#show": [
     {
       "verb": "GET",
-      "path": "/api/page_results/5",
+      "path": "/api/page_results/10",
       "versions": [
         "v1"
       ],
@@ -1378,7 +1438,7 @@
       "request_data": null,
       "response_data": {
         "page_result": {
-          "id": 5,
+          "id": 10,
           "ocr_text_path": "/some/path/output.txt",
           "ocr_xml_path": "/some/path/output.xml",
           "corr_ocr_text_path": "/some/path/output_ALTO.txt",
@@ -1386,9 +1446,9 @@
           "ocr_completed": "2014-11-09T06:00:00.000Z",
           "juxta_change_index": 0.0,
           "alt_change_index": 0.0,
-          "page_id": 46,
-          "batch_id": 46,
-          "work_id": 87
+          "page_id": 50,
+          "batch_id": 51,
+          "work_id": 90
         }
       },
       "code": 200,
@@ -1409,11 +1469,11 @@
         "page": 1,
         "results": [
           {
-            "id": 47,
+            "id": 51,
             "pg_ref_number": 1,
             "pg_ground_truth_file": null,
             "work": {
-              "id": 88,
+              "id": 91,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_bib_name": null,
@@ -1443,11 +1503,11 @@
             "pg_image_path": "/data/ecco/somepath"
           },
           {
-            "id": 48,
+            "id": 52,
             "pg_ref_number": 1,
             "pg_ground_truth_file": null,
             "work": {
-              "id": 89,
+              "id": 92,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_bib_name": null,
@@ -1486,7 +1546,7 @@
   "pages#show": [
     {
       "verb": "GET",
-      "path": "/api/pages/49",
+      "path": "/api/pages/53",
       "versions": [
         "v1"
       ],
@@ -1494,11 +1554,11 @@
       "request_data": null,
       "response_data": {
         "page": {
-          "id": 49,
+          "id": 53,
           "pg_ref_number": 1,
           "pg_ground_truth_file": null,
           "work": {
-            "id": 90,
+            "id": 93,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_bib_name": null,
@@ -1536,7 +1596,7 @@
   "pages#update": [
     {
       "verb": "PUT",
-      "path": "/api/pages/50",
+      "path": "/api/pages/54",
       "versions": [
         "v1"
       ],
@@ -1548,11 +1608,11 @@
       },
       "response_data": {
         "page": {
-          "id": 50,
+          "id": 54,
           "pg_ref_number": 1,
           "pg_ground_truth_file": null,
           "work": {
-            "id": 91,
+            "id": 94,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_bib_name": null,
@@ -1620,9 +1680,9 @@
             "noisiness_idx": 0.0,
             "multicol": "0;1;2",
             "skew_idx": "1;0;1",
-            "page_id": 51,
-            "batch_job_id": 47,
-            "work_id": 92
+            "page_id": 55,
+            "batch_job_id": 52,
+            "work_id": 95
           },
           {
             "id": 4,
@@ -1641,9 +1701,93 @@
             "noisiness_idx": 0.0,
             "multicol": "0;1;2",
             "skew_idx": "1;0;1",
-            "page_id": 52,
-            "batch_job_id": 48,
-            "work_id": 93
+            "page_id": 56,
+            "batch_job_id": 53,
+            "work_id": 96
+          }
+        ]
+      },
+      "code": 200,
+      "show_in_doc": 1,
+      "recorded": true
+    },
+    {
+      "verb": "GET",
+      "path": "/api/postproc_pages",
+      "versions": [
+        "v1"
+      ],
+      "query": "works[wks_work_id]=97",
+      "request_data": null,
+      "response_data": {
+        "total": 3,
+        "subtotal": 3,
+        "page": 1,
+        "per_page": 3,
+        "total_pages": 1,
+        "results": [
+          {
+            "id": 7,
+            "pp_noisemsr": 0.0,
+            "pp_ecorr": 0.0,
+            "pp_juxta": 0.0,
+            "pp_retas": 0.0,
+            "pp_health": {
+              "total": 365,
+              "ignored": 22,
+              "correct": 119,
+              "corrected": 40,
+              "unchanged": 184
+            },
+            "pp_pg_quality": 0.0,
+            "noisiness_idx": 0.0,
+            "multicol": "0;1;2",
+            "skew_idx": "1;0;1",
+            "page_id": 58,
+            "batch_job_id": 56,
+            "work_id": 97
+          },
+          {
+            "id": 8,
+            "pp_noisemsr": 0.0,
+            "pp_ecorr": 0.0,
+            "pp_juxta": 0.0,
+            "pp_retas": 0.0,
+            "pp_health": {
+              "total": 365,
+              "ignored": 22,
+              "correct": 119,
+              "corrected": 40,
+              "unchanged": 184
+            },
+            "pp_pg_quality": 0.0,
+            "noisiness_idx": 0.0,
+            "multicol": "0;1;2",
+            "skew_idx": "1;0;1",
+            "page_id": 58,
+            "batch_job_id": 57,
+            "work_id": 97
+          },
+          {
+            "id": 9,
+            "pp_noisemsr": 0.0,
+            "pp_ecorr": 0.0,
+            "pp_juxta": 0.0,
+            "pp_retas": 0.0,
+            "pp_health": {
+              "total": 365,
+              "ignored": 22,
+              "correct": 119,
+              "corrected": 40,
+              "unchanged": 184
+            },
+            "pp_pg_quality": 0.0,
+            "noisiness_idx": 0.0,
+            "multicol": "0;1;2",
+            "skew_idx": "1;0;1",
+            "page_id": 58,
+            "batch_job_id": 58,
+            "work_id": 97
           }
         ]
       },
@@ -1655,7 +1799,7 @@
   "postproc_pages#show": [
     {
       "verb": "GET",
-      "path": "/api/postproc_pages/5",
+      "path": "/api/postproc_pages/10",
       "versions": [
         "v1"
       ],
@@ -1663,7 +1807,7 @@
       "request_data": null,
       "response_data": {
         "postproc_page": {
-          "id": 5,
+          "id": 10,
           "pp_noisemsr": 0.0,
           "pp_ecorr": 0.0,
           "pp_juxta": 0.0,
@@ -1679,9 +1823,9 @@
           "noisiness_idx": 0.0,
           "multicol": "0;1;2",
           "skew_idx": "1;0;1",
-          "page_id": 53,
-          "batch_job_id": 49,
-          "work_id": 94
+          "page_id": 61,
+          "batch_job_id": 59,
+          "work_id": 100
         }
       },
       "code": 200,
@@ -1706,7 +1850,7 @@
         "total_pages": 1,
         "results": [
           {
-            "id": 95,
+            "id": 101,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_bib_name": null,
@@ -1733,7 +1877,7 @@
             "wks_last_trawled": "2013-06-30"
           },
           {
-            "id": 96,
+            "id": 102,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_bib_name": null,
@@ -1769,7 +1913,7 @@
   "works#show": [
     {
       "verb": "GET",
-      "path": "/api/works/97",
+      "path": "/api/works/103",
       "versions": [
         "v1"
       ],
@@ -1777,7 +1921,7 @@
       "request_data": null,
       "response_data": {
         "work": {
-          "id": 97,
+          "id": 103,
           "wks_tcp_number": null,
           "wks_estc_number": "T137595",
           "wks_bib_name": null,
@@ -1812,7 +1956,7 @@
   "works#update": [
     {
       "verb": "PUT",
-      "path": "/api/works/98",
+      "path": "/api/works/104",
       "versions": [
         "v1"
       ],
@@ -1824,7 +1968,7 @@
       },
       "response_data": {
         "work": {
-          "id": 98,
+          "id": 104,
           "wks_tcp_number": null,
           "wks_estc_number": "T0001",
           "wks_bib_name": null,

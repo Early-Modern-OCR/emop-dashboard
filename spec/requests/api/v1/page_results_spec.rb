@@ -73,6 +73,16 @@ RSpec.describe Api::V1::PageResultsController, :type => :request do
 
       expect(json['results'][0]['work_id']).to eq(work.id)
     end
+
+    it 'filters by wks_work_id', :show_in_doc do
+      work = create(:work)
+      page = create(:page, work: work)
+      create_list(:page_result, 2)
+      page_results = create_list(:page_result, 3, page: page)
+      get '/api/page_results', {works: {wks_work_id: work.id}}, api_headers
+
+      expect(json['results'].size).to eq(page_results.size)
+    end
   end
 
   describe "GET /api/page_results/:id" do
