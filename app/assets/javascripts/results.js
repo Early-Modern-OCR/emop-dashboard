@@ -236,17 +236,13 @@ $(function() {
        { "aTargets": [13], "sType": "results" }, //stat-3
        { "aTargets": [14], "sType": "results" }, //stat-4
        { "aTargets": [15], "sType": "results" }, //stat-5
-       { "aTargets": [16], "bSortable": false }, //multicol
-       { "aTargets": [17], "bSortable": false } //skew_idx
+       { "aTargets": [16], "bSortable": false, "bVisible": false }, //multicol - hidden by default
+       { "aTargets": [17], "bSortable": false, "bVisible": false } //skew_idx - hidden by default
      ],
      "fnInitComplete": function() {
        $("#pages-table").show();
      },
    });
-
-   // Hide multicol and skew_idx by default
-   table.fnSetColumnVis(16, false);
-   table.fnSetColumnVis(17, false);
 
    // This will toggle a column when a specific link is clicked
    $("a.toggle-col").on("click", function(e) {
