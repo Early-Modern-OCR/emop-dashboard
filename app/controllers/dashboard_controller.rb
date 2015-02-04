@@ -152,7 +152,12 @@ class DashboardController < ApplicationController
       if json_payload['works'] == 'all'
         works = Work.all
         if session[:gt].present?
-          works = works.with_gt
+          case session[:gt]
+          when 'with_gt'
+            works = works.with_gt
+          when 'without_gt'
+            works = works.without_gt
+          end
         end
         if session[:batch].present?
           works = works.by_batch_job(session[:batch])
@@ -390,9 +395,14 @@ class DashboardController < ApplicationController
     # add in extra filters:
     # NOTES: for ECCO, non-null TCP means GT is available
     #        for EEBO, non-null MARC means GT is avail
-    if !session[:gt].nil?
+    if session[:gt].present?
       cond << " and" if cond.length > 0
-      cond << " (wks_tcp_number is not null or wks_marc_record is not null)"
+      case session[:gt]
+      when 'with_gt'
+        cond << " (wks_tcp_number is not null or wks_marc_record is not null)"
+      when 'without_gt'
+        cond << " (wks_tcp_number IS NULL AND wks_marc_record IS NULL)"
+      end
     end
 
     if !session[:batch].nil?
@@ -484,7 +494,7 @@ class DashboardController < ApplicationController
     # build the ugly query
     if params[:iDisplayStart].blank?
       limits = ""
-    # TODO : Currently unused but allows for use of show 'All'
+    # TODO : Currently unused but allows for use of show 'All' 
     elsif params[:iDisplayLength] == '-1'
       limits = ""
     else

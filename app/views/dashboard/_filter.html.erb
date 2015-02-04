@@ -3,8 +3,12 @@
    
    <div id='filter-left'>
       <p>
-         <input type="checkbox" class="filter-setting" id="require-gt" <% if @gt_filter %>checked<% end %>>
-         <span class="cb-filter-label">Exclude works with no GT</span>
+        <span class="filter-label">Ground Truth:</span>
+        <select id="gt-filter" name="set-filter">
+          <option value>All</option>
+          <option value="with_gt">With GT</option>
+          <option value="without_gt">Without GT</option>
+        </select>
       </p>
       <p>
          <span class="filter-label">Works:</span>
