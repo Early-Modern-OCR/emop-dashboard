@@ -31,10 +31,10 @@ class DashboardController < ApplicationController
   # Called from dataTable to fetch a subset of data for display
   #
   def fetch
-	  # This shouldn't get called without parameters. If it does, then just return nothing, so there aren't exceptions later on.
+    # This shouldn't get called without parameters. If it does, then just return nothing, so there aren't exceptions later on.
     if params[:sSearch].nil?
       render :text => "", :status => :unprocessable_entity
-		  return
+      return
     end
 
     # NOTE: have sample data from TCP K072
@@ -57,31 +57,31 @@ class DashboardController < ApplicationController
   end
 
   def export
-	  # This shouldn't get called without parameters. If it does, then just return nothing, so there aren't exceptions later on.
-	  if params['q'].blank?
+    # This shouldn't get called without parameters. If it does, then just return nothing, so there aren't exceptions later on.
+    if params['q'].blank?
       render :text => "", :status => :unprocessable_entity
-		  return
-		end
-	  # stuff filter params in session so they can be restored each view
-	  p = {}
-	  # duplicate the keys so that functions that look for either the symbol or the string will work.
-	  params['q'].each { |key,value|
-		  p[key.to_s] = value
-		  p[key.to_sym] = value
-	  }
-	  session[:search] = p[:sSearch]
-	  session[:gt] = p[:gt]
-	  session[:batch]  = p[:batch]
-	  session[:set] = p[:set]
-	  session[:from] = p[:from]
-	  session[:to] = p[:to]
-	  session[:ocr]  = p[:ocr]
-	  session[:font]  = p[:font]
+      return
+    end
+    # stuff filter params in session so they can be restored each view
+    p = {}
+    # duplicate the keys so that functions that look for either the symbol or the string will work.
+    params['q'].each { |key,value|
+      p[key.to_s] = value
+      p[key.to_sym] = value
+    }
+    session[:search] = p[:sSearch]
+    session[:gt] = p[:gt]
+    session[:batch]  = p[:batch]
+    session[:set] = p[:set]
+    session[:from] = p[:from]
+    session[:to] = p[:to]
+    session[:ocr]  = p[:ocr]
+    session[:font]  = p[:font]
 
-	  data, total = do_query(p)
-	  respond_to do |format|
-		  format.csv { send_data to_csv(data), :filename => "emop_dashboard_results.csv" }
-	  end
+    data, total = do_query(p)
+    respond_to do |format|
+      format.csv { send_data to_csv(data), :filename => "emop_dashboard_results.csv" }
+    end
   end
 
   # Get errors for a work
@@ -237,7 +237,7 @@ class DashboardController < ApplicationController
   end
 
   def test_exception_notifier
-	  raise "This is a test of the exception notification system. This is not a real error."
+    raise "This is a test of the exception notification system. This is not a real error."
   end
 
   private
@@ -453,95 +453,98 @@ class DashboardController < ApplicationController
 
   def do_query(params)
     # enforce some rules on what columns can be sorted based on OCR filter setting:
-	  search_col_idx = params[:iSortCol_0].to_i
-	  if (search_col_idx == 9 || search_col_idx > 11) && params[:ocr] == "ocr_sched"
-		  # don't allow sort on results or date when error filter is on; no data exists for these
-		  search_col_idx = 4
-	  end
+    search_col_idx = params[:iSortCol_0].to_i
+    if (search_col_idx == 9 || search_col_idx > 11) && params[:ocr] == "ocr_sched"
+      # don't allow sort on results or date when error filter is on; no data exists for these
+      search_col_idx = 4
+    end
     if (search_col_idx > 8) && params[:ocr] == "ocr_none"
-		  # don't allow sort on any OCR data when NONE filter is on
-		  search_col_idx = 4
-	  end
+      # don't allow sort on any OCR data when NONE filter is on
+      search_col_idx = 4
+    end
 
-	  # generate order info based on params
-	  cols = [
+    # generate order info based on params
+    cols = [
       nil,nil,nil,nil,'wks_work_id',
       'wks_tcp_number','wks_title','wks_author',
-			'font_name',
-			'work_ocr_results.ocr_completed','ocr_engine_id',
-			'batch_id','work_ocr_results.juxta_accuracy',
-			'work_ocr_results.retas_accuracy'
+      'font_name',
+      'work_ocr_results.ocr_completed','ocr_engine_id',
+      'batch_id','work_ocr_results.juxta_accuracy',
+      'work_ocr_results.retas_accuracy'
     ]
-	  dir = params[:sSortDir_0]
-	  order_col = cols[search_col_idx]
-	  order_col = cols[4] if order_col.nil?
+    dir = params[:sSortDir_0]
+    order_col = cols[search_col_idx]
+    order_col = cols[4] if order_col.nil?
 
-	  # generate the select, conditional and vars parts of the query
-	  # the true parameter indicates that this result should include
-	  # all columns necessary to populate the dashboard view.
-	  sel, where_clause, vals = generate_query()
+    # generate the select, conditional and vars parts of the query
+    # the true parameter indicates that this result should include
+    # all columns necessary to populate the dashboard view.
+    sel, where_clause, vals = generate_query()
 
-	  # build the ugly query
-	  if params[:iDisplayStart].blank?
-		  limits = ""
-		else
-			limits = "limit #{params[:iDisplayLength]} OFFSET #{params[:iDisplayStart]}"
-	  end
-	  order = "order by #{order_col} #{dir}"
-	  if params[:ocr] == 'ocr_sched'
-		  # scheduled uses a different query that needs a group by to make the results work
-		  sql = ["#{sel} #{where_clause} group by work_id, batch_id #{order} #{limits}"]
-	  else
-		  sql = ["#{sel} #{where_clause} #{order} #{limits}"]
-	  end
+    # build the ugly query
+    if params[:iDisplayStart].blank?
+      limits = ""
+    # TODO : Currently unused but allows for use of show 'All'
+    elsif params[:iDisplayLength] == '-1'
+      limits = ""
+    else
+      limits = "limit #{params[:iDisplayLength]} OFFSET #{params[:iDisplayStart]}"
+    end
+    order = "order by #{order_col} #{dir}"
+    if params[:ocr] == 'ocr_sched'
+      # scheduled uses a different query that needs a group by to make the results work
+      sql = ["#{sel} #{where_clause} group by work_id, batch_id #{order} #{limits}"]
+    else
+      sql = ["#{sel} #{where_clause} #{order} #{limits}"]
+    end
 
-	  sql = sql + vals
+    sql = sql + vals
 
-	  # get all of the results (paged)
-	  results = WorkOcrResult.find_by_sql(sql)
+    # get all of the results (paged)
+    results = WorkOcrResult.find_by_sql(sql)
 
-	  # run a count query without the paging limits to get
-	  # the total number of results available
-	  pf_join = "left outer join print_fonts on pf_id=wks_primary_print_font"
-	  if params[:ocr] == 'ocr_sched'
-		  # search for scheduled uses different query to get data. Also need slightly
-		  # different query to get counts
-		  count_sel = "select count(distinct batch_id) as cnt from works #{pf_join} inner join job_queues on wks_work_id=job_queues.work_id "
-	  else
-		  count_sel = "select count(*) as cnt from works  #{pf_join} left outer join work_ocr_results on wks_work_id=work_id "
-	  end
-	  sql = ["#{count_sel} #{where_clause}"]
-	  sql = sql + vals
-	  filtered_cnt = Work.find_by_sql(sql).first.cnt
+    # run a count query without the paging limits to get
+    # the total number of results available
+    pf_join = "left outer join print_fonts on pf_id=wks_primary_print_font"
+    if params[:ocr] == 'ocr_sched'
+      # search for scheduled uses different query to get data. Also need slightly
+      # different query to get counts
+      count_sel = "select count(distinct batch_id) as cnt from works #{pf_join} inner join job_queues on wks_work_id=job_queues.work_id "
+    else
+      count_sel = "select count(*) as cnt from works  #{pf_join} left outer join work_ocr_results on wks_work_id=work_id "
+    end
+    sql = ["#{count_sel} #{where_clause}"]
+    sql = sql + vals
+    filtered_cnt = Work.find_by_sql(sql).first.cnt
 
-	  # jam it all into an array of objects that match the dataTables structure
-	  data = []
-	  results.each do |result|
-		  rec = result_to_hash(result)
-		  data << rec
-	  end
+    # jam it all into an array of objects that match the dataTables structure
+    data = []
+    results.each do |result|
+      rec = result_to_hash(result)
+      data << rec
+    end
 
-	  return data, filtered_cnt
+    return data, filtered_cnt
   end
 
   def to_csv(data)
     column_names = [ 'Work ID', 'Data Set', 'Title', 'Author', 'Font', 'OCR Date', 'OCR Engine', 'OCR Batch', 'Juxta', 'RETAS' ]
-	  CSV.generate({}) do |csv|
-		  csv << column_names
-		  data.each do |row|
-		    line = []
+    CSV.generate({}) do |csv|
+      csv << column_names
+      data.each do |row|
+        line = []
         line.push(row[:id])
-			  line.push(row[:data_set])
-			  line.push(row[:title])
-			  line.push(row[:author])
-			  line.push(row[:font])
-			  line.push(row[:ocr_date])
-			  line.push(row[:ocr_engine])
-			  line.push(view_context.strip_tags(row[:ocr_batch]))
-			  line.push(view_context.strip_tags(row[:juxta_url]))
-			  line.push(view_context.strip_tags(row[:retas_url]))
-			  csv << line
-		  end
+        line.push(row[:data_set])
+        line.push(row[:title])
+        line.push(row[:author])
+        line.push(row[:font])
+        line.push(row[:ocr_date])
+        line.push(row[:ocr_engine])
+        line.push(view_context.strip_tags(row[:ocr_batch]))
+        line.push(view_context.strip_tags(row[:juxta_url]))
+        line.push(view_context.strip_tags(row[:retas_url]))
+        csv << line
+      end
     end
   end
 
