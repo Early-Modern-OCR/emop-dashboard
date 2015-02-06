@@ -163,6 +163,58 @@ RSpec.describe DashboardHelper do
     end
   end
 
+  describe '#work_checkbox' do
+    before(:each) do
+      @batch_job = create(:batch_job)
+      @work = create(:work)
+      page = create(:page, work: @work)
+      create(:page_result, page: page, batch_job: @batch_job)
+    end
+
+    it 'creates checkbox for work and batch' do
+      expect(helper.work_checkbox(@work)).to have_tag('input', with: {
+        class: 'sel-cb',
+        id: "sel-#{@work.id}-#{@batch_job.id}",
+        name: "sel-#{@work.id}-#{@batch_job.id}",
+        type: 'checkbox',
+      })
+    end
+
+    it 'creates checkbox for work with no batch_job' do
+      work = create(:work)
+      expect(helper.work_checkbox(work)).to have_tag('input', with: {
+        class: 'sel-cb',
+        id: "sel-#{work.id}-0",
+        name: "sel-#{work.id}-0",
+        type: 'checkbox',
+      })
+    end
+  end
+
+  describe '#work_detail_link' do
+    before(:each) do
+      @batch_job = create(:batch_job)
+      @work = create(:work)
+      page = create(:page, work: @work)
+      create(:page_result, page: page, batch_job: @batch_job)
+    end
+
+    it 'creates div link for work and batch_job' do
+      expected_href = "/results?batch=#{@batch_job.id}&work=#{@work.id}"
+      expect(helper.work_detail_link(@work)).to have_tag('a', with: { href: expected_href }) do
+        with_tag 'div', with: { class: 'detail-link', title: 'View pages' }
+      end
+    end
+
+    it 'creates div link for work with no batch_job' do
+      work = create(:work)
+      expected_href = "/results?work=#{work.id}"
+      expect(helper.work_detail_link(work)).to have_tag('a', with: { href: expected_href }) do
+        with_tag 'div', with: { class: 'detail-link', title: 'View pages' }
+      end
+    end
+  end
+
   describe "#work_status" do
     before(:each) do
       @batch_job = create(:batch_job)
@@ -212,6 +264,137 @@ RSpec.describe DashboardHelper do
 
         expect(helper.work_status(@work)).to eq(html)
       end
+    end
+
+    context 'when no job_queues exist' do
+      before(:each) do
+        @work = create(:work)
+      end
+
+      it 'should return status counts of 0' do
+        html = "<a class='status-text scheduled'>0</a>-" \
+               "<a class='status-text processing'>0</a>-" \
+               "<a class='status-text success'>0</a>-" \
+               "<a class='status-text failed'>0</a>"
+
+        expect(helper.work_status(@work)).to eq(html)
+      end
+    end
+  end
+
+  describe '#data_set' do
+    it 'returns ECCO' do
+      work = create(:work, wks_ecco_number: '001')
+      expect(helper.data_set(work)).to eq('ECCO')
+    end
+
+    it 'returns EEBO' do
+      work = create(:work, wks_ecco_number: nil)
+      expect(helper.data_set(work)).to eq('EEBO')
+    end
+  end
+
+  describe '#ocr_date' do
+    before(:each) do
+      @batch_job = create(:batch_job)
+      @work = create(:work)
+      @time_now = Time.parse("Nov 09 2014 00:00Z")
+      page = create(:page, work: @work)
+      create(:page_result, page: page, batch_job: @batch_job, ocr_completed: @time_now)
+    end
+
+    it 'returns formatted date' do
+      expect(helper.ocr_date(@work)).to eq('11/09/2014 00:00')
+    end
+
+    it 'returns nothing when page_results do not exist' do
+      work = create(:work)
+      expect(helper.ocr_date(work)).to eq('')
+    end
+  end
+
+  describe '#ocr_engine' do
+    before(:each) do
+      @ocr_engine = OcrEngine.find_by(name: 'Tesseract')
+      @batch_job = create(:batch_job, ocr_engine: @ocr_engine)
+      @work = create(:work)
+      page = create(:page, work: @work)
+      create(:page_result, page: page, batch_job: @batch_job)
+    end
+
+    it 'returns ocr engine name' do
+      expect(helper.ocr_engine(@work)).to eq('Tesseract')
+    end
+
+    it 'returns nothing when results do not exist' do
+      work = create(:work)
+      expect(helper.ocr_engine(work)).to eq('')
+    end
+  end
+
+  describe '#ocr_batch' do
+    before(:each) do
+      @batch_job = create(:batch_job)
+      @work = create(:work)
+      page = create(:page, work: @work)
+      create(:page_result, page: page, batch_job: @batch_job)
+    end
+
+    it 'returns batch ID and name' do
+      expect(helper.ocr_batch(@work)).to have_tag('span', text: "#{@batch_job.id}: #{@batch_job.name}",
+        with: { class: 'batch-name', id: "batch-#{@batch_job.id}" })
+    end
+
+    it 'returns nothing when results do not exist' do
+      work = create(:work)
+      expect(helper.ocr_batch(work)).to eq('')
+    end
+  end
+
+  describe '#accuracy_links' do
+    before(:each) do
+      @batch_job = create(:batch_job)
+      @work = create(:work)
+      page = create(:page, work: @work)
+      @page_result = create(:page_result, page: page, batch_job: @batch_job)
+      @url = "/results?batch=#{@batch_job.id}&work=#{@work.id}"
+    end
+
+    it 'returns N/A when results do not exist' do
+      work = create(:work)
+      expect(helper.accuracy_links(work, 'juxta_accuracy')).to eq('N/A')
+    end
+
+    it 'returns N/A when juxta results do not exist' do
+      @page_result.update!(juxta_change_index: nil)
+      expect(helper.accuracy_links(@work, 'juxta_accuracy')).to eq('N/A')
+    end
+
+    it 'returns returns html for low value' do
+      @page_result.update!(juxta_change_index: 0.01)
+      expect(helper.accuracy_links(@work, 'juxta_accuracy')).to have_tag('a', text: '0.010', with: {
+        href: @url,
+        class: 'bad-cell',
+        title: 'View page results',
+      })
+    end
+
+    it 'returns returns html for moderate value' do
+      @page_result.update!(juxta_change_index: 0.7)
+      expect(helper.accuracy_links(@work, 'juxta_accuracy')).to have_tag('a', text: '0.700', with: {
+        href: @url,
+        class: 'warn-cell',
+        title: 'View page results',
+      })
+    end
+
+    it 'returns returns html for high value' do
+      @page_result.update!(juxta_change_index: 1.0)
+      expect(helper.accuracy_links(@work, 'juxta_accuracy')).to have_tag('a', text: '1.000', with: {
+        href: @url,
+        #class: '', #TODO: Causes nokogiri errors
+        title: 'View page results',
+      })
     end
   end
 end

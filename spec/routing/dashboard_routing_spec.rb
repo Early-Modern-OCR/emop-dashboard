@@ -19,8 +19,8 @@ RSpec.describe DashboardController, :type => :routing do
       expect(:post => "/dashboard/reschedule").to route_to(controller: "dashboard", action: "reschedule")
     end
 
-    it "routes to #get_work_errors" do
-      expect(:get => "/dashboard/1/2/error").to route_to(controller: "dashboard", action: "get_work_errors", batch: "1", work: "2")
+    it "routes to #work_errors" do
+      expect(:get => "/dashboard/1/2/error").to route_to(controller: "dashboard", action: "work_errors", batch: "1", work: "2")
     end
   end
 end

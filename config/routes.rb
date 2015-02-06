@@ -45,7 +45,7 @@ Rails.application.routes.draw do
    get "dashboard/batch/:id" => "dashboard#batch"
    post "dashboard/batch" => "dashboard#create_batch"
    post "dashboard/reschedule" => "dashboard#reschedule"
-   get "dashboard/:batch/:work/error" => "dashboard#get_work_errors"
+   get "dashboard/:batch/:work/error" => "dashboard#work_errors"
 
    # site root is the dashboard
    root to: "dashboard#index"

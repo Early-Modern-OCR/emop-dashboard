@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   private
 
   def redirect_to_referrer
-    logger.debug("DEBUG: referer: #{request.referer}")
     session[:return_to] ||= request.referer
     redirect_to session.delete(:return_to)
   end

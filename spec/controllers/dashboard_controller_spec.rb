@@ -9,6 +9,58 @@ RSpec.describe DashboardController, :type => :controller do
       get :index, {}, valid_session
       expect(response).to be_success
     end
+
+    it "should call JobQueue.status_summary" do
+      expect(JobQueue).to receive(:status_summary)
+      get :index, {}, valid_session
+    end
+
+    context 'json format' do
+      it 'should set session values' do
+        get :index, {format: :json, gt: 'with_gt'}, valid_session
+        expect(session[:gt]).to eq('with_gt')
+      end
+    end
+
+    context 'csv format' do
+      let(:columns) { [ 'Work ID', 'Data Set', 'Title', 'Author', 'Font', 'OCR Date', 'OCR Engine', 'OCR Batch', 'Juxta', 'RETAS' ] }
+      it 'should respond to csv format' do
+        get :index, {format: :csv}, valid_session
+        expect(response).to be_success
+      end
+
+      it 'should send valid csv data' do
+        pf = create(:print_font)
+        work = create(:work, print_font: pf, wks_tcp_number: '001')
+        page = create(:page, work: work)
+        ocr_engine = OcrEngine.find_by(name: 'Tesseract')
+        batch_job = create(:batch_job, ocr_engine: ocr_engine)
+        ocr_completed = Time.parse("Nov 09 2014 00:00Z")
+        page_result = create(:page_result, batch_job: batch_job, page: page, ocr_completed: ocr_completed, juxta_change_index: 0.001, alt_change_index: nil)
+
+        csv_data = CSV.generate({}) do |csv|
+          csv << columns
+          data = [
+            work.id,
+            'ECCO',
+            work.wks_title,
+            work.wks_author,
+            pf.name,
+            '11/09/2014 00:00',
+            'Tesseract',
+            "#{batch_job.id}: #{batch_job.name}",
+            page_result.juxta_change_index,
+            'N/A'
+          ]
+          csv << data
+        end
+
+        expect(subject).to receive(:send_data).with(csv_data, filename: 'emop_dashboard_results.csv') {
+          subject.render nothing: true
+        }
+        get :index, {format: :csv}, valid_session
+      end
+    end
   end
 
   describe "GET batch" do
@@ -16,6 +68,24 @@ RSpec.describe DashboardController, :type => :controller do
       batch_job = create(:batch_job)
       get :batch, {:id => batch_job.to_param}, valid_session
       expect(response).to be_success
+    end
+  end
+
+  describe 'GET work_errors' do
+    before(:each) do
+      @batch_job = create(:batch_job)
+      @work = create(:work)
+      page = create(:page, work: @work)
+      @job_queue = create(:job_queue, batch_job: @batch_job, page: page, work: @work, status: JobStatus.failed, results: 'Error')
+      @page_results = create(:page_result, page: page, batch_job: @batch_job)
+    end
+
+    it 'returns error data' do
+      get :work_errors, {batch: @batch_job.id, work: @work.id}, valid_session
+      expect(json['work']).to eq(@work.id.to_s)
+      expect(json['job']).to eq(@batch_job.name)
+      expect(json['errors'][0]['page']).to eq(@page_results.page.pg_ref_number)
+      expect(json['errors'][0]['error']).to eq(@job_queue.results)
     end
   end
 

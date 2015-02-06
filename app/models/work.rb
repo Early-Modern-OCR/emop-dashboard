@@ -36,9 +36,6 @@ class Work < ActiveRecord::Base
   end
 
   def self.filter_by_params(works, params)
-    #params = params.with_indifferent_access
-    logger.debug("DEBUG before: #{works.count}")
-    logger.debug("DEBUG: #{params.inspect}")
     if params['gt'].present?
       case params['gt']
       when 'with_gt'
@@ -54,7 +51,6 @@ class Work < ActiveRecord::Base
       works = works.where(wks_primary_print_font: params['font'])
     end
     if params['set'].present?
-      logger.debug("DEBUG set hit")
       case params['set']
       when 'EEBO'
         works = works.is_eebo
@@ -70,7 +66,6 @@ class Work < ActiveRecord::Base
     end
 
     if params['ocr'].present?
-      logger.debug("DEBUG ocr hit")
       case params['ocr']
       when 'ocr_done'
         works = works.ocr_done
@@ -86,7 +81,6 @@ class Work < ActiveRecord::Base
         works = works.ocr_error
       end
     end
-    logger.debug("DEBUG after: #{works.count}")
 
     works
   end

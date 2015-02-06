@@ -53,23 +53,21 @@ class DashboardController < ApplicationController
 
   # Get errors for a work
   #
-  def get_work_errors
-    work_id = params[:work]
-    batch_id = params[:batch]
-    query = "select pg_ref_number, results from job_queues "
-    query = query << " inner join pages on pg_page_id=page_id"
-    query = query << " where job_status_id=? and batch_id=? and work_id=?"
-    sql = [query, 6,batch_id,work_id]
-    page_errors = JobQueue.find_by_sql( sql )
-    out = {}
-    out[:work] = work_id
-    out[:job] = BatchJob.find(batch_id).name
-    out_errors = []
-    page_errors.each do | err |
-      out_errors << {:page=>err.pg_ref_number, :error=>err.results}
+  def work_errors
+    batch_job = BatchJob.find(params[:batch])
+    work = Work.find(params[:work])
+    job_queues = JobQueue.where(batch_job: batch_job, status: JobStatus.failed, work: work)
+
+    resp = {}
+    resp[:work] = params[:work]
+    resp[:job] = batch_job.name
+    errors = []
+    job_queues.each do |job_queue|
+      errors << { error: job_queue.results, page: job_queue.page.pg_ref_number }
     end
-    out[:errors] = out_errors
-    render  :json => out, :status => :ok
+    resp[:errors] = errors
+
+    render json: resp, status: :ok
   end
 
   # Reschedule failed batch
