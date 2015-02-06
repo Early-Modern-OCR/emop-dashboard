@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ApplicationHelper do
+RSpec.describe ResultsHelper do
   describe "#page_image" do
     it "returns view page image link" do
       page = create(:page)

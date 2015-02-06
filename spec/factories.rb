@@ -20,7 +20,7 @@ FactoryGirl.define do
   end
 
   factory :print_font do
-    pf_name "Test Training Suite-ECCO"
+    sequence(:pf_name) { |n| "Test Training Suite-#{n}" }
   end
 
   factory :font do

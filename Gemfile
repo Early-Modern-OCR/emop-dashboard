@@ -71,6 +71,7 @@ group :development, :test do
   gem 'coveralls', require: false
   gem 'rspec-rails', '~> 3.0.0'
   gem 'rspec-html-matchers'
+  gem 'shoulda-matchers', require: false
   gem 'factory_girl', '~> 4.0'
   gem 'database_cleaner'
   gem 'rubocop', require: false

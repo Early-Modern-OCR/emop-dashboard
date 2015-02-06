@@ -2,7 +2,7 @@
    <div id="sel-pf-div">
       <select id="new-print-font" name="new-print-font">
          <option value>None</option>
-         <% @print_fonts.each do | font | %>
+         <% PrintFont.find_each do | font | %>
             <option value="<%= font[:pf_id] %>"><%= font[:pf_name] %></option>
          <% end %>
       </select>

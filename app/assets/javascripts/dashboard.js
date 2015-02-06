@@ -349,7 +349,7 @@ $(function() {
    // filter stuff
    $("#from-date").datepicker();
    $("#to-date").datepicker();
-   $(".filter-setting").on("change", function() {
+   $("#dashboard-filter select, #dashboard-filter input").on("change", function() {
       flagChanges();
    });
    $("#ocr-filter").on("change", function() {
@@ -403,11 +403,11 @@ $(function() {
     if (pfFilter.length > 0) {
       aoData.push( { "name": "font", "value": pfFilter } );
     }
-    var from = $("#from-date").val();
+    var from = $.datepicker.formatDate("yy-mm-dd", $("#from-date").datepicker("getDate"));
     if (from.length > 0) {
       aoData.push( { "name": "from", "value": from } );
     }
-    var to = $("#to-date").val();
+    var to = $.datepicker.formatDate("yy-mm-dd", $("#to-date").datepicker("getDate"));
     if (to.length > 0) {
       aoData.push( { "name": "to", "value": to } );
     }
@@ -509,7 +509,7 @@ $(function() {
       "bProcessing": true,
       "bServerSide": true,
       "bStateSave": true,
-      "sAjaxSource": "dashboard/fetch",
+      "sAjaxSource": "dashboard/index",
       "sAjaxDataProp": "data",
       "bSortClasses": false,
       "aaSorting": [],

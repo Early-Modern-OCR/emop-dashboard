@@ -42,8 +42,6 @@ Rails.application.routes.draw do
 
    # main dashboard routes
    get "dashboard/index"
-   get "dashboard/fetch"
-   get "dashboard/export"
    get "dashboard/batch/:id" => "dashboard#batch"
    post "dashboard/batch" => "dashboard#create_batch"
    post "dashboard/reschedule" => "dashboard#reschedule"

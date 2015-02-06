@@ -7,14 +7,6 @@ RSpec.describe DashboardController, :type => :routing do
       expect(:get => "/dashboard/index").to route_to(controller: "dashboard", action: "index")
     end
 
-    it "routes to #fetch" do
-      expect(:get => "/dashboard/fetch").to route_to(controller: "dashboard", action: "fetch")
-    end
-
-    it "routes to #export" do
-      expect(:get => "/dashboard/export").to route_to(controller: "dashboard", action: "export")
-    end
-
     it "routes to #batch" do
       expect(:get => "/dashboard/batch/1").to route_to(controller: "dashboard", action: "batch", id: "1")
     end

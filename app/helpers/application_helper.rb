@@ -24,25 +24,4 @@ module ApplicationHelper
 
     html
   end
-
-  def work_status(batch_id, work_id)
-    job_queues = JobQueue.where(batch_id: batch_id, work_id: work_id)
-
-    not_started_cnt = job_queues.select { |j| j.status.name == 'Not Started' }.count
-    processing_cnt = job_queues.select { |j| j.status.name == 'Processing' }.count
-    done_cnt = job_queues.select { |j| j.status.name == 'Done' }.count
-    failed_cnt = job_queues.select { |j| j.status.name == 'Failed' }.count
-
-    html = []
-    html << "<a class='status-text scheduled'>#{not_started_cnt}</a>"
-    html << "<a class='status-text processing'>#{processing_cnt}</a>"
-    html << "<a class='status-text success'>#{done_cnt}</a>"
-    if failed_cnt > 0
-      html << "<a id='status-#{batch_id}-#{work_id}' class='status-text error'>#{failed_cnt}</a>"
-    else
-      html << "<a class='status-text failed'>#{failed_cnt}</a>"
-    end
-
-    html.join('-')
-  end
 end

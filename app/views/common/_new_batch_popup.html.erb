@@ -4,17 +4,17 @@
       <tr><td class="table-label">Name:</td><td class="table-input"><input type="text" id="new-name"/></td></tr>
       <tr>
          <td class="table-label">Batch Type:</td>
-         <td class="table-input"><%= select_tag "new-type", options_from_collection_for_select(@job_types, :id, :name) %></td>
+         <td class="table-input"><%= select_tag "new-type", options_from_collection_for_select(JobType.all, :id, :name) %></td>
       </tr>
       <tr class="engine-row">
          <td class="table-label">OCR Engine:</td>
-         <td class="table-input"><%= select_tag "new-ocr", options_from_collection_for_select(@engines, :id, :name) %></td>
+         <td class="table-input"><%= select_tag "new-ocr", options_from_collection_for_select(OcrEngine.all, :id, :name) %></td>
       </tr>
       <tr class="font-row">
          <td class="table-label">Font Training Library:</td>
          <td class="table-input">
             <div id="fonts-div">
-               <%= select_tag "new-font", options_from_collection_for_select(@fonts, "id", "font_name") %>
+               <%= select_tag "new-font", options_from_collection_for_select(Font.all, :id, :font_name) %>
                <span id="no-fonts" style="display:none">No fonts defined</span>
                <input id="upload-font" type="button" value="New" />
             </div>

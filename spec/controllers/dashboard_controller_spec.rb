@@ -111,7 +111,7 @@ RSpec.describe DashboardController, :type => :controller do
         # Set one work to be in scope of Work.with_gt
         @works.first.update!(wks_tcp_number: '1')
 
-        post :create_batch, @params, {gt: true}
+        post :create_batch, @params, {gt: 'with_gt'}
 
         expect(response).to be_success
         job_queues = JobQueue.all
@@ -168,14 +168,14 @@ RSpec.describe DashboardController, :type => :controller do
         batch_job = create(:batch_job)
         create(:job_queue, batch_job: batch_job, page: @works.first.pages.first, work: @works.first, status: JobStatus.done, proc_id: '1')
         create(:job_queue, batch_job: batch_job, page: @works.last.pages.first, work: @works.last, status: JobStatus.done, proc_id: '1')
-        create(:page_result, batch_job: batch_job, page: @works.first.pages.first, ocr_completed: '01/01/2014')
-        create(:page_result, batch_job: batch_job, page: @works.last.pages.first, ocr_completed: '01/01/2013')
+        create(:page_result, batch_job: batch_job, page: @works.first.pages.first, ocr_completed: '2014-01-01')
+        create(:page_result, batch_job: batch_job, page: @works.last.pages.first, ocr_completed: '2013-01-01')
       end
 
       it "should create batch of all works - from filter" do
         @params[:json] = {works: 'all'}.to_json
 
-        post :create_batch, @params, {from: '01/02/2013'}
+        post :create_batch, @params, {from: '2013-01-01'}
 
         expect(response).to be_success
         job_queues = JobQueue.all
@@ -186,7 +186,7 @@ RSpec.describe DashboardController, :type => :controller do
       it "should create batch of all works - to filter" do
         @params[:json] = {works: 'all'}.to_json
 
-        post :create_batch, @params, {to: '01/02/2013'}
+        post :create_batch, @params, {to: '2013-01-02'}
 
         expect(response).to be_success
         job_queues = JobQueue.all
@@ -197,7 +197,7 @@ RSpec.describe DashboardController, :type => :controller do
       it "should create batch of all works - to/from filter" do
         @params[:json] = {works: 'all'}.to_json
 
-        post :create_batch, @params, {from: '01/01/2013', to: '01/01/2014'}
+        post :create_batch, @params, {from: '2013-01-01', to: '2014-01-01'}
 
         expect(response).to be_success
         job_queues = JobQueue.all

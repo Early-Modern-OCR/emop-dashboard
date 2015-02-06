@@ -21,9 +21,6 @@ $.fn.exists = function() {
    return this.length !== 0;
 };
 
-var batches = [];
-var jobTypes = [];
-var engines = [];
 var createBatchHandler = null;
 var rescheduleHandler = null;
 
@@ -35,10 +32,6 @@ var setRescheduleHandler = function( handler ) {
 };
 
 $(function() {
-   // grab json batch info and convert into js objects/arrays
-   batches = JSON.parse( $("#batches-json").text() );
-   jobTypes = JSON.parse( $("#types-json").text() );
-   engines = JSON.parse( $("#engines-json").text() );
    
    var updateFontColumn = function(works, fntName) {
       $.each(JSON.parse(works), function(idx, val) {

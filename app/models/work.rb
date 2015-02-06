@@ -6,6 +6,7 @@ class Work < ActiveRecord::Base
   has_many :job_queues
   has_many :work_ocr_results
   belongs_to :print_font, foreign_key: :wks_primary_print_font
+  has_many :batch_jobs, -> { uniq }, through: :job_queues
 
   # NOTES: for ECCO, non-null TCP means GT is available
   #        for EEBO, non-null MARC means GT is available
@@ -13,18 +14,18 @@ class Work < ActiveRecord::Base
   scope :without_gt, -> { where(wks_tcp_number: nil, wks_marc_record: nil) }
   scope :is_ecco, -> { where.not(wks_ecco_number: nil) }
   scope :is_eebo, -> { where(wks_ecco_number: nil) }
-  scope :by_batch_job, ->(batch_job_id = nil) { joins(:job_queues).where(job_queues: {batch_id: batch_job_id}) }
-  scope :ocr_done, -> { joins(:job_queues).where(job_queues: { job_status_id: JobStatus.done.id }) }
+  scope :by_batch_job, ->(batch_job_id = nil) { includes(:job_queues).where(job_queues: {batch_id: batch_job_id}) }
+  scope :ocr_done, -> { includes(:job_queues).where(job_queues: { job_status_id: JobStatus.done.id }) }
   scope :ocr_sched, -> {
     job_status_ids = []
     job_status_ids << JobStatus.not_started.id
     job_status_ids << JobStatus.processing.id
-    joins(:job_queues).where(job_queues: { job_status_id: job_status_ids })
+    includes(:job_queues).where(job_queues: { job_status_id: job_status_ids })
   }
-  scope :ocr_ingest, -> { joins(:job_queues).where(job_queues: { job_status_id: JobStatus.done.id }) }
-  scope :ocr_ingest_error, -> { joins(:job_queues).where(job_queues: { job_status_id: JobStatus.ingest_failed.id }) }
+  scope :ocr_ingest, -> { includes(:job_queues).where(job_queues: { job_status_id: JobStatus.done.id }) }
+  scope :ocr_ingest_error, -> { includes(:job_queues).where(job_queues: { job_status_id: JobStatus.ingest_failed.id }) }
   scope :ocr_none, -> { includes(:job_queues).where(job_queues: { id: nil }) }
-  scope :ocr_error, -> { joins(:job_queues).where(job_queues: { job_status_id: JobStatus.failed.id }) }
+  scope :ocr_error, -> { includes(:job_queues).where(job_queues: { job_status_id: JobStatus.failed.id }) }
 
   def isECCO?
     if self.wks_ecco_number.present?
@@ -32,6 +33,62 @@ class Work < ActiveRecord::Base
     else
       return false
     end
+  end
+
+  def self.filter_by_params(works, params)
+    #params = params.with_indifferent_access
+    logger.debug("DEBUG before: #{works.count}")
+    logger.debug("DEBUG: #{params.inspect}")
+    if params['gt'].present?
+      case params['gt']
+      when 'with_gt'
+        works = works.with_gt
+      when 'without_gt'
+        works = works.without_gt
+      end
+    end
+    if params['batch'].present?
+      works = works.by_batch_job(params['batch'])
+    end
+    if params['font'].present?
+      works = works.where(wks_primary_print_font: params['font'])
+    end
+    if params['set'].present?
+      logger.debug("DEBUG set hit")
+      case params['set']
+      when 'EEBO'
+        works = works.is_eebo
+      when 'ECCO'
+        works = works.is_ecco
+      end
+    end
+    if params['from'].present?
+      works = works.joins(:work_ocr_results).where("work_ocr_results.ocr_completed > ?", params['from'])
+    end
+    if params['to'].present?
+      works = works.joins(:work_ocr_results).where("work_ocr_results.ocr_completed < ?", params['to'])
+    end
+
+    if params['ocr'].present?
+      logger.debug("DEBUG ocr hit")
+      case params['ocr']
+      when 'ocr_done'
+        works = works.ocr_done
+      when 'ocr_sched'
+        works = works.ocr_sched
+      when 'ocr_ingest'
+        works = works.ocr_ingest
+      when 'ocr_ingest_error'
+        works = works.ocr_ingest_error
+      when 'ocr_none'
+        works = works.ocr_none
+      when 'ocr_error'
+        works = works.ocr_error
+      end
+    end
+    logger.debug("DEBUG after: #{works.count}")
+
+    works
   end
 
   def to_builder(version = 'v1')
