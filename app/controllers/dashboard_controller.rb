@@ -97,7 +97,7 @@ class DashboardController < ApplicationController
     job_type = JobType.find(params[:type_id])
     ocr_engine = OcrEngine.find(params[:engine_id])
     font = Font.find(params[:font_id])
-    job_status = JobStatus.not_started
+    job_status_id = JobStatus.not_started.id
     batch_job_params = {
       name: params[:name],
       parameters: params[:params],
@@ -107,6 +107,14 @@ class DashboardController < ApplicationController
       font: font
     }
     batch = BatchJob.create!(batch_job_params)
+    batch_id = batch.id
+
+    job_queue_columns = [
+      :batch_id,
+      :page_id,
+      :job_status_id,
+      :work_id
+    ]
 
     # get the work id payload. If it is ALL, generate a
     # query to get all of the work IDs based on the current
@@ -122,14 +130,14 @@ class DashboardController < ApplicationController
         work_id = work.id
         work.pages.find_each do |page|
           page_id = page.id
-          job = JobQueue.new(batch_job: batch, page_id: page_id, status: job_status, work_id: work_id)
+          job = [batch_id, page_id, job_status_id, work_id]
           jobs << job
         end
       end
 
       if jobs.size > 0
         logger.debug "Write #{jobs.size} jobs..."
-        JobQueue.import jobs, validate: false
+        JobQueue.import job_queue_columns, jobs, validate: false
       end
     else
       # populate it with pages from the selected works
@@ -137,11 +145,11 @@ class DashboardController < ApplicationController
       work_ids = json_payload['works']
       pages = Page.where(pg_work_id: work_ids)
       pages.find_each do | page |
-        job = JobQueue.new(batch_job: batch, page: page, status: job_status, work: page.work)
+        job = job = [batch_id, page.id, job_status_id, page.work.id]
         jobs << job
       end
       logger.debug "Write #{jobs.size} jobs..."
-      JobQueue.import jobs, validate: false
+      JobQueue.import job_queue_columns, jobs, validate: false
     end
 
     # get a new summary for the job queue
