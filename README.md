@@ -59,15 +59,15 @@ These steps assumes all Rails migrations have been applied.
 The steps below copy the data from the legacy database into the Rails database.
 
 ```
-EMOP_DATABASE=emop_dev
+EMOP_DATABASE=emop
 EMOP_DASHBOARD_DATABASE=emop_dashboard
 
 install -d -o mysql -g mysql /tmp/emop
 cd /tmp/emop
 mysqldump --tab=/tmp/emop --skip-extended-insert --compact ${EMOP_DATABASE} pages print_fonts fonts works
-mkdir chunks
-split -l 1000000 pages.txt chunks/pages_
-for file in chunks/pages_* ; do  echo $file ; mysql ${EMOP_DASHBOARD_DATABASE} -e "LOAD DATA INFILE '/tmp/emop/$file' INTO TABLE pages"; done
+mkdir /tmp/emop/chunks
+split -l 1000000 /tmp/emop/pages.txt /tmp/emop/chunks/pages_
+for file in /tmp/emop/chunks/pages_* ; do  echo $file ; mysql ${EMOP_DASHBOARD_DATABASE} -e "LOAD DATA INFILE '$file' INTO TABLE pages"; done
 
 tables=(
 print_fonts
