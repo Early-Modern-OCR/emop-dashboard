@@ -12,8 +12,8 @@ class Work < ActiveRecord::Base
   #        for EEBO, non-null MARC means GT is available
   scope :with_gt, -> { where('wks_tcp_number IS NOT NULL OR wks_marc_record IS NOT NULL') }
   scope :without_gt, -> { where(wks_tcp_number: nil, wks_marc_record: nil) }
-  scope :is_ecco, -> { where.not(wks_ecco_number: nil) }
-  scope :is_eebo, -> { where(wks_ecco_number: nil) }
+  scope :is_ecco, -> { where.not(wks_ecco_number: [nil, '']) }
+  scope :is_eebo, -> { where(wks_ecco_number: [nil, '']) }
   scope :by_batch_job, ->(batch_job_id = nil) { includes(:job_queues).where(job_queues: {batch_id: batch_job_id}) }
   scope :ocr_done, -> { includes(:job_queues).where(job_queues: { job_status_id: JobStatus.done.id }) }
   scope :ocr_sched, -> {

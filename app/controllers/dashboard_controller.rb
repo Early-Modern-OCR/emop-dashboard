@@ -97,6 +97,7 @@ class DashboardController < ApplicationController
     job_type = JobType.find(params[:type_id])
     ocr_engine = OcrEngine.find(params[:engine_id])
     font = Font.find(params[:font_id])
+    job_status = JobStatus.not_started
     batch_job_params = {
       name: params[:name],
       parameters: params[:params],
@@ -113,41 +114,34 @@ class DashboardController < ApplicationController
     json_payload = ActiveSupport::JSON.decode(params[:json])
     if json_payload['works'] == 'all'
       works = Work.all
-      works = works.includes(:work_ocr_results)
       works = Work.filter_by_params(works, session)
-
-      work_ids = []
-      works.each do |work|
-        work_ids << work.id
-      end
 
       jobs = []
       jobs_batch_size = 5000
-      pages = Page.where(pg_work_id: work_ids)
-      pages.each do | page |
-        job = JobQueue.new(batch_job: batch, page: page, status: JobStatus.not_started, work: page.work)
-        jobs << job
-        if jobs.size >= jobs_batch_size
-          logger.debug "Write #{jobs.size} jobs..."
-          JobQueue.import jobs
-          jobs = []
+      works.find_each do |work|
+        work_id = work.id
+        work.pages.find_each do |page|
+          page_id = page.id
+          job = JobQueue.new(batch_job: batch, page_id: page_id, status: job_status, work_id: work_id)
+          jobs << job
         end
       end
+
       if jobs.size > 0
         logger.debug "Write #{jobs.size} jobs..."
-        JobQueue.import jobs
+        JobQueue.import jobs, validate: false
       end
     else
       # populate it with pages from the selected works
       jobs = []
       work_ids = json_payload['works']
       pages = Page.where(pg_work_id: work_ids)
-      pages.each do | page |
-        job = JobQueue.new(batch_job: batch, page: page, status: JobStatus.not_started, work: page.work)
+      pages.find_each do | page |
+        job = JobQueue.new(batch_job: batch, page: page, status: job_status, work: page.work)
         jobs << job
       end
       logger.debug "Write #{jobs.size} jobs..."
-      JobQueue.import jobs
+      JobQueue.import jobs, validate: false
     end
 
     # get a new summary for the job queue
