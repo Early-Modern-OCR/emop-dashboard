@@ -35,6 +35,7 @@ RSpec.describe DashboardController, :type => :controller do
         page = create(:page, work: work)
         ocr_engine = OcrEngine.find_by(name: 'Tesseract')
         batch_job = create(:batch_job, ocr_engine: ocr_engine)
+        create(:job_queue, batch_job: batch_job, page: page, work: work, status: JobStatus.done)
         ocr_completed = Time.parse("Nov 09 2014 00:00Z")
         page_result = create(:page_result, batch_job: batch_job, page: page, ocr_completed: ocr_completed, juxta_change_index: 0.001, alt_change_index: nil)
 

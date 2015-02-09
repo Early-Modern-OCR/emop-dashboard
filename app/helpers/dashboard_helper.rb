@@ -41,9 +41,9 @@ module DashboardHelper
   end
 
   def work_checkbox(work)
-    result = work.work_ocr_results.first
-    if result.present? && result.batch_id.present?
-      id = "#{work.id}-#{result.batch_id}"
+    batch_job = work.batch_jobs.first
+    if batch_job.present?
+      id = "#{work.id}-#{batch_job.id}"
     else
       id = "#{work.id}-0"
     end
@@ -51,10 +51,10 @@ module DashboardHelper
   end
 
   def work_detail_link(work)
-    result = work.work_ocr_results.first
+    batch_job = work.batch_jobs.first
 
-    if result.present? && result.batch_id.present?
-      url = results_path(work: work.id, batch: result.batch_id)
+    if batch_job.present?
+      url = results_path(work: work.id, batch: batch_job.id)
     else
       url = results_path(work: work.id)
     end
@@ -65,9 +65,9 @@ module DashboardHelper
   end
 
   def work_status(work)
-    result = work.work_ocr_results.first
-    if result.present? && result.batch_id.present?
-      batch_id = result.batch_id
+    batch_job = work.batch_jobs.first
+    if batch_job.present?
+      batch_id = batch_job.id
     else
       batch_id = nil
     end
@@ -109,19 +109,19 @@ module DashboardHelper
   end
 
   def ocr_engine(work)
-    result = work.work_ocr_results.first
-    if result.present? && result.ocr_engine_id.present?
-      OcrEngine.find(result.ocr_engine_id).name
+    batch_job = work.batch_jobs.first
+    if batch_job.present?
+      batch_job.ocr_engine.name
     else
       ''
     end
   end
 
   def ocr_batch(work)
-    result = work.work_ocr_results.first
-    if result.present?
-      content_tag(:span, class: 'batch-name', id: "batch-#{result.batch_id}") do
-        "#{result.batch_id}: #{result.batch_name}"
+    batch_job = work.batch_jobs.first
+    if batch_job.present?
+      content_tag(:span, class: 'batch-name', id: "batch-#{batch_job.id}") do
+        "#{batch_job.id}: #{batch_job.name}"
       end
     else
       ''

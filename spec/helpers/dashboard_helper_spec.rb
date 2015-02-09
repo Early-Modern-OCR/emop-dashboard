@@ -168,7 +168,7 @@ RSpec.describe DashboardHelper do
       @batch_job = create(:batch_job)
       @work = create(:work)
       page = create(:page, work: @work)
-      create(:page_result, page: page, batch_job: @batch_job)
+      create(:job_queue, batch_job: @batch_job, page: page, work: @work)
     end
 
     it 'creates checkbox for work and batch' do
@@ -196,7 +196,7 @@ RSpec.describe DashboardHelper do
       @batch_job = create(:batch_job)
       @work = create(:work)
       page = create(:page, work: @work)
-      create(:page_result, page: page, batch_job: @batch_job)
+      create(:job_queue, batch_job: @batch_job, page: page, work: @work)
     end
 
     it 'creates div link for work and batch_job' do
@@ -319,7 +319,7 @@ RSpec.describe DashboardHelper do
       @batch_job = create(:batch_job, ocr_engine: @ocr_engine)
       @work = create(:work)
       page = create(:page, work: @work)
-      create(:page_result, page: page, batch_job: @batch_job)
+      create(:job_queue, batch_job: @batch_job, page: page, work: @work)
     end
 
     it 'returns ocr engine name' do
@@ -337,7 +337,7 @@ RSpec.describe DashboardHelper do
       @batch_job = create(:batch_job)
       @work = create(:work)
       page = create(:page, work: @work)
-      create(:page_result, page: page, batch_job: @batch_job)
+      create(:job_queue, batch_job: @batch_job, page: page, work: @work)
     end
 
     it 'returns batch ID and name' do
