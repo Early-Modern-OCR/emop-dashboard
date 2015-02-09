@@ -125,25 +125,16 @@ class DashboardController < ApplicationController
       works = Work.filter_by_params(works, session)
 
       jobs = []
-      jobs_batch_size = 50000
       works.find_each do |work|
         work_id = work.id
         work.pages.find_each do |page|
-          page_id = page.id
-          job = [batch_id, page_id, job_status_id, work_id]
+          job = [batch_id, page.id, job_status_id, work_id]
           jobs << job
-
-          #if jobs.size >= jobs_batch_size
-          #  logger.debug "Write #{jobs.size} jobs..."
-          #  JobQueue.import job_queue_columns, jobs, validate: false
-          #  jobs = []
-          #end
         end
-      end
 
-      if jobs.size > 0
         logger.debug "Write #{jobs.size} jobs..."
         JobQueue.import job_queue_columns, jobs, validate: false
+        jobs = []
       end
     else
       # populate it with pages from the selected works
