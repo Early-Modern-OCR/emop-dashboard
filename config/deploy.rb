@@ -55,6 +55,14 @@ namespace :deploy do
 
   after :migrate, :seed
 
+  after :finish, :set_current_version do
+    on roles(:app) do
+      within release_path do
+        execute :echo, "#{capture("cd #{repo_path} && git describe --tags --exact-match $(git rev-parse --short HEAD) > VERSION")} > VERSION"
+      end
+    end
+  end
+
   desc "Upload config files"
   task :upload_configs do
     on roles(:app) do |server|

@@ -1,4 +1,23 @@
 module ApplicationHelper
+  def git_version_info
+    revision_file = File.join(Rails.root, 'REVISION')
+    version_file = File.join(Rails.root, 'VERSION')
+
+    if File.exists?(revision_file)
+      revision = File.read(revision_file).chomp
+    else
+      revision = 'Unknown'
+    end
+
+    if File.exists?(version_file)
+      version = File.read(version_file).chomp
+    else
+      version = 'Unknown'
+    end
+
+    "Version: #{version} Revision: #{revision}"
+  end
+
   def page_status_icon(job_queue)
     if job_queue.present?
       status = job_queue.status.name

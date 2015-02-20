@@ -1,6 +1,39 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationHelper do
+  describe '#git_version_info' do
+    let(:revision_file) { File.join(Rails.root, 'REVISION') }
+    let(:version_file) { File.join(Rails.root, 'VERSION') }
+
+    context 'when REVISION and VERSION exist' do
+      it 'contains version and revision information' do
+        allow(File).to receive(:exists?).with(revision_file).and_return(true)
+        allow(File).to receive(:exists?).with(version_file).and_return(true)
+        allow(File).to receive(:read).with(revision_file).and_return("0001\n")
+        allow(File).to receive(:read).with(version_file).and_return("1.0.0\n")
+        expect(helper.git_version_info).to eq('Version: 1.0.0 Revision: 0001')
+      end
+    end
+
+    context 'when only REVISION exists' do
+      it 'contains only revision information' do
+        allow(File).to receive(:exists?).with(revision_file).and_return(true)
+        allow(File).to receive(:exists?).with(version_file).and_return(false)
+        allow(File).to receive(:read).with(revision_file).and_return("0001\n")
+        expect(helper.git_version_info).to eq('Version: Unknown Revision: 0001')
+      end
+    end
+
+    context 'when only VERSION exist' do
+      it 'contains version and revision information' do
+        allow(File).to receive(:exists?).with(revision_file).and_return(false)
+        allow(File).to receive(:exists?).with(version_file).and_return(true)
+        allow(File).to receive(:read).with(version_file).and_return("1.0.0\n")
+        expect(helper.git_version_info).to eq('Version: 1.0.0 Revision: Unknown')
+      end
+    end
+  end
+
   describe "#page_status_icon" do
     it "returns scheduled div when status not started" do
       job_queue = create(:job_queue, status: JobStatus.not_started)

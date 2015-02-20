@@ -24,7 +24,9 @@
       </div>
       <%= render 'layouts/messages' %>
       <%= yield %>
-      
+      <div class="git-info">
+        <%= git_version_info %>
+      </div>
       <% if !@juxta.nil? && @juxta == true %>
          <span id="juxta-loaded" style="display: none">true</span>
       <% end %>
