@@ -55,10 +55,16 @@ namespace :deploy do
 
   after :migrate, :seed
 
-  after :finish, :set_current_version do
+  after :set_current_revision, :set_current_version do
     on roles(:app) do
       within release_path do
-        execute :echo, "#{capture("cd #{repo_path} && git describe --tags --exact-match $(git rev-parse --short HEAD) > VERSION")} > VERSION"
+        begin
+          version = capture("cd #{repo_path} && git describe --tags #{fetch(:current_revision)}")
+        rescue
+        end
+        if version
+          execute :echo, "\"#{version.chomp}\" > VERSION"
+        end
       end
     end
   end
