@@ -107,7 +107,6 @@ RSpec.describe DashboardDatatable do
       end
 
       it 'sets default column when iSortCol_0 is absent' do
-        #datatable.params[:iSortCol_0] = nil
         datatable.params.delete(:iSortCol_0)
         expect(datatable.send(:sort_column)).to eq('wks_work_id')       
       end
@@ -122,6 +121,11 @@ RSpec.describe DashboardDatatable do
         datatable.params[:iSortCol_0] = '9'
         datatable.params[:ocr] = 'ocr_none'
         expect(datatable.send(:sort_column)).to eq('wks_work_id')
+      end
+
+      it 'sorts by print_font' do
+        datatable.params[:iSortCol_0] = '8'
+        expect(datatable.send(:sort_column)).to eq('print_fonts.pf_name')
       end
     end
 

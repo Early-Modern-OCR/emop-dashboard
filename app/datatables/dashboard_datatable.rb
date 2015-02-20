@@ -7,7 +7,7 @@ class DashboardDatatable
     @view = view
     @columns = [
       nil,nil,nil,nil,'wks_work_id',
-      'wks_tcp_number','wks_title','wks_author','font.font_name',
+      'wks_tcp_number','wks_title','wks_author','print_fonts.pf_name',
       'work_ocr_results.ocr_completed','work_ocr_results.ocr_engine_id',
       'work_ocr_results.batch_id','work_ocr_results.juxta_accuracy',
       'work_ocr_results.retas_accuracy'
@@ -51,7 +51,7 @@ class DashboardDatatable
   end
 
   def fetch_works
-    works = Work.includes(:work_ocr_results)
+    works = Work.includes(:work_ocr_results, :print_font)
     works = works.order("#{sort_column} #{sort_direction}")
     works = works.page(page).per(per_page)
     works = Work.filter_by_params(works, params)
