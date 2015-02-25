@@ -7,10 +7,8 @@ class DashboardDatatable
     @view = view
     @columns = [
       nil,nil,nil,nil,'wks_work_id',
-      'wks_tcp_number','wks_title','wks_author','print_fonts.pf_name',
-      'work_ocr_results.ocr_completed','work_ocr_results.ocr_engine_id',
-      'work_ocr_results.batch_id','work_ocr_results.juxta_accuracy',
-      'work_ocr_results.retas_accuracy'
+      'wks_tcp_number','wks_title','wks_author', nil,
+      nil,nil,nil,nil,nil
     ]
   end
 
@@ -27,10 +25,11 @@ class DashboardDatatable
 
   def data
     works.map do |work|
+      batch_job = work.batch_jobs.first
       {
-        work_select: @view.work_checkbox(work),
-        status: @view.work_status(work),
-        detail_link: @view.work_detail_link(work),
+        work_select: @view.work_checkbox(work, batch_job),
+        status: @view.work_status(work, batch_job),
+        detail_link: @view.work_detail_link(work, batch_job),
         data_set: @view.data_set(work),
         id: work.id,
         tcp_number: work.wks_tcp_number,
@@ -38,8 +37,8 @@ class DashboardDatatable
         author: work.wks_author,
         font: work.print_font.present? ? work.print_font.name : '',
         ocr_date: @view.ocr_date(work),
-        ocr_engine: @view.ocr_engine(work),
-        ocr_batch: @view.ocr_batch(work),
+        ocr_engine: @view.ocr_engine(work, batch_job),
+        ocr_batch: @view.ocr_batch(work, batch_job),
         juxta_url: @view.accuracy_links(work, 'juxta_accuracy'),
         retas_url: @view.accuracy_links(work, 'retas_accuracy')
       }
@@ -51,8 +50,7 @@ class DashboardDatatable
   end
 
   def fetch_works
-    works = Work.includes(:work_ocr_results, :print_font)
-    works = works.order("#{sort_column} #{sort_direction}")
+    works = Work.order("#{sort_column} #{sort_direction}")
     works = works.page(page).per(per_page)
     works = Work.filter_by_params(works, params)
     works
@@ -74,7 +72,7 @@ class DashboardDatatable
       search_col_idx = 4
     end
 
-    @columns[search_col_idx]
+    @columns[search_col_idx] || 'wks_work_id'
   end
 
   def sort_direction

@@ -539,11 +539,12 @@ $(function() {
          { "aTargets": [1], "bSortable": false},
          { "aTargets": [2], "bSortable": false},
          { "aTargets": [3], "bSortable": false},
-         { "aTargets": [9], "bSortable": canSortResult(9)},
-         { "aTargets": [10], "bSortable": canSortResult(10)},
-         { "aTargets": [11], "bSortable": canSortResult(11)},
-         { "aTargets": [12], "bSortable": canSortResult(12), "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
-         { "aTargets": [13], "bSortable": canSortResult(13), "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
+         { "aTargets": [8], "bSortable": false},
+         { "aTargets": [9], "bSortable": false},
+         { "aTargets": [10], "bSortable": false},
+         { "aTargets": [11], "bSortable": false},
+         { "aTargets": [12], "bSortable": false, "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
+         { "aTargets": [13], "bSortable": false, "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
       ],
       "fnServerParams": function ( aoData ) {
           fnServerParams(aoData);

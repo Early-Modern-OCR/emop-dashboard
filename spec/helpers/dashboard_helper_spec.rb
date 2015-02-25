@@ -172,7 +172,7 @@ RSpec.describe DashboardHelper do
     end
 
     it 'creates checkbox for work and batch' do
-      expect(helper.work_checkbox(@work)).to have_tag('input', with: {
+      expect(helper.work_checkbox(@work, @batch_job)).to have_tag('input', with: {
         class: 'sel-cb',
         id: "sel-#{@work.id}-#{@batch_job.id}",
         name: "sel-#{@work.id}-#{@batch_job.id}",
@@ -182,7 +182,7 @@ RSpec.describe DashboardHelper do
 
     it 'creates checkbox for work with no batch_job' do
       work = create(:work)
-      expect(helper.work_checkbox(work)).to have_tag('input', with: {
+      expect(helper.work_checkbox(work, nil)).to have_tag('input', with: {
         class: 'sel-cb',
         id: "sel-#{work.id}-0",
         name: "sel-#{work.id}-0",
@@ -201,7 +201,7 @@ RSpec.describe DashboardHelper do
 
     it 'creates div link for work and batch_job' do
       expected_href = "/results?batch=#{@batch_job.id}&work=#{@work.id}"
-      expect(helper.work_detail_link(@work)).to have_tag('a', with: { href: expected_href }) do
+      expect(helper.work_detail_link(@work, @batch_job)).to have_tag('a', with: { href: expected_href }) do
         with_tag 'div', with: { class: 'detail-link', title: 'View pages' }
       end
     end
@@ -209,7 +209,7 @@ RSpec.describe DashboardHelper do
     it 'creates div link for work with no batch_job' do
       work = create(:work)
       expected_href = "/results?work=#{work.id}"
-      expect(helper.work_detail_link(work)).to have_tag('a', with: { href: expected_href }) do
+      expect(helper.work_detail_link(work, nil)).to have_tag('a', with: { href: expected_href }) do
         with_tag 'div', with: { class: 'detail-link', title: 'View pages' }
       end
     end
@@ -230,7 +230,7 @@ RSpec.describe DashboardHelper do
                "<a class='status-text success'>0</a>-" \
                "<a class='status-text failed'>0</a>"
 
-        expect(helper.work_status(@work)).to eq(html)
+        expect(helper.work_status(@work, @batch_job)).to eq(html)
       end
     end
 
@@ -247,7 +247,7 @@ RSpec.describe DashboardHelper do
                "<a class='status-text success'>#{@success.size}</a>-" \
                "<a class='status-text failed'>0</a>"
 
-        expect(helper.work_status(@work)).to eq(html)
+        expect(helper.work_status(@work, @batch_job)).to eq(html)
       end
     end
 
@@ -262,7 +262,7 @@ RSpec.describe DashboardHelper do
                "<a class='status-text success'>0</a>-" \
                "<a id='status-#{@batch_job.id}-#{@work.id}' class='status-text error'>#{@failed.size}</a>"
 
-        expect(helper.work_status(@work)).to eq(html)
+        expect(helper.work_status(@work, @batch_job)).to eq(html)
       end
     end
 
@@ -277,7 +277,7 @@ RSpec.describe DashboardHelper do
                "<a class='status-text success'>0</a>-" \
                "<a class='status-text failed'>0</a>"
 
-        expect(helper.work_status(@work)).to eq(html)
+        expect(helper.work_status(@work, nil)).to eq(html)
       end
     end
   end
@@ -323,12 +323,12 @@ RSpec.describe DashboardHelper do
     end
 
     it 'returns ocr engine name' do
-      expect(helper.ocr_engine(@work)).to eq('Tesseract')
+      expect(helper.ocr_engine(@work, @batch_job)).to eq('Tesseract')
     end
 
     it 'returns nothing when results do not exist' do
       work = create(:work)
-      expect(helper.ocr_engine(work)).to eq('')
+      expect(helper.ocr_engine(work, nil)).to eq('')
     end
   end
 
@@ -341,13 +341,13 @@ RSpec.describe DashboardHelper do
     end
 
     it 'returns batch ID and name' do
-      expect(helper.ocr_batch(@work)).to have_tag('span', text: "#{@batch_job.id}: #{@batch_job.name}",
+      expect(helper.ocr_batch(@work, @batch_job)).to have_tag('span', text: "#{@batch_job.id}: #{@batch_job.name}",
         with: { class: 'batch-name', id: "batch-#{@batch_job.id}" })
     end
 
     it 'returns nothing when results do not exist' do
       work = create(:work)
-      expect(helper.ocr_batch(work)).to eq('')
+      expect(helper.ocr_batch(work, nil)).to eq('')
     end
   end
 

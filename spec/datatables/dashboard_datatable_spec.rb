@@ -122,11 +122,6 @@ RSpec.describe DashboardDatatable do
         datatable.params[:ocr] = 'ocr_none'
         expect(datatable.send(:sort_column)).to eq('wks_work_id')
       end
-
-      it 'sorts by print_font' do
-        datatable.params[:iSortCol_0] = '8'
-        expect(datatable.send(:sort_column)).to eq('print_fonts.pf_name')
-      end
     end
 
     describe '#sort_direction' do

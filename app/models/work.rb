@@ -7,6 +7,7 @@ class Work < ActiveRecord::Base
   has_many :work_ocr_results
   belongs_to :print_font, foreign_key: :wks_primary_print_font
   has_many :batch_jobs, -> { uniq }, through: :job_queues
+  has_many :page_results, -> { uniq }, through: :pages
 
   # NOTES: for ECCO, non-null TCP means GT is available
   #        for EEBO, non-null MARC means GT is available
@@ -33,6 +34,23 @@ class Work < ActiveRecord::Base
     else
       return false
     end
+  end
+
+  def juxta_accuracy
+    page_results.average(:juxta_change_index)
+  end
+
+  def retas_accuracy
+    page_results.average(:alt_change_index)
+  end
+
+  def ocr_result
+    page_results.group(:pg_work_id, :batch_id).first
+  end
+
+  def ocr_result_batch_job
+    return nil unless ocr_result.present?
+    ocr_result.batch_job
   end
 
   def self.filter_by_params(works, params)

@@ -1328,10 +1328,7 @@
       "query": null,
       "request_data": null,
       "response_data": {
-        "total": 2,
-        "subtotal": 2,
         "page": 1,
-        "per_page": 2,
         "total_pages": 1,
         "results": [
           {
@@ -1375,10 +1372,7 @@
       "query": "works[wks_work_id]=87",
       "request_data": null,
       "response_data": {
-        "total": 3,
-        "subtotal": 3,
         "page": 1,
-        "per_page": 3,
         "total_pages": 1,
         "results": [
           {
@@ -1467,6 +1461,7 @@
       "request_data": null,
       "response_data": {
         "page": 1,
+        "total_pages": 1,
         "results": [
           {
             "id": 51,
@@ -1657,10 +1652,7 @@
       "query": null,
       "request_data": null,
       "response_data": {
-        "total": 2,
-        "subtotal": 2,
         "page": 1,
-        "per_page": 2,
         "total_pages": 1,
         "results": [
           {
@@ -1720,10 +1712,7 @@
       "query": "works[wks_work_id]=97",
       "request_data": null,
       "response_data": {
-        "total": 3,
-        "subtotal": 3,
         "page": 1,
-        "per_page": 3,
         "total_pages": 1,
         "results": [
           {

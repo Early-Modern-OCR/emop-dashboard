@@ -40,8 +40,7 @@ module DashboardHelper
     options_for_select([['All', nil]]) + "\n" + options
   end
 
-  def work_checkbox(work)
-    batch_job = work.batch_jobs.first
+  def work_checkbox(work, batch_job)
     if batch_job.present?
       id = "#{work.id}-#{batch_job.id}"
     else
@@ -50,9 +49,7 @@ module DashboardHelper
     check_box_tag("sel-#{id}", nil, false, class: 'sel-cb')
   end
 
-  def work_detail_link(work)
-    batch_job = work.batch_jobs.first
-
+  def work_detail_link(work, batch_job)
     if batch_job.present?
       url = results_path(work: work.id, batch: batch_job.id)
     else
@@ -64,26 +61,30 @@ module DashboardHelper
     end
   end
 
-  def work_status(work)
-    batch_job = work.batch_jobs.first
+  def work_status(work, batch_job)
     if batch_job.present?
-      batch_id = batch_job.id
+      not_started_id = JobStatus.not_started.id
+      processing_id = JobStatus.processing.id
+      done_id = JobStatus.done.id
+      failed_id = JobStatus.failed.id
+      job_queues = JobQueue.select(:id, :job_status_id).where(batch_id: batch_job.id, work_id: work.id)
+      not_started_cnt = job_queues.select { |j| j.job_status_id == not_started_id }.count
+      processing_cnt = job_queues.select { |j| j.job_status_id == processing_id }.count
+      done_cnt = job_queues.select { |j| j.job_status_id == done_id }.count
+      failed_cnt = job_queues.select { |j| j.job_status_id == failed_id }.count
     else
-      batch_id = nil
+      not_started_cnt = 0
+      processing_cnt = 0
+      done_cnt = 0
+      failed_cnt = 0
     end
-    job_queues = JobQueue.where(batch_id: batch_id, work_id: work.id)
-
-    not_started_cnt = job_queues.select { |j| j.status.name == 'Not Started' }.count
-    processing_cnt = job_queues.select { |j| j.status.name == 'Processing' }.count
-    done_cnt = job_queues.select { |j| j.status.name == 'Done' }.count
-    failed_cnt = job_queues.select { |j| j.status.name == 'Failed' }.count
 
     html = []
     html << "<a class='status-text scheduled'>#{not_started_cnt}</a>"
     html << "<a class='status-text processing'>#{processing_cnt}</a>"
     html << "<a class='status-text success'>#{done_cnt}</a>"
     if failed_cnt > 0
-      html << "<a id='status-#{batch_id}-#{work.id}' class='status-text error'>#{failed_cnt}</a>"
+      html << "<a id='status-#{batch_job.id}-#{work.id}' class='status-text error'>#{failed_cnt}</a>"
     else
       html << "<a class='status-text failed'>#{failed_cnt}</a>"
     end
@@ -100,16 +101,14 @@ module DashboardHelper
   end
 
   def ocr_date(work)
-    result = work.work_ocr_results.first
-    if result.present? && result.ocr_completed.present?
-      result.ocr_completed.to_datetime.strftime("%m/%d/%Y %H:%M")
+    if work.ocr_result.present? && work.ocr_result.ocr_completed.present?
+      work.ocr_result.ocr_completed.to_datetime.strftime("%m/%d/%Y %H:%M")
     else
       ''
     end
   end
 
-  def ocr_engine(work)
-    batch_job = work.batch_jobs.first
+  def ocr_engine(work, batch_job)
     if batch_job.present?
       batch_job.ocr_engine.name
     else
@@ -117,8 +116,7 @@ module DashboardHelper
     end
   end
 
-  def ocr_batch(work)
-    batch_job = work.batch_jobs.first
+  def ocr_batch(work, batch_job)
     if batch_job.present?
       content_tag(:span, class: 'batch-name', id: "batch-#{batch_job.id}") do
         "#{batch_job.id}: #{batch_job.name}"
@@ -129,9 +127,7 @@ module DashboardHelper
   end
 
   def accuracy_links(work, attribute)
-    result = work.work_ocr_results.first
-    return 'N/A' unless result.present?
-    value = result.send(attribute)
+    value = work.send(attribute)
     return 'N/A' unless value.present?
 
     if value < 0.6
@@ -143,7 +139,7 @@ module DashboardHelper
     end
     formatted_value = '%.3f' % value
 
-    link_to(results_path(work: work.id, batch: result.batch_id), class: html_class, title: 'View page results') do
+    link_to(results_path(work: work.id, batch: work.ocr_result_batch_job.id), class: html_class, title: 'View page results') do
       formatted_value
     end
   end
