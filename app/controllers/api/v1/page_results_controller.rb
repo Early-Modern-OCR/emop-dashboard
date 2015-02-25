@@ -1,6 +1,8 @@
 module Api
   module V1
     class PageResultsController < V1::BaseController
+      layout 'api/v1/layouts/index_without_count', only: :index
+
       api :GET, '/page_results', 'List page results'
       param_group :pagination, V1::BaseController
       param :page_id, Integer, desc: 'Page ID', required: false

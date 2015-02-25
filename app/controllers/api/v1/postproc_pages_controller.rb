@@ -1,6 +1,8 @@
 module Api
   module V1
     class PostprocPagesController < V1::BaseController
+      layout 'api/v1/layouts/index_without_count', only: :index
+
       api :GET, '/postproc_pages', 'List postproc page results'
       param_group :pagination, V1::BaseController
       param :page_id, Integer, desc: 'Page ID', required: false

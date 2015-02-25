@@ -1,7 +1,7 @@
 module Api
   module V1
     class PagesController < V1::BaseController
-      layout 'api/v1/layouts/pages_index_layout', only: :index
+      layout 'api/v1/layouts/index_without_count', only: :index
 
       api :GET, '/pages', 'List pages'
       param_group :pagination, V1::BaseController
