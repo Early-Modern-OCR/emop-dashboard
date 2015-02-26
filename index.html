@@ -159,83 +159,90 @@ jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":
                     <div class="desc" style="display: none;">Software</div>
                 </div>-->
                 <div style="color: white; margin-left: 1in">
-                    <a href="https://github.com/Early-Modern-OCR/Juxta-cl"><img src="github-button.jpeg"></a>
+                    <a href="https://github.com/Early-Modern-OCR/emop-dashboard"><img src="github-button.jpeg"></a>
                     <br/>
-                    <h1>Juxta-cl</h1>
+                    <h1>eMOP Dashboard</h1
+                    <p>Build Status</p>
                     
-                    <p>Forked version of the Juxta Command Line tool created for eMOP by Performant Software Solutions. Will be official after eMOP is complete (10/1/14).</p>
+                    <p>Coverage Status</p>
                     
-                    <p>Juxta-CL is available open-source for use under the Apache Software License, v2.0.</p>
+                    <p>This is the eMOP Dashboard application. It shows a table of OCR results from a variety of OCR engines and helps track the overall quality of the OCR.</p>
                     
-                    <p>+</p>
+                    <p>It includes a Whenever job that will expire old juxta collations periodically to prevent the JuxtaWS install from growing too large.</p>
                     
-                    <h1>+</h1>
+                    <p>This job must be added to cron by executing:</p>
                     
-                    <h1>Juxta Command Line (Juxta CL)</h1>
+                    <p>whenever -w
+                    The job can be removed with:</p>
                     
-                    <h2>Synopsis</h2>
+                    <p>whenever -c
+                    Note that on systems using RVM, jobs scheduled like this can hang. Here is the problem and solution from the Whenever Gem README:</p>
                     
-                    <p>JuxtaCL is a specialized form of Juxta. It is a command-line tool that accepts
-                    the path to two files a parameters. It will collate them and return their
-                    change index (degree of difference between the two files).</p>
+                    <p>If your production environment uses RVM (Ruby Version Manager) you will run into a gotcha that causes your cron jobs to hang. This is not directly related to Whenever, and can be tricky to debug. Your .rvmrc files must be trusted or else the cron jobs will hang waiting for the file to be trusted. A solution is to disable the prompt by adding this line to your user rvm file in ~/.rvmrc</p>
                     
-                    <h2>Requirements</h2>
+                    <p>rvm<em>trust</em>rvmrcs_flag=1
+                    This tells rvm to trust all rvmrc files, which is documented here: http://wayneeseguin.beginrescueend.com/2010/08/22/ruby-environment-version-manager-rvm-1-0-0/</p>
                     
-                    <p>Java 1.6+
-                    Maven 3.x</p>
+                    <p>Development</p>
                     
-                    <h2>Build</h2>
+                    <p>Running unit tests requires the database be created first. See .travis.yml for examples.</p>
                     
-                    <p>JuxtaCL is built by maven. Execute: mvn package</p>
+                    <p>Unit tests:</p>
                     
-                    <h2>Usage</h2>
+                    <p>bundle exec rake spec
+                    Generating API doc examples from unit tests</p>
                     
-                    <p>Once built, the binary distribution can be found in the target directory.
-                    It will be named: juxta-{version}-bin.tar.gz.
-                    Expand this archive and move into the top level directory. It contains
-                    a script for launching JuxtaCL named juxta.sh. It accepts the following
-                    command line arguments:</p>
+                    <p>APIPIE_RECORD=examples bundle exec rake spec
+                    Generate static API docs</p>
                     
-                    <p>-help                   - displays usage information
-                    -version                - prints the JuxtaCL version
-                    -strip <file>           - takes one XML file and strips out the tag content.
-                        This content is streamed to std:out
-                        -diff <b>[options] - and are the two files to compare. [options]
-                            is the set of config options for the comparison.</b></p>
-                            
-                            <blockquote>
-                                Valid options include:
-                                <br/>
-                                [+|-]case                     - toggles case
-                                sensitivity.
-                                Default: insensitive
-                                <br/>
-                                [+|-]punct                    - toggles punctuation
-                                sensitivity
-                                Default: insensitive
-                                <br/>
-                                -hyphen [all|linebreak|none]  - sets hyphenation handling
-                                Default: all
-                                <br/>
-                                -algorithm                    - set the algorithm used
-                                [ juxta |                      to determine percent
-                                levenshtein |                differnece betweenn the 
-                                jaro_winkler |               files. Defaults to juxta.
-                                dice_sorensen ]
-                            </blockquote>
-                            
-                            <p>Also included in the final package are helper scrips; strip.sh. diff.sh and all.sh.</p>
-                            
-                            <p>strip.sh takes one XML file as a parameter. Flat text is dumped to std:out</p>
-                            
-                            <p>diff.sh takes 2 files. The change index (as calculated with Juxta algorigthm) is returned.
-                            The -algorithm paramter is also accepted.</p>
-                            
-                            <p>all.sh takes 2 file parameters. It will return a table of change indexes, one
-                            row for each algorithm.</p>
+                    <p>bundle exec rake apipie:static
+                    Legacy DB migration</p>
+                    
+                    <p>This operation is time consuming and is intended to migrate away from using an external database.</p>
+                    
+                    <p>These steps assumes all Rails migrations have been applied.</p>
+                    
+                    <p>The steps below copy the data from the legacy database into the Rails database.</p>
+                    
+                    <p>EMOP<em>DATABASE=emop
+                        EMOP</em>DASHBOARD<em>DATABASE=emop</em>dashboard</p>
+                    
+                    <p>install -d -o mysql -g mysql /tmp/emop
+                    cd /tmp/emop
+                    mysqldump --tab=/tmp/emop --skip-extended-insert --compact ${EMOP<em>DATABASE} pages print</em>fonts fonts works
+                    mkdir /tmp/emop/chunks
+                    split -l 1000000 /tmp/emop/pages.txt /tmp/emop/chunks/pages_
+                    for file in /tmp/emop/chunks/pages<em>* ; do  echo $file ; mysql ${EMOP</em>DASHBOARD_DATABASE} -e "LOAD DATA INFILE '$file' INTO TABLE pages"; done</p>
+                    
+                    <p>tables=(
+                    print_fonts
+                    fonts
+                    works
+                    )</p>
+                    
+                    <p>for table in "${tables[@]}"; do
+                    echo "Importing ${table}"
+                    mysqlimport --local ${EMOP<em>DASHBOARD</em>DATABASE} /tmp/emop/${table}.txt
+                    done
+                    Below is a method for comparing the database structure to ensure table columns match (position and name)</p>
+                    
+                    <p>tables=(
+                    pages
+                    print_fonts
+                    fonts
+                    works
+                    )</p>
+                    
+                    <p>for table in "${tables[@]}"; do
+                    mysql ${EMOP<em>DATABASE} -e "SHOW FIELDS FROM ${table}" >> /tmp/${EMOP</em>DATABASE}<em>tables
+                        mysql ${EMOP</em>DASHBOARD<em>DATABASE} -e "SHOW FIELDS FROM ${table}" >> /tmp/${EMOP</em>DASHBOARD<em>DATABASE}</em>tables
+                    done</p>
+                    
+                    <p>diff -u /tmp/${EMOP<em>DATABASE}</em>tables /tmp/${EMOP<em>DASHBOARD</em>DATABASE}_tables</p>
+                    
                             <br/>
                             <br/>
-                            <a href="https://github.com/Early-Modern-OCR/Juxta-cl"><img src="github-button.jpeg"></a>
+                            <a href="https://github.com/Early-Modern-OCR/emop-dashboard"><img src="github-button.jpeg"></a>
                             <br/>
                             <br/>
                             <br/>
