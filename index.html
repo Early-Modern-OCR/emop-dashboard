@@ -162,41 +162,38 @@ jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":
                     <a href="https://github.com/Early-Modern-OCR/emop-dashboard"><img src="github-button.jpeg"></a>
                     <br/>
                     <h1>eMOP Dashboard</h1
-                    <p>Build Status</p>
-                    
-                    <p>Coverage Status</p>
-                    
+
                     <p>This is the eMOP Dashboard application. It shows a table of OCR results from a variety of OCR engines and helps track the overall quality of the OCR.</p>
                     
                     <p>It includes a Whenever job that will expire old juxta collations periodically to prevent the JuxtaWS install from growing too large.</p>
                     
                     <p>This job must be added to cron by executing:</p>
                     
-                    <p>whenever -w
-                    The job can be removed with:</p>
+                    <blockquote>whenever -w</blockquote>
+                    <p>The job can be removed with:</p>
                     
-                    <p>whenever -c
-                    Note that on systems using RVM, jobs scheduled like this can hang. Here is the problem and solution from the Whenever Gem README:</p>
+                    <blockquote>whenever -c</blockquote>
+                    <p>Note that on systems using RVM, jobs scheduled like this can hang. Here is the problem and solution from the Whenever Gem README:</p>p>
                     
                     <p>If your production environment uses RVM (Ruby Version Manager) you will run into a gotcha that causes your cron jobs to hang. This is not directly related to Whenever, and can be tricky to debug. Your .rvmrc files must be trusted or else the cron jobs will hang waiting for the file to be trusted. A solution is to disable the prompt by adding this line to your user rvm file in ~/.rvmrc</p>
                     
-                    <p>rvm<em>trust</em>rvmrcs_flag=1
-                    This tells rvm to trust all rvmrc files, which is documented here: http://wayneeseguin.beginrescueend.com/2010/08/22/ruby-environment-version-manager-rvm-1-0-0/</p>
+                    <blockquote>rvm<em>trust</em>rvmrcs_flag=1</blockquote>
+                    <p>This tells rvm to trust all rvmrc files, which is documented here: http://wayneeseguin.beginrescueend.com/2010/08/22/ruby-environment-version-manager-rvm-1-0-0/</p>
                     
-                    <p>Development</p>
+                    <h2>Development</h2>
                     
                     <p>Running unit tests requires the database be created first. See .travis.yml for examples.</p>
                     
                     <p>Unit tests:</p>
                     
-                    <p>bundle exec rake spec
-                    Generating API doc examples from unit tests</p>
+                    <blockquote>bundle exec rake spec</blockquote>
+                    <p>Generating API doc examples from unit tests</p>
                     
-                    <p>APIPIE_RECORD=examples bundle exec rake spec
-                    Generate static API docs</p>
+                    <blockquote>APIPIE_RECORD=examples bundle exec rake spec</blockquote>
+                    <p>Generate static API docs</p>
                     
-                    <p>bundle exec rake apipie:static
-                    Legacy DB migration</p>
+                    <blockquote>bundle exec rake apipie:static</blockquote>
+                    <h2>Legacy DB migration</h2>
                     
                     <p>This operation is time consuming and is intended to migrate away from using an external database.</p>
                     
@@ -204,8 +201,8 @@ jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":
                     
                     <p>The steps below copy the data from the legacy database into the Rails database.</p>
                     
-                    <p>EMOP<em>DATABASE=emop
-                        EMOP</em>DASHBOARD<em>DATABASE=emop</em>dashboard</p>
+                    <blockquote>EMOP<em>DATABASE=emop
+                        EMOP</em>DASHBOARD<em>DATABASE=emop</em>dashboard
                     
                     <p>install -d -o mysql -g mysql /tmp/emop
                     cd /tmp/emop
@@ -223,15 +220,17 @@ jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":
                     <p>for table in "${tables[@]}"; do
                     echo "Importing ${table}"
                     mysqlimport --local ${EMOP<em>DASHBOARD</em>DATABASE} /tmp/emop/${table}.txt
-                    done
-                    Below is a method for comparing the database structure to ensure table columns match (position and name)</p>
+                        done</blockquote>
                     
-                    <p>tables=(
+                    <p>Below is a method for comparing the database structure to ensure table columns match (position and name)</p>
+                    
+                    
+                    <blockquote>tables=(
                     pages
                     print_fonts
                     fonts
                     works
-                    )</p>
+                    )
                     
                     <p>for table in "${tables[@]}"; do
                     mysql ${EMOP<em>DATABASE} -e "SHOW FIELDS FROM ${table}" >> /tmp/${EMOP</em>DATABASE}<em>tables
@@ -239,6 +238,7 @@ jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":
                     done</p>
                     
                     <p>diff -u /tmp/${EMOP<em>DATABASE}</em>tables /tmp/${EMOP<em>DASHBOARD</em>DATABASE}_tables</p>
+                    </blockquote>
                     
                             <br/>
                             <br/>
