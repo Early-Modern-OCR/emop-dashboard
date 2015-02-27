@@ -32,7 +32,7 @@ RSpec.describe Api::V1::PagesController, :type => :request do
       expect(json['subtotal']).to be_nil # eq(25)
       expect(json['page']).to eq(1)
       expect(json['per_page']).to be_nil # eq(25)
-      expect(json['total_pages']).to eq(2)
+      expect(json['total_pages']).to be_nil #eq(2)
       expect(json['results'].length).to eq(25)
     end
 
@@ -45,7 +45,7 @@ RSpec.describe Api::V1::PagesController, :type => :request do
       expect(json['subtotal']).to be_nil # eq(25)
       expect(json['page']).to eq(1)
       expect(json['per_page']).to be_nil # eq(25)
-      expect(json['total_pages']).to eq(1)
+      expect(json['total_pages']).to be_nil #eq(1)
       expect(json['results'].length).to eq(30)
     end
 
@@ -58,7 +58,7 @@ RSpec.describe Api::V1::PagesController, :type => :request do
       expect(json['subtotal']).to be_nil # eq(2)
       expect(json['page']).to eq(1)
       expect(json['per_page']).to be_nil # eq(2)
-      expect(json['total_pages']).to eq(1)
+      expect(json['total_pages']).to be_nil #eq(1)
       expect(json['results'].length).to eq(2)
     end
 
@@ -73,7 +73,7 @@ RSpec.describe Api::V1::PagesController, :type => :request do
       expect(json['subtotal']).to be_nil # eq(2)
       expect(json['page']).to eq(1)
       expect(json['per_page']).to be_nil # eq(2)
-      expect(json['total_pages']).to eq(1)
+      expect(json['total_pages']).to be_nil #eq(1)
       expect(json['results'].length).to eq(2)
     end
   end
