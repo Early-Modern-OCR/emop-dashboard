@@ -79,4 +79,18 @@ namespace :deploy do
   end
 end
 
-#after 'deploy:setup', :setup_config
+namespace :maintenance do
+  desc "Maintenance start (edit config/maintenance.yml to provide parameters)"
+  task :start do
+    on roles(:web) do
+      execute :touch, current_path.join("tmp/maintenance.yml")
+    end
+  end
+
+  desc "Maintenance stop"
+  task :stop do
+    on roles(:web) do
+      execute :rm, current_path.join("tmp/maintenance.yml")
+    end
+  end
+end

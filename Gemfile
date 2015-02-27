@@ -30,6 +30,9 @@ gem 'devise'
 # Administration
 gem 'activeadmin', github: 'activeadmin'
 
+# Maintenance
+gem 'turnout'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
