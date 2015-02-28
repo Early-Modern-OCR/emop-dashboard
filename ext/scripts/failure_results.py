@@ -28,26 +28,13 @@ logging.basicConfig(level=getattr(logging, log_level))
 logging.getLogger("requests").setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
 
-def get_averages(postproc_pages):
-    pp_ecorr_values = []
-    pp_pg_quality_values = []
-
-    for pp in postproc_pages:
-        pp_ecorr = pp["pp_ecorr"]
-        pp_pg_quality = pp["pp_pg_quality"]
-        if pp_ecorr:
-            pp_ecorr_values.append(pp_ecorr)
-        if pp_pg_quality:
-            pp_pg_quality_values.append(pp_pg_quality)
-
-    pp_ecorr_count = len(pp_ecorr_values)
-    pp_ecorr_avg = sum(pp_ecorr_values) / pp_ecorr_count
-    pp_pg_quality_count = len(pp_pg_quality_values)
-    pp_pg_quality_avg = sum(pp_pg_quality_values) / pp_pg_quality_count
-    print "ecorr values: %s" % pp_ecorr_count
-    print "ecorr average: %s" % pp_ecorr_avg
-    print "pg_quality values: %s" % pp_pg_quality_count
-    print "pg_quality average: %s" % pp_pg_quality_avg
+def parse_results(job_queue_results):
+    results = []
+    for result in job_queue_results:
+        m = re.search('^SLURM JOB [0-9]+:\s(.*)$', result)
+        if m:
+            results.append(m.group(1))
+    return results
 
 
 def get_request(url_path, params={}):
@@ -61,31 +48,55 @@ def get_request(url_path, params={}):
 
     if get_r.status_code == requests.codes.ok:
         json_data = get_r.json()
+        # print json.dumps(json_data, sort_keys=True, indent=4)
     else:
         logger.error("GET %s failed with error code %s" % (full_url, get_r.status_code))
     return json_data
 
-postproc_pages = []
+
+job_queues = []
+job_queue_results = []
 page_num = 1
 data_returned = True
+
+job_status_params = {
+    "name": "Failed",
+}
+job_status_json_data = get_request('api/job_statuses', job_status_params)
+job_status_results = job_status_json_data.get("results")[0]
+job_status_id = job_status_results.get("id")
+
 while data_returned:
     params = {
         "page_num": page_num,
-        "per_page": 100,
+        "per_page": 1000,
+        "job_status_id": job_status_id,
     }
-    json_data = get_request('api/postproc_pages', params)
-    results = json_data.get("results")
+    json_data = get_request('api/job_queues', params)
+    data = json_data.get("results")
     # logger.debug("Processing page %s of %s" % (page_num, json_data["total_pages"]))
     logger.debug("Processing page %s" % page_num)
-    if not results:
+    if not data:
         data_returned = False
     else:
-        postproc_pages = postproc_pages + results
+        job_queues = job_queues + data
     page_num += 1
     # Uncomment to limit to first API query for testing
     # if page_num >= 1:
-    #     break
+    #    break
 
-get_averages(postproc_pages)
+logger.debug("API queries completed")
+
+for job_queue in job_queues:
+    job_queue_results.append(job_queue["results"])
+
+results = parse_results(job_queue_results)
+logger.debug("Parsing results completed")
+uniq_results = set(results)
+logger.debug("Getting unique results completed")
+
+for result in uniq_results:
+    count = results.count(result)
+    print "%s: %s" % (result, count)
 
 sys.exit(0)

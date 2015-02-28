@@ -28,26 +28,21 @@ logging.basicConfig(level=getattr(logging, log_level))
 logging.getLogger("requests").setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
 
-def get_averages(postproc_pages):
-    pp_ecorr_values = []
-    pp_pg_quality_values = []
+def get_averages(page_results):
+    juxta_change_index_values = []
 
-    for pp in postproc_pages:
-        pp_ecorr = pp["pp_ecorr"]
-        pp_pg_quality = pp["pp_pg_quality"]
-        if pp_ecorr:
-            pp_ecorr_values.append(pp_ecorr)
-        if pp_pg_quality:
-            pp_pg_quality_values.append(pp_pg_quality)
+    for page_result in page_results:
+        juxta_change_index = page_result["juxta_change_index"]
+        if juxta_change_index:
+            juxta_change_index_values.append(juxta_change_index)
 
-    pp_ecorr_count = len(pp_ecorr_values)
-    pp_ecorr_avg = sum(pp_ecorr_values) / pp_ecorr_count
-    pp_pg_quality_count = len(pp_pg_quality_values)
-    pp_pg_quality_avg = sum(pp_pg_quality_values) / pp_pg_quality_count
-    print "ecorr values: %s" % pp_ecorr_count
-    print "ecorr average: %s" % pp_ecorr_avg
-    print "pg_quality values: %s" % pp_pg_quality_count
-    print "pg_quality average: %s" % pp_pg_quality_avg
+    juxta_change_index_count = len(juxta_change_index_values)
+    if juxta_change_index_count > 0:
+        juxta_change_index_avg = sum(juxta_change_index_values) / juxta_change_index_count
+    else:
+        juxta_change_index_avg = 0
+    print "juxta_change_index values: %s" % juxta_change_index_count
+    print "juxta_change_index average: %s" % juxta_change_index_avg
 
 
 def get_request(url_path, params={}):
@@ -61,31 +56,33 @@ def get_request(url_path, params={}):
 
     if get_r.status_code == requests.codes.ok:
         json_data = get_r.json()
+        # print json.dumps(json_data, sort_keys=True, indent=4)
     else:
         logger.error("GET %s failed with error code %s" % (full_url, get_r.status_code))
     return json_data
 
-postproc_pages = []
+page_results = []
 page_num = 1
 data_returned = True
 while data_returned:
     params = {
         "page_num": page_num,
-        "per_page": 100,
+        "per_page": 1000,
+        "batch_id": 2,
     }
-    json_data = get_request('api/postproc_pages', params)
+    json_data = get_request('api/page_results', params)
     results = json_data.get("results")
     # logger.debug("Processing page %s of %s" % (page_num, json_data["total_pages"]))
     logger.debug("Processing page %s" % page_num)
     if not results:
         data_returned = False
     else:
-        postproc_pages = postproc_pages + results
+        page_results = page_results + results
     page_num += 1
     # Uncomment to limit to first API query for testing
     # if page_num >= 1:
-    #     break
+    #    break
 
-get_averages(postproc_pages)
+get_averages(page_results)
 
 sys.exit(0)
