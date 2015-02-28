@@ -190,6 +190,17 @@ RSpec.describe DashboardController, :type => :controller do
         expect(job_queues.size).to eq(1)
       end
 
+      it "should create batch of all works - without GT filter" do
+        @params[:json] = {works: 'all'}.to_json
+
+        post :create_batch, @params, {gt: 'without_gt'}
+
+        expect(response).to be_success
+        job_queues = JobQueue.all
+        expect(json['total']).to eq(2)
+        expect(job_queues.size).to eq(2)
+      end
+
       it "should create batch of all works - font filter" do
         @params[:json] = {works: 'all'}.to_json
 
