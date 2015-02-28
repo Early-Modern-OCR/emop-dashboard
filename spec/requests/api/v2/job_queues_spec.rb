@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "JobQueues", :type => :request do
   let(:api_headers) do
     {
-      'Accept' => 'application/emop; version=1',
+      'Accept' => 'application/emop; version=2',
       'Authorization' => "Token token=#{User.first.auth_token}",
       'Content-Type' => 'application/json',
     }
@@ -18,7 +18,7 @@ RSpec.describe "JobQueues", :type => :request do
   describe "Unauthorized access" do
     let(:api_headers) do
       {
-        'Accept' => 'application/emop; version=1',
+        'Accept' => 'application/emop; version=2',
       }
     end
 
@@ -70,19 +70,15 @@ RSpec.describe "JobQueues", :type => :request do
       expect(json['results'].length).to eq(job_queues_not_started.length)
     end
 
-    it 'has nested resources' do
+    it 'associations are referenced by id' do
       job_queue = create(:job_queue, status: @not_started_status)
       get '/api/job_queues', {}, api_headers
 
       result = json['results'][0]
-      expect(result['status']).to be_a(Hash)
-      expect(result['batch_job']).to be_a(Hash)
-      expect(result['page']).to be_a(Hash)
-      expect(result['work']).to be_a(Hash)
-      expect(result['status']['id']).to eq(job_queue.status.id)
-      expect(result['batch_job']['id']).to eq(job_queue.batch_job.id)
-      expect(result['page']['id']).to eq(job_queue.page.id)
-      expect(result['work']['id']).to eq(job_queue.work.id)
+      expect(result['job_status_id']).to eq(job_queue.status.id)
+      expect(result['batch_id']).to eq(job_queue.batch_job.id)
+      expect(result['page_id']).to eq(job_queue.page.id)
+      expect(result['work_id']).to eq(job_queue.work.id)
     end
   end
 

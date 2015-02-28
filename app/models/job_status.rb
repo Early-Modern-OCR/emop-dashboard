@@ -29,7 +29,7 @@ class JobStatus < ActiveRecord::Base
 
   def to_builder(version = 'v1')
     case version
-    when 'v1'
+    when /v1|v2/
       Jbuilder.new do |json|
         json.(self, :id, :name)
       end

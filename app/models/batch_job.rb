@@ -35,6 +35,11 @@ class BatchJob < ActiveRecord::Base
         json.ocr_engine  ocr_engine.to_builder
         json.font        font.to_builder
       end
+    when 'v2'
+      Jbuilder.new do |json|
+        json.(self, :id, :name, :parameters, :notes)
+        json.(self, :job_type, :ocr_engine, :font)
+      end
     end
   end
 end
