@@ -26,7 +26,7 @@ module Api
       end
 
       def metadata_subtotal
-        @subtotal ||= instance_variable_get("@#{resource_name.pluralize}").try(:count)
+        @subtotal ||= instance_variable_get("@#{resource_name.pluralize}").try(:size)
       end
 
       def metadata_page

@@ -29,7 +29,7 @@ RSpec.describe Api::V1::PageResultsController, :type => :request do
 
       expect(response).to be_success
       expect(json['total']).to be_nil #eq(30)
-      expect(json['subtotal']).to be_nil #eq(25)
+      expect(json['subtotal']).to eq(25)
       expect(json['page']).to eq(1)
       expect(json['per_page']).to be_nil #eq(25)
       expect(json['total_pages']).to be_nil #eq(2)
@@ -42,7 +42,7 @@ RSpec.describe Api::V1::PageResultsController, :type => :request do
 
       expect(response).to be_success
       expect(json['total']).to be_nil #eq(2)
-      expect(json['subtotal']).to be_nil #eq(2)
+      expect(json['subtotal']).to eq(2)
       expect(json['page']).to eq(1)
       expect(json['per_page']).to be_nil #eq(2)
       expect(json['total_pages']).to be_nil #eq(1)
@@ -57,7 +57,7 @@ RSpec.describe Api::V1::PageResultsController, :type => :request do
 
       expect(response).to be_success
       expect(json['total']).to be_nil #eq(5)
-      expect(json['subtotal']).to be_nil #eq(5)
+      expect(json['subtotal']).to eq(5)
       expect(json['page']).to eq(1)
       expect(json['per_page']).to be_nil #eq(5)
       expect(json['total_pages']).to be_nil #eq(1)

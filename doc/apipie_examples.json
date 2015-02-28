@@ -1328,8 +1328,8 @@
       "query": null,
       "request_data": null,
       "response_data": {
+        "subtotal": 2,
         "page": 1,
-        "total_pages": 1,
         "results": [
           {
             "id": 3,
@@ -1372,8 +1372,8 @@
       "query": "works[wks_work_id]=87",
       "request_data": null,
       "response_data": {
+        "subtotal": 3,
         "page": 1,
-        "total_pages": 1,
         "results": [
           {
             "id": 7,
@@ -1460,8 +1460,8 @@
       "query": null,
       "request_data": null,
       "response_data": {
+        "subtotal": 2,
         "page": 1,
-        "total_pages": 1,
         "results": [
           {
             "id": 51,
@@ -1652,8 +1652,8 @@
       "query": null,
       "request_data": null,
       "response_data": {
+        "subtotal": 2,
         "page": 1,
-        "total_pages": 1,
         "results": [
           {
             "id": 3,
@@ -1712,8 +1712,8 @@
       "query": "works[wks_work_id]=97",
       "request_data": null,
       "response_data": {
+        "subtotal": 3,
         "page": 1,
-        "total_pages": 1,
         "results": [
           {
             "id": 7,

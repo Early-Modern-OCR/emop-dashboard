@@ -11,5 +11,5 @@ json.array! @postproc_pages do |postproc_page|
   json.skew_idx postproc_page.skew_idx
   json.page_id postproc_page.page_id
   json.batch_job_id postproc_page.batch_job_id
-  json.work_id postproc_page.work.id
+  json.work_id postproc_page.page.pg_work_id
 end

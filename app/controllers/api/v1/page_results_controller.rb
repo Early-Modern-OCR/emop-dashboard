@@ -11,8 +11,12 @@ module Api
         param :wks_work_id, Integer, 'Work ID'
       end
       def index
-        @page_results = PageResult.joins(:work).where(query_params)
-                                  .page(paginate_params[:page_num]).per(paginate_params[:per_page])
+        @page_results = PageResult.page(paginate_params[:page_num]).per(paginate_params[:per_page])
+        if query_params.key?(:works)
+          @page_results = @page_results.joins(:work)
+        end
+        @page_results = @page_results.where(query_params)
+
         respond_with @page_results
       end
 

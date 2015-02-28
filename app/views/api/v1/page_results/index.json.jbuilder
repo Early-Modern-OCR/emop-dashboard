@@ -9,5 +9,5 @@ json.array! @page_results do |page_result|
   json.alt_change_index page_result.alt_change_index
   json.page_id page_result.page_id
   json.batch_id page_result.batch_id
-  json.work_id page_result.work.id
+  json.work_id page_result.page.pg_work_id
 end
