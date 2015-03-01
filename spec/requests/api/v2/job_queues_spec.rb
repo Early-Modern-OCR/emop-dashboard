@@ -34,11 +34,11 @@ RSpec.describe "JobQueues", :type => :request do
       get '/api/job_queues', {}, api_headers
 
       expect(response).to be_success
-      expect(json['total']).to eq(30)
+      expect(json['total']).to be_nil #eq(30)
       expect(json['subtotal']).to eq(25)
       expect(json['page']).to eq(1)
-      expect(json['per_page']).to eq(25)
-      expect(json['total_pages']).to eq(2)
+      expect(json['per_page']).to be_nil #eq(25)
+      expect(json['total_pages']).to be_nil #eq(2)
       expect(json['results'].length).to eq(25)
     end
 
@@ -47,11 +47,11 @@ RSpec.describe "JobQueues", :type => :request do
       get '/api/job_queues', {}, api_headers
 
       expect(response).to be_success
-      expect(json['total']).to eq(2)
+      expect(json['total']).to be_nil #eq(2)
       expect(json['subtotal']).to eq(2)
       expect(json['page']).to eq(1)
-      expect(json['per_page']).to eq(2)
-      expect(json['total_pages']).to eq(1)
+      expect(json['per_page']).to be_nil #eq(2)
+      expect(json['total_pages']).to be_nil #eq(1)
       expect(json['results'].length).to eq(2)
     end
 
@@ -62,11 +62,11 @@ RSpec.describe "JobQueues", :type => :request do
       get '/api/job_queues', {job_status_id: @not_started_status.id}, api_headers
 
       expect(response).to be_success
-      expect(json['total']).to eq(2)
+      expect(json['total']).to be_nil #eq(2)
       expect(json['subtotal']).to eq(2)
       expect(json['page']).to eq(1)
-      expect(json['per_page']).to eq(2)
-      expect(json['total_pages']).to eq(1)
+      expect(json['per_page']).to be_nil #eq(2)
+      expect(json['total_pages']).to be_nil #eq(1)
       expect(json['results'].length).to eq(job_queues_not_started.length)
     end
 

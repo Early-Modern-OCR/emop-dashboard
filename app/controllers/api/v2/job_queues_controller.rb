@@ -1,6 +1,7 @@
 module Api
   module V2
     class JobQueuesController < V2::BaseController
+      layout 'api/v2/layouts/index_without_count', only: :index
 
       api :GET, '/job_queues', 'List job queues'
       param_group :pagination, V2::BaseController
