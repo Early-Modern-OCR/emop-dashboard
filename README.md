@@ -1,8 +1,8 @@
 # eMOP Dashboard
 
-[![Build Status](https://travis-ci.org/idhmc-tamu/emop-dashboard.svg?branch=master)](https://travis-ci.org/idhmc-tamu/emop-dashboard)
+[![Build Status](https://travis-ci.org/Early-Modern-OCR/emop-dashboard.svg?branch=master)](https://travis-ci.org/Early-Modern-OCR/emop-dashboard)
 
-[![Coverage Status](https://img.shields.io/coveralls/idhmc-tamu/emop-dashboard.svg)](https://coveralls.io/r/idhmc-tamu/emop-dashboard?branch=master)
+[![Coverage Status](https://img.shields.io/coveralls/Early-Modern-OCR/emop-dashboard.svg)](https://coveralls.io/r/Early-Modern-OCR/emop-dashboard?branch=master)
 
 
 This is the eMOP Dashboard application. It shows a table of OCR
