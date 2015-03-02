@@ -27,6 +27,12 @@ class Page < ActiveRecord::Base
         json.pg_gale_ocr_file     pg_gale_ocr_file
         json.pg_image_path        pg_image_path
       end
+    when 'v2'
+      Jbuilder.new do |json|
+        json.call(self, :id, :pg_ref_number)
+        json.call(self, :pg_ground_truth_file, :pg_gale_ocr_file, :pg_image_path)
+        json.call(self, :work)
+      end
     end
   end
 

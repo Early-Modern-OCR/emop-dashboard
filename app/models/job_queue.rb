@@ -91,6 +91,12 @@ class JobQueue < ActiveRecord::Base
         json.work       work.to_builder
         json.proc_id    proc_id
       end
+    when 'v2'
+      Jbuilder.new do |json|
+        json.(self, :id, :proc_id, :tries, :results)
+        #json.(self, :status, :batch_job, :page, :work)
+        json.(self, :job_status_id, :batch_id, :page_id, :work_id)
+      end
     end
   end
 

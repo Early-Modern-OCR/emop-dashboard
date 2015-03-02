@@ -60,5 +60,18 @@ RSpec.describe BatchJob, :type => :model do
         'font'        => include(batch_job.font.to_builder.attributes!),
       )
     end
+
+    it "has valid to_builder - v2" do
+      json = batch_job.to_builder('v1').attributes!
+      expect(json).to match(
+        'id'          => batch_job.id,
+        'name'        => batch_job.name,
+        'parameters'  => batch_job.parameters,
+        'notes'       => batch_job.notes,
+        'job_type'    => include(batch_job.job_type.to_builder.attributes!),
+        'ocr_engine'  => include(batch_job.ocr_engine.to_builder.attributes!),
+        'font'        => include(batch_job.font.to_builder.attributes!),
+      )
+    end
   end
 end

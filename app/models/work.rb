@@ -105,7 +105,7 @@ class Work < ActiveRecord::Base
 
   def to_builder(version = 'v1')
     case version
-    when 'v1'
+    when /v1|v2/
       Jbuilder.new do |json|
         json.id id
         json.wks_tcp_number wks_tcp_number

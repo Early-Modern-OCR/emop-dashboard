@@ -102,5 +102,20 @@ RSpec.describe JobQueue, :type => :model do
         'proc_id'   => job_queue.proc_id,
       )
     end
+
+    it "has valid to_builder - v2" do
+      json = job_queue.to_builder('v2').attributes!
+
+      expect(json).to match(
+        'id' => job_queue.id,
+        'proc_id' => job_queue.proc_id,
+        'tries' => job_queue.tries,
+        'results' => job_queue.results,
+        'job_status_id' => job_queue.status.id,
+        'batch_id' => job_queue.batch_job.id,
+        'page_id' => job_queue.page.id,
+        'work_id' => job_queue.work.id,
+      )
+    end
   end
 end

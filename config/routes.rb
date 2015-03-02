@@ -21,6 +21,21 @@ Rails.application.routes.draw do
       resources :page_results, only: [:index, :show]
       resources :postproc_pages, only: [:index, :show]
     end
+    api_version(module: "V2", defaults: {format: :json}, header: {name: "Accept", value: "application/emop; version=2"}) do
+      resources :batch_jobs, only: [:index,:show] do
+        get 'count', on: :collection
+        put 'upload_results', on: :collection
+      end
+      resources :job_queues, only: [:index,:show] do
+        get 'count', on: :collection
+        put 'reserve', on: :collection
+      end
+      resources :job_statuses, only: [:index,:show]
+      resources :works, only: [:index,:show,:update]
+      resources :pages, only: [:index,:show,:update]
+      resources :page_results, only: [:index, :show]
+      resources :postproc_pages, only: [:index, :show]
+    end
   end
 
   # create a new training font
