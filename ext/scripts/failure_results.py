@@ -30,10 +30,16 @@ logger = logging.getLogger(__name__)
 
 def parse_results(job_queue_results):
     results = []
-    for result in job_queue_results:
+    for job_queue_result in job_queue_results:
+        result = job_queue_result.splitlines()[0]
         m = re.search('^SLURM JOB [0-9]+:\s(.*)$', result)
         if m:
-            results.append(m.group(1))
+            full_result = m.group(1)
+            parsed_result = re.sub(r'^(.*)(/dh/data/shared/[A-Za-z0-9\/_\.-]+)(.*)$', r'\1FILE\3', full_result)
+            results.append(parsed_result)
+        else:
+            logger.debug(result)
+            results.append("UNPARSABLE")
     return results
 
 
@@ -71,6 +77,7 @@ while data_returned:
         "page_num": page_num,
         "per_page": 1000,
         "job_status_id": job_status_id,
+        #"batch_id": 2,
     }
     json_data = get_request('api/job_queues', params)
     data = json_data.get("results")
@@ -98,5 +105,7 @@ logger.debug("Getting unique results completed")
 for result in uniq_results:
     count = results.count(result)
     print "%s: %s" % (result, count)
+
+print "Total failures found: %s" % len(results)
 
 sys.exit(0)

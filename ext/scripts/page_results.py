@@ -30,11 +30,14 @@ logger = logging.getLogger(__name__)
 
 def get_averages(page_results):
     juxta_change_index_values = []
+    missing_values = 0
 
     for page_result in page_results:
         juxta_change_index = page_result["juxta_change_index"]
         if juxta_change_index:
             juxta_change_index_values.append(juxta_change_index)
+        else:
+            missing_values += 1
 
     juxta_change_index_count = len(juxta_change_index_values)
     if juxta_change_index_count > 0:
@@ -43,6 +46,7 @@ def get_averages(page_results):
         juxta_change_index_avg = 0
     print "juxta_change_index values: %s" % juxta_change_index_count
     print "juxta_change_index average: %s" % juxta_change_index_avg
+    print "juxta_change_index missing: %s" % missing_values
 
 
 def get_request(url_path, params={}):
