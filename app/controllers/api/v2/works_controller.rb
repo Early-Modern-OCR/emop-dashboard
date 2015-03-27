@@ -4,14 +4,14 @@ module Api
 
       api :GET, '/works', 'List works'
       param_group :pagination, V2::BaseController
-      param :is_eebo, :bool, desc: 'EEBO'
-      param :is_ecco, :bool, desc: 'ECCO'
+      param :is_eebo, :boolean, desc: 'Filter by EEBO Works'
+      param :is_ecco, :boolean, desc: 'Filter by ECCO Works'
       def index
         @works = Work.page(paginate_params[:page_num]).per(paginate_params[:per_page])
-        if query_params.key?(:is_ecco) && query_params[:is_ecco]
+        if query_params.key?(:is_ecco) && query_params[:is_ecco].to_bool
           @works = @works.is_ecco
         end
-        if query_params.key?(:is_eebo) && query_params[:is_eebo]
+        if query_params.key?(:is_eebo) && query_params[:is_eebo].to_bool
           @works = @works.is_eebo
         end
 

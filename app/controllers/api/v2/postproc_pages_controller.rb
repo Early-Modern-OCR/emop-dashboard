@@ -12,7 +12,7 @@ module Api
       end
       def index
         @postproc_pages = PostprocPage.page(paginate_params[:page_num]).per(paginate_params[:per_page])
-        if query_params.key?(:works)
+        if query_params.key?(:works) && query_params[:works].present?
           @postproc_pages = @postproc_pages.joins(:work)
         end
         @postproc_pages = @postproc_pages.where(query_params)

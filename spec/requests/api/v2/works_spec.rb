@@ -26,13 +26,13 @@ RSpec.describe Api::V2::WorksController, :type => :request do
     context 'validations' do
       it 'validates is_eebo' do
         job_queues = create_list(:work, 2)
-        get '/api/works', {is_eebo: '1'}, api_headers
+        get '/api/works', {is_eebo: 'foo'}, api_headers
         expect(response).not_to be_success
       end
 
       it 'validates is_ecco' do
         job_queues = create_list(:work, 2)
-        get '/api/works', {is_ecco: '1'}, api_headers
+        get '/api/works', {is_ecco: 'foo'}, api_headers
         expect(response).not_to be_success
       end
     end
@@ -66,19 +66,22 @@ RSpec.describe Api::V2::WorksController, :type => :request do
     it 'filters works using is_eebo' do
       create_list(:work, 2)
       create_list(:work, 3, wks_ecco_number: nil)
-
       get '/api/works', {is_eebo: true}, api_headers
-
       expect(json['results'].size).to eq(3)
     end
 
     it 'filters works using is_ecco' do
       create_list(:work, 2)
       create_list(:work, 3, wks_ecco_number: nil)
-
       get '/api/works', {is_ecco: true}, api_headers
-
       expect(json['results'].size).to eq(2)
+    end
+
+    it 'filters works using is_ecco' do
+      create_list(:work, 2)
+      create_list(:work, 3, wks_ecco_number: nil)
+      get '/api/works', {is_ecco: false}, api_headers
+      expect(json['results'].size).to eq(5)
     end
   end
 
