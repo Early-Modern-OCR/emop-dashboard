@@ -6,6 +6,13 @@ module Api
     prepend_before_filter :disable_devise_trackable
     before_filter :authenticate_user_from_token!
 
+    rescue_from(Apipie::ParamInvalid) do |param_invalid_exception|
+      response = { error: param_invalid_exception.to_s }
+      respond_to do |format|
+        format.json { render json: response, status: :unprocessable_entity }
+      end
+    end
+
     protected
 
     def disable_devise_trackable

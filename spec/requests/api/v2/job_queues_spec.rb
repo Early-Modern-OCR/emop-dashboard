@@ -29,6 +29,14 @@ RSpec.describe "JobQueues", :type => :request do
   end
 
   describe "GET /api/job_queues" do
+    context 'validations' do
+      it 'validates job_status_id' do
+        job_queues = create_list(:job_queue, 30, status: @done_status)
+        get '/api/job_queues', {job_status_id: ['1']}, api_headers
+        expect(response).not_to be_success
+      end
+    end
+
     it 'sends a paginated list of job queues' do
       job_queues = create_list(:job_queue, 30, status: @not_started_status)
       get '/api/job_queues', {}, api_headers

@@ -23,6 +23,20 @@ RSpec.describe Api::V1::WorksController, :type => :request do
   end
 
   describe "GET /api/works" do
+    context 'validations' do
+      it 'validates is_eebo' do
+        job_queues = create_list(:work, 2)
+        get '/api/works', {is_eebo: '1'}, api_headers
+        expect(response).not_to be_success
+      end
+
+      it 'validates is_ecco' do
+        job_queues = create_list(:work, 2)
+        get '/api/works', {is_ecco: '1'}, api_headers
+        expect(response).not_to be_success
+      end
+    end
+
     it 'sends a paginated list of batch jobs' do
       work = FactoryGirl.create_list(:work, 30)
       get '/api/works', {}, api_headers
@@ -47,6 +61,24 @@ RSpec.describe Api::V1::WorksController, :type => :request do
       expect(json['per_page']).to eq(2)
       expect(json['total_pages']).to eq(1)
       expect(json['results'].length).to eq(2)
+    end
+
+    it 'filters works using is_eebo' do
+      create_list(:work, 2)
+      create_list(:work, 3, wks_ecco_number: nil)
+
+      get '/api/works', {is_eebo: true}, api_headers
+
+      expect(json['results'].size).to eq(3)
+    end
+
+    it 'filters works using is_ecco' do
+      create_list(:work, 2)
+      create_list(:work, 3, wks_ecco_number: nil)
+
+      get '/api/works', {is_ecco: true}, api_headers
+
+      expect(json['results'].size).to eq(2)
     end
   end
 

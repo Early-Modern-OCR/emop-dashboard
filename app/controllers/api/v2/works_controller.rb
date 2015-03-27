@@ -4,8 +4,18 @@ module Api
 
       api :GET, '/works', 'List works'
       param_group :pagination, V2::BaseController
+      param :is_eebo, :bool, desc: 'EEBO'
+      param :is_ecco, :bool, desc: 'ECCO'
       def index
-        super
+        @works = Work.page(paginate_params[:page_num]).per(paginate_params[:per_page])
+        if query_params.key?(:is_ecco) && query_params[:is_ecco]
+          @works = @works.is_ecco
+        end
+        if query_params.key?(:is_eebo) && query_params[:is_eebo]
+          @works = @works.is_eebo
+        end
+
+        respond_with @works
       end
 
       api :GET, '/works/:id', 'Show a work'
@@ -55,7 +65,7 @@ module Api
       end
 
       def query_params
-        params.permit()
+        params.permit(:is_eebo, :is_ecco)
       end
 
     end
