@@ -15,6 +15,7 @@ ActiveAdmin.register Work do
   end
 
   ## Index search filters
+  filter :wks_work_id, label: 'ID'
   filter :wks_tcp_number
   filter :wks_estc_number
   filter :wks_ecco_number
@@ -22,7 +23,9 @@ ActiveAdmin.register Work do
 
   ## INDEX
   index do
-    id_column
+    column :id do |work|
+      link_to work.id, admin_work_path(work)
+    end
     column :wks_tcp_number
     column :wks_estc_number
     column :wks_ecco_number
@@ -34,7 +37,7 @@ ActiveAdmin.register Work do
   show do
     attributes_table do
       row :id
-      row("TCP Number", :wks_tcp_number)
+      row('TCP Number') { |w| w.wks_tcp_number }
       row('ESTC Number') { |w| w.wks_estc_number }
       row('BIB Name') { |w| w.wks_bib_name }
       row('TCP Bibno') { |w| w.wks_tcp_bibno }
@@ -63,10 +66,9 @@ ActiveAdmin.register Work do
       pages = work.pages
       paginated_collection(pages.page(params[:page]).per(15), download_links: false) do
         table_for collection do
-          #column :id do  |j| #TODO
-          #  link_to j.id, admin_job_queue_path(j)
-          #end
-          column :id
+          column :id do |p|
+            link_to p.id, admin_page_path(p)
+          end
           column :pg_ref_number
         end
       end
