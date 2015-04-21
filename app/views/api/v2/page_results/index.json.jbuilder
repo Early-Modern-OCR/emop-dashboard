@@ -7,7 +7,11 @@ json.array! @page_results do |page_result|
   json.ocr_completed page_result.ocr_completed
   json.juxta_change_index page_result.juxta_change_index
   json.alt_change_index page_result.alt_change_index
-  json.page_id page_result.page_id
+  if @page_details
+    json.page page_result.page.to_builder('v2')
+  else
+    json.page_id page_result.page_id
+  end
   json.batch_id page_result.batch_id
   json.work_id page_result.page.pg_work_id
 end

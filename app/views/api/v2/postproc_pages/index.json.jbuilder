@@ -9,7 +9,11 @@ json.array! @postproc_pages do |postproc_page|
   json.noisiness_idx postproc_page.noisiness_idx
   json.multicol postproc_page.multicol
   json.skew_idx postproc_page.skew_idx
-  json.page_id postproc_page.page_id
+  if @page_details
+    json.page postproc_page.page.to_builder('v2')
+  else
+    json.page_id postproc_page.page_id
+  end
   json.batch_job_id postproc_page.batch_job_id
   json.work_id postproc_page.page.pg_work_id
 end

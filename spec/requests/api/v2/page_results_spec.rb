@@ -83,6 +83,27 @@ RSpec.describe Api::V2::PageResultsController, :type => :request do
 
       expect(json['results'].size).to eq(page_results.size)
     end
+
+    it 'does not include page data' do
+      work = create(:work)
+      page = create(:page, work: work)
+      create(:page_result, page: page)
+
+      get '/api/page_results', {}, api_headers
+
+      expect(json['results'][0]['page']).to be_nil
+    end
+
+    it 'returns page details', :show_in_doc do
+      work = create(:work)
+      page = create(:page, work: work)
+      create(:page_result, page: page)
+
+      get '/api/page_results', {page_details: true}, api_headers
+
+      expect(json['results'][0]['page']).to be_a(Hash)
+      expect(json['results'][0]['page']['id']).to eq(page.id)
+    end
   end
 
   describe "GET /api/page_results/:id" do
