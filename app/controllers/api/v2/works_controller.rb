@@ -24,6 +24,37 @@ module Api
         super
       end
 
+      api :POST, '/works', 'Create a work'
+      param :work, Hash, required: true do
+        param :wks_tcp_number, String
+        param :wks_estc_number, String
+        param :wks_bib_name, String
+        param :wks_tcp_bibno, Integer
+        param :wks_marc_record, String
+        param :wks_eebo_citation_id, Integer
+        param :wks_eebo_directory, String
+        param :wks_ecco_number, String
+        param :wks_book_id, Integer
+        param :wks_author, String
+        param :wks_publisher, String
+        param :wks_word_count, Integer
+        param :wks_title, String
+        param :wks_eebo_image_id, String
+        param :wks_eebo_url, String
+        param :wks_pub_date, String
+        param :wks_ecco_uncorrected_gale_ocr_path, String
+        param :wks_ecco_corrected_xml_path, String
+        param :wks_ecco_corrected_text_path, String
+        param :wks_ecco_directory, String
+        param :wks_ecco_gale_ocr_xml_path, String
+        param :wks_organizational_unit, Integer
+        param :wks_primary_print_font, Integer
+        param :wks_last_trawled, String
+      end
+      def create
+        super
+      end
+
       api :PUT, '/works/:id', 'Update a work'
       param :work, Hash, required: true do
         param :wks_tcp_number, String
@@ -52,6 +83,12 @@ module Api
         param :wks_last_trawled, String
       end
       def update
+        super
+      end
+
+      api :DELETE, '/works/:id', 'Delete a work'
+      param :id, Integer, desc: 'Work ID', required: true
+      def destroy
         super
       end
 

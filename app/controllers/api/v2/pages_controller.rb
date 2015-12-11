@@ -15,6 +15,18 @@ module Api
         super
       end
 
+      api :POST, '/pages', 'Create a page'
+      param :page, Hash, required: true do
+        param :pg_ref_number, Integer
+        param :pg_ground_truth_file, String
+        param :pg_work_id, Integer
+        param :pg_gale_ocr_file, String
+        param :pg_image_path, String
+      end
+      def create
+        super
+      end
+
       api :PUT, '/pages/:id', 'Update a page'
       param :page, Hash, required: true do
         param :pg_ref_number, Integer
@@ -24,6 +36,12 @@ module Api
         param :pg_image_path, String
       end
       def update
+        super
+      end
+
+      api :DELETE, '/pages/:id', 'Delete a page'
+      param :id, Integer, desc: 'Page ID', required: true
+      def destroy
         super
       end
 

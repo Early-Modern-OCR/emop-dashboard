@@ -95,6 +95,13 @@ RSpec.describe Api::V2::WorksController, :type => :request do
     end
   end
 
+  describe "POST /api/works" do
+    it 'creates a work', :show_in_doc do
+      @work = FactoryGirl.json(:work)
+      post "/api/works", @work, api_headers
+    end
+  end
+
   describe "PUT /api/works/update" do
     it 'updates a work', :show_in_doc do
       @work = create(:work)
@@ -109,6 +116,17 @@ RSpec.describe Api::V2::WorksController, :type => :request do
 
       expect(response).to be_success
       expect(json['work']['wks_estc_number']).to eq('T0001')
+    end
+  end
+
+  describe "DELETE /api/works/:id" do
+    it 'deletes a work', :show_in_doc do
+      @work = create(:work)
+
+      expect {
+        delete "/api/works/#{@work.id}", {}, api_headers
+      }.to change(Work, :count).by(-1)
+      expect { Work.find(@work.id) }.to raise_exception(ActiveRecord::RecordNotFound)
     end
   end
 end

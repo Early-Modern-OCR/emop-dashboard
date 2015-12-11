@@ -88,6 +88,14 @@ RSpec.describe Api::V2::PagesController, :type => :request do
     end
   end
 
+  describe "POST /api/pages" do
+    it 'creates a page', :show_in_doc do
+      @work = create(:work)
+      @page = FactoryGirl.json(:page, pg_work_id: @work.id)
+      post "/api/pages", @page, api_headers
+    end
+  end
+
   describe "PUT /api/pages/:id" do
     it 'updates a page', :show_in_doc do
       @page = create(:page)
@@ -102,6 +110,17 @@ RSpec.describe Api::V2::PagesController, :type => :request do
 
       expect(response).to be_success
       expect(json['page']['pg_image_path']).to eq('/foo/bar')
+    end
+  end
+
+  describe "DELETE /api/pages/:id" do
+    it 'deletes a page', :show_in_doc do
+      @page = create(:page)
+
+      expect {
+        delete "/api/pages/#{@page.id}", {}, api_headers
+      }.to change(Page, :count).by(-1)
+      expect { Page.find(@page.id) }.to raise_exception(ActiveRecord::RecordNotFound)
     end
   end
 end

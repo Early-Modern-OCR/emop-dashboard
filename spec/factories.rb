@@ -10,6 +10,8 @@ def build_attributes(*args)
   end
 end
 
+FactoryGirl.register_strategy(:json, JsonStrategy)
+
 FactoryGirl.define do
   factory :ocr_engine do
     name "Tesseract"
