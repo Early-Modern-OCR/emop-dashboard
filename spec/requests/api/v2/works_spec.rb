@@ -83,6 +83,31 @@ RSpec.describe Api::V2::WorksController, :type => :request do
       get '/api/works', {is_ecco: false}, api_headers
       expect(json['results'].size).to eq(5)
     end
+
+    context 'filters by batch_job_id' do
+      before(:each) do
+        @batch_job1 = create(:batch_job)
+        @batch_job2 = create(:batch_job)
+        (1..2).each do |i|
+          work = create(:work)
+          create(:job_queue, work: work, batch_job: @batch_job1)
+        end
+        (1..3).each do |i|
+          work = create(:work)
+          create(:job_queue, work: work, batch_job: @batch_job2)
+        end
+      end
+
+      it 'filters works by batch_job_id' do
+        get '/api/works', {batch_job_id: @batch_job1.id}, api_headers
+        expect(json['results'].size).to eq(2)
+      end
+
+      it 'filters works by batch_job_id' do
+        get '/api/works', {batch_job_id: @batch_job2.id}, api_headers
+        expect(json['results'].size).to eq(3)
+      end
+    end
   end
 
   describe "GET /api/works/:id" do

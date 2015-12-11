@@ -6,6 +6,7 @@ module Api
       param_group :pagination, V2::BaseController
       param :is_eebo, :boolean, desc: 'Filter by EEBO Works'
       param :is_ecco, :boolean, desc: 'Filter by ECCO Works'
+      param :batch_job_id, Integer, desc: 'Filter by BatchJob ID'
       def index
         @works = Work.page(paginate_params[:page_num]).per(paginate_params[:per_page])
         if query_params.key?(:is_ecco) && query_params[:is_ecco].to_bool
@@ -13,6 +14,9 @@ module Api
         end
         if query_params.key?(:is_eebo) && query_params[:is_eebo].to_bool
           @works = @works.is_eebo
+        end
+        if query_params.key?(:batch_job_id)
+          @works = @works.joins(:batch_jobs).where(batch_jobs: { id: query_params[:batch_job_id] }).distinct
         end
 
         respond_with @works
@@ -102,7 +106,7 @@ module Api
       end
 
       def query_params
-        params.permit(:is_eebo, :is_ecco)
+        params.permit(:is_eebo, :is_ecco, :batch_job_id)
       end
 
     end
