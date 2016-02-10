@@ -1,6 +1,7 @@
 module Api
   module V2
     class WorksController < V2::BaseController
+      layout 'api/v2/layouts/index_without_count', only: :index
 
       api :GET, '/works', 'List works'
       param_group :pagination, V2::BaseController
@@ -17,6 +18,7 @@ module Api
         end
         if query_params.key?(:batch_job_id)
           @works = @works.joins(:batch_jobs).where(batch_jobs: { id: query_params[:batch_job_id] }).distinct
+          #@works = @works.includes(:batch_jobs).where(batch_jobs: { id: query_params[:batch_job_id] })
         end
 
         respond_with @works

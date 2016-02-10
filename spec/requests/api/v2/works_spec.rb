@@ -42,11 +42,8 @@ RSpec.describe Api::V2::WorksController, :type => :request do
       get '/api/works', {}, api_headers
 
       expect(response).to be_success
-      expect(json['total']).to eq(30)
       expect(json['subtotal']).to eq(25)
       expect(json['page']).to eq(1)
-      expect(json['per_page']).to eq(25)
-      expect(json['total_pages']).to eq(2)
       expect(json['results'].length).to eq(25)
     end
 
@@ -55,11 +52,8 @@ RSpec.describe Api::V2::WorksController, :type => :request do
       get '/api/works', {}, api_headers
 
       expect(response).to be_success
-      expect(json['total']).to eq(2)
       expect(json['subtotal']).to eq(2)
       expect(json['page']).to eq(1)
-      expect(json['per_page']).to eq(2)
-      expect(json['total_pages']).to eq(1)
       expect(json['results'].length).to eq(2)
     end
 
