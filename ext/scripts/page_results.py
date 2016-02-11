@@ -72,7 +72,7 @@ while data_returned:
     params = {
         "page_num": page_num,
         "per_page": 1000,
-        "batch_id": 2,
+        "batch_id": 3,
     }
     json_data = get_request('api/page_results', params)
     results = json_data.get("results")

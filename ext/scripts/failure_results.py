@@ -102,9 +102,14 @@ logger.debug("Parsing results completed")
 uniq_results = set(results)
 logger.debug("Getting unique results completed")
 
+counts = []
 for result in uniq_results:
     count = results.count(result)
-    print "%s: %s" % (result, count)
+    result_count = [result, count]
+    counts.append(result_count)
+
+for result in sorted(counts, key=lambda x: x[1]):
+    print "%s: %s" % (result[0], result[1])
 
 print "Total failures found: %s" % len(results)
 

@@ -71,7 +71,7 @@ data_returned = True
 while data_returned:
     params = {
         "page_num": page_num,
-        "per_page": 100,
+        "per_page": 1000,
     }
     json_data = get_request('api/postproc_pages', params)
     results = json_data.get("results")
