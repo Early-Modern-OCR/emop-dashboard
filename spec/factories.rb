@@ -48,8 +48,8 @@ FactoryGirl.define do
   end
 
   factory :page do
-    pg_ref_number 1
-    pg_image_path "/data/ecco/somepath"
+    sequence(:pg_ref_number) { |n| n }
+    sequence(:pg_image_path) { |n| "/data/ecco/somepath-#{n}" }
     work { FactoryGirl.build(:work) }
   end
 

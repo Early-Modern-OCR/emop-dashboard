@@ -8,6 +8,13 @@ class Page < ActiveRecord::Base
   has_many :postproc_pages
   has_many :postprocesses, through: :postproc_pages
 
+  validates :pg_ref_number, presence: true
+  validates :pg_image_path, presence: true
+  validates :work, presence: true
+
+  validates :pg_ref_number, uniqueness: { scope: :work }
+  validates :pg_image_path, uniqueness: true
+
   def page_result_by_batch_id(batch_id)
     self.page_results.select { |pr| pr.batch_id == batch_id.to_i }.first
   end

@@ -63,7 +63,10 @@ RSpec.describe Api::V2::PagesController, :type => :request do
     end
 
     it 'filters by pg_image_path when pg_image_path is nil as string' do
-      create_list(:page, 2, pg_image_path: nil)
+      pages = build_list(:page, 2, pg_image_path: nil)
+      pages.each do |p|
+        p.save(validate: false)
+      end
       create_list(:page, 3)
       query_params = { pg_image_path: 'nil' }
       get '/api/pages', query_params, api_headers
@@ -92,7 +95,29 @@ RSpec.describe Api::V2::PagesController, :type => :request do
     it 'creates a page', :show_in_doc do
       @work = create(:work)
       @page = FactoryGirl.json(:page, pg_work_id: @work.id)
-      post "/api/pages", @page, api_headers
+      expect {
+        post "/api/pages", @page, api_headers
+      }.to change(Page, :count).by(1)
+
+      expect(response).to be_success
+    end
+  end
+
+  describe "POST /api/pages/create_bulk" do
+    it 'creates pages', :show_in_doc do
+      @work = create(:work)
+      # pg_ref_number #1 taken when work created
+      @page1 = FactoryGirl.json(:page, pg_work_id: @work.id, pg_ref_number: 2)
+      @page2 = FactoryGirl.json(:page, pg_work_id: @work.id, pg_ref_number: 3)
+      data = {
+        pages: [JSON.parse(@page1), JSON.parse(@page2)],
+      }
+      expect {
+        post "/api/pages/create_bulk", data.to_json, api_headers
+      }.to change(Page, :count).by(2)
+      pp json
+
+      expect(response).to be_success
     end
   end
 

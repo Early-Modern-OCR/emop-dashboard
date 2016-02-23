@@ -117,7 +117,11 @@ RSpec.describe Api::V2::WorksController, :type => :request do
   describe "POST /api/works" do
     it 'creates a work', :show_in_doc do
       @work = FactoryGirl.json(:work)
-      post "/api/works", @work, api_headers
+      expect {
+        post "/api/works", @work, api_headers
+      }.to change(Work, :count).by(1)
+
+      expect(response).to be_success
     end
   end
 

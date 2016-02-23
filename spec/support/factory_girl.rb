@@ -25,12 +25,12 @@ end
 
 class JsonStrategy
   def initialize
-    @strategy = FactoryGirl.strategy_by_name(:create).new
+    @strategy = FactoryGirl.strategy_by_name(:build).new
   end
 
   delegate :association, to: :@strategy
 
   def result(evaluation)
-    @strategy.result(evaluation).to_json
+    @strategy.result(evaluation).as_json.reject { |k,v| v.nil? }.to_json
   end
 end

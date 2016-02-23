@@ -32,7 +32,9 @@ Rails.application.routes.draw do
       end
       resources :job_statuses, only: [:index,:show]
       resources :works, only: [:index,:show,:create,:update,:destroy]
-      resources :pages, only: [:index,:show,:create,:update,:destroy]
+      resources :pages, only: [:index,:show,:create,:update,:destroy] do
+        post 'create_bulk', on: :collection
+      end
       resources :page_results, only: [:index, :show]
       resources :postproc_pages, only: [:index, :show]
     end

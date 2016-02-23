@@ -63,7 +63,10 @@ RSpec.describe Api::V1::PagesController, :type => :request do
     end
 
     it 'filters by pg_image_path when pg_image_path is nil as string' do
-      create_list(:page, 2, pg_image_path: nil)
+      pages = build_list(:page, 2, pg_image_path: nil)
+      pages.each do |p|
+        p.save(validate: false)
+      end
       create_list(:page, 3)
       query_params = { pg_image_path: 'nil' }
       get '/api/pages', query_params, api_headers

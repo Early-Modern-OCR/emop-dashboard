@@ -516,7 +516,7 @@
             },
             "page": {
               "id": 10,
-              "pg_ref_number": 1,
+              "pg_ref_number": 10,
               "pg_ground_truth_file": null,
               "work": {
                 "id": 17,
@@ -546,7 +546,7 @@
                 "wks_last_trawled": "2013-06-30"
               },
               "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath"
+              "pg_image_path": "/data/ecco/somepath-10"
             },
             "work": {
               "id": 18,
@@ -612,7 +612,7 @@
             },
             "page": {
               "id": 11,
-              "pg_ref_number": 1,
+              "pg_ref_number": 11,
               "pg_ground_truth_file": null,
               "work": {
                 "id": 19,
@@ -642,7 +642,7 @@
                 "wks_last_trawled": "2013-06-30"
               },
               "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath"
+              "pg_image_path": "/data/ecco/somepath-11"
             },
             "work": {
               "id": 20,
@@ -729,7 +729,7 @@
             },
             "page": {
               "id": 12,
-              "pg_ref_number": 1,
+              "pg_ref_number": 12,
               "pg_ground_truth_file": null,
               "work": {
                 "id": 21,
@@ -759,7 +759,7 @@
                 "wks_last_trawled": "2013-06-30"
               },
               "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath"
+              "pg_image_path": "/data/ecco/somepath-12"
             },
             "work": {
               "id": 22,
@@ -825,7 +825,7 @@
             },
             "page": {
               "id": 13,
-              "pg_ref_number": 1,
+              "pg_ref_number": 13,
               "pg_ground_truth_file": null,
               "work": {
                 "id": 23,
@@ -855,7 +855,7 @@
                 "wks_last_trawled": "2013-06-30"
               },
               "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath"
+              "pg_image_path": "/data/ecco/somepath-13"
             },
             "work": {
               "id": 24,
@@ -1023,7 +1023,7 @@
             },
             "page": {
               "id": 34,
-              "pg_ref_number": 1,
+              "pg_ref_number": 34,
               "pg_ground_truth_file": null,
               "work": {
                 "id": 65,
@@ -1053,7 +1053,7 @@
                 "wks_last_trawled": "2013-06-30"
               },
               "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath"
+              "pg_image_path": "/data/ecco/somepath-34"
             },
             "work": {
               "id": 66,
@@ -1121,7 +1121,7 @@
             },
             "page": {
               "id": 35,
-              "pg_ref_number": 1,
+              "pg_ref_number": 35,
               "pg_ground_truth_file": null,
               "work": {
                 "id": 67,
@@ -1151,7 +1151,7 @@
                 "wks_last_trawled": "2013-06-30"
               },
               "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath"
+              "pg_image_path": "/data/ecco/somepath-35"
             },
             "work": {
               "id": 68,
@@ -1242,7 +1242,7 @@
             },
             "page": {
               "id": 39,
-              "pg_ref_number": 1,
+              "pg_ref_number": 39,
               "pg_ground_truth_file": null,
               "work": {
                 "id": 75,
@@ -1272,7 +1272,7 @@
                 "wks_last_trawled": "2013-06-30"
               },
               "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath"
+              "pg_image_path": "/data/ecco/somepath-39"
             },
             "work": {
               "id": 76,
@@ -1370,7 +1370,7 @@
             },
             "page": {
               "id": 40,
-              "pg_ref_number": 1,
+              "pg_ref_number": 40,
               "pg_ground_truth_file": null,
               "work": {
                 "id": 77,
@@ -1400,7 +1400,7 @@
                 "wks_last_trawled": "2013-06-30"
               },
               "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath"
+              "pg_image_path": "/data/ecco/somepath-40"
             },
             "work": {
               "id": 78,
@@ -1491,10 +1491,10 @@
             },
             "page": {
               "id": 99,
-              "pg_ref_number": 1,
+              "pg_ref_number": 99,
               "pg_ground_truth_file": null,
               "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath",
+              "pg_image_path": "/data/ecco/somepath-99",
               "work": {
                 "wks_work_id": 169,
                 "wks_tcp_number": null,
@@ -1589,10 +1589,10 @@
             },
             "page": {
               "id": 100,
-              "pg_ref_number": 1,
+              "pg_ref_number": 100,
               "pg_ground_truth_file": null,
               "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath",
+              "pg_image_path": "/data/ecco/somepath-100",
               "work": {
                 "wks_work_id": 171,
                 "wks_tcp_number": null,
@@ -1710,10 +1710,10 @@
             },
             "page": {
               "id": 104,
-              "pg_ref_number": 1,
+              "pg_ref_number": 104,
               "pg_ground_truth_file": null,
               "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath",
+              "pg_image_path": "/data/ecco/somepath-104",
               "work": {
                 "wks_work_id": 179,
                 "wks_tcp_number": null,
@@ -1838,10 +1838,10 @@
             },
             "page": {
               "id": 105,
-              "pg_ref_number": 1,
+              "pg_ref_number": 105,
               "pg_ground_truth_file": null,
               "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath",
+              "pg_image_path": "/data/ecco/somepath-105",
               "work": {
                 "wks_work_id": 181,
                 "wks_tcp_number": null,
@@ -1952,7 +1952,7 @@
           },
           "page": {
             "id": 17,
-            "pg_ref_number": 1,
+            "pg_ref_number": 17,
             "pg_ground_truth_file": null,
             "work": {
               "id": 31,
@@ -1982,7 +1982,7 @@
               "wks_last_trawled": "2013-06-30"
             },
             "pg_gale_ocr_file": null,
-            "pg_image_path": "/data/ecco/somepath"
+            "pg_image_path": "/data/ecco/somepath-17"
           },
           "work": {
             "id": 32,
@@ -2407,10 +2407,10 @@
             "alt_change_index": 0.0,
             "page": {
               "id": 116,
-              "pg_ref_number": 1,
+              "pg_ref_number": 116,
               "pg_ground_truth_file": null,
               "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath",
+              "pg_image_path": "/data/ecco/somepath-116",
               "work": {
                 "wks_work_id": 194,
                 "wks_tcp_number": null,
@@ -2514,17 +2514,79 @@
       ],
       "query": null,
       "request_data": {
-        "pg_page_id": 122,
-        "pg_ref_number": 1,
-        "pg_ground_truth_file": null,
-        "pg_work_id": 200,
-        "pg_gale_ocr_file": null,
-        "pg_image_path": "/data/ecco/somepath"
+        "pg_ref_number": 122,
+        "pg_work_id": 199,
+        "pg_image_path": "/data/ecco/somepath-122"
       },
       "response_data": {
-        "error": "Invalid parameter 'pg_ground_truth_file' value nil: Must be String"
+        "page": {
+          "id": 122,
+          "pg_ref_number": 122,
+          "pg_ground_truth_file": null,
+          "pg_gale_ocr_file": null,
+          "pg_image_path": "/data/ecco/somepath-122",
+          "work": {
+            "wks_work_id": 199,
+            "wks_tcp_number": null,
+            "wks_estc_number": "T137595",
+            "wks_bib_name": null,
+            "wks_tcp_bibno": null,
+            "wks_marc_record": null,
+            "wks_eebo_citation_id": null,
+            "wks_eebo_directory": null,
+            "wks_ecco_number": "0212100100",
+            "wks_book_id": null,
+            "wks_author": "Baskerville, John",
+            "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+            "wks_word_count": null,
+            "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+            "wks_eebo_image_id": null,
+            "wks_eebo_url": null,
+            "wks_pub_date": "1765",
+            "wks_ecco_uncorrected_gale_ocr_path": null,
+            "wks_ecco_corrected_xml_path": null,
+            "wks_ecco_corrected_text_path": null,
+            "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+            "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+            "wks_organizational_unit": 265,
+            "wks_primary_print_font": null,
+            "wks_last_trawled": "2013-06-30"
+          }
+        }
       },
-      "code": 422,
+      "code": 201,
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
+  "pages#create_bulk": [
+    {
+      "verb": "POST",
+      "path": "/api/pages/create_bulk",
+      "versions": [
+        "v2"
+      ],
+      "query": null,
+      "request_data": {
+        "pages": [
+          {
+            "pg_ref_number": 2,
+            "pg_work_id": 200,
+            "pg_image_path": "/data/ecco/somepath-124"
+          },
+          {
+            "pg_ref_number": 3,
+            "pg_work_id": 200,
+            "pg_image_path": "/data/ecco/somepath-125"
+          }
+        ]
+      },
+      "response_data": {
+        "pages": {
+          "imported": 1
+        }
+      },
+      "code": 200,
       "show_in_doc": 1,
       "recorded": true
     }
@@ -2532,7 +2594,7 @@
   "pages#destroy": [
     {
       "verb": "DELETE",
-      "path": "/api/pages/124",
+      "path": "/api/pages/127",
       "versions": [
         "v2"
       ],
@@ -2559,7 +2621,7 @@
         "results": [
           {
             "id": 51,
-            "pg_ref_number": 1,
+            "pg_ref_number": 51,
             "pg_ground_truth_file": null,
             "work": {
               "id": 91,
@@ -2589,11 +2651,11 @@
               "wks_last_trawled": "2013-06-30"
             },
             "pg_gale_ocr_file": null,
-            "pg_image_path": "/data/ecco/somepath"
+            "pg_image_path": "/data/ecco/somepath-51"
           },
           {
             "id": 52,
-            "pg_ref_number": 1,
+            "pg_ref_number": 52,
             "pg_ground_truth_file": null,
             "work": {
               "id": 92,
@@ -2623,7 +2685,7 @@
               "wks_last_trawled": "2013-06-30"
             },
             "pg_gale_ocr_file": null,
-            "pg_image_path": "/data/ecco/somepath"
+            "pg_image_path": "/data/ecco/somepath-52"
           }
         ]
       },
@@ -2645,10 +2707,10 @@
         "results": [
           {
             "id": 118,
-            "pg_ref_number": 1,
+            "pg_ref_number": 118,
             "pg_ground_truth_file": null,
             "pg_gale_ocr_file": null,
-            "pg_image_path": "/data/ecco/somepath",
+            "pg_image_path": "/data/ecco/somepath-118",
             "work": {
               "wks_work_id": 196,
               "wks_tcp_number": null,
@@ -2679,10 +2741,10 @@
           },
           {
             "id": 119,
-            "pg_ref_number": 1,
+            "pg_ref_number": 119,
             "pg_ground_truth_file": null,
             "pg_gale_ocr_file": null,
-            "pg_image_path": "/data/ecco/somepath",
+            "pg_image_path": "/data/ecco/somepath-119",
             "work": {
               "wks_work_id": 197,
               "wks_tcp_number": null,
@@ -2730,7 +2792,7 @@
       "response_data": {
         "page": {
           "id": 53,
-          "pg_ref_number": 1,
+          "pg_ref_number": 53,
           "pg_ground_truth_file": null,
           "work": {
             "id": 93,
@@ -2760,7 +2822,7 @@
             "wks_last_trawled": "2013-06-30"
           },
           "pg_gale_ocr_file": null,
-          "pg_image_path": "/data/ecco/somepath"
+          "pg_image_path": "/data/ecco/somepath-53"
         }
       },
       "code": 200,
@@ -2778,10 +2840,10 @@
       "response_data": {
         "page": {
           "id": 120,
-          "pg_ref_number": 1,
+          "pg_ref_number": 120,
           "pg_ground_truth_file": null,
           "pg_gale_ocr_file": null,
-          "pg_image_path": "/data/ecco/somepath",
+          "pg_image_path": "/data/ecco/somepath-120",
           "work": {
             "wks_work_id": 198,
             "wks_tcp_number": null,
@@ -2832,7 +2894,7 @@
       "response_data": {
         "page": {
           "id": 54,
-          "pg_ref_number": 1,
+          "pg_ref_number": 54,
           "pg_ground_truth_file": null,
           "work": {
             "id": 94,
@@ -2871,7 +2933,7 @@
     },
     {
       "verb": "PUT",
-      "path": "/api/pages/123",
+      "path": "/api/pages/126",
       "versions": [
         "v2"
       ],
@@ -2883,8 +2945,8 @@
       },
       "response_data": {
         "page": {
-          "id": 123,
-          "pg_ref_number": 1,
+          "id": 126,
+          "pg_ref_number": 124,
           "pg_ground_truth_file": null,
           "pg_gale_ocr_file": null,
           "pg_image_path": "/foo/bar",
@@ -3093,7 +3155,7 @@
             "noisiness_idx": 0.0,
             "multicol": "0;1;2",
             "skew_idx": "1;0;1",
-            "page_id": 125,
+            "page_id": 128,
             "batch_job_id": 112,
             "work_id": 203
           },
@@ -3114,7 +3176,7 @@
             "noisiness_idx": 0.0,
             "multicol": "0;1;2",
             "skew_idx": "1;0;1",
-            "page_id": 126,
+            "page_id": 129,
             "batch_job_id": 113,
             "work_id": 204
           }
@@ -3153,7 +3215,7 @@
             "noisiness_idx": 0.0,
             "multicol": "0;1;2",
             "skew_idx": "1;0;1",
-            "page_id": 128,
+            "page_id": 131,
             "batch_job_id": 116,
             "work_id": 205
           },
@@ -3174,7 +3236,7 @@
             "noisiness_idx": 0.0,
             "multicol": "0;1;2",
             "skew_idx": "1;0;1",
-            "page_id": 128,
+            "page_id": 131,
             "batch_job_id": 117,
             "work_id": 205
           },
@@ -3195,7 +3257,7 @@
             "noisiness_idx": 0.0,
             "multicol": "0;1;2",
             "skew_idx": "1;0;1",
-            "page_id": 128,
+            "page_id": 131,
             "batch_job_id": 118,
             "work_id": 205
           }
@@ -3235,11 +3297,11 @@
             "multicol": "0;1;2",
             "skew_idx": "1;0;1",
             "page": {
-              "id": 132,
-              "pg_ref_number": 1,
+              "id": 135,
+              "pg_ref_number": 133,
               "pg_ground_truth_file": null,
               "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath",
+              "pg_image_path": "/data/ecco/somepath-135",
               "work": {
                 "wks_work_id": 208,
                 "wks_tcp_number": null,
@@ -3340,7 +3402,7 @@
           "noisiness_idx": 0.0,
           "multicol": "0;1;2",
           "skew_idx": "1;0;1",
-          "page_id": 133,
+          "page_id": 136,
           "batch_job_id": 120,
           "work_id": 209
         }
@@ -3359,36 +3421,47 @@
       ],
       "query": null,
       "request_data": {
-        "wks_work_id": 213,
-        "wks_tcp_number": null,
         "wks_estc_number": "T137595",
-        "wks_bib_name": null,
-        "wks_tcp_bibno": null,
-        "wks_marc_record": null,
-        "wks_eebo_citation_id": null,
-        "wks_eebo_directory": null,
         "wks_ecco_number": "0212100100",
-        "wks_book_id": null,
         "wks_author": "Baskerville, John",
         "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
-        "wks_word_count": null,
         "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
-        "wks_eebo_image_id": null,
-        "wks_eebo_url": null,
         "wks_pub_date": "1765",
-        "wks_ecco_uncorrected_gale_ocr_path": null,
-        "wks_ecco_corrected_xml_path": null,
-        "wks_ecco_corrected_text_path": null,
         "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
         "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
         "wks_organizational_unit": 265,
-        "wks_primary_print_font": null,
         "wks_last_trawled": "2013-06-30"
       },
       "response_data": {
-        "error": "Invalid parameter 'wks_tcp_number' value nil: Must be String"
+        "work": {
+          "id": 213,
+          "wks_tcp_number": null,
+          "wks_estc_number": "T137595",
+          "wks_bib_name": null,
+          "wks_tcp_bibno": null,
+          "wks_marc_record": null,
+          "wks_eebo_citation_id": null,
+          "wks_eebo_directory": null,
+          "wks_ecco_number": "0212100100",
+          "wks_book_id": null,
+          "wks_author": "Baskerville, John",
+          "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+          "wks_word_count": null,
+          "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+          "wks_eebo_image_id": null,
+          "wks_eebo_url": null,
+          "wks_pub_date": "1765",
+          "wks_ecco_uncorrected_gale_ocr_path": null,
+          "wks_ecco_corrected_xml_path": null,
+          "wks_ecco_corrected_text_path": null,
+          "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+          "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+          "wks_organizational_unit": 265,
+          "wks_primary_print_font": null,
+          "wks_last_trawled": "2013-06-30"
+        }
       },
-      "code": 422,
+      "code": 201,
       "show_in_doc": 1,
       "recorded": true
     }
