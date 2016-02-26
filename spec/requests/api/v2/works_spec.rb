@@ -58,22 +58,22 @@ RSpec.describe Api::V2::WorksController, :type => :request do
     end
 
     it 'filters works using is_eebo' do
-      create_list(:work, 2)
-      create_list(:work, 3, wks_ecco_number: nil)
+      create_list(:work, 2, collection: create(:works_collection, name: 'ECCO'))
+      create_list(:work, 3, collection: create(:works_collection, name: 'EEBO'))
       get '/api/works', {is_eebo: true}, api_headers
       expect(json['results'].size).to eq(3)
     end
 
     it 'filters works using is_ecco' do
-      create_list(:work, 2)
-      create_list(:work, 3, wks_ecco_number: nil)
+      create_list(:work, 2, collection: create(:works_collection, name: 'ECCO'))
+      create_list(:work, 3, collection: create(:works_collection, name: 'EEBO'))
       get '/api/works', {is_ecco: true}, api_headers
       expect(json['results'].size).to eq(2)
     end
 
     it 'filters works using is_ecco' do
-      create_list(:work, 2)
-      create_list(:work, 3, wks_ecco_number: nil)
+      create_list(:work, 2, collection: create(:works_collection, name: 'ECCO'))
+      create_list(:work, 3, collection: create(:works_collection, name: 'EEBO'))
       get '/api/works', {is_ecco: false}, api_headers
       expect(json['results'].size).to eq(5)
     end
@@ -116,7 +116,8 @@ RSpec.describe Api::V2::WorksController, :type => :request do
 
   describe "POST /api/works" do
     it 'creates a work', :show_in_doc do
-      @work = FactoryGirl.json(:work)
+      works_collection = create(:works_collection)
+      @work = FactoryGirl.json(:work, collection: works_collection)
       expect {
         post "/api/works", @work, api_headers
       }.to change(Work, :count).by(1)

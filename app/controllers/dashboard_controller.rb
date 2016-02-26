@@ -7,7 +7,7 @@ class DashboardController < ApplicationController
     if request.format.html?
       # pull extra filter data from session
       @batch_filter = session[:batch]
-      @set_filter = session[:set]
+      @collection_filter = session[:collection]
       @from_filter = session[:from]
       @to_filter = session[:to]
       @ocr_filter = session[:ocr]
@@ -23,7 +23,7 @@ class DashboardController < ApplicationController
       session[:search] = params[:sSearch]
       session[:gt] = params[:gt]
       session[:batch]  = params[:batch]
-      session[:set] = params[:set]
+      session[:collection] = params[:collection]
       session[:from] = params[:from]
       session[:to] = params[:to]
       session[:ocr]  = params[:ocr]
@@ -164,7 +164,7 @@ class DashboardController < ApplicationController
   def to_csv(data)
     column_names = [
       'Work ID',
-      'Data Set',
+      'Collection',
       'Title',
       'Author',
       'Font',
@@ -179,7 +179,7 @@ class DashboardController < ApplicationController
       data.each do |row|
         line = []
         line.push(row[:id])
-        line.push(row[:data_set])
+        line.push(row[:collection])
         line.push(row[:title])
         line.push(row[:author])
         line.push(row[:font])

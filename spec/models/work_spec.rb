@@ -8,18 +8,18 @@ RSpec.describe Work, :type => :model do
   end
 
   describe 'isECCO?' do
-    it 'should be true when wks_ecco_number is present' do
-      work.wks_ecco_number = '01'
+    it 'should be true when assigned ECCO collection is present' do
+      work.collection = create(:works_collection, name: 'ECCO')
       expect(work.isECCO?).to be true
     end
 
-    it 'should be false when wks_ecco_number is nil' do
-      work.wks_ecco_number = nil
+    it 'should be false when collection is not ECCO' do
+      work.collection = create(:works_collection, name: 'foo')
       expect(work.isECCO?).to be false
     end
 
-    it 'should be false when wks_ecco_number is empty' do
-      work.wks_ecco_number = ''
+    it 'should be false when collection is nil' do
+      work.collection = nil
       expect(work.isECCO?).to be false
     end
   end

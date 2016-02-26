@@ -395,9 +395,9 @@ $(function() {
     if (batch.length > 0) {
       aoData.push( { "name": "batch", "value": batch } );
     }
-    var set = $("#set-filter").val();
-    if (set.length > 0) {
-      aoData.push( { "name": "set", "value": set } );
+    var collection = $("#collection-filter").val();
+    if (collection.length > 0) {
+      aoData.push( { "name": "collection", "value": collection } );
     }
     var pfFilter = $("#print-font-filter").val();
     if (pfFilter.length > 0) {
@@ -464,7 +464,7 @@ $(function() {
       $("#to-date").val("");
       $("#from-date").val("");
       $("#batch-filter").val("");
-      $("#set-filter").val("");
+      $("#collection-filter").val("");
       $("#print-font-filter").val("");
       $("#ocr-filter").val("");
       $("#require-ocr").removeAttr('checked');
@@ -522,7 +522,7 @@ $(function() {
          { "mData": "work_select" },
          { "mData": "status" },
          { "mData": "detail_link" },
-         { "mData": "data_set" },         
+         { "mData": "collection" },
          { "mData": "id" },
          { "mData": "tcp_number" },
          { "mData": "title" },

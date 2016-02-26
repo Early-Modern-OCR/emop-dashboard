@@ -9,7 +9,6 @@ module Api
       def index
         @works = Work.page(paginate_params[:page_num]).per(paginate_params[:per_page])
         if query_params.key?(:is_ecco) && query_params[:is_ecco].to_bool
-          logger.debug("DEBUG: is_ecco: #{query_params[:is_ecco].to_bool.class}")
           @works = @works.is_ecco
         end
         if query_params.key?(:is_eebo) && query_params[:is_eebo].to_bool

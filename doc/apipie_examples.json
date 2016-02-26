@@ -1520,11 +1520,13 @@
                 "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
                 "wks_organizational_unit": 265,
                 "wks_primary_print_font": null,
-                "wks_last_trawled": "2013-06-30"
+                "wks_last_trawled": "2013-06-30",
+                "collection_id": null
               }
             },
             "work": {
               "id": 170,
+              "collection": null,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_bib_name": null,
@@ -1618,11 +1620,13 @@
                 "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
                 "wks_organizational_unit": 265,
                 "wks_primary_print_font": null,
-                "wks_last_trawled": "2013-06-30"
+                "wks_last_trawled": "2013-06-30",
+                "collection_id": null
               }
             },
             "work": {
               "id": 172,
+              "collection": null,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_bib_name": null,
@@ -1739,11 +1743,13 @@
                 "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
                 "wks_organizational_unit": 265,
                 "wks_primary_print_font": null,
-                "wks_last_trawled": "2013-06-30"
+                "wks_last_trawled": "2013-06-30",
+                "collection_id": null
               }
             },
             "work": {
               "id": 180,
+              "collection": null,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_bib_name": null,
@@ -1867,11 +1873,13 @@
                 "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
                 "wks_organizational_unit": 265,
                 "wks_primary_print_font": null,
-                "wks_last_trawled": "2013-06-30"
+                "wks_last_trawled": "2013-06-30",
+                "collection_id": null
               }
             },
             "work": {
               "id": 182,
+              "collection": null,
               "wks_tcp_number": null,
               "wks_estc_number": "T137595",
               "wks_bib_name": null,
@@ -2436,7 +2444,8 @@
                 "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
                 "wks_organizational_unit": 265,
                 "wks_primary_print_font": null,
-                "wks_last_trawled": "2013-06-30"
+                "wks_last_trawled": "2013-06-30",
+                "collection_id": null
               }
             },
             "batch_id": 110,
@@ -2550,7 +2559,8 @@
             "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
             "wks_organizational_unit": 265,
             "wks_primary_print_font": null,
-            "wks_last_trawled": "2013-06-30"
+            "wks_last_trawled": "2013-06-30",
+            "collection_id": null
           }
         }
       },
@@ -2736,7 +2746,8 @@
               "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
               "wks_organizational_unit": 265,
               "wks_primary_print_font": null,
-              "wks_last_trawled": "2013-06-30"
+              "wks_last_trawled": "2013-06-30",
+              "collection_id": null
             }
           },
           {
@@ -2770,7 +2781,8 @@
               "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
               "wks_organizational_unit": 265,
               "wks_primary_print_font": null,
-              "wks_last_trawled": "2013-06-30"
+              "wks_last_trawled": "2013-06-30",
+              "collection_id": null
             }
           }
         ]
@@ -2869,7 +2881,8 @@
             "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
             "wks_organizational_unit": 265,
             "wks_primary_print_font": null,
-            "wks_last_trawled": "2013-06-30"
+            "wks_last_trawled": "2013-06-30",
+            "collection_id": null
           }
         }
       },
@@ -2975,7 +2988,8 @@
             "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
             "wks_organizational_unit": 265,
             "wks_primary_print_font": null,
-            "wks_last_trawled": "2013-06-30"
+            "wks_last_trawled": "2013-06-30",
+            "collection_id": null
           }
         }
       },
@@ -3327,7 +3341,8 @@
                 "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
                 "wks_organizational_unit": 265,
                 "wks_primary_print_font": null,
-                "wks_last_trawled": "2013-06-30"
+                "wks_last_trawled": "2013-06-30",
+                "collection_id": null
               }
             },
             "batch_job_id": 119,
@@ -3430,11 +3445,18 @@
         "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
         "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
         "wks_organizational_unit": 265,
-        "wks_last_trawled": "2013-06-30"
+        "wks_last_trawled": "2013-06-30",
+        "collection_id": 5
       },
       "response_data": {
         "work": {
           "id": 213,
+          "collection": {
+            "id": 5,
+            "name": "collection-5",
+            "created_at": "2016-02-26T19:29:58.000Z",
+            "updated_at": "2016-02-26T19:29:58.000Z"
+          },
           "wks_tcp_number": null,
           "wks_estc_number": "T137595",
           "wks_bib_name": null,
@@ -3571,6 +3593,7 @@
         "results": [
           {
             "id": 210,
+            "collection": null,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_bib_name": null,
@@ -3598,6 +3621,7 @@
           },
           {
             "id": 211,
+            "collection": null,
             "wks_tcp_number": null,
             "wks_estc_number": "T137595",
             "wks_bib_name": null,
@@ -3683,6 +3707,7 @@
       "response_data": {
         "work": {
           "id": 212,
+          "collection": null,
           "wks_tcp_number": null,
           "wks_estc_number": "T137595",
           "wks_bib_name": null,
@@ -3775,6 +3800,7 @@
       "response_data": {
         "work": {
           "id": 214,
+          "collection": null,
           "wks_tcp_number": null,
           "wks_estc_number": "T0001",
           "wks_bib_name": null,
@@ -3799,6 +3825,79 @@
           "wks_organizational_unit": 265,
           "wks_primary_print_font": null,
           "wks_last_trawled": "2013-06-30"
+        }
+      },
+      "code": 200,
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
+  "works_collections#create": [
+    {
+      "verb": "POST",
+      "path": "/api/works_collections",
+      "versions": [
+        "v2"
+      ],
+      "query": null,
+      "request_data": {
+        "name": "collection-4"
+      },
+      "response_data": {
+        "works_collection": {
+          "id": 4,
+          "name": "collection-4"
+        }
+      },
+      "code": 201,
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
+  "works_collections#index": [
+    {
+      "verb": "GET",
+      "path": "/api/works_collections",
+      "versions": [
+        "v2"
+      ],
+      "query": null,
+      "request_data": null,
+      "response_data": {
+        "total": 2,
+        "subtotal": 2,
+        "page": 1,
+        "per_page": 2,
+        "total_pages": 1,
+        "results": [
+          {
+            "id": 1,
+            "name": "collection-1"
+          },
+          {
+            "id": 2,
+            "name": "collection-2"
+          }
+        ]
+      },
+      "code": 200,
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
+  "works_collections#show": [
+    {
+      "verb": "GET",
+      "path": "/api/works_collections/3",
+      "versions": [
+        "v2"
+      ],
+      "query": null,
+      "request_data": null,
+      "response_data": {
+        "works_collection": {
+          "id": 3,
+          "name": "collection-3"
         }
       },
       "code": 200,

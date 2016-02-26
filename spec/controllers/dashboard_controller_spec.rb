@@ -23,7 +23,7 @@ RSpec.describe DashboardController, :type => :controller do
     end
 
     context 'csv format' do
-      let(:columns) { [ 'Work ID', 'Data Set', 'Title', 'Author', 'Font', 'OCR Date', 'OCR Engine', 'OCR Batch', 'Juxta', 'RETAS' ] }
+      let(:columns) { [ 'Work ID', 'Collection', 'Title', 'Author', 'Font', 'OCR Date', 'OCR Engine', 'OCR Batch', 'Juxta', 'RETAS' ] }
       it 'should respond to csv format' do
         get :index, {format: :csv}, valid_session
         expect(response).to be_success
@@ -31,7 +31,7 @@ RSpec.describe DashboardController, :type => :controller do
 
       it 'should send valid csv data' do
         pf = create(:print_font)
-        work = create(:work, print_font: pf, wks_tcp_number: '001')
+        work = create(:work, print_font: pf, collection: create(:works_collection, name: 'ECCO'))
         page = create(:page, work: work)
         ocr_engine = OcrEngine.find_by(name: 'Tesseract')
         batch_job = create(:batch_job, ocr_engine: ocr_engine)
@@ -220,9 +220,10 @@ RSpec.describe DashboardController, :type => :controller do
         @params[:json] = {works: 'all'}.to_json
 
         # Set one work to EEBO
-        @works.first.update!(wks_ecco_number: nil)
+        collection = create(:works_collection, name: 'EEBO')
+        @works.first.update!(collection: collection)
 
-        post :create_batch, @params, {set: 'EEBO'}
+        post :create_batch, @params, {collection: collection.id}
 
         expect(response).to be_success
         job_queues = JobQueue.all
@@ -233,14 +234,14 @@ RSpec.describe DashboardController, :type => :controller do
       it "should create batch of all works - ECCO filter" do
         @params[:json] = {works: 'all'}.to_json
 
-        # No changes needed to @works since default factories set wks_ecco_number
-
-        post :create_batch, @params, {set: 'ECCO'}
+        collection = create(:works_collection, name: 'ECCO')
+        @works.first.update!(collection: collection)
+        post :create_batch, @params, {collection: collection.id}
 
         expect(response).to be_success
         job_queues = JobQueue.all
-        expect(json['total']).to eq(2)
-        expect(job_queues.size).to eq(2)
+        expect(json['total']).to eq(1)
+        expect(job_queues.size).to eq(1)
       end
     end
 

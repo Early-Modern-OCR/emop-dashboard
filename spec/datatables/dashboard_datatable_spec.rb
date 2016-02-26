@@ -65,13 +65,12 @@ RSpec.describe DashboardDatatable do
         allow(view).to receive(:work_checkbox)
         allow(view).to receive(:work_status)
         allow(view).to receive(:work_detail_link)
-        allow(view).to receive(:data_set)
         allow(view).to receive(:ocr_date)
         allow(view).to receive(:ocr_engine)
         allow(view).to receive(:ocr_batch)
         allow(view).to receive(:accuracy_links)
         element = datatable.send(:data).first
-        expect(element).to include(:work_select, :status, :detail_link, :data_set,
+        expect(element).to include(:work_select, :status, :detail_link, :collection,
                                    :id, :tcp_number, :title, :author, :font, :ocr_date,
                                    :ocr_engine, :ocr_batch, :juxta_url, :retas_url)
       end

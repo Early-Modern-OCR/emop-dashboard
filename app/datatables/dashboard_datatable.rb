@@ -30,7 +30,7 @@ class DashboardDatatable
         work_select: @view.work_checkbox(work, batch_job),
         status: @view.work_status(work, batch_job),
         detail_link: @view.work_detail_link(work, batch_job),
-        data_set: @view.data_set(work),
+        collection: work.collection.present? ? work.collection.name : '',
         id: work.id,
         tcp_number: work.wks_tcp_number,
         title: work.wks_title,

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150123172417) do
+ActiveRecord::Schema.define(version: 20160223231036) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -134,7 +134,8 @@ ActiveRecord::Schema.define(version: 20150123172417) do
     t.float   "pp_noisemsr",   limit: 24
   end
 
-  add_index "postproc_pages", ["page_id", "batch_job_id"], name: "index_postproc_pages_on_page_id_and_batch_job_id", unique: true, using: :btree
+  add_index "postproc_pages", ["batch_job_id"], name: "index_postproc_pages_on_batch_job_id", using: :btree
+  add_index "postproc_pages", ["page_id"], name: "index_postproc_pages_on_page_id", using: :btree
 
   create_table "print_fonts", primary_key: "pf_id", force: true do |t|
     t.string "pf_name"
@@ -194,9 +195,16 @@ ActiveRecord::Schema.define(version: 20150123172417) do
     t.integer "wks_organizational_unit"
     t.integer "wks_primary_print_font"
     t.date    "wks_last_trawled"
+    t.integer "collection_id"
   end
 
   add_index "works", ["wks_book_id"], name: "index_works_on_wks_book_id", using: :btree
   add_index "works", ["wks_ecco_number"], name: "index_works_on_wks_ecco_number", using: :btree
+
+  create_table "works_collections", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

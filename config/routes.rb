@@ -37,6 +37,7 @@ Rails.application.routes.draw do
       end
       resources :page_results, only: [:index, :show]
       resources :postproc_pages, only: [:index, :show]
+      resources :works_collections, only: [:index,:show,:create]
     end
   end
 

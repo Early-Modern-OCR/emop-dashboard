@@ -23,45 +23,27 @@ RSpec.describe DashboardHelper do
     end
   end
 
-  describe "#dataset_filter_options" do
+  describe "#collection_filter_options" do
     it 'returns options for select' do
-      result = helper.dataset_filter_options(nil)
+      ecco = create(:works_collection, name: 'ECCO')
+      eebo = create(:works_collection, name: 'EEBO')
+      result = helper.collection_filter_options(nil)
       expected = [
         '<option value="">All</option>',
-        '<option value="ECCO">ECCO</option>',
-        '<option value="EEBO">EEBO</option>',
+        "<option value=\"#{ecco.id}\">ECCO</option>",
+        "<option value=\"#{eebo.id}\">EEBO</option>",
       ]
       expect(result.split(/\n/)).to eq(expected)
     end
 
     it 'returns options for select - selected set' do
-      result = helper.dataset_filter_options('ECCO')
+      ecco = create(:works_collection, name: 'ECCO')
+      eebo = create(:works_collection, name: 'EEBO')
+      result = helper.collection_filter_options(ecco.id)
       expected = [
         '<option value="">All</option>',
-        '<option selected="selected" value="ECCO">ECCO</option>',
-        '<option value="EEBO">EEBO</option>',
-      ]
-      expect(result.split(/\n/)).to eq(expected)
-    end
-  end
-
-  describe "#dataset_filter_options" do
-    it 'returns options for select' do
-      result = helper.dataset_filter_options(nil)
-      expected = [
-        '<option value="">All</option>',
-        '<option value="ECCO">ECCO</option>',
-        '<option value="EEBO">EEBO</option>',
-      ]
-      expect(result.split(/\n/)).to eq(expected)
-    end
-
-    it 'returns options for select - selected set' do
-      result = helper.dataset_filter_options('ECCO')
-      expected = [
-        '<option value="">All</option>',
-        '<option selected="selected" value="ECCO">ECCO</option>',
-        '<option value="EEBO">EEBO</option>',
+        "<option selected=\"selected\" value=\"#{ecco.id}\">ECCO</option>",
+        "<option value=\"#{eebo.id}\">EEBO</option>",
       ]
       expect(result.split(/\n/)).to eq(expected)
     end
@@ -279,18 +261,6 @@ RSpec.describe DashboardHelper do
 
         expect(helper.work_status(@work, nil)).to eq(html)
       end
-    end
-  end
-
-  describe '#data_set' do
-    it 'returns ECCO' do
-      work = create(:work, wks_ecco_number: '001')
-      expect(helper.data_set(work)).to eq('ECCO')
-    end
-
-    it 'returns EEBO' do
-      work = create(:work, wks_ecco_number: nil)
-      expect(helper.data_set(work)).to eq('EEBO')
     end
   end
 

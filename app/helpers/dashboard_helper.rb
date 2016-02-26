@@ -8,12 +8,13 @@ module DashboardHelper
     options_for_select(options, sel)
   end
 
-  def dataset_filter_options(sel)
+  def collection_filter_options(sel)
     options = [
       ['All', nil],
-      ['ECCO', 'ECCO'],
-      ['EEBO', 'EEBO']
     ]
+    WorksCollection.find_each do |works_collection|
+      options.push([works_collection.name, works_collection.id])
+    end
     options_for_select(options, sel)
   end
 
@@ -90,14 +91,6 @@ module DashboardHelper
     end
 
     html.join('-')
-  end
-
-  def data_set(work)
-    if work.wks_ecco_number.present?
-      'ECCO'
-    else
-      'EEBO'
-    end
   end
 
   def ocr_date(work)

@@ -30,6 +30,10 @@ FactoryGirl.define do
     font_library_path "/data/shared/fonts/baskerville/emop.traineddata"
   end
 
+  factory :works_collection do
+    sequence(:name) { |n| "collection-#{n}" }
+  end
+
   factory :work do
     wks_estc_number "T137595"
     wks_ecco_number "0212100100"

@@ -64,22 +64,22 @@ RSpec.describe Api::V1::WorksController, :type => :request do
     end
 
     it 'filters works using is_eebo' do
-      create_list(:work, 2)
-      create_list(:work, 3, wks_ecco_number: nil)
+      create_list(:work, 2, collection: create(:works_collection, name: 'ECCO'))
+      create_list(:work, 3, collection: create(:works_collection, name: 'EEBO'))
       get '/api/works', {is_eebo: true}, api_headers
       expect(json['results'].size).to eq(3)
     end
 
     it 'filters works using is_ecco' do
-      create_list(:work, 2)
-      create_list(:work, 3, wks_ecco_number: nil)
+      create_list(:work, 2, collection: create(:works_collection, name: 'ECCO'))
+      create_list(:work, 3, collection: create(:works_collection, name: 'EEBO'))
       get '/api/works', {is_ecco: true}, api_headers
       expect(json['results'].size).to eq(2)
     end
 
     it 'filters works using is_ecco' do
-      create_list(:work, 2)
-      create_list(:work, 3, wks_ecco_number: nil)
+      create_list(:work, 2, collection: create(:works_collection, name: 'ECCO'))
+      create_list(:work, 3, collection: create(:works_collection, name: 'EEBO'))
       get '/api/works', {is_ecco: false}, api_headers
       expect(json['results'].size).to eq(5)
     end
