@@ -180,7 +180,7 @@ RSpec.describe DashboardController, :type => :controller do
         @params[:json] = {works: 'all'}.to_json
 
         # Set one work to be in scope of Work.with_gt
-        @works.first.update!(wks_tcp_number: '1')
+        @works.first.update!(wks_gt_number: '1')
 
         post :create_batch, @params, {gt: 'with_gt'}
 

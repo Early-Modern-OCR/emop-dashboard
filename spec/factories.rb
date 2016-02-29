@@ -38,7 +38,7 @@ FactoryGirl.define do
     wks_estc_number "T137595"
     wks_ecco_number "0212100100"
     wks_author "Baskerville, John"
-    wks_publisher "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766]."
+    wks_printer "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766]."
     wks_title "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language."
     wks_pub_date "1765"
     wks_ecco_directory "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images"

@@ -196,7 +196,7 @@ class ResultsController < ApplicationController
       # EEBO is a problem because of the last segment before .tif. It is some
       # kind of version info and can vary. Start with 0 and increase til
       # a file is found.
-      ebbo_dir = work.wks_eebo_directory
+      ebbo_dir = work.wks_doc_directory
       (0..100).each do |version_num|
         img_file = format('%s%s/%05d.000.%03d.tif', emop_path_prefix, ebbo_dir, page_num, version_num)
         return img_file if File.exist?(img_file)

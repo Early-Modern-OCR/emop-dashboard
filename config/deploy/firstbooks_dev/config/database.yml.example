@@ -1,0 +1,9 @@
+production:
+  adapter: mysql2
+  database: firstbooks_dashboard_dev
+  username: firstbooks_dash
+  password: CHANGEME
+  host: localhost
+  encoding: utf8
+  pool: 5
+  timeout: 5000

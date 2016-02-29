@@ -7,7 +7,7 @@ class DashboardDatatable
     @view = view
     @columns = [
       nil,nil,nil,nil,'wks_work_id',
-      'wks_tcp_number','wks_title','wks_author', nil,
+      'wks_gt_number','wks_title','wks_author', nil,
       nil,nil,nil,nil,nil
     ]
   end
@@ -32,7 +32,7 @@ class DashboardDatatable
         detail_link: @view.work_detail_link(work, batch_job),
         collection: work.collection.present? ? work.collection.name : '',
         id: work.id,
-        tcp_number: work.wks_tcp_number,
+        gt_number: work.wks_gt_number,
         title: work.wks_title,
         author: work.wks_author,
         font: work.print_font.present? ? work.print_font.name : '',

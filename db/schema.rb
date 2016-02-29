@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160223231036) do
+ActiveRecord::Schema.define(version: 20160226204144) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -171,25 +171,25 @@ ActiveRecord::Schema.define(version: 20160223231036) do
   end
 
   create_table "works", primary_key: "wks_work_id", force: true do |t|
-    t.string  "wks_tcp_number"
+    t.string  "wks_gt_number"
     t.string  "wks_estc_number"
-    t.string  "wks_bib_name"
+    t.string  "wks_coll_name"
     t.integer "wks_tcp_bibno"
     t.string  "wks_marc_record"
     t.integer "wks_eebo_citation_id"
-    t.string  "wks_eebo_directory"
+    t.string  "wks_doc_directory"
     t.string  "wks_ecco_number"
     t.integer "wks_book_id"
     t.string  "wks_author"
-    t.string  "wks_publisher"
+    t.string  "wks_printer"
     t.integer "wks_word_count"
     t.text    "wks_title"
     t.string  "wks_eebo_image_id"
     t.string  "wks_eebo_url"
     t.string  "wks_pub_date"
     t.string  "wks_ecco_uncorrected_gale_ocr_path"
-    t.string  "wks_ecco_corrected_xml_path"
-    t.string  "wks_ecco_corrected_text_path"
+    t.string  "wks_corrected_xml_path"
+    t.string  "wks_corrected_text_path"
     t.string  "wks_ecco_directory"
     t.string  "wks_ecco_gale_ocr_xml_path"
     t.integer "wks_organizational_unit"

@@ -110,7 +110,7 @@ RSpec.describe Api::V2::WorksController, :type => :request do
       get "/api/works/#{work.id}", {}, api_headers
 
       expect(response).to be_success
-      expect(json['work']['wks_tcp_number']).to eq(work.wks_tcp_number)
+      expect(json['work']['wks_gt_number']).to eq(work.wks_gt_number)
     end
   end
 

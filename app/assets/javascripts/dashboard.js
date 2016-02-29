@@ -524,7 +524,7 @@ $(function() {
          { "mData": "detail_link" },
          { "mData": "collection" },
          { "mData": "id" },
-         { "mData": "tcp_number" },
+         { "mData": "gt_number" },
          { "mData": "title" },
          { "mData": "author" },
          { "mData": "font" },

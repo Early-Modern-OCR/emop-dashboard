@@ -1,6 +1,6 @@
 lock '3.2.1'
 
-set :repo_url, "git@github.com:idhmc-tamu/emop-dashboard.git"
+set :repo_url, "https://github.com/Early-Modern-OCR/emop-dashboard.git"
 set :scm, :git
 set :branch, :master
 
