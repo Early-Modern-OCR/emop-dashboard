@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
    <head>
-      <title>EmopDashboard</title>
+      <title><%= Settings.project %> Dashboard</title>
       <%= stylesheet_link_tag    "application", :media => "all" %>
       <%= javascript_include_tag "application" %>
       <%= csrf_meta_tags %>
@@ -19,7 +19,7 @@
 
       <div class="main-header">
          <%= image_tag("idhmc.png", :id=>"idhmc-logo") %>
-         <span>eMOP Dashboard</span>
+         <span><%= Settings.project %> Dashboard</span>
          <div style="clear: both"></div>
       </div>
       <%= render 'layouts/messages' %>
