@@ -3454,8 +3454,8 @@
           "collection": {
             "id": 5,
             "name": "collection-5",
-            "created_at": "2016-03-01T00:09:02.000Z",
-            "updated_at": "2016-03-01T00:09:02.000Z"
+            "created_at": "2016-03-01T00:32:15.000Z",
+            "updated_at": "2016-03-01T00:32:15.000Z"
           },
           "wks_gt_number": null,
           "wks_estc_number": "T137595",
@@ -3488,10 +3488,56 @@
       "recorded": true
     }
   ],
+  "works#create_bulk": [
+    {
+      "verb": "POST",
+      "path": "/api/works/create_bulk",
+      "versions": [
+        "v2"
+      ],
+      "query": null,
+      "request_data": {
+        "works": [
+          {
+            "wks_estc_number": "T137595",
+            "wks_ecco_number": "0212100100",
+            "wks_author": "Baskerville, John",
+            "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+            "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+            "wks_pub_date": "1765",
+            "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+            "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+            "wks_organizational_unit": 265,
+            "wks_last_trawled": "2013-06-30"
+          },
+          {
+            "wks_estc_number": "T137595",
+            "wks_ecco_number": "0212100100",
+            "wks_author": "Baskerville, John",
+            "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+            "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+            "wks_pub_date": "1765",
+            "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+            "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+            "wks_organizational_unit": 265,
+            "wks_last_trawled": "2013-06-30"
+          }
+        ]
+      },
+      "response_data": {
+        "works": {
+          "imported": 1
+        }
+      },
+      "code": 200,
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
   "works#destroy": [
     {
       "verb": "DELETE",
-      "path": "/api/works/215",
+      "path": "/api/works/217",
       "versions": [
         "v2"
       ],
@@ -3787,7 +3833,7 @@
     },
     {
       "verb": "PUT",
-      "path": "/api/works/214",
+      "path": "/api/works/216",
       "versions": [
         "v2"
       ],
@@ -3799,7 +3845,7 @@
       },
       "response_data": {
         "work": {
-          "id": 214,
+          "id": 216,
           "collection": null,
           "wks_gt_number": null,
           "wks_estc_number": "T0001",

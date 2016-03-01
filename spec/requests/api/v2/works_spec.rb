@@ -126,6 +126,21 @@ RSpec.describe Api::V2::WorksController, :type => :request do
     end
   end
 
+  describe "POST /api/works/create_bulk" do
+    it 'creates works', :show_in_doc do
+      @work1 = FactoryGirl.json(:work)
+      @work2 = FactoryGirl.json(:work)
+      data = {
+        works: [JSON.parse(@work1), JSON.parse(@work2)],
+      }
+      expect {
+        post "/api/works/create_bulk", data.to_json, api_headers
+      }.to change(Work, :count).by(2)
+
+      expect(response).to be_success
+    end
+  end
+
   describe "PUT /api/works/update" do
     it 'updates a work', :show_in_doc do
       @work = create(:work)
