@@ -85,10 +85,10 @@ class DashboardDatatable
   end
 
   def page
-    params[:iDisplayStart]
+    params[:iDisplayStart].to_i / per_page + 1
   end
 
   def per_page
-    params[:iDisplayLength]
+    params[:iDisplayLength].to_i > 0 ? params[:iDisplayLength].to_i : 25
   end
 end

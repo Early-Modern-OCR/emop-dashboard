@@ -130,14 +130,20 @@ RSpec.describe DashboardDatatable do
     end
 
     describe '#page' do
-      it 'returns value of params[:iDisplayStart]' do
-        expect(datatable.send(:page)).to eq('0')
+      it 'returns value for page number 1' do
+        expect(datatable.send(:page)).to eq(1)
+      end
+
+      it 'returns value for page number 2' do
+        datatable.params[:iDisplayLength] = '25'
+        datatable.params[:iDisplayStart] = '25'
+        expect(datatable.send(:page)).to eq(2)
       end
     end
 
     describe '#per_page' do
       it 'returns value of params[:iDisplayLength]' do
-        expect(datatable.send(:per_page)).to eq('25')
+        expect(datatable.send(:per_page)).to eq(25)
       end
     end
   end
