@@ -34,7 +34,7 @@ module Api
         param :wks_eebo_citation_id, Integer
         param :wks_doc_directory, String
         param :wks_ecco_number, String
-        param :wks_book_id, Integer
+        param :wks_book_id, String
         param :wks_author, String
         param :wks_printer, String
         param :wks_word_count, Integer

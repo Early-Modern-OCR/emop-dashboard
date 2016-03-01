@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160226204144) do
+ActiveRecord::Schema.define(version: 20160301000225) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -179,7 +179,7 @@ ActiveRecord::Schema.define(version: 20160226204144) do
     t.integer "wks_eebo_citation_id"
     t.string  "wks_doc_directory"
     t.string  "wks_ecco_number"
-    t.integer "wks_book_id"
+    t.string  "wks_book_id"
     t.string  "wks_author"
     t.string  "wks_printer"
     t.integer "wks_word_count"

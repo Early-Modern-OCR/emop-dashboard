@@ -8,8 +8,12 @@ module Api
       param :is_eebo, :boolean, desc: 'Filter by EEBO Works'
       param :is_ecco, :boolean, desc: 'Filter by ECCO Works'
       param :batch_job_id, Integer, desc: 'Filter by BatchJob ID'
+      param :wks_book_id, String, desc: 'Work wks_book_id'
       def index
         @works = Work.page(paginate_params[:page_num]).per(paginate_params[:per_page])
+        if query_params[:wks_book_id].present?
+          @works = @works.where(wks_book_id: query_params[:wks_book_id])
+        end
         if query_params.key?(:is_ecco) && query_params[:is_ecco].to_bool
           @works = @works.is_ecco
         end
@@ -41,7 +45,7 @@ module Api
         param :wks_eebo_citation_id, Integer
         param :wks_doc_directory, String
         param :wks_ecco_number, String
-        param :wks_book_id, Integer
+        param :wks_book_id, String
         param :wks_author, String
         param :wks_printer, String
         param :wks_word_count, Integer
@@ -73,7 +77,7 @@ module Api
         param :wks_eebo_citation_id, Integer
         param :wks_doc_directory, String
         param :wks_ecco_number, String
-        param :wks_book_id, Integer
+        param :wks_book_id, String
         param :wks_author, String
         param :wks_printer, String
         param :wks_word_count, Integer
@@ -110,7 +114,7 @@ module Api
       end
 
       def query_params
-        params.permit(:is_eebo, :is_ecco, :batch_job_id)
+        params.permit(:is_eebo, :is_ecco, :batch_job_id, :wks_book_id)
       end
 
     end
