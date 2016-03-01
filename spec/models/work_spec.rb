@@ -7,6 +7,10 @@ RSpec.describe Work, :type => :model do
     expect(work).to be_valid
   end
 
+  describe 'ActiveModel validations' do
+    it { expect(work).to validate_uniqueness_of(:wks_title) }
+  end
+
   describe 'isECCO?' do
     it 'should be true when assigned ECCO collection is present' do
       work.collection = create(:works_collection, name: 'ECCO')

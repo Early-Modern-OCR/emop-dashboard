@@ -1,8 +1,5 @@
 ActiveAdmin.register Page do
 
-  ## Disable new, create, edit, update and destroy
-  actions :all, except: [:new, :create, :edit, :update, :destroy]
-
   ## Permit these attributes to be updated
   permit_params :pg_ref_number, :pg_ground_truth_file, :pg_work_id, :pg_gale_ocr_file, :pg_image_path
 
@@ -55,4 +52,18 @@ ActiveAdmin.register Page do
     end
 
   end
+
+  ## NEW / EDIT
+  form do |f|
+    f.semantic_errors
+    f.inputs do
+      f.input :pg_work_id, required: true, label: "Work ID"
+      f.input :pg_ref_number
+      f.input :pg_image_path
+      f.input :pg_ground_truth_file
+      f.input :pg_gale_ocr_file
+    end
+    f.actions
+  end
+
 end

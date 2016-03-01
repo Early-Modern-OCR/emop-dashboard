@@ -2,13 +2,15 @@
 #
 class Work < ActiveRecord::Base
   self.primary_key = :wks_work_id
-  has_many :pages, foreign_key: :pg_work_id
+  has_many :pages, foreign_key: :pg_work_id, dependent: :destroy
   has_many :job_queues
   has_many :work_ocr_results
   belongs_to :print_font, foreign_key: :wks_primary_print_font
   has_many :batch_jobs, -> { uniq }, through: :job_queues
   has_many :page_results, -> { uniq }, through: :pages
   belongs_to :collection, class_name: 'WorksCollection', foreign_key: :collection_id
+
+  validates :wks_title, uniqueness: true
 
   # NOTES: for ECCO, non-null TCP means GT is available
   #        for EEBO, non-null MARC means GT is available

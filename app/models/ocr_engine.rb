@@ -1,7 +1,7 @@
 class OcrEngine < ActiveRecord::Base
   has_many :batch_jobs
 
-  validates :name, uniqueness: true
+  validates :name, uniqueness: true, presence: true
 
   def to_builder(version = 'v1')
     case version

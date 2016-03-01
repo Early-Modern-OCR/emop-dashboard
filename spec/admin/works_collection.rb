@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Work' do
+RSpec.describe 'WorksCollection' do
   let(:resource_class) { WorksCollection }
   let(:all_resources)  { ActiveAdmin.application.namespaces[:admin].resources }
   let(:resource)       { all_resources[resource_class] }

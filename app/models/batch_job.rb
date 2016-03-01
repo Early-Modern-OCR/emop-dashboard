@@ -10,6 +10,8 @@ class BatchJob < ActiveRecord::Base
   has_many :work_ocr_results, foreign_key: 'batch_id'
 
   validates :name, presence: true
+  validates :ocr_engine, presence: true
+  validates :job_type, presence: true
 
   after_initialize :set_defaults
 

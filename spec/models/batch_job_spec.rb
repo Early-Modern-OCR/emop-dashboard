@@ -7,6 +7,11 @@ RSpec.describe BatchJob, :type => :model do
     expect(batch_job).to be_valid
   end
 
+  describe 'ActiveModel validations' do
+    it { expect(batch_job).to validate_presence_of(:ocr_engine) }
+    it { expect(batch_job).to validate_presence_of(:job_type) }
+  end
+
   describe "dependent :destroy" do
     it "should destroy associated job_queues" do
       job_queue = create(:job_queue, batch_job: batch_job)

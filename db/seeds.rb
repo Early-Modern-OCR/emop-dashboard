@@ -21,16 +21,15 @@ end
 [
   'Ground Truth Compare',
   'OCR',
+  'Font Training',
   'Other',
 ].each do |name|
   JobType.find_or_create_by(name: name)
 end
 
 [
-  'Gale',
   'Tesseract',
-  'Gamera',
-  'OCROpus',
+  'Ocular',
   'Not Applicable',
 ].each do |name|
   OcrEngine.find_or_create_by(name: name)

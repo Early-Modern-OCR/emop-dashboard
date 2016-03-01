@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe 'Work' do
-  let(:resource_class) { Work }
+RSpec.describe 'Page' do
+  let(:resource_class) { Page }
   let(:all_resources)  { ActiveAdmin.application.namespaces[:admin].resources }
   let(:resource)       { all_resources[resource_class] }
 
   it "should be a resource" do
-    expect(resource.resource_name).to eq('Work')
+    expect(resource.resource_name).to eq('Page')
   end
 
   it 'should have actions' do
