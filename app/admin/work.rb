@@ -14,10 +14,10 @@ ActiveAdmin.register Work do
   ## Index search filters
   filter :wks_work_id, label: 'ID'
   filter :collection
+  filter :wks_title
+  filter :wks_printer
   filter :wks_gt_number
-  filter :wks_estc_number
-  filter :wks_ecco_number
-  filter :wks_eebo_image_id
+  filter :wks_book_id
 
   ## INDEX
   index do
