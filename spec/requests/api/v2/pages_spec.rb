@@ -115,8 +115,8 @@ RSpec.describe Api::V2::PagesController, :type => :request do
       expect {
         post "/api/pages/create_bulk", data.to_json, api_headers
       }.to change(Page, :count).by(2)
-      pp json
 
+      expect(json["pages"]["imported"]).to eq(2)
       expect(response).to be_success
     end
   end

@@ -43,7 +43,10 @@ module Api
           new_pages << @page
         end
 
+        count_before = Page.count
         @pages = Page.import(new_pages)
+        count_after = Page.count
+        @imported = count_after - count_before
       end
 
       api :PUT, '/pages/:id', 'Update a page'

@@ -1,3 +1,3 @@
 json.pages do
-  json.imported @pages.num_inserts
+  json.imported @imported
 end

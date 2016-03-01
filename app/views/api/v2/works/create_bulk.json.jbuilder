@@ -1,3 +1,3 @@
 json.works do
-  json.imported @works.num_inserts
+  json.imported @imported
 end

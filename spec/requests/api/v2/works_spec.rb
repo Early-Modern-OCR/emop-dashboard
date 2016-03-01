@@ -138,6 +138,7 @@ RSpec.describe Api::V2::WorksController, :type => :request do
       }.to change(Work, :count).by(2)
 
       expect(response).to be_success
+      expect(json["works"]["imported"]).to eq(2)
     end
   end
 

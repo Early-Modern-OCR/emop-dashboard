@@ -102,7 +102,10 @@ module Api
           new_works << @work
         end
 
+        count_before = Work.count
         @works = Work.import(new_works)
+        count_after = Work.count
+        @imported = count_after - count_before
       end
 
       api :PUT, '/works/:id', 'Update a work'
