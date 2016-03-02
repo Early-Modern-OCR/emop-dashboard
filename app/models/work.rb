@@ -57,6 +57,9 @@ class Work < ActiveRecord::Base
   end
 
   def self.filter_by_params(works, params)
+    if params['sSearch'].present?
+      works = works.where("wks_title LIKE :search OR wks_author LIKE :search OR wks_printer LIKE :search", search: "%#{params['sSearch']}%")
+    end
     if params['gt'].present?
       case params['gt']
       when 'with_gt'

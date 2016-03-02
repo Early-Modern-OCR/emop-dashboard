@@ -28,6 +28,23 @@ RSpec.describe Work, :type => :model do
     end
   end
 
+  describe "#filter_by_params" do
+    context "sSearch" do
+      before(:each) do
+        @works = create_list(:work, 2)
+        @params = {}
+      end
+
+      it 'should filter by wks_title' do
+        @works.first.update!(wks_title: 'foo bar')
+        @params['sSearch'] = 'foo'
+        result = Work.filter_by_params(Work.all, @params)
+        expect(result.count).to eq(1)
+        expect(result.first).to eq(@works.first)
+      end
+    end
+  end
+
   describe "to_builder" do
     it "has valid to_builder - v1" do
       json = work.to_builder('v1').attributes!
