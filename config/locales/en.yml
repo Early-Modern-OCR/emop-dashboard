@@ -27,3 +27,7 @@ en:
       labels:
         mark_not_started: "Mark Not Started"
         mark_failed: "Mark Failed"
+  ransack:
+    attributes:
+      work:
+        wks_book_id: wks_book_id

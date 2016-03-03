@@ -241,7 +241,7 @@ class Work < ActiveRecord::Base
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    (column_names - ["collection_id", "wks_last_trawled"]) + _ransackers.keys
+    (column_names - ["collection_id", "wks_work_id", "wks_last_trawled"]) + _ransackers.keys
   end
 
 end
