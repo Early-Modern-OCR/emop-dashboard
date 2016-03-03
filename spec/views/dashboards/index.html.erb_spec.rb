@@ -7,6 +7,7 @@ RSpec.describe "dashboard/index", :type => :view do
     assign(:print_fonts, [create(:print_font)])
     assign(:batches, [create(:batch_job)])
     assign(:queue_status, JobQueue.status_summary)
+    assign(:q, Work.ransack())
     render
   end
 

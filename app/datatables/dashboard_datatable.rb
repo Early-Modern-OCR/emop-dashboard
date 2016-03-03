@@ -3,8 +3,9 @@ class DashboardDatatable
 
   attr_reader :view
 
-  def initialize(view)
+  def initialize(view, q)
     @view = view
+    @q = q
     @columns = [
       nil,nil,nil,nil,'wks_work_id',
       'wks_gt_number','wks_title','wks_author', nil,
@@ -55,9 +56,9 @@ class DashboardDatatable
   end
 
   def fetch_works
-    works = Work.order("#{sort_column} #{sort_direction}")
+    search = Work.ransack(params[:q])
+    works = search.result.order("#{sort_column} #{sort_direction}")
     works = works.page(page).per(per_page)
-    works = Work.filter_by_params(works, params)
     works
   end
 

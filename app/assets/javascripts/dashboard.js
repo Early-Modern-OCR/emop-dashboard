@@ -101,6 +101,7 @@ $(function() {
       data.params = $("#new-params").val();
       data.notes = $("#new-notes").val();
       data.json = $("#batch-json").text();
+      data.q = $("#q").text();
       if (data.name.length === 0) {
          $("#new-batch-error").text("* Batch name is required *");
          $("#new-batch-error").show();
@@ -118,7 +119,7 @@ $(function() {
       // Post the request
       showWaitPopup("Adding works to queue");
       $.ajax({
-         url : "dashboard/batch/",
+         url : "/dashboard/batch/",
          type : 'POST',
          data : data,
          success : function(resp, textStatus, jqXHR) {
@@ -137,7 +138,7 @@ $(function() {
    
    var rescheduleWorks = function(data) {
       $.ajax({
-         url : "dashboard/reschedule",
+         url : "/dashboard/reschedule",
          type : 'POST',
          data : {jobs: JSON.stringify(data )},
          success : function(resp, textStatus, jqXHR) {
@@ -347,8 +348,8 @@ $(function() {
    };
   
    // filter stuff
-   $("#from-date").datepicker();
-   $("#to-date").datepicker();
+   $("#q_ocr_completed_date_from").datepicker();
+   $("#q_ocr_completed_date_to").datepicker();
    $("#dashboard-filter select, #dashboard-filter input").on("change", function() {
       flagChanges();
    });
@@ -464,11 +465,12 @@ $(function() {
       $("#to-date").val("");
       $("#from-date").val("");
       $("#batch-filter").val("");
-      $("#collection-filter").val("");
+      $("#q_collection_id_eq").val("");
       $("#print-font-filter").val("");
-      $("#ocr-filter").val("");
+      $("#q_ocr_filter").val("");
       $("#require-ocr").removeAttr('checked');
-      $("#gt-filter").val("");
+      $("#q_ground_truth").val("");
+      location.href = location.href.split('?')[0];
       $("#detail-table").dataTable().fnDraw();
       $("#filter-header").text("Results Filter");
       $("#filter-header").removeClass("not-applied");
@@ -509,9 +511,10 @@ $(function() {
       "bProcessing": true,
       "bServerSide": true,
       "bStateSave": true,
-      "sAjaxSource": "dashboard/index",
+      "sAjaxSource": $('#detail-table').data('source'),
       "sAjaxDataProp": "data",
       "bSortClasses": false,
+      "bFilter": false,
       "aaSorting": [],
       "fnCreatedRow": function( nRow, aData, iDisplayIndex ) {
          if ( aData.ocr_engine === "Gale" ) {
@@ -547,7 +550,9 @@ $(function() {
          { "aTargets": [13], "bSortable": false, "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
       ],
       "fnServerParams": function ( aoData ) {
-          fnServerParams(aoData);
+        var q_str = $("#q").text();
+        var q = $.parseJSON(q_str);
+        aoData.push({"name": "q", "value": q});
       }
    }).fnFilterOnReturn();   
    
@@ -616,6 +621,25 @@ $(function() {
       var data = [ { work: $("#err-work-id").text(), batch:  $("#err-batch-id").text()} ];
       rescheduleWorks(data);
    });
-   
+
+   // Remove empty filters since some of the static filters cause empty ones to pop up
+   $('.attribute-select').each(function(index) {
+     console.log($(this).val());
+     if ( !$(this).val() ) {
+       $(this).closest('.field').remove();
+     }
+   });
+
+   $('form').on('click', '.remove_fields', function() {
+     $(this).closest('.field').remove();
+     event.preventDefault();
+   });
+
+   $('form').on('click', '.add_fields', function() {
+     time = new Date().getTime();
+     regexp = new RegExp($(this).data('id'), 'g');
+     $(this).before($(this).data('fields').replace(regexp, time));
+     event.preventDefault();
+   });
    
 });

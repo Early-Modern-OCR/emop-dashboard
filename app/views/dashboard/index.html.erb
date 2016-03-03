@@ -9,10 +9,18 @@
          <input type="button" id="schedule-selected" value="Schedule Selected" />
          <input type="button" id="schedule-all" value="Schedule All" />
          <input type="button" id="font-all" value="Set Print Font for Selected Works" />
-		<form id="export" action="/dashboard/index.csv" method="get">
+    <%#= form_for :export, url: dashboard_index_path(format: 'csv', q: params[:q]), html: { method: :get } do |f| %>
+      <%#= f.hidden_field :params, value: params.to_json %>
+      <%#= f.submit "Export table" %>
+    <%# end %>
+		<!--
+    <form id="export" action="<%#= dashboard_index_path(format: 'csv') %>" method="get">
+      <input type="hidden" id="dashboard-params" value="<%#= params.to_json %>" >
 		  <input type="submit" value="Export table" />
 		</form>
-         <table id="detail-table">
+    -->
+         <span id="q" style="display:none"><%= params[:q].to_json %></span>
+         <table id="detail-table" data-source="<%= dashboard_index_path(format: 'json') %>">
             <thead>
                <tr>
                   <th class="check-col"></th>

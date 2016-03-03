@@ -10,7 +10,8 @@ RSpec.describe DashboardDatatable do
       iDisplayLength: '25', sSearch: '', sEcho: '1'
     }
     let(:view) { double('view', params: params) }
-    let(:datatable) { DashboardDatatable.new(view) }
+    let(:q) {{}}
+    let(:datatable) { DashboardDatatable.new(view, q) }
 
     it 'receives a view as context' do
       expect(datatable.view).to eq(view)
@@ -23,7 +24,8 @@ RSpec.describe DashboardDatatable do
       iDisplayLength: '25', sSearch: '', sEcho: '1'
     }
     let(:view) { double('view', params: params) }
-    let(:datatable) { DashboardDatatable.new(view) }
+    let(:q) {{}}
+    let(:datatable) { DashboardDatatable.new(view, q) }
 
     it 'delegates params call to view' do
       expect(datatable).to delegate_method(:params).to(:view)
@@ -36,7 +38,8 @@ RSpec.describe DashboardDatatable do
       iDisplayLength: '25', sSearch: '', sEcho: '1'
     }
     let(:view) { double('view', params: params) }
-    let(:datatable) { DashboardDatatable.new(view) }
+    let(:q) {{}}
+    let(:datatable) { DashboardDatatable.new(view, q) }
 
     it 'returns a json hash' do
       expect(datatable.as_json).to be_a(Hash)
@@ -53,7 +56,8 @@ RSpec.describe DashboardDatatable do
       iDisplayLength: '25', sSearch: '', sEcho: '1'
     }
     let(:view) { double('view', params: params) }
-    let(:datatable) { DashboardDatatable.new(view) }
+    let(:q) {{}}
+    let(:datatable) { DashboardDatatable.new(view, q) }
 
     describe '#data' do
       it 'returns an Array' do

@@ -40,11 +40,21 @@ class Work < ActiveRecord::Base
   end
 
   def juxta_accuracy
-    page_results.average(:juxta_change_index)
+    val = page_results.average(:juxta_change_index)
+    if val.present?
+      val.round(3)
+    else
+      val
+    end
   end
 
   def retas_accuracy
-    page_results.average(:alt_change_index)
+    val = page_results.average(:alt_change_index)
+    if val.present?
+      val.round(3)
+    else
+      val
+    end
   end
 
   def ocr_result
@@ -56,52 +66,46 @@ class Work < ActiveRecord::Base
     ocr_result.batch_job
   end
 
-  def self.filter_by_params(works, params)
-    if params['sSearch'].present?
-      works = works.where("wks_title LIKE :search OR wks_author LIKE :search OR wks_printer LIKE :search", search: "%#{params['sSearch']}%")
+  def ocr_completed_date
+    if self.ocr_result.present? && self.ocr_result.ocr_completed.present?
+      self.ocr_result.ocr_completed.to_datetime.strftime("%m/%d/%Y %H:%M")
+    else
+      nil
     end
-    if params['gt'].present?
-      case params['gt']
-      when 'with_gt'
-        works = works.with_gt
-      when 'without_gt'
-        works = works.without_gt
-      end
-    end
-    if params['batch'].present?
-      works = works.by_batch_job(params['batch'])
-    end
-    if params['font'].present?
-      works = works.where(wks_primary_print_font: params['font'])
-    end
-    if params['collection'].present?
-      works = works.where(collection_id: params['collection'])
-    end
-    if params['from'].present?
-      works = works.joins(:work_ocr_results).where("work_ocr_results.ocr_completed > ?", params['from'])
-    end
-    if params['to'].present?
-      works = works.joins(:work_ocr_results).where("work_ocr_results.ocr_completed < ?", params['to'])
-    end
+  end
 
-    if params['ocr'].present?
-      case params['ocr']
-      when 'ocr_done'
-        works = works.ocr_done
-      when 'ocr_sched'
-        works = works.ocr_sched
-      when 'ocr_ingest'
-        works = works.ocr_ingest
-      when 'ocr_ingest_error'
-        works = works.ocr_ingest_error
-      when 'ocr_none'
-        works = works.ocr_none
-      when 'ocr_error'
-        works = works.ocr_error
-      end
+  def self.ground_truth(gt)
+    case gt
+    when 'with_gt'
+      with_gt
+    when 'without_gt'
+      without_gt
     end
+  end
 
-    works
+  def self.ocr_filter(o)
+    case o
+    when 'ocr_done'
+      ocr_done
+    when 'ocr_sched'
+      ocr_sched
+    when 'ocr_ingest'
+      ocr_ingest
+    when 'ocr_ingest_error'
+      ocr_ingest_error
+    when 'ocr_none'
+      ocr_none
+    when 'ocr_error'
+      ocr_error
+    end
+  end
+
+  def self.ocr_completed_date_from(date)
+    joins(:work_ocr_results).where("work_ocr_results.ocr_completed > ?", date)
+  end
+
+  def self.ocr_completed_date_to(date)
+    joins(:work_ocr_results).where("work_ocr_results.ocr_completed < ?", date)
   end
 
   def to_builder(version = 'v1')
@@ -176,4 +180,68 @@ class Work < ActiveRecord::Base
   def id
     read_attribute(:wks_work_id)
   end
+
+  def self.to_csv(options = {})
+    column_names = [
+      'Work ID',
+      'Collection',
+      'Title',
+      'Author',
+      'Font',
+      'OCR Date',
+      'OCR Engine',
+      'OCR Batch',
+      'Juxta',
+      'RETAS'
+    ]
+    CSV.generate(options) do |csv|
+      csv << column_names
+      all.each do |work|
+        line = []
+        line.push(work.id)
+        if work.collection.present?
+          line.push(work.collection.name)
+        else
+          line.push('')
+        end
+        line.push(work.wks_title)
+        line.push(work.wks_author)
+        if work.print_font.present?
+          line.push(work.print_font.name)
+        else
+          line.push('')
+        end
+        line.push(work.ocr_completed_date)
+        if work.ocr_result_batch_job.present?
+          line.push(work.ocr_result_batch_job.ocr_engine.name)
+          line.push("#{work.ocr_result_batch_job.id}: #{work.ocr_result_batch_job.name}")
+        else
+          line.push('')
+          line.push('')
+        end
+        if work.juxta_accuracy.present?
+          line.push(work.juxta_accuracy)
+        else
+          line.push('N/A')
+        end
+        if work.retas_accuracy.present?
+          line.push(work.retas_accuracy)
+        else
+          line.push('N/A')
+        end
+        csv << line
+      end
+    end
+  end
+
+  private
+
+  def self.ransackable_scopes(auth_object = nil)
+    %i(ground_truth ocr_filter by_batch_job ocr_completed_date_from ocr_completed_date_to)
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    (column_names - ["collection_id", "wks_last_trawled"]) + _ransackers.keys
+  end
+
 end

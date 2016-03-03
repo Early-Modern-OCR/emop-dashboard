@@ -16,9 +16,9 @@ RSpec.describe DashboardController, :type => :controller do
     end
 
     context 'json format' do
-      it 'should set session values' do
-        get :index, {format: :json, gt: 'with_gt'}, valid_session
-        expect(session[:gt]).to eq('with_gt')
+      it 'should not call JobQueue.status_summary' do
+        expect(JobQueue).not_to receive(:status_summary)
+        get :index, {format: :json}, valid_session
       end
     end
 
@@ -115,6 +115,7 @@ RSpec.describe DashboardController, :type => :controller do
 
       it "should create batch of selected works" do
         @params[:json] = {works: @works.map(&:id)}.to_json
+        @params[:q] = {}.to_json
 
         post :create_batch, @params
 
@@ -133,6 +134,7 @@ RSpec.describe DashboardController, :type => :controller do
 
       it "should create batch of all works" do
         @params[:json] = {works: 'all'}.to_json
+        @params[:q] = {}.to_json
 
         post :create_batch, @params
 
@@ -156,14 +158,15 @@ RSpec.describe DashboardController, :type => :controller do
       end
 
       it "should create batch of all works - batch job filter" do
-        @params[:json] = {works: 'all'}.to_json
-
         # Create batch used for filter
         batch_job = create(:batch_job)
         # Create job_queue used to query the batch_job
         job_queue = create(:job_queue, batch_job: batch_job, work: @works.first, page: @works.first.pages.first, status: JobStatus.done)
 
-        post :create_batch, @params, {batch: batch_job.id}
+        @params[:json] = {works: 'all'}.to_json
+        @params[:q] = {"by_batch_job" => batch_job.id }.to_json
+
+        post :create_batch, @params
 
         expect(response).to be_success
         job_queues = JobQueue.pending
@@ -179,11 +182,12 @@ RSpec.describe DashboardController, :type => :controller do
 
       it "should create batch of all works - GT filter" do
         @params[:json] = {works: 'all'}.to_json
+        @params[:q] = {"ground_truth" => 'with_gt' }.to_json
 
         # Set one work to be in scope of Work.with_gt
         @works.first.update!(wks_gt_number: '1')
 
-        post :create_batch, @params, {gt: 'with_gt'}
+        post :create_batch, @params
 
         expect(response).to be_success
         job_queues = JobQueue.all
@@ -193,8 +197,9 @@ RSpec.describe DashboardController, :type => :controller do
 
       it "should create batch of all works - without GT filter" do
         @params[:json] = {works: 'all'}.to_json
+        @params[:q] = {"ground_truth" => 'without_gt' }.to_json
 
-        post :create_batch, @params, {gt: 'without_gt'}
+        post :create_batch, @params
 
         expect(response).to be_success
         job_queues = JobQueue.all
@@ -203,13 +208,14 @@ RSpec.describe DashboardController, :type => :controller do
       end
 
       it "should create batch of all works - font filter" do
-        @params[:json] = {works: 'all'}.to_json
-
         # Set one work to use different font
         new_font = create(:font)
         @works.first.update!(wks_primary_print_font: new_font.id)
 
-        post :create_batch, @params, {font: new_font.id}
+        @params[:json] = {works: 'all'}.to_json
+        @params[:q] = {"wks_primary_print_font_eq" => new_font.id }.to_json
+
+        post :create_batch, @params
 
         expect(response).to be_success
         job_queues = JobQueue.all
@@ -218,13 +224,14 @@ RSpec.describe DashboardController, :type => :controller do
       end
 
       it "should create batch of all works - EEBO filter" do
-        @params[:json] = {works: 'all'}.to_json
-
         # Set one work to EEBO
         collection = create(:works_collection, name: 'EEBO')
         @works.first.update!(collection: collection)
 
-        post :create_batch, @params, {collection: collection.id}
+        @params[:json] = {works: 'all'}.to_json
+        @params[:q] = {"collection_id_eq" => collection.id }.to_json
+
+        post :create_batch, @params
 
         expect(response).to be_success
         job_queues = JobQueue.all
@@ -233,11 +240,14 @@ RSpec.describe DashboardController, :type => :controller do
       end
 
       it "should create batch of all works - ECCO filter" do
-        @params[:json] = {works: 'all'}.to_json
-
+        # Set one work to ECCO
         collection = create(:works_collection, name: 'ECCO')
         @works.first.update!(collection: collection)
-        post :create_batch, @params, {collection: collection.id}
+
+        @params[:json] = {works: 'all'}.to_json
+        @params[:q] = {"collection_id_eq" => collection.id }.to_json
+
+        post :create_batch, @params
 
         expect(response).to be_success
         job_queues = JobQueue.all
@@ -258,8 +268,9 @@ RSpec.describe DashboardController, :type => :controller do
 
       it "should create batch of all works - from filter" do
         @params[:json] = {works: 'all'}.to_json
+        @params[:q] = {"ocr_completed_date_from" => '2013-01-01' }.to_json
 
-        post :create_batch, @params, {from: '2013-01-01'}
+        post :create_batch, @params
 
         expect(response).to be_success
         job_queues = JobQueue.all
@@ -269,8 +280,9 @@ RSpec.describe DashboardController, :type => :controller do
 
       it "should create batch of all works - to filter" do
         @params[:json] = {works: 'all'}.to_json
+        @params[:q] = {"ocr_completed_date_to" => '2013-01-02' }.to_json
 
-        post :create_batch, @params, {to: '2013-01-02'}
+        post :create_batch, @params
 
         expect(response).to be_success
         job_queues = JobQueue.all
@@ -280,8 +292,9 @@ RSpec.describe DashboardController, :type => :controller do
 
       it "should create batch of all works - to/from filter" do
         @params[:json] = {works: 'all'}.to_json
+        @params[:q] = {"ocr_completed_date_from" => '2013-01-01', "ocr_completed_date_to" => '2014-01-01' }.to_json
 
-        post :create_batch, @params, {from: '2013-01-01', to: '2014-01-01'}
+        post :create_batch, @params
 
         expect(response).to be_success
         job_queues = JobQueue.all
@@ -332,8 +345,9 @@ RSpec.describe DashboardController, :type => :controller do
 
       it "should create batch of all works - ocr_done filter" do
         @params[:json] = {works: 'all'}.to_json
+        @params[:q] = {"ocr_filter" => 'ocr_done' }.to_json
 
-        post :create_batch, @params, {ocr: 'ocr_done'}
+        post :create_batch, @params
 
         expect(response).to be_success
         job_queues = JobQueue.where(status: JobStatus.not_started)
@@ -344,8 +358,9 @@ RSpec.describe DashboardController, :type => :controller do
 
       it "should create batch of all works - ocr_sched filter" do
         @params[:json] = {works: 'all'}.to_json
+        @params[:q] = {"ocr_filter" => 'ocr_sched' }.to_json
 
-        post :create_batch, @params, {ocr: 'ocr_sched'}
+        post :create_batch, @params
 
         expect(response).to be_success
         job_queues = JobQueue.where(status: JobStatus.not_started)
@@ -356,8 +371,9 @@ RSpec.describe DashboardController, :type => :controller do
 
       it "should create batch of all works - ocr_ingest filter" do
         @params[:json] = {works: 'all'}.to_json
+        @params[:q] = {"ocr_filter" => 'ocr_ingest' }.to_json
 
-        post :create_batch, @params, {ocr: 'ocr_ingest'}
+        post :create_batch, @params
 
         expect(response).to be_success
         job_queues = JobQueue.where(status: JobStatus.not_started)
@@ -367,8 +383,9 @@ RSpec.describe DashboardController, :type => :controller do
 
       it "should create batch of all works - ocr_ingest_error filter" do
         @params[:json] = {works: 'all'}.to_json
+        @params[:q] = {"ocr_filter" => 'ocr_ingest_error' }.to_json
 
-        post :create_batch, @params, {ocr: 'ocr_ingest_error'}
+        post :create_batch, @params
 
         expect(response).to be_success
         job_queues = JobQueue.where(status: JobStatus.not_started)
@@ -378,7 +395,9 @@ RSpec.describe DashboardController, :type => :controller do
 
       it "should create batch of all works - ocr_none filter" do
         @params[:json] = {works: 'all'}.to_json
-        post :create_batch, @params, {ocr: 'ocr_none'}
+        @params[:q] = {"ocr_filter" => 'ocr_none' }.to_json
+
+        post :create_batch, @params
 
         expect(response).to be_success
         job_queues = JobQueue.where(status: JobStatus.not_started)
@@ -389,8 +408,9 @@ RSpec.describe DashboardController, :type => :controller do
 
       it "should create batch of all works - ocr_error filter" do
         @params[:json] = {works: 'all'}.to_json
+        @params[:q] = {"ocr_filter" => 'ocr_error' }.to_json
 
-        post :create_batch, @params, {ocr: 'ocr_error'}
+        post :create_batch, @params
 
         expect(response).to be_success
         job_queues = JobQueue.where(status: JobStatus.not_started)

@@ -4,38 +4,13 @@ class DashboardController < ApplicationController
   # main dashboard summary view
   #
   def index
-    if request.format.html?
-      # pull extra filter data from session
-      @batch_filter = session[:batch]
-      @collection_filter = session[:collection]
-      @from_filter = session[:from]
-      @to_filter = session[:to]
-      @ocr_filter = session[:ocr]
-      @gt_filter = session[:gt]
-      @print_font_filter = session[:font]
-
-      # get summary for queue
-      @queue_status = JobQueue.status_summary
-    end
-
-    if request.format.json?
-      # stuff filter params in session so they can be restored each view
-      session[:search] = params[:sSearch]
-      session[:gt] = params[:gt]
-      session[:batch]  = params[:batch]
-      session[:collection] = params[:collection]
-      session[:from] = params[:from]
-      session[:to] = params[:to]
-      session[:ocr]  = params[:ocr]
-      session[:font]  = params[:font]
-    end
+    @q = Work.ransack(params[:q])
 
     respond_to do |format|
-      format.html
-      format.json { render json: DashboardDatatable.new(view_context) }
+      format.html { @queue_status = JobQueue.status_summary }
+      format.json { render json: DashboardDatatable.new(view_context, @q) }
       format.csv do
-        json_data = DashboardDatatable.new(view_context).as_json
-        send_data to_csv(json_data[:data]), filename: 'emop_dashboard_results.csv'
+        send_data @q.result.to_csv, filename: 'emop_dashboard_results.csv'
       end
     end
   end
@@ -121,8 +96,7 @@ class DashboardController < ApplicationController
     # filter settings
     json_payload = ActiveSupport::JSON.decode(params[:json])
     if json_payload['works'] == 'all'
-      works = Work.all
-      works = Work.filter_by_params(works, session)
+      works = Work.ransack(ActiveSupport::JSON.decode(params[:q])).result
 
       jobs = []
       works.find_each do |work|
@@ -161,35 +135,4 @@ class DashboardController < ApplicationController
     raise 'This is a test of the exception notification system. This is not a real error.'
   end
 
-  def to_csv(data)
-    column_names = [
-      'Work ID',
-      'Collection',
-      'Title',
-      'Author',
-      'Font',
-      'OCR Date',
-      'OCR Engine',
-      'OCR Batch',
-      'Juxta',
-      'RETAS'
-    ]
-    CSV.generate({}) do |csv|
-      csv << column_names
-      data.each do |row|
-        line = []
-        line.push(row[:id])
-        line.push(row[:collection])
-        line.push(row[:title])
-        line.push(row[:author])
-        line.push(row[:font])
-        line.push(row[:ocr_date])
-        line.push(row[:ocr_engine])
-        line.push(view_context.strip_tags(row[:ocr_batch]))
-        line.push(view_context.strip_tags(row[:juxta_url]))
-        line.push(view_context.strip_tags(row[:retas_url]))
-        csv << line
-      end
-    end
-  end
 end

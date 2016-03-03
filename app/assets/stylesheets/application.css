@@ -11,7 +11,7 @@
  * file per style scope.
  *
  *= require jquery-ui
- *= require jquery.dataTables
+ *= require dataTables/jquery.dataTables
  *= require_self
  *= require sidebyside
  *= require_directory .

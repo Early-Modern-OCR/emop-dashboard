@@ -14,7 +14,7 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require jquery.cookie
-//= require jquery.dataTables.min
+//= require dataTables/jquery.dataTables
 //= require jquery.form.min
 //= require jquery.mousewheel.min
 //= require juxta-ws-common

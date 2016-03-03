@@ -41,7 +41,7 @@
       text-align: right;
    }
    
-   span {
+   label {
       margin-right: 5px;
    }
    
@@ -130,9 +130,13 @@ a.paginate_disabled_previous {
       #filter-left {
          float: left;
       }
-      #filter-right {
-         float: right;
+      #filter-middle {
+         float: left;
          margin-left: 20px;
+      }
+      #filter-right {
+        float: right;
+        margin-left: 20px;
       }
    
       .cb-filter-label {
@@ -214,19 +218,13 @@ a.paginate_disabled_previous {
       }
       #select-all {
          position:relative;
-         top:22px;
-         z-index: 1000;
          width: 80px;
       }
       #schedule-selected, #schedule-all {
          position:relative;
-         top:22px;
-         z-index: 1000;
       } 
       #font-all {
          position:relative;
-         top:22px;
-         z-index: 1000;
       }
 	   form {
 		   position: relative;

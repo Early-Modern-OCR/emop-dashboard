@@ -28,20 +28,15 @@ RSpec.describe Work, :type => :model do
     end
   end
 
-  describe "#filter_by_params" do
-    context "sSearch" do
-      before(:each) do
-        @works = create_list(:work, 2)
-        @params = {}
-      end
+  describe "#ground_truth" do
+    it 'should scope with_gt' do
+      expect(Work).to receive(:with_gt)
+      Work.ground_truth('with_gt')
+    end
 
-      it 'should filter by wks_title' do
-        @works.first.update!(wks_title: 'foo bar')
-        @params['sSearch'] = 'foo'
-        result = Work.filter_by_params(Work.all, @params)
-        expect(result.count).to eq(1)
-        expect(result.first).to eq(@works.first)
-      end
+    it 'should scope without_gt' do
+      expect(Work).to receive(:without_gt)
+      Work.ground_truth('without_gt')
     end
   end
 

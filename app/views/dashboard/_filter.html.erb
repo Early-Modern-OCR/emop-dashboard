@@ -1,38 +1,44 @@
 <div id="dashboard-filter">
-   <div id="filter-header">Results Filter</div>
+  <div id="filter-header">Results Filter</div>
    
-   <div id='filter-left'>
-      <p>
-        <span class="filter-label">Ground Truth:</span>
-        <%= select_tag 'gt-filter', gt_filter_options(@gt_filter), class: 'filter-setting' %>
-      </p>
-      <p>
-         <span class="filter-label">Works:</span>
-         <%= select_tag 'ocr-filter', ocr_filter_options(@ocr_filter), style: 'width: 204px;' %>
-      </p>
-      <p>
-         <span class="filter-label">Collection:</span>
-         <%= select_tag 'collection-filter', collection_filter_options(@collection_filter), style: 'width: 191px;' %>
-      </p>
-      <p>
-         <span class="filter-label">OCR Batch:</span>
-         <%= select_tag 'batch-filter', batch_filter_options(@batch_filter) %>
-      </p>
-   </div>
-   
-   <div id='filter-right'>
-      <p>
-         <span class="filter-label">Print Font:</span>
-         <%= select_tag 'print-font-filter', print_font_filter_options(@print_font_filter) %>
-      </p>
-      <p class="filter-label" style="margin-top:10px">OCR completed date:</p>
-      <p>
-         <span class="filter-label">From:</span>
-         <input class="filter-setting date-filter" type="text" id="from-date" value="<%= @from_filter %>"/>
-         <span class="filter-label">To:</span>
-         <input class="filter-setting date-filter to" type="text" id="to-date"  value="<%= @to_filter %>"/>
-      </p>
-      <input id="filter-apply" class="filter-btn" type="button" value="Apply Filter"/>
-      <input id="filter-reset" class="filter-btn" type="button" value="Reset Filter"/>
-   </div>
-</div>
+    <%= search_form_for @q, url: dashboard_index_path do |f| %>
+      <div id='filter-left'>
+        <p>
+          <%= f.label :ground_truth, "Ground Truth", class: "filter-label" %>
+          <%= f.select :ground_truth, gt_filter_options(@q.ground_truth) %>
+        </p>
+        <p>
+          <%= f.label :ocr_filter, "Works", class: "filter-label" %>
+          <%= f.select :ocr_filter, ocr_filter_options(@q.ocr_filter) %>
+        </p>
+          <%= f.label :collection_id_eq, "Collection", class: "filter-label" %>
+          <%= f.select :collection_id_eq, collection_filter_options(@q.collection_id_eq) %>
+        </p>
+        <p>
+          <%= f.label :by_batch_job, "OCR Batch", class: "filter-label" %>
+          <%= f.select :by_batch_job, batch_filter_options(@q.by_batch_job)%>
+        </p>
+      </div>
+      <div id='filter-middle'>
+        <p>
+          <%= f.label :wks_primary_print_font_eq, "Print Font", class: "filter-label" %>
+          <%= f.select :wks_primary_print_font_eq, print_font_filter_options(@q.wks_primary_print_font_eq) %>
+        </p>
+        <p class="filter-label" style="margin-top:10px">OCR completed date:</p>
+        <p>
+          <%= f.label :ocr_completed_date_from, "From:", class: "filter-label" %>
+          <%= f.text_field :ocr_completed_date_from, class: "filter-setting date-filter", value: @q.ocr_completed_date_from %>
+          <%= f.label :ocr_completed_date_to, "To:", class: "filter-label" %>
+          <%= f.text_field :ocr_completed_date_to, class: "filter-setting date-filter", value: @q.ocr_completed_date_to %>
+        </p>
+        <%= f.submit "Apply Filter", id: "filter-apply", class: "filter-btn" %>
+        <input id="filter-reset" class="filter-btn" type="button" value="Reset Filter"/>
+      </div>
+      <div id='filter-right'>
+        <%= f.condition_fields do |c| %>
+          <%= render "condition_fields", f: c %>
+        <% end %>
+        <p><%= link_to_add_fields "Add Conditions", f, :condition %></p>
+      </div>
+    <% end %>
+  </div>

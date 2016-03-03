@@ -9,13 +9,8 @@ module DashboardHelper
   end
 
   def collection_filter_options(sel)
-    options = [
-      ['All', nil],
-    ]
-    WorksCollection.find_each do |works_collection|
-      options.push([works_collection.name, works_collection.id])
-    end
-    options_for_select(options, sel)
+    options = options_from_collection_for_select(WorksCollection.all, :id, :name, sel)
+    options_for_select([['All', nil]]) + "\n" + options
   end
 
   def ocr_filter_options(sel)
@@ -39,6 +34,15 @@ module DashboardHelper
   def print_font_filter_options(sel)
     options = options_from_collection_for_select(PrintFont.all, :id, :name, sel)
     options_for_select([['All', nil]]) + "\n" + options
+  end
+
+  def link_to_add_fields(name, f, type)
+    new_object = f.object.send "build_#{type}"
+    id = "new_#{type}"
+    fields = f.send("#{type}_fields", new_object, child_index: id) do |builder|
+      render(type.to_s + "_fields", f: builder)
+    end
+    link_to(name, '#', class: "add_fields", data: {id: id, fields: fields.gsub("\n", "")})
   end
 
   def work_checkbox(work, batch_job)
