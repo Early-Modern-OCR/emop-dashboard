@@ -134,8 +134,7 @@ ActiveRecord::Schema.define(version: 20160301000225) do
     t.float   "pp_noisemsr",   limit: 24
   end
 
-  add_index "postproc_pages", ["batch_job_id"], name: "index_postproc_pages_on_batch_job_id", using: :btree
-  add_index "postproc_pages", ["page_id"], name: "index_postproc_pages_on_page_id", using: :btree
+  add_index "postproc_pages", ["page_id", "batch_job_id"], name: "index_postproc_pages_on_page_id_and_batch_job_id", unique: true, using: :btree
 
   create_table "print_fonts", primary_key: "pf_id", force: true do |t|
     t.string "pf_name"

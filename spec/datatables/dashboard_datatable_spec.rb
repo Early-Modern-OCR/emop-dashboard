@@ -74,9 +74,7 @@ RSpec.describe DashboardDatatable do
         allow(view).to receive(:ocr_batch)
         allow(view).to receive(:accuracy_links)
         element = datatable.send(:data).first
-        expect(element).to include(:work_select, :status, :detail_link, :collection,
-                                   :id, :book_id, :gt_number, :title, :author, :font, :ocr_date,
-                                   :ocr_engine, :ocr_batch, :juxta_url, :retas_url)
+        expect(element.size).to eq(15)
       end
     end
 

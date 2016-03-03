@@ -32,23 +32,23 @@ class DashboardDatatable
       else
         batch_job = work.batch_jobs.first
       end
-      {
-        work_select: @view.work_checkbox(work, batch_job),
-        status: @view.work_status(work, batch_job),
-        detail_link: @view.work_detail_link(work, batch_job),
-        collection: work.collection.present? ? work.collection.name : '',
-        id: work.id,
-        book_id: work.wks_book_id,
-        gt_number: work.wks_gt_number,
-        title: work.wks_title,
-        author: work.wks_author,
-        font: work.print_font.present? ? work.print_font.name : '',
-        ocr_date: @view.ocr_date(work),
-        ocr_engine: @view.ocr_engine(work, batch_job),
-        ocr_batch: @view.ocr_batch(work, batch_job),
-        juxta_url: @view.accuracy_links(work, 'juxta_accuracy'),
-        retas_url: @view.accuracy_links(work, 'retas_accuracy')
-      }
+      [
+        @view.work_checkbox(work, batch_job),
+        @view.work_status(work, batch_job),
+        @view.work_detail_link(work, batch_job),
+        work.collection.present? ? work.collection.name : '',
+        work.id,
+        work.wks_book_id,
+        work.wks_gt_number,
+        work.wks_title,
+        work.wks_author,
+        work.print_font.present? ? work.print_font.name : '',
+        @view.ocr_date(work),
+        @view.ocr_engine(work, batch_job),
+        @view.ocr_batch(work, batch_job),
+        @view.accuracy_links(work, 'juxta_accuracy'),
+        @view.accuracy_links(work, 'retas_accuracy')
+      ]
     end
   end
 

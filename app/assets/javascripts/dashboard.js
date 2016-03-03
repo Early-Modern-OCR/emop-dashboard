@@ -516,40 +516,23 @@ $(function() {
       "bSortClasses": false,
       "bFilter": false,
       "aaSorting": [],
-      "fnCreatedRow": function( nRow, aData, iDisplayIndex ) {
-         if ( aData.ocr_engine === "Gale" ) {
-             $(nRow).addClass("gale-row");            
-         }
-      },
       "aoColumns": [
-         { "mData": "work_select" },
-         { "mData": "status" },
-         { "mData": "detail_link" },
-         { "mData": "collection" },
-         { "mData": "id" },
-         { "mData": "book_id" },
-         { "mData": "gt_number" },
-         { "mData": "title" },
-         { "mData": "author" },
-         { "mData": "font" },
-         { "mData": "ocr_date" },
-         { "mData": "ocr_engine" },
-         { "mData": "ocr_batch" },
-         { "mData": "juxta_url" },
-         { "mData": "retas_url" }
+         { "bSortable": false }, //check box
+         { "bSortable": false }, // status
+         { "bSortable": false }, // detail link
+         { "bSortable": false }, // collection
+         null, // ID
+         null, // wks_book_id
+         null, // GT number
+         null, // wks_title
+         null, // wks_author
+         { "bSortable": false }, // wks_primary_print_font
+         { "bSortable": false }, // ocr date
+         { "bSortable": false }, // ocr engine
+         { "bSortable": false }, // ocr batch
+         { "bSortable": false, "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }, // juxta
+         { "bSortable": false, "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} } // retas
        ],
-      "aoColumnDefs": [
-         { "aTargets": [0], "bSortable": false},
-         { "aTargets": [1], "bSortable": false},
-         { "aTargets": [2], "bSortable": false},
-         { "aTargets": [3], "bSortable": false},
-         { "aTargets": [9], "bSortable": false},
-         { "aTargets": [10], "bSortable": false},
-         { "aTargets": [11], "bSortable": false},
-         { "aTargets": [12], "bSortable": false},
-         { "aTargets": [13], "bSortable": false, "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
-         { "aTargets": [14], "bSortable": false, "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
-      ],
       "fnServerParams": function ( aoData ) {
         var q_str = $("#q").text();
         var q = $.parseJSON(q_str);
