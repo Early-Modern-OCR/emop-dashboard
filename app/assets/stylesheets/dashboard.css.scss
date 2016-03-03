@@ -4,6 +4,10 @@
 
 @import "common";
 
+table.dataTable tr.odd {
+    background-color: #E2E4FF;
+}
+
 #dashboard-main {
    margin-top: 2px;
    border-top: 1px solid;
