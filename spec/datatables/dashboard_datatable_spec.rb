@@ -74,7 +74,7 @@ RSpec.describe DashboardDatatable do
         allow(view).to receive(:ocr_batch)
         allow(view).to receive(:accuracy_links)
         element = datatable.send(:data).first
-        expect(element.size).to eq(15)
+        expect(element.size).to eq(16)
       end
     end
 

@@ -9,6 +9,7 @@ class Work < ActiveRecord::Base
   has_many :batch_jobs, -> { uniq }, through: :job_queues
   has_many :page_results, -> { uniq }, through: :pages
   belongs_to :collection, class_name: 'WorksCollection', foreign_key: :collection_id
+  belongs_to :language
 
   validates :wks_title, uniqueness: true
 
@@ -148,6 +149,7 @@ class Work < ActiveRecord::Base
       Jbuilder.new do |json|
         json.id id
         json.collection collection
+        json.language language
         json.wks_gt_number wks_gt_number
         json.wks_estc_number wks_estc_number
         json.wks_coll_name wks_coll_name
@@ -185,6 +187,7 @@ class Work < ActiveRecord::Base
     column_names = [
       'Work ID',
       'Collection',
+      'Language',
       'Title',
       'Author',
       'Font',
@@ -201,6 +204,11 @@ class Work < ActiveRecord::Base
         line.push(work.id)
         if work.collection.present?
           line.push(work.collection.name)
+        else
+          line.push('')
+        end
+        if work.language.present?
+          line.push(work.language.name)
         else
           line.push('')
         end
@@ -241,7 +249,7 @@ class Work < ActiveRecord::Base
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    (column_names - ["collection_id", "wks_work_id", "wks_last_trawled"]) + _ransackers.keys
+    (column_names - ["collection_id", "language_id", "wks_work_id", "wks_last_trawled"]) + _ransackers.keys
   end
 
 end

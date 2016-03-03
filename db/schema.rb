@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160301000225) do
+ActiveRecord::Schema.define(version: 20160303230258) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -90,6 +90,14 @@ ActiveRecord::Schema.define(version: 20160301000225) do
     t.integer  "jx_ocr_witness_id"
     t.datetime "last_accessed"
   end
+
+  create_table "languages", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "languages", ["name"], name: "index_languages_on_name", unique: true, using: :btree
 
   create_table "ocr_engines", force: true do |t|
     t.string "name"
@@ -195,6 +203,7 @@ ActiveRecord::Schema.define(version: 20160301000225) do
     t.integer "wks_primary_print_font"
     t.date    "wks_last_trawled"
     t.integer "collection_id"
+    t.integer "language_id"
   end
 
   add_index "works", ["wks_book_id"], name: "index_works_on_wks_book_id", using: :btree

@@ -9,10 +9,14 @@ module Api
       param :is_ecco, :boolean, desc: 'Filter by ECCO Works'
       param :batch_job_id, Integer, desc: 'Filter by BatchJob ID'
       param :wks_book_id, String, desc: 'Work wks_book_id'
+      param :language_id, Integer, desc: 'Work language_id'
       def index
         @works = Work.page(paginate_params[:page_num]).per(paginate_params[:per_page])
         if query_params[:wks_book_id].present?
           @works = @works.where(wks_book_id: query_params[:wks_book_id])
+        end
+        if query_params[:language_id].present?
+          @works = @works.where(language_id: query_params[:language_id])
         end
         if query_params.key?(:is_ecco) && query_params[:is_ecco].to_bool
           @works = @works.is_ecco
@@ -37,6 +41,7 @@ module Api
       api :POST, '/works', 'Create a work'
       param :work, Hash, required: true do
         param :collection_id, Integer
+        param :language_id, Integer
         param :wks_gt_number, String
         param :wks_estc_number, String
         param :wks_coll_name, String
@@ -69,6 +74,7 @@ module Api
       api :POST, '/works/create_bulk', 'Create multiple works'
       param :works, Array, 'Works', required: true do
         param :collection_id, Integer
+        param :language_id, Integer
         param :wks_gt_number, String
         param :wks_estc_number, String
         param :wks_coll_name, String
@@ -111,6 +117,7 @@ module Api
       api :PUT, '/works/:id', 'Update a work'
       param :work, Hash, required: true do
         param :collection_id, Integer
+        param :language_id, Integer
         param :wks_gt_number, String
         param :wks_estc_number, String
         param :wks_coll_name, String
@@ -149,21 +156,23 @@ module Api
       private
 
       def work_params
-        params.require(:work).permit(:collection_id, :wks_gt_number, :wks_estc_number, :wks_coll_name, :wks_tcp_bibno, :wks_marc_record, :wks_eebo_citation_id, :wks_doc_directory,
+        params.require(:work).permit(:collection_id, :language_id, :wks_gt_number, :wks_estc_number, :wks_coll_name, :wks_tcp_bibno, :wks_marc_record,
+          :wks_eebo_citation_id, :wks_doc_directory,
           :wks_ecco_number, :wks_book_id, :wks_author, :wks_printer, :wks_word_count, :wks_title, :wks_eebo_image_id, :wks_eebo_url, :wks_pub_date,
           :wks_ecco_uncorrected_gale_ocr_path, :wks_corrected_xml_path, :wks_corrected_text_path, :wks_ecco_directory, :wks_ecco_gale_ocr_xml_path,
           :wks_organizational_unit, :wks_primary_print_font, :wks_last_trawled)
       end
 
       def work_bulk_params(work)
-        work.permit(:collection_id, :wks_gt_number, :wks_estc_number, :wks_coll_name, :wks_tcp_bibno, :wks_marc_record, :wks_eebo_citation_id, :wks_doc_directory,
+        work.permit(:collection_id, :language_id, :wks_gt_number, :wks_estc_number, :wks_coll_name, :wks_tcp_bibno, :wks_marc_record,
+          :wks_eebo_citation_id, :wks_doc_directory,
           :wks_ecco_number, :wks_book_id, :wks_author, :wks_printer, :wks_word_count, :wks_title, :wks_eebo_image_id, :wks_eebo_url, :wks_pub_date,
           :wks_ecco_uncorrected_gale_ocr_path, :wks_corrected_xml_path, :wks_corrected_text_path, :wks_ecco_directory, :wks_ecco_gale_ocr_xml_path,
           :wks_organizational_unit, :wks_primary_print_font, :wks_last_trawled)
       end
 
       def query_params
-        params.permit(:is_eebo, :is_ecco, :batch_job_id, :wks_book_id)
+        params.permit(:is_eebo, :is_ecco, :batch_job_id, :wks_book_id, :language_id)
       end
 
     end

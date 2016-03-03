@@ -34,6 +34,10 @@ FactoryGirl.define do
     sequence(:name) { |n| "collection-#{n}" }
   end
 
+  factory :language do
+    sequence(:name) { |n| "language-#{n}" }
+  end
+
   factory :work do
     wks_estc_number "T137595"
     wks_ecco_number "0212100100"

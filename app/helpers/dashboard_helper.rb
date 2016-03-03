@@ -13,6 +13,11 @@ module DashboardHelper
     options_for_select([['All', nil]]) + "\n" + options
   end
 
+  def language_filter_options(sel)
+    options = options_from_collection_for_select(Language.all, :id, :name, sel)
+    options_for_select([['All', nil]]) + "\n" + options
+  end
+
   def ocr_filter_options(sel)
     options = [
       ['All', nil],

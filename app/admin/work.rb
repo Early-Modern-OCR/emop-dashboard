@@ -14,6 +14,7 @@ ActiveAdmin.register Work do
   ## Index search filters
   filter :wks_work_id, label: 'ID'
   filter :collection
+  filter :language
   filter :wks_title
   filter :wks_printer
   filter :wks_gt_number
@@ -25,6 +26,7 @@ ActiveAdmin.register Work do
       link_to work.id, admin_work_path(work)
     end
     column :collection
+    column :language
     column :wks_title
     column :wks_book_id
     column :wks_printer
@@ -38,6 +40,9 @@ ActiveAdmin.register Work do
       row :id
       row('Collection') do
         work.collection.name if work.collection.present?
+      end
+      row('Language') do
+        work.language.name if work.language.present?
       end
       row('GT Number') { |w| w.wks_gt_number }
       row('ESTC Number') { |w| w.wks_estc_number }
@@ -82,6 +87,7 @@ ActiveAdmin.register Work do
     f.semantic_errors
     f.inputs do
       f.input :collection
+      f.input :language
       f.input :print_font
       f.input :wks_gt_number
       f.input :wks_estc_number

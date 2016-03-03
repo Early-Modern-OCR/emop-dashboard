@@ -11,6 +11,7 @@
           <%= f.label :ocr_filter, "Works", class: "filter-label" %>
           <%= f.select :ocr_filter, ocr_filter_options(@q.ocr_filter) %>
         </p>
+        <p>
           <%= f.label :collection_id_eq, "Collection", class: "filter-label" %>
           <%= f.select :collection_id_eq, collection_filter_options(@q.collection_id_eq) %>
         </p>
@@ -20,6 +21,10 @@
         </p>
       </div>
       <div id='filter-middle'>
+        <p>
+          <%= f.label :language_id_eq, "Language", class: "filter-label" %>
+          <%= f.select :language_id_eq, language_filter_options(@q.language_id_eq) %>
+        </p>
         <p>
           <%= f.label :wks_primary_print_font_eq, "Print Font", class: "filter-label" %>
           <%= f.select :wks_primary_print_font_eq, print_font_filter_options(@q.wks_primary_print_font_eq) %>

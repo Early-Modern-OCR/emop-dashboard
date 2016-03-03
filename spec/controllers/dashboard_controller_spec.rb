@@ -23,7 +23,7 @@ RSpec.describe DashboardController, :type => :controller do
     end
 
     context 'csv format' do
-      let(:columns) { [ 'Work ID', 'Collection', 'Title', 'Author', 'Font', 'OCR Date', 'OCR Engine', 'OCR Batch', 'Juxta', 'RETAS' ] }
+      let(:columns) { [ 'Work ID', 'Collection', 'Language', 'Title', 'Author', 'Font', 'OCR Date', 'OCR Engine', 'OCR Batch', 'Juxta', 'RETAS' ] }
       it 'should respond to csv format' do
         get :index, {format: :csv}, valid_session
         expect(response).to be_success
@@ -45,6 +45,7 @@ RSpec.describe DashboardController, :type => :controller do
           data = [
             work.id,
             'ECCO',
+            '',
             work.wks_title,
             work.wks_author,
             pf.name,

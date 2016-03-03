@@ -8,7 +8,7 @@ class DashboardDatatable
     @q = q
     @columns = [
       nil,nil,nil,nil,'wks_work_id', 'wks_book_id',
-      'wks_gt_number','wks_title','wks_author', nil,
+      'wks_gt_number', nil, 'wks_title','wks_author', nil,
       nil,nil,nil,nil,nil
     ]
   end
@@ -40,6 +40,7 @@ class DashboardDatatable
         work.id,
         work.wks_book_id,
         work.wks_gt_number,
+        work.language.present? ? work.language.name : '',
         work.wks_title,
         work.wks_author,
         work.print_font.present? ? work.print_font.name : '',
@@ -72,10 +73,10 @@ class DashboardDatatable
 
     # enforce some rules on what columns can be sorted based on OCR filter setting:
     # don't allow sort on results or date when error filter is on; no data exists for these
-    if (search_col_idx == 10 || search_col_idx > 12) && params[:ocr] == "ocr_sched"
+    if (search_col_idx == 11 || search_col_idx > 13) && params[:ocr] == "ocr_sched"
       search_col_idx = 4
     # don't allow sort on any OCR data when NONE filter is on
-    elsif (search_col_idx > 9) && params[:ocr] == "ocr_none"
+    elsif (search_col_idx > 10) && params[:ocr] == "ocr_none"
       search_col_idx = 4
     end
 

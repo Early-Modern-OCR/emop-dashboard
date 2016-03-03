@@ -524,6 +524,7 @@ $(function() {
          null, // ID
          null, // wks_book_id
          null, // GT number
+         null, // language
          null, // wks_title
          null, // wks_author
          { "bSortable": false }, // wks_primary_print_font
