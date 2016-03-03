@@ -527,6 +527,7 @@ $(function() {
          { "mData": "detail_link" },
          { "mData": "collection" },
          { "mData": "id" },
+         { "mData": "book_id" },
          { "mData": "gt_number" },
          { "mData": "title" },
          { "mData": "author" },
@@ -542,12 +543,12 @@ $(function() {
          { "aTargets": [1], "bSortable": false},
          { "aTargets": [2], "bSortable": false},
          { "aTargets": [3], "bSortable": false},
-         { "aTargets": [8], "bSortable": false},
          { "aTargets": [9], "bSortable": false},
          { "aTargets": [10], "bSortable": false},
          { "aTargets": [11], "bSortable": false},
-         { "aTargets": [12], "bSortable": false, "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
-         { "aTargets": [13], "bSortable": false, "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
+         { "aTargets": [12], "bSortable": false},
+         { "aTargets": [13], "bSortable": false, "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} },
+         { "aTargets": [14], "bSortable": false, "sClass": "result-data", "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) { resultCell(nTd,sData);} }
       ],
       "fnServerParams": function ( aoData ) {
         var q_str = $("#q").text();

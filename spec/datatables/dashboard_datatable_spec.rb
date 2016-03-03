@@ -75,7 +75,7 @@ RSpec.describe DashboardDatatable do
         allow(view).to receive(:accuracy_links)
         element = datatable.send(:data).first
         expect(element).to include(:work_select, :status, :detail_link, :collection,
-                                   :id, :gt_number, :title, :author, :font, :ocr_date,
+                                   :id, :book_id, :gt_number, :title, :author, :font, :ocr_date,
                                    :ocr_engine, :ocr_batch, :juxta_url, :retas_url)
       end
     end
@@ -105,7 +105,7 @@ RSpec.describe DashboardDatatable do
       end
 
       it 'returns wks_gt_number' do
-        datatable.params[:iSortCol_0] = '5'
+        datatable.params[:iSortCol_0] = '6'
         expect(datatable.send(:sort_column)).to eq('wks_gt_number')
       end
 
@@ -115,13 +115,13 @@ RSpec.describe DashboardDatatable do
       end
 
       it 'sets default column when ocr_sched' do
-        datatable.params[:iSortCol_0] = '9'
+        datatable.params[:iSortCol_0] = '10'
         datatable.params[:ocr] = 'ocr_sched'
         expect(datatable.send(:sort_column)).to eq('wks_work_id')
       end
 
       it 'sets default column when ocr_none' do
-        datatable.params[:iSortCol_0] = '9'
+        datatable.params[:iSortCol_0] = '10'
         datatable.params[:ocr] = 'ocr_none'
         expect(datatable.send(:sort_column)).to eq('wks_work_id')
       end
