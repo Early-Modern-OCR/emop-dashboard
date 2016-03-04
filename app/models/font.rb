@@ -8,7 +8,7 @@ class Font < ActiveRecord::Base
 
   def to_builder(version = 'v1')
     case version
-    when /v1|v2/
+    when 'v1'
       Jbuilder.new do |json|
         json.id                 id
         json.font_name          font_name
@@ -19,6 +19,19 @@ class Font < ActiveRecord::Base
         json.font_fraktur       font_fraktur
         json.font_line_height   font_line_height
         json.font_library_path  font_library_path
+      end
+    when 'v2'
+      Jbuilder.new do |json|
+        json.id                 id
+        json.font_name          font_name
+        json.font_italic        font_italic
+        json.font_bold          font_bold
+        json.font_fixed         font_fixed
+        json.font_serif         font_serif
+        json.font_fraktur       font_fraktur
+        json.font_line_height   font_line_height
+        json.font_library_path  font_library_path
+        json.path               path
       end
     end
   end
@@ -34,6 +47,6 @@ class Font < ActiveRecord::Base
   end
 
   def traineddata_path
-    File.join(Rails.application.secrets.emop_font_dir, "#{self.font_name}.traineddata")
+    File.join(Rails.application.secrets.emop_font_dir, "#{self.font_name}#{Settings.font_suffix}")
   end
 end

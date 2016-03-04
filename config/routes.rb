@@ -60,6 +60,8 @@ Rails.application.routes.draw do
    get "results/:id/download/:type" => "results#download_result", as: 'download_page_result'
    get "results/:batch/:page/error" => "results#page_error"
    post "results/reschedule" => "results#reschedule"
+   get 'results/add_to_batchjob' => 'results#add_to_batchjob'
+   put 'results/add_to_batchjob' => 'results#add_to_batchjob'
 
    # main dashboard routes
    get "dashboard/index"

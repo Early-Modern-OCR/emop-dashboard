@@ -2,7 +2,7 @@ ActiveAdmin.register Font do
 
   ## Permit these attributes to be updated
   permit_params :font_name, :font_italic, :font_bold, :font_fixed, :font_serif,
-                :font_fraktur, :font_line_height, :font_library_path
+                :font_fraktur, :font_line_height, :font_library_path, :path
 
   ## Controller customizations
   controller do
@@ -11,11 +11,13 @@ ActiveAdmin.register Font do
 
   ## Index search filters
   filter :font_name
+  filter :path
 
   ## INDEX
   index do
     id_column
     column :font_name
+    column :path
     actions
   end
 
@@ -33,6 +35,7 @@ ActiveAdmin.register Font do
       row :font_fraktur
       row :font_line_height
       row :font_library_path
+      row :path
     end
 
     panel "Batch Jobs" do
@@ -60,6 +63,7 @@ ActiveAdmin.register Font do
       f.input :font_fraktur
       f.input :font_line_height
       f.input :font_library_path
+      f.input :path
     end
     f.actions
   end

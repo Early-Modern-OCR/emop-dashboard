@@ -20,4 +20,5 @@
 //= require juxta-ws-common
 //= require raphael-min
 //= require sidebyside
+//= require bootstrap/modal
 //= require_directory .

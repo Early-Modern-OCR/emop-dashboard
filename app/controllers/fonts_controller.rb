@@ -13,6 +13,7 @@ class FontsController < ApplicationController
     upload_file = params[:file].tempfile
 
     @font = Font.new(font_name: font_name, font_library_path: nil)
+    @font.path = @font.traineddata_path
 
     # Write the font's traineddata file
     File.open(@font.traineddata_path, 'wb') { |f| f.write(upload_file.read) }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160303230258) do
+ActiveRecord::Schema.define(version: 20160304172253) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 20160303230258) do
     t.boolean "font_fraktur"
     t.integer "font_line_height"
     t.string  "font_library_path"
+    t.string  "path"
   end
 
   create_table "job_queues", force: true do |t|

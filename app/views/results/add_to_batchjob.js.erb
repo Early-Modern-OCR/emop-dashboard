@@ -1,0 +1,9 @@
+$('#add-pages-to-batchjob').html("<%= j render partial: 'add_to_batchjob', locals: { path: results_add_to_batchjob_path } %>");
+var pageIds = [];
+$(".sel-cb").each(function () {
+   if ($(this).is(':checked')) {
+      var id = $(this).attr("id").substring("sel-page-".length);
+      pageIds.push(id);
+   }
+});
+$("#page_ids").val(JSON.stringify(pageIds));

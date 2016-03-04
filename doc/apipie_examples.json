@@ -61,7 +61,7 @@
               "name": "OCR"
             },
             "ocr_engine": {
-              "id": 2,
+              "id": 1,
               "name": "Tesseract"
             },
             "font": {
@@ -86,7 +86,7 @@
               "name": "OCR"
             },
             "ocr_engine": {
-              "id": 2,
+              "id": 1,
               "name": "Tesseract"
             },
             "font": {
@@ -132,7 +132,7 @@
               "name": "OCR"
             },
             "ocr_engine": {
-              "id": 2,
+              "id": 1,
               "name": "Tesseract"
             },
             "font": {
@@ -144,7 +144,8 @@
               "font_serif": null,
               "font_fraktur": null,
               "font_line_height": null,
-              "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata"
+              "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
+              "path": null
             }
           },
           {
@@ -157,7 +158,7 @@
               "name": "OCR"
             },
             "ocr_engine": {
-              "id": 2,
+              "id": 1,
               "name": "Tesseract"
             },
             "font": {
@@ -169,7 +170,8 @@
               "font_serif": null,
               "font_fraktur": null,
               "font_line_height": null,
-              "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata"
+              "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
+              "path": null
             }
           }
         ]
@@ -199,7 +201,7 @@
             "name": "OCR"
           },
           "ocr_engine": {
-            "id": 2,
+            "id": 1,
             "name": "Tesseract"
           },
           "font": {
@@ -238,7 +240,7 @@
             "name": "OCR"
           },
           "ocr_engine": {
-            "id": 2,
+            "id": 1,
             "name": "Tesseract"
           },
           "font": {
@@ -250,7 +252,8 @@
             "font_serif": null,
             "font_fraktur": null,
             "font_line_height": null,
-            "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata"
+            "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
+            "path": null
           }
         }
       },
@@ -499,7 +502,7 @@
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 2,
+                "id": 1,
                 "name": "Tesseract"
               },
               "font": {
@@ -532,7 +535,7 @@
                 "wks_author": "Baskerville, John",
                 "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
                 "wks_word_count": null,
-                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_title": "Title-17",
                 "wks_eebo_image_id": null,
                 "wks_eebo_url": null,
                 "wks_pub_date": "1765",
@@ -562,7 +565,7 @@
               "wks_author": "Baskerville, John",
               "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+              "wks_title": "Title-18",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -595,7 +598,7 @@
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 2,
+                "id": 1,
                 "name": "Tesseract"
               },
               "font": {
@@ -628,7 +631,7 @@
                 "wks_author": "Baskerville, John",
                 "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
                 "wks_word_count": null,
-                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_title": "Title-19",
                 "wks_eebo_image_id": null,
                 "wks_eebo_url": null,
                 "wks_pub_date": "1765",
@@ -658,7 +661,7 @@
               "wks_author": "Baskerville, John",
               "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+              "wks_title": "Title-20",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -712,7 +715,7 @@
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 2,
+                "id": 1,
                 "name": "Tesseract"
               },
               "font": {
@@ -745,7 +748,7 @@
                 "wks_author": "Baskerville, John",
                 "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
                 "wks_word_count": null,
-                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_title": "Title-21",
                 "wks_eebo_image_id": null,
                 "wks_eebo_url": null,
                 "wks_pub_date": "1765",
@@ -775,7 +778,7 @@
               "wks_author": "Baskerville, John",
               "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+              "wks_title": "Title-22",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -808,7 +811,7 @@
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 2,
+                "id": 1,
                 "name": "Tesseract"
               },
               "font": {
@@ -841,7 +844,7 @@
                 "wks_author": "Baskerville, John",
                 "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
                 "wks_word_count": null,
-                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_title": "Title-23",
                 "wks_eebo_image_id": null,
                 "wks_eebo_url": null,
                 "wks_pub_date": "1765",
@@ -871,7 +874,7 @@
               "wks_author": "Baskerville, John",
               "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+              "wks_title": "Title-24",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -1006,7 +1009,7 @@
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 2,
+                "id": 1,
                 "name": "Tesseract"
               },
               "font": {
@@ -1039,7 +1042,7 @@
                 "wks_author": "Baskerville, John",
                 "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
                 "wks_word_count": null,
-                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_title": "Title-65",
                 "wks_eebo_image_id": null,
                 "wks_eebo_url": null,
                 "wks_pub_date": "1765",
@@ -1069,7 +1072,7 @@
               "wks_author": "Baskerville, John",
               "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+              "wks_title": "Title-66",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -1104,7 +1107,7 @@
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 2,
+                "id": 1,
                 "name": "Tesseract"
               },
               "font": {
@@ -1137,7 +1140,7 @@
                 "wks_author": "Baskerville, John",
                 "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
                 "wks_word_count": null,
-                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_title": "Title-67",
                 "wks_eebo_image_id": null,
                 "wks_eebo_url": null,
                 "wks_pub_date": "1765",
@@ -1167,7 +1170,7 @@
               "wks_author": "Baskerville, John",
               "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+              "wks_title": "Title-68",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -1225,7 +1228,7 @@
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 2,
+                "id": 1,
                 "name": "Tesseract"
               },
               "font": {
@@ -1258,7 +1261,7 @@
                 "wks_author": "Baskerville, John",
                 "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
                 "wks_word_count": null,
-                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_title": "Title-75",
                 "wks_eebo_image_id": null,
                 "wks_eebo_url": null,
                 "wks_pub_date": "1765",
@@ -1288,7 +1291,7 @@
               "wks_author": "Baskerville, John",
               "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+              "wks_title": "Title-76",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -1314,7 +1317,6 @@
               "corr_ocr_xml_path": "/some/path/output_ALTO.xml"
             },
             "postproc_result": {
-              "id": 2,
               "page_id": 39,
               "batch_job_id": 39,
               "pp_ecorr": 0.0,
@@ -1328,6 +1330,7 @@
                 "unchanged": 184
               },
               "pp_pg_quality": 0.0,
+              "id": 2,
               "noisiness_idx": 0.0,
               "multicol": "0;1;2",
               "skew_idx": "1;0;1",
@@ -1353,7 +1356,7 @@
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 2,
+                "id": 1,
                 "name": "Tesseract"
               },
               "font": {
@@ -1386,7 +1389,7 @@
                 "wks_author": "Baskerville, John",
                 "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
                 "wks_word_count": null,
-                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_title": "Title-77",
                 "wks_eebo_image_id": null,
                 "wks_eebo_url": null,
                 "wks_pub_date": "1765",
@@ -1416,7 +1419,7 @@
               "wks_author": "Baskerville, John",
               "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+              "wks_title": "Title-78",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -1474,7 +1477,7 @@
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 2,
+                "id": 1,
                 "name": "Tesseract"
               },
               "font": {
@@ -1486,7 +1489,8 @@
                 "font_serif": null,
                 "font_fraktur": null,
                 "font_line_height": null,
-                "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata"
+                "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
+                "path": null
               }
             },
             "page": {
@@ -1509,7 +1513,7 @@
                 "wks_author": "Baskerville, John",
                 "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
                 "wks_word_count": null,
-                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_title": "Title-169",
                 "wks_eebo_image_id": null,
                 "wks_eebo_url": null,
                 "wks_pub_date": "1765",
@@ -1521,12 +1525,14 @@
                 "wks_organizational_unit": 265,
                 "wks_primary_print_font": null,
                 "wks_last_trawled": "2013-06-30",
-                "collection_id": null
+                "collection_id": null,
+                "language_id": null
               }
             },
             "work": {
               "id": 170,
               "collection": null,
+              "language": null,
               "wks_gt_number": null,
               "wks_estc_number": "T137595",
               "wks_coll_name": null,
@@ -1539,7 +1545,7 @@
               "wks_author": "Baskerville, John",
               "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+              "wks_title": "Title-170",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -1574,7 +1580,7 @@
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 2,
+                "id": 1,
                 "name": "Tesseract"
               },
               "font": {
@@ -1586,7 +1592,8 @@
                 "font_serif": null,
                 "font_fraktur": null,
                 "font_line_height": null,
-                "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata"
+                "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
+                "path": null
               }
             },
             "page": {
@@ -1609,7 +1616,7 @@
                 "wks_author": "Baskerville, John",
                 "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
                 "wks_word_count": null,
-                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_title": "Title-171",
                 "wks_eebo_image_id": null,
                 "wks_eebo_url": null,
                 "wks_pub_date": "1765",
@@ -1621,12 +1628,14 @@
                 "wks_organizational_unit": 265,
                 "wks_primary_print_font": null,
                 "wks_last_trawled": "2013-06-30",
-                "collection_id": null
+                "collection_id": null,
+                "language_id": null
               }
             },
             "work": {
               "id": 172,
               "collection": null,
+              "language": null,
               "wks_gt_number": null,
               "wks_estc_number": "T137595",
               "wks_coll_name": null,
@@ -1639,7 +1648,7 @@
               "wks_author": "Baskerville, John",
               "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+              "wks_title": "Title-172",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -1697,7 +1706,7 @@
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 2,
+                "id": 1,
                 "name": "Tesseract"
               },
               "font": {
@@ -1709,7 +1718,8 @@
                 "font_serif": null,
                 "font_fraktur": null,
                 "font_line_height": null,
-                "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata"
+                "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
+                "path": null
               }
             },
             "page": {
@@ -1732,7 +1742,7 @@
                 "wks_author": "Baskerville, John",
                 "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
                 "wks_word_count": null,
-                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_title": "Title-179",
                 "wks_eebo_image_id": null,
                 "wks_eebo_url": null,
                 "wks_pub_date": "1765",
@@ -1744,12 +1754,14 @@
                 "wks_organizational_unit": 265,
                 "wks_primary_print_font": null,
                 "wks_last_trawled": "2013-06-30",
-                "collection_id": null
+                "collection_id": null,
+                "language_id": null
               }
             },
             "work": {
               "id": 180,
               "collection": null,
+              "language": null,
               "wks_gt_number": null,
               "wks_estc_number": "T137595",
               "wks_coll_name": null,
@@ -1762,7 +1774,7 @@
               "wks_author": "Baskerville, John",
               "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+              "wks_title": "Title-180",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -1788,7 +1800,6 @@
               "corr_ocr_xml_path": "/some/path/output_ALTO.xml"
             },
             "postproc_result": {
-              "id": 12,
               "page_id": 104,
               "batch_job_id": 98,
               "pp_ecorr": 0.0,
@@ -1802,6 +1813,7 @@
                 "unchanged": 184
               },
               "pp_pg_quality": 0.0,
+              "id": 12,
               "noisiness_idx": 0.0,
               "multicol": "0;1;2",
               "skew_idx": "1;0;1",
@@ -1827,7 +1839,7 @@
                 "name": "OCR"
               },
               "ocr_engine": {
-                "id": 2,
+                "id": 1,
                 "name": "Tesseract"
               },
               "font": {
@@ -1839,7 +1851,8 @@
                 "font_serif": null,
                 "font_fraktur": null,
                 "font_line_height": null,
-                "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata"
+                "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
+                "path": null
               }
             },
             "page": {
@@ -1862,7 +1875,7 @@
                 "wks_author": "Baskerville, John",
                 "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
                 "wks_word_count": null,
-                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_title": "Title-181",
                 "wks_eebo_image_id": null,
                 "wks_eebo_url": null,
                 "wks_pub_date": "1765",
@@ -1874,12 +1887,14 @@
                 "wks_organizational_unit": 265,
                 "wks_primary_print_font": null,
                 "wks_last_trawled": "2013-06-30",
-                "collection_id": null
+                "collection_id": null,
+                "language_id": null
               }
             },
             "work": {
               "id": 182,
               "collection": null,
+              "language": null,
               "wks_gt_number": null,
               "wks_estc_number": "T137595",
               "wks_coll_name": null,
@@ -1892,7 +1907,7 @@
               "wks_author": "Baskerville, John",
               "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+              "wks_title": "Title-182",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -1943,7 +1958,7 @@
               "name": "OCR"
             },
             "ocr_engine": {
-              "id": 2,
+              "id": 1,
               "name": "Tesseract"
             },
             "font": {
@@ -1976,7 +1991,7 @@
               "wks_author": "Baskerville, John",
               "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+              "wks_title": "Title-31",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -2006,7 +2021,7 @@
             "wks_author": "Baskerville, John",
             "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
             "wks_word_count": null,
-            "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+            "wks_title": "Title-32",
             "wks_eebo_image_id": null,
             "wks_eebo_url": null,
             "wks_pub_date": "1765",
@@ -2182,6 +2197,79 @@
         "job_status": {
           "id": 1,
           "name": "Not Started"
+        }
+      },
+      "code": 200,
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
+  "languages#create": [
+    {
+      "verb": "POST",
+      "path": "/api/languages",
+      "versions": [
+        "v2"
+      ],
+      "query": null,
+      "request_data": {
+        "name": "language-4"
+      },
+      "response_data": {
+        "language": {
+          "id": 4,
+          "name": "language-4"
+        }
+      },
+      "code": 201,
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
+  "languages#index": [
+    {
+      "verb": "GET",
+      "path": "/api/languages",
+      "versions": [
+        "v2"
+      ],
+      "query": null,
+      "request_data": null,
+      "response_data": {
+        "total": 2,
+        "subtotal": 2,
+        "page": 1,
+        "per_page": 2,
+        "total_pages": 1,
+        "results": [
+          {
+            "id": 1,
+            "name": "language-1"
+          },
+          {
+            "id": 2,
+            "name": "language-2"
+          }
+        ]
+      },
+      "code": 200,
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
+  "languages#show": [
+    {
+      "verb": "GET",
+      "path": "/api/languages/3",
+      "versions": [
+        "v2"
+      ],
+      "query": null,
+      "request_data": null,
+      "response_data": {
+        "language": {
+          "id": 3,
+          "name": "language-3"
         }
       },
       "code": 200,
@@ -2433,7 +2521,7 @@
                 "wks_author": "Baskerville, John",
                 "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
                 "wks_word_count": null,
-                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_title": "Title-194",
                 "wks_eebo_image_id": null,
                 "wks_eebo_url": null,
                 "wks_pub_date": "1765",
@@ -2445,7 +2533,8 @@
                 "wks_organizational_unit": 265,
                 "wks_primary_print_font": null,
                 "wks_last_trawled": "2013-06-30",
-                "collection_id": null
+                "collection_id": null,
+                "language_id": null
               }
             },
             "batch_id": 110,
@@ -2548,7 +2637,7 @@
             "wks_author": "Baskerville, John",
             "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
             "wks_word_count": null,
-            "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+            "wks_title": "Title-199",
             "wks_eebo_image_id": null,
             "wks_eebo_url": null,
             "wks_pub_date": "1765",
@@ -2560,7 +2649,8 @@
             "wks_organizational_unit": 265,
             "wks_primary_print_font": null,
             "wks_last_trawled": "2013-06-30",
-            "collection_id": null
+            "collection_id": null,
+            "language_id": null
           }
         }
       },
@@ -2593,7 +2683,8 @@
       },
       "response_data": {
         "pages": {
-          "imported": 1
+          "imported": 2,
+          "failed": 0
         }
       },
       "code": 200,
@@ -2647,7 +2738,7 @@
               "wks_author": "Baskerville, John",
               "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+              "wks_title": "Title-91",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -2681,7 +2772,7 @@
               "wks_author": "Baskerville, John",
               "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+              "wks_title": "Title-92",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -2735,7 +2826,7 @@
               "wks_author": "Baskerville, John",
               "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+              "wks_title": "Title-196",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -2747,7 +2838,8 @@
               "wks_organizational_unit": 265,
               "wks_primary_print_font": null,
               "wks_last_trawled": "2013-06-30",
-              "collection_id": null
+              "collection_id": null,
+              "language_id": null
             }
           },
           {
@@ -2770,7 +2862,7 @@
               "wks_author": "Baskerville, John",
               "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+              "wks_title": "Title-197",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -2782,7 +2874,8 @@
               "wks_organizational_unit": 265,
               "wks_primary_print_font": null,
               "wks_last_trawled": "2013-06-30",
-              "collection_id": null
+              "collection_id": null,
+              "language_id": null
             }
           }
         ]
@@ -2820,7 +2913,7 @@
             "wks_author": "Baskerville, John",
             "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
             "wks_word_count": null,
-            "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+            "wks_title": "Title-93",
             "wks_eebo_image_id": null,
             "wks_eebo_url": null,
             "wks_pub_date": "1765",
@@ -2870,7 +2963,7 @@
             "wks_author": "Baskerville, John",
             "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
             "wks_word_count": null,
-            "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+            "wks_title": "Title-198",
             "wks_eebo_image_id": null,
             "wks_eebo_url": null,
             "wks_pub_date": "1765",
@@ -2882,7 +2975,8 @@
             "wks_organizational_unit": 265,
             "wks_primary_print_font": null,
             "wks_last_trawled": "2013-06-30",
-            "collection_id": null
+            "collection_id": null,
+            "language_id": null
           }
         }
       },
@@ -2923,7 +3017,7 @@
             "wks_author": "Baskerville, John",
             "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
             "wks_word_count": null,
-            "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+            "wks_title": "Title-94",
             "wks_eebo_image_id": null,
             "wks_eebo_url": null,
             "wks_pub_date": "1765",
@@ -2977,7 +3071,7 @@
             "wks_author": "Baskerville, John",
             "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
             "wks_word_count": null,
-            "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+            "wks_title": "Title-204",
             "wks_eebo_image_id": null,
             "wks_eebo_url": null,
             "wks_pub_date": "1765",
@@ -2989,7 +3083,8 @@
             "wks_organizational_unit": 265,
             "wks_primary_print_font": null,
             "wks_last_trawled": "2013-06-30",
-            "collection_id": null
+            "collection_id": null,
+            "language_id": null
           }
         }
       },
@@ -3330,7 +3425,7 @@
                 "wks_author": "Baskerville, John",
                 "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
                 "wks_word_count": null,
-                "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+                "wks_title": "Title-211",
                 "wks_eebo_image_id": null,
                 "wks_eebo_url": null,
                 "wks_pub_date": "1765",
@@ -3342,7 +3437,8 @@
                 "wks_organizational_unit": 265,
                 "wks_primary_print_font": null,
                 "wks_last_trawled": "2013-06-30",
-                "collection_id": null
+                "collection_id": null,
+                "language_id": null
               }
             },
             "batch_job_id": 119,
@@ -3440,7 +3536,7 @@
         "wks_ecco_number": "0212100100",
         "wks_author": "Baskerville, John",
         "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
-        "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+        "wks_title": "Title-216",
         "wks_pub_date": "1765",
         "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
         "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
@@ -3454,9 +3550,10 @@
           "collection": {
             "id": 5,
             "name": "collection-5",
-            "created_at": "2016-03-01T00:32:15.000Z",
-            "updated_at": "2016-03-01T00:32:15.000Z"
+            "created_at": "2016-03-04T18:02:09.000Z",
+            "updated_at": "2016-03-04T18:02:09.000Z"
           },
+          "language": null,
           "wks_gt_number": null,
           "wks_estc_number": "T137595",
           "wks_coll_name": null,
@@ -3469,7 +3566,7 @@
           "wks_author": "Baskerville, John",
           "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
           "wks_word_count": null,
-          "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+          "wks_title": "Title-216",
           "wks_eebo_image_id": null,
           "wks_eebo_url": null,
           "wks_pub_date": "1765",
@@ -3503,7 +3600,7 @@
             "wks_ecco_number": "0212100100",
             "wks_author": "Baskerville, John",
             "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
-            "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+            "wks_title": "Title-217",
             "wks_pub_date": "1765",
             "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
             "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
@@ -3515,7 +3612,7 @@
             "wks_ecco_number": "0212100100",
             "wks_author": "Baskerville, John",
             "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
-            "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+            "wks_title": "Title-218",
             "wks_pub_date": "1765",
             "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
             "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
@@ -3526,7 +3623,8 @@
       },
       "response_data": {
         "works": {
-          "imported": 1
+          "imported": 2,
+          "failed": 0
         }
       },
       "code": 200,
@@ -3579,7 +3677,7 @@
             "wks_author": "Baskerville, John",
             "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
             "wks_word_count": null,
-            "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+            "wks_title": "Title-101",
             "wks_eebo_image_id": null,
             "wks_eebo_url": null,
             "wks_pub_date": "1765",
@@ -3606,7 +3704,7 @@
             "wks_author": "Baskerville, John",
             "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
             "wks_word_count": null,
-            "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+            "wks_title": "Title-102",
             "wks_eebo_image_id": null,
             "wks_eebo_url": null,
             "wks_pub_date": "1765",
@@ -3640,6 +3738,7 @@
           {
             "id": 210,
             "collection": null,
+            "language": null,
             "wks_gt_number": null,
             "wks_estc_number": "T137595",
             "wks_coll_name": null,
@@ -3652,7 +3751,7 @@
             "wks_author": "Baskerville, John",
             "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
             "wks_word_count": null,
-            "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+            "wks_title": "Title-213",
             "wks_eebo_image_id": null,
             "wks_eebo_url": null,
             "wks_pub_date": "1765",
@@ -3668,6 +3767,7 @@
           {
             "id": 211,
             "collection": null,
+            "language": null,
             "wks_gt_number": null,
             "wks_estc_number": "T137595",
             "wks_coll_name": null,
@@ -3680,7 +3780,7 @@
             "wks_author": "Baskerville, John",
             "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
             "wks_word_count": null,
-            "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+            "wks_title": "Title-214",
             "wks_eebo_image_id": null,
             "wks_eebo_url": null,
             "wks_pub_date": "1765",
@@ -3724,7 +3824,7 @@
           "wks_author": "Baskerville, John",
           "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
           "wks_word_count": null,
-          "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+          "wks_title": "Title-103",
           "wks_eebo_image_id": null,
           "wks_eebo_url": null,
           "wks_pub_date": "1765",
@@ -3754,6 +3854,7 @@
         "work": {
           "id": 212,
           "collection": null,
+          "language": null,
           "wks_gt_number": null,
           "wks_estc_number": "T137595",
           "wks_coll_name": null,
@@ -3766,7 +3867,7 @@
           "wks_author": "Baskerville, John",
           "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
           "wks_word_count": null,
-          "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+          "wks_title": "Title-215",
           "wks_eebo_image_id": null,
           "wks_eebo_url": null,
           "wks_pub_date": "1765",
@@ -3813,7 +3914,7 @@
           "wks_author": "Baskerville, John",
           "wks_publisher": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
           "wks_word_count": null,
-          "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+          "wks_title": "Title-104",
           "wks_eebo_image_id": null,
           "wks_eebo_url": null,
           "wks_pub_date": "1765",
@@ -3847,6 +3948,7 @@
         "work": {
           "id": 216,
           "collection": null,
+          "language": null,
           "wks_gt_number": null,
           "wks_estc_number": "T0001",
           "wks_coll_name": null,
@@ -3859,7 +3961,7 @@
           "wks_author": "Baskerville, John",
           "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
           "wks_word_count": null,
-          "wks_title": "A vocabulary, or pocket dictionary. To which is prefixed, a compendious grammar of the English language.",
+          "wks_title": "Title-219",
           "wks_eebo_image_id": null,
           "wks_eebo_url": null,
           "wks_pub_date": "1765",

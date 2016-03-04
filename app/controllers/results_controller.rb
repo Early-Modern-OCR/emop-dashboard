@@ -159,6 +159,33 @@ class ResultsController < ApplicationController
     render text: e.message, status: :error
   end
 
+  def add_to_batchjob
+    if request.get?
+      respond_to do |format|
+        format.js
+      end
+    else
+      if not params[:batch_job].present?
+        return redirect_to :back, flash: { error: "Must select a Batch Job" }
+      end
+      if not params[:page_ids].present?
+        return redirect_to :back, flash: { error: "Must select pages" }
+      end
+      job_queues = []
+      page_ids = JSON.parse(params[:page_ids])
+      @batch_job = BatchJob.find(params[:batch_job])
+      page_ids.each do |page_id|
+        @page = Page.find(page_id)
+        @job_queue = JobQueue.new(batch_job: @batch_job, page: @page, work: @page.work)
+        job_queues << @job_queue
+      end
+
+      JobQueue.import(job_queues)
+
+      redirect_to :back, flash: { success: "Added pages to Batch Job #{@batch_job.id}-#{@batch_job.name}" }
+    end
+  end
+
   # Get TIFF page image, convert it to PNG and stream it back to client
   #
   def page_image

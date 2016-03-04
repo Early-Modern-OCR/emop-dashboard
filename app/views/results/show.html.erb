@@ -36,6 +36,9 @@
    <input type="button" id="select-failed-pages" value="Select Failed" />
    <input type="button" id="schedule-pages" value="Schedule Selected" />
    <input type="button" id="set-work-font" value="Set Print Font for Work" />
+   <%= link_to('Schedule Selected to Existing BatchJob',
+         results_add_to_batchjob_path(work: @work), {class: 'btn btn-default', remote: true, 'data-toggle' => 'modal', 'data-target' => '#add-pages-to-batchjob'} )
+    %>
    </div>
 
    <div id="toggle-col">
@@ -109,4 +112,7 @@
    <a  class="dashboard-back"  href="/"><< Back To Dashboard</a>
    <%= render :partial => 'txt_viewer_popup' %>
    <%= render :partial => 'error_popup' %>
+</div>
+
+<div class="modal fade" id="add-pages-to-batchjob" tabindex="-1" role="dialog" aria-labelledby="add-pages-to-batchjob-label" aria-hidden="true">
 </div>

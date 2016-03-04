@@ -1,0 +1,34 @@
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+      <h4 class="modal-title" id="comment_modal_label">Add Pages to Batch Job</h4>
+    </div>
+    <div class="modal-body">
+      <%= form_tag(path, method: :put) do %>
+        <%= hidden_field_tag :page_ids %>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-inputs">
+                <%= label_tag "Batch Job" %>
+                <%= select_tag :batch_job, options_from_collection_for_select(BatchJob.all, :id, :name) %>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-inputs">
+                
+              </div>
+            </div>
+            <div class="voffset2 col-md-12 col-md-offset-4">
+              <div class="form-group form-actions">
+                <%= submit_tag "Submit", class: "btn btn-primary" %>
+                <%= button_tag "Cancel", class: "btn btn-default", data: { dismiss: "modal" } %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end -%>
+    </div>
+  </div>
+</div>
