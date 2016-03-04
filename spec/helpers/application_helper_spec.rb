@@ -81,4 +81,26 @@ RSpec.describe ApplicationHelper do
       })
     end
   end
+
+  describe "#bootstrap_class_for" do
+    it "returns alert-success" do
+      expect(helper.bootstrap_class_for('success')).to eq('alert-success')
+    end
+
+    it "returns alert-danger" do
+      expect(helper.bootstrap_class_for('error')).to eq('alert-danger')
+    end
+
+    it "returns alert-warning" do
+      expect(helper.bootstrap_class_for('alert')).to eq('alert-warning')
+    end
+
+    it "returns alert-notice" do
+      expect(helper.bootstrap_class_for('notice')).to eq('alert-info')
+    end
+
+    it "returns :foo" do
+      expect(helper.bootstrap_class_for(:foo)).to eq('foo')
+    end
+  end
 end

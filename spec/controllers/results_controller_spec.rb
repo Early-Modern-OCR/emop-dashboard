@@ -3,6 +3,11 @@ require 'rails_helper'
 RSpec.describe ResultsController, :type => :controller do
 
   let(:valid_session) { {} }
+  let(:back) { results_path }
+
+  before(:each) do
+    request.env['HTTP_REFERER'] = back
+  end
 
   describe "GET show" do
     before(:each) do
@@ -562,6 +567,31 @@ RSpec.describe ResultsController, :type => :controller do
       job_queues.each do |job_queue|
         expect(job_queue.batch_job).to eq(batch_job)
       end
+    end
+  end
+
+  describe "PUT add_to_batch_job" do
+    before(:each) do
+      @batch_job = create(:batch_job)
+      @page1 = create(:page)
+      @page2 = create(:page)
+      @params = {
+        :batch_job => @batch_job.id,
+        :page_ids => [@page1.id, @page2.id].to_json,
+      }
+    end
+
+    it "should respond successfully" do
+      put :add_to_batchjob, @params
+
+      expect(response).to redirect_to(back)
+      expect(flash[:error]).to be_nil
+    end
+
+    it "should create batch of selected pages" do
+      expect {
+        put :add_to_batchjob, @params
+      }.to change(JobQueue, :count).by(2)
     end
   end
 end
