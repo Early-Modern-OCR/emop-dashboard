@@ -38,6 +38,12 @@ FactoryGirl.define do
     sequence(:name) { |n| "language-#{n}" }
   end
 
+  factory :language_model do
+    sequence(:name) { |n| "language-model-#{n}" }
+    sequence(:path) { |n| "/dne/language-model-#{n}" }
+    language { FactoryGirl.build(:language) }
+  end
+
   factory :work do
     wks_estc_number "T137595"
     wks_ecco_number "0212100100"

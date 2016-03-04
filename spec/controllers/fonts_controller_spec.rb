@@ -15,6 +15,7 @@ RSpec.describe FontsController, :type => :controller do
       # Mock the emop_font_dir path
       @font_dir = Dir.mktmpdir
       allow(Rails.application.secrets).to receive(:emop_font_dir) { @font_dir }
+      allow(Settings).to receive(:font_suffix) { ".traineddata" }
       @params = {
         'font-name' => 'eng',
         file: @file,

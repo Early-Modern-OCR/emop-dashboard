@@ -6,3 +6,4 @@ end
 
 Settings['project'] ||= 'eMOP'
 Settings['font_suffix'] ||= '.traineddata'
+Settings['language_model_path'] ||= nil

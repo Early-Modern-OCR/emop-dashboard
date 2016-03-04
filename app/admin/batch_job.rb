@@ -17,6 +17,7 @@ ActiveAdmin.register BatchJob do
   filter :job_type
   filter :ocr_engine
   filter :font
+  filter :language_model
 
   ## INDEX
   index do
@@ -26,6 +27,7 @@ ActiveAdmin.register BatchJob do
     column :job_type
     column :ocr_engine
     column :font
+    column :language_model
     actions
   end
 
@@ -37,6 +39,7 @@ ActiveAdmin.register BatchJob do
       row :job_type
       row :ocr_engine
       row :font
+      row :language_model
       row :parameters
       row :notes
     end
@@ -65,6 +68,7 @@ ActiveAdmin.register BatchJob do
       f.input :job_type
       f.input :ocr_engine
       f.input :font
+      f.input :language_model
       f.input :parameters
       f.input :notes
     end

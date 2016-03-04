@@ -72,6 +72,7 @@ class DashboardController < ApplicationController
     job_type = JobType.find(params[:type_id])
     ocr_engine = OcrEngine.find(params[:engine_id])
     font = Font.find(params[:font_id])
+    language_model = LanguageModel.find_by(id: params[:language_model_id])
     job_status_id = JobStatus.not_started.id
     batch_job_params = {
       name: params[:name],
@@ -79,7 +80,8 @@ class DashboardController < ApplicationController
       notes: params[:notes],
       job_type: job_type,
       ocr_engine: ocr_engine,
-      font: font
+      font: font,
+      language_model: language_model
     }
     batch = BatchJob.create!(batch_job_params)
     batch_id = batch.id

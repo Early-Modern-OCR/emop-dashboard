@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160304172253) do
+ActiveRecord::Schema.define(version: 20160304182257) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20160304172253) do
     t.string  "name"
     t.string  "notes"
     t.integer "font_id"
+    t.integer "language_model_id"
   end
 
   add_index "batch_jobs", ["font_id"], name: "index_batch_jobs_on_font_id", using: :btree
@@ -91,6 +92,17 @@ ActiveRecord::Schema.define(version: 20160304172253) do
     t.integer  "jx_ocr_witness_id"
     t.datetime "last_accessed"
   end
+
+  create_table "language_models", force: true do |t|
+    t.string   "name"
+    t.string   "path"
+    t.integer  "language_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "language_models", ["language_id"], name: "index_language_models_on_language_id", using: :btree
+  add_index "language_models", ["name"], name: "index_language_models_on_name", unique: true, using: :btree
 
   create_table "languages", force: true do |t|
     t.string   "name"
