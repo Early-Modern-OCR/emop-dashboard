@@ -59,6 +59,7 @@ $(function() {
             data.font_id = $("#new-font").val();
          }
       }
+      data.language_model_id = $("#new-language-model").val();
       data.params = $("#new-params").val();
       data.notes = $("#new-notes").val();
       data.json = $("#batch-json").text();

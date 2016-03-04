@@ -71,7 +71,7 @@ class DashboardController < ApplicationController
     # create the new batch
     job_type = JobType.find(params[:type_id])
     ocr_engine = OcrEngine.find(params[:engine_id])
-    font = Font.find(params[:font_id])
+    font = Font.find_by(font_id: params[:font_id])
     language_model = LanguageModel.find_by(id: params[:language_model_id])
     job_status_id = JobStatus.not_started.id
     batch_job_params = {
