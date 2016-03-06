@@ -10,6 +10,7 @@ class Work < ActiveRecord::Base
   has_many :page_results, -> { uniq }, through: :pages
   belongs_to :collection, class_name: 'WorksCollection', foreign_key: :collection_id
   belongs_to :language
+  has_many :font_training_results
 
   validates :wks_title, uniqueness: true
 
@@ -249,7 +250,7 @@ class Work < ActiveRecord::Base
   end
 
   def self.ransackable_attributes(auth_object = nil)
-    (column_names - ["collection_id", "language_id", "wks_work_id", "wks_last_trawled"]) + _ransackers.keys
+    (column_names - ["collection_id", "language_id", "wks_last_trawled"]) + _ransackers.keys
   end
 
 end
