@@ -149,7 +149,11 @@ class Work < ActiveRecord::Base
     when 'v2'
       Jbuilder.new do |json|
         json.id id
-        json.collection collection
+        if collection.present?
+          json.collection collection.to_builder
+        else
+          json.collection collection
+        end
         json.language language
         json.wks_gt_number wks_gt_number
         json.wks_estc_number wks_estc_number

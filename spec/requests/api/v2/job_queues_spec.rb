@@ -231,5 +231,22 @@ RSpec.describe "JobQueues", :type => :request do
         expect(r['font']['id']).to eq(font_training_result.id)
       end
     end
+
+    it 'reserves works' do
+      batch_job = create(:batch_job)
+      work1 = create(:work)
+      work2 = create(:work)
+      pages1 = create_list(:page, 2, work: work1)
+      pages2 = create_list(:page, 4, work: work2)
+      (pages1 + pages2).each do |page|
+        create(:job_queue, status: @not_started_status, batch_job: batch_job, work: page.work, page: page)
+      end
+      @time_now = Time.parse("Nov 09 2014")
+      allow(Time).to receive(:now).and_return(@time_now)
+
+      put '/api/job_queues/reserve', {job_queue: {num_pages: 1, works: true}}.to_json, api_headers
+
+      expect(json['results'].size).to eq(2)
+    end
   end
 end

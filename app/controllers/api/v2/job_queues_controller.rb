@@ -29,18 +29,24 @@ module Api
 
       api :PUT, '/job_queues/reserve', 'Reserve job queues'
       param :job_queue, Hash, required: true do
-        param :num_pages, Integer, desc: 'Number of pages to reserve', required: true
+        param :num_pages, Integer, desc: 'Number of pages to reserve, if works is true then this sets number of works', required: true
         param :batch_id, Integer, desc: 'Batch job ID'
         param :work_id, Integer, desc: 'Work ID'
+        param :works, :boolean, desc: 'Reserve entire works'
       end
       def reserve
         @num_pages = job_queue_params[:num_pages].to_i
         @proc_id = JobQueue.generate_proc_id
         processing_id = JobStatus.processing.id
-        filter = job_queue_params.except(:num_pages)
+        filter = job_queue_params.except(:num_pages, :works)
 
-        JobQueue.unreserved.where(filter).limit(@num_pages)
-          .update_all(proc_id: @proc_id, job_status_id: processing_id)
+        if job_queue_params.key?(:works) && job_queue_params[:works].to_bool
+          work_ids = JobQueue.unreserved.where(filter).group(:work_id).limit(@num_pages).pluck(:work_id)
+          JobQueue.unreserved.where(filter).where(work_id: work_ids).update_all(proc_id: @proc_id, job_status_id: processing_id)
+        else
+          JobQueue.unreserved.where(filter).limit(@num_pages)
+            .update_all(proc_id: @proc_id, job_status_id: processing_id)
+        end
 
         @job_queues = JobQueue.where(filter).where(proc_id: @proc_id, job_status_id: processing_id)
         respond_with @job_queues
@@ -49,7 +55,7 @@ module Api
       private
 
       def job_queue_params
-        params.require(:job_queue).permit(:num_pages, :batch_id, :work_id)
+        params.require(:job_queue).permit(:num_pages, :batch_id, :work_id, :works)
       end
 
       def query_params

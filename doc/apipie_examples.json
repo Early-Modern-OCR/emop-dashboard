@@ -4062,9 +4062,7 @@
           "id": 254,
           "collection": {
             "id": 5,
-            "name": "collection-5",
-            "created_at": "2016-03-06T19:50:46.000Z",
-            "updated_at": "2016-03-06T19:50:46.000Z"
+            "name": "collection-5"
           },
           "language": null,
           "wks_gt_number": null,
