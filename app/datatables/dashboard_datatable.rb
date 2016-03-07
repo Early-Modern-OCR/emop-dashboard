@@ -26,12 +26,11 @@ class DashboardDatatable
 
   def data
     works.map do |work|
-      #ocr_job_type = JobType.find_by(name: 'OCR')
-      #if ocr_job_type.present?
-      #  batch_job = work.batch_jobs.where(job_type_id: ocr_job_type.id).first
-      #else
-        batch_job = work.batch_jobs.first
-      #end
+      if @q.by_batch_job.present?
+        batch_job = work.batch_jobs.find_by(id: @q.by_batch_job)
+      else
+        batch_job = work.batch_jobs.last
+      end
       [
         @view.work_checkbox(work, batch_job),
         @view.work_status(work, batch_job),

@@ -10,7 +10,7 @@ RSpec.describe DashboardDatatable do
       iDisplayLength: '25', sSearch: '', sEcho: '1'
     }
     let(:view) { double('view', params: params) }
-    let(:q) {{}}
+    let(:q) { Work.ransack('') }
     let(:datatable) { DashboardDatatable.new(view, q) }
 
     it 'receives a view as context' do
@@ -24,7 +24,7 @@ RSpec.describe DashboardDatatable do
       iDisplayLength: '25', sSearch: '', sEcho: '1'
     }
     let(:view) { double('view', params: params) }
-    let(:q) {{}}
+    let(:q) { Work.ransack('') }
     let(:datatable) { DashboardDatatable.new(view, q) }
 
     it 'delegates params call to view' do
@@ -38,7 +38,7 @@ RSpec.describe DashboardDatatable do
       iDisplayLength: '25', sSearch: '', sEcho: '1'
     }
     let(:view) { double('view', params: params) }
-    let(:q) {{}}
+    let(:q) { Work.ransack('') }
     let(:datatable) { DashboardDatatable.new(view, q) }
 
     it 'returns a json hash' do
@@ -56,7 +56,7 @@ RSpec.describe DashboardDatatable do
       iDisplayLength: '25', sSearch: '', sEcho: '1'
     }
     let(:view) { double('view', params: params) }
-    let(:q) {{}}
+    let(:q) { Work.ransack('') }
     let(:datatable) { DashboardDatatable.new(view, q) }
 
     describe '#data' do
