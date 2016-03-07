@@ -146,7 +146,8 @@
               "font_line_height": null,
               "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
               "path": null
-            }
+            },
+            "language_model": null
           },
           {
             "id": 61,
@@ -172,7 +173,8 @@
               "font_line_height": null,
               "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
               "path": null
-            }
+            },
+            "language_model": null
           }
         ]
       },
@@ -254,7 +256,8 @@
             "font_line_height": null,
             "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
             "path": null
-          }
+          },
+          "language_model": null
         }
       },
       "code": 200,
@@ -391,6 +394,144 @@
         },
         "postproc_results": {
           "imported": 1
+        },
+        "font_training_results": {
+          "imported": 0
+        }
+      },
+      "code": 200,
+      "show_in_doc": 1,
+      "recorded": true
+    },
+    {
+      "verb": "PUT",
+      "path": "/api/batch_jobs/upload_results",
+      "versions": [
+        "v2"
+      ],
+      "query": null,
+      "request_data": {
+        "job_queues": {
+          "completed": [
+            56
+          ],
+          "failed": [
+
+          ]
+        },
+        "font_training_results": [
+          {
+            "work_id": 137,
+            "batch_job_id": 83,
+            "path": "/dne/font-training-1"
+          }
+        ]
+      },
+      "response_data": {
+        "page_results": {
+          "imported": 0
+        },
+        "postproc_results": {
+          "imported": 0
+        },
+        "font_training_results": {
+          "imported": 1
+        }
+      },
+      "code": 200,
+      "show_in_doc": 1,
+      "recorded": true
+    },
+    {
+      "verb": "PUT",
+      "path": "/api/batch_jobs/upload_results",
+      "versions": [
+        "v2"
+      ],
+      "query": null,
+      "request_data": {
+        "job_queues": {
+          "completed": [
+            64
+          ],
+          "failed": [
+
+          ]
+        },
+        "font_training_results": [
+          {
+            "work_id": 154,
+            "batch_job_id": 93,
+            "path": "foobar"
+          }
+        ]
+      },
+      "response_data": {
+        "page_results": {
+          "imported": 0
+        },
+        "postproc_results": {
+          "imported": 0
+        },
+        "font_training_results": {
+          "imported": 0
+        }
+      },
+      "code": 200,
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
+  "font_training_results#index": [
+    {
+      "verb": "GET",
+      "path": "/api/font_training_results",
+      "versions": [
+        "v2"
+      ],
+      "query": null,
+      "request_data": null,
+      "response_data": {
+        "total": 2,
+        "subtotal": 2,
+        "page": 1,
+        "per_page": 2,
+        "total_pages": 1,
+        "results": [
+          {
+            "id": 3,
+            "path": "/dne/font-training-3",
+            "work_id": 155,
+            "batch_job_id": 94
+          },
+          {
+            "id": 4,
+            "path": "/dne/font-training-4",
+            "work_id": 156,
+            "batch_job_id": 95
+          }
+        ]
+      },
+      "code": 200,
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
+  "font_training_results#show": [
+    {
+      "verb": "GET",
+      "path": "/api/font_training_results/5",
+      "versions": [
+        "v2"
+      ],
+      "query": null,
+      "request_data": null,
+      "response_data": {
+        "font_training_result": {
+          "id": 5,
+          "path": "/dne/font-training-5",
+          "work_id": 157,
+          "batch_job_id": 96
         }
       },
       "code": 200,
@@ -456,7 +597,7 @@
       "versions": [
         "v2"
       ],
-      "query": "job_status_id=1&batch_id=92",
+      "query": "job_status_id=1&batch_id=115",
       "request_data": null,
       "response_data": {
         "job_queue": {
@@ -908,24 +1049,24 @@
         "page": 1,
         "results": [
           {
-            "id": 49,
+            "id": 65,
             "proc_id": null,
             "tries": 0,
             "results": null,
             "job_status_id": 1,
-            "batch_id": 74,
-            "page_id": 75,
-            "work_id": 122
+            "batch_id": 97,
+            "page_id": 97,
+            "work_id": 159
           },
           {
-            "id": 50,
+            "id": 66,
             "proc_id": null,
             "tries": 0,
             "results": null,
             "job_status_id": 1,
-            "batch_id": 75,
-            "page_id": 76,
-            "work_id": 124
+            "batch_id": 98,
+            "page_id": 98,
+            "work_id": 161
           }
         ]
       },
@@ -946,24 +1087,24 @@
         "page": 1,
         "results": [
           {
-            "id": 51,
+            "id": 67,
             "proc_id": null,
             "tries": 0,
             "results": null,
             "job_status_id": 1,
-            "batch_id": 76,
-            "page_id": 77,
-            "work_id": 126
+            "batch_id": 99,
+            "page_id": 99,
+            "work_id": 163
           },
           {
-            "id": 52,
+            "id": 68,
             "proc_id": null,
             "tries": 0,
             "results": null,
             "job_status_id": 1,
-            "batch_id": 77,
-            "page_id": 78,
-            "work_id": 128
+            "batch_id": 100,
+            "page_id": 100,
+            "work_id": 165
           }
         ]
       },
@@ -1459,7 +1600,7 @@
         "proc_id": "20141109000000000",
         "results": [
           {
-            "id": 73,
+            "id": 89,
             "proc_id": "20141109000000000",
             "tries": 0,
             "results": null,
@@ -1468,7 +1609,7 @@
               "name": "Processing"
             },
             "batch_job": {
-              "id": 93,
+              "id": 116,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
@@ -1481,7 +1622,7 @@
                 "name": "Tesseract"
               },
               "font": {
-                "font_id": 93,
+                "font_id": 116,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -1491,16 +1632,29 @@
                 "font_line_height": null,
                 "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
                 "path": null
-              }
+              },
+              "language_model": null
+            },
+            "font": {
+              "id": 116,
+              "font_name": "baskerville",
+              "font_italic": null,
+              "font_bold": null,
+              "font_fixed": null,
+              "font_serif": null,
+              "font_fraktur": null,
+              "font_line_height": null,
+              "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
+              "path": null
             },
             "page": {
-              "id": 99,
-              "pg_ref_number": 99,
+              "id": 121,
+              "pg_ref_number": 121,
               "pg_ground_truth_file": null,
               "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath-99",
+              "pg_image_path": "/data/ecco/somepath-121",
               "work": {
-                "wks_work_id": 169,
+                "wks_work_id": 206,
                 "wks_gt_number": null,
                 "wks_estc_number": "T137595",
                 "wks_coll_name": null,
@@ -1513,7 +1667,7 @@
                 "wks_author": "Baskerville, John",
                 "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
                 "wks_word_count": null,
-                "wks_title": "Title-169",
+                "wks_title": "Title-206",
                 "wks_eebo_image_id": null,
                 "wks_eebo_url": null,
                 "wks_pub_date": "1765",
@@ -1530,7 +1684,7 @@
               }
             },
             "work": {
-              "id": 170,
+              "id": 207,
               "collection": null,
               "language": null,
               "wks_gt_number": null,
@@ -1545,7 +1699,7 @@
               "wks_author": "Baskerville, John",
               "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "Title-170",
+              "wks_title": "Title-207",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -1562,7 +1716,7 @@
             "postproc_result": null
           },
           {
-            "id": 74,
+            "id": 90,
             "proc_id": "20141109000000000",
             "tries": 0,
             "results": null,
@@ -1571,7 +1725,7 @@
               "name": "Processing"
             },
             "batch_job": {
-              "id": 94,
+              "id": 117,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
@@ -1584,7 +1738,7 @@
                 "name": "Tesseract"
               },
               "font": {
-                "font_id": 94,
+                "font_id": 117,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -1594,16 +1748,29 @@
                 "font_line_height": null,
                 "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
                 "path": null
-              }
+              },
+              "language_model": null
+            },
+            "font": {
+              "id": 117,
+              "font_name": "baskerville",
+              "font_italic": null,
+              "font_bold": null,
+              "font_fixed": null,
+              "font_serif": null,
+              "font_fraktur": null,
+              "font_line_height": null,
+              "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
+              "path": null
             },
             "page": {
-              "id": 100,
-              "pg_ref_number": 100,
+              "id": 122,
+              "pg_ref_number": 122,
               "pg_ground_truth_file": null,
               "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath-100",
+              "pg_image_path": "/data/ecco/somepath-122",
               "work": {
-                "wks_work_id": 171,
+                "wks_work_id": 208,
                 "wks_gt_number": null,
                 "wks_estc_number": "T137595",
                 "wks_coll_name": null,
@@ -1616,7 +1783,7 @@
                 "wks_author": "Baskerville, John",
                 "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
                 "wks_word_count": null,
-                "wks_title": "Title-171",
+                "wks_title": "Title-208",
                 "wks_eebo_image_id": null,
                 "wks_eebo_url": null,
                 "wks_pub_date": "1765",
@@ -1633,7 +1800,7 @@
               }
             },
             "work": {
-              "id": 172,
+              "id": 209,
               "collection": null,
               "language": null,
               "wks_gt_number": null,
@@ -1648,7 +1815,7 @@
               "wks_author": "Baskerville, John",
               "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "Title-172",
+              "wks_title": "Title-209",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -1688,7 +1855,7 @@
         "proc_id": "20141109000000000",
         "results": [
           {
-            "id": 78,
+            "id": 94,
             "proc_id": "20141109000000000",
             "tries": 0,
             "results": null,
@@ -1697,7 +1864,7 @@
               "name": "Processing"
             },
             "batch_job": {
-              "id": 98,
+              "id": 121,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
@@ -1710,7 +1877,7 @@
                 "name": "Tesseract"
               },
               "font": {
-                "font_id": 98,
+                "font_id": 121,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -1720,16 +1887,29 @@
                 "font_line_height": null,
                 "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
                 "path": null
-              }
+              },
+              "language_model": null
+            },
+            "font": {
+              "id": 121,
+              "font_name": "baskerville",
+              "font_italic": null,
+              "font_bold": null,
+              "font_fixed": null,
+              "font_serif": null,
+              "font_fraktur": null,
+              "font_line_height": null,
+              "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
+              "path": null
             },
             "page": {
-              "id": 104,
-              "pg_ref_number": 104,
+              "id": 126,
+              "pg_ref_number": 126,
               "pg_ground_truth_file": null,
               "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath-104",
+              "pg_image_path": "/data/ecco/somepath-126",
               "work": {
-                "wks_work_id": 179,
+                "wks_work_id": 216,
                 "wks_gt_number": null,
                 "wks_estc_number": "T137595",
                 "wks_coll_name": null,
@@ -1742,7 +1922,7 @@
                 "wks_author": "Baskerville, John",
                 "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
                 "wks_word_count": null,
-                "wks_title": "Title-179",
+                "wks_title": "Title-216",
                 "wks_eebo_image_id": null,
                 "wks_eebo_url": null,
                 "wks_pub_date": "1765",
@@ -1759,7 +1939,7 @@
               }
             },
             "work": {
-              "id": 180,
+              "id": 217,
               "collection": null,
               "language": null,
               "wks_gt_number": null,
@@ -1774,7 +1954,7 @@
               "wks_author": "Baskerville, John",
               "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "Title-180",
+              "wks_title": "Title-217",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -1789,8 +1969,8 @@
             },
             "page_result": {
               "id": 12,
-              "page_id": 104,
-              "batch_id": 98,
+              "page_id": 126,
+              "batch_id": 121,
               "ocr_text_path": "/some/path/output.txt",
               "ocr_xml_path": "/some/path/output.xml",
               "ocr_completed": "2014-11-09T06:00:00.000Z",
@@ -1800,8 +1980,8 @@
               "corr_ocr_xml_path": "/some/path/output_ALTO.xml"
             },
             "postproc_result": {
-              "page_id": 104,
-              "batch_job_id": 98,
+              "page_id": 126,
+              "batch_job_id": 121,
               "pp_ecorr": 0.0,
               "pp_juxta": 0.0,
               "pp_retas": 0.0,
@@ -1821,7 +2001,7 @@
             }
           },
           {
-            "id": 79,
+            "id": 95,
             "proc_id": "20141109000000000",
             "tries": 0,
             "results": null,
@@ -1830,7 +2010,7 @@
               "name": "Processing"
             },
             "batch_job": {
-              "id": 99,
+              "id": 122,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
@@ -1843,7 +2023,7 @@
                 "name": "Tesseract"
               },
               "font": {
-                "font_id": 99,
+                "font_id": 122,
                 "font_name": "baskerville",
                 "font_italic": null,
                 "font_bold": null,
@@ -1853,16 +2033,29 @@
                 "font_line_height": null,
                 "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
                 "path": null
-              }
+              },
+              "language_model": null
+            },
+            "font": {
+              "id": 122,
+              "font_name": "baskerville",
+              "font_italic": null,
+              "font_bold": null,
+              "font_fixed": null,
+              "font_serif": null,
+              "font_fraktur": null,
+              "font_line_height": null,
+              "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
+              "path": null
             },
             "page": {
-              "id": 105,
-              "pg_ref_number": 105,
+              "id": 127,
+              "pg_ref_number": 127,
               "pg_ground_truth_file": null,
               "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath-105",
+              "pg_image_path": "/data/ecco/somepath-127",
               "work": {
-                "wks_work_id": 181,
+                "wks_work_id": 218,
                 "wks_gt_number": null,
                 "wks_estc_number": "T137595",
                 "wks_coll_name": null,
@@ -1875,7 +2068,7 @@
                 "wks_author": "Baskerville, John",
                 "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
                 "wks_word_count": null,
-                "wks_title": "Title-181",
+                "wks_title": "Title-218",
                 "wks_eebo_image_id": null,
                 "wks_eebo_url": null,
                 "wks_pub_date": "1765",
@@ -1892,7 +2085,7 @@
               }
             },
             "work": {
-              "id": 182,
+              "id": 219,
               "collection": null,
               "language": null,
               "wks_gt_number": null,
@@ -1907,7 +2100,327 @@
               "wks_author": "Baskerville, John",
               "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "Title-182",
+              "wks_title": "Title-219",
+              "wks_eebo_image_id": null,
+              "wks_eebo_url": null,
+              "wks_pub_date": "1765",
+              "wks_ecco_uncorrected_gale_ocr_path": null,
+              "wks_corrected_xml_path": null,
+              "wks_corrected_text_path": null,
+              "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+              "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+              "wks_organizational_unit": 265,
+              "wks_primary_print_font": null,
+              "wks_last_trawled": "2013-06-30"
+            },
+            "page_result": null,
+            "postproc_result": null
+          }
+        ]
+      },
+      "code": 200,
+      "show_in_doc": 1,
+      "recorded": true
+    },
+    {
+      "verb": "PUT",
+      "path": "/api/job_queues/reserve",
+      "versions": [
+        "v2"
+      ],
+      "query": null,
+      "request_data": {
+        "job_queue": {
+          "num_pages": 3
+        }
+      },
+      "response_data": {
+        "requested": 3,
+        "reserved": 3,
+        "proc_id": "20141109000000000",
+        "results": [
+          {
+            "id": 99,
+            "proc_id": "20141109000000000",
+            "tries": 0,
+            "results": null,
+            "status": {
+              "id": 2,
+              "name": "Processing"
+            },
+            "batch_job": {
+              "id": 126,
+              "name": "OCR Test",
+              "parameters": "",
+              "notes": "test",
+              "job_type": {
+                "id": 2,
+                "name": "OCR"
+              },
+              "ocr_engine": {
+                "id": 1,
+                "name": "Tesseract"
+              },
+              "font": null,
+              "language_model": null
+            },
+            "font": {
+              "id": 6,
+              "work_id": 226,
+              "batch_job_id": 126,
+              "path": "/dne/font-training-6"
+            },
+            "page": {
+              "id": 132,
+              "pg_ref_number": 132,
+              "pg_ground_truth_file": null,
+              "pg_gale_ocr_file": null,
+              "pg_image_path": "/data/ecco/somepath-132",
+              "work": {
+                "wks_work_id": 227,
+                "wks_gt_number": null,
+                "wks_estc_number": "T137595",
+                "wks_coll_name": null,
+                "wks_tcp_bibno": null,
+                "wks_marc_record": null,
+                "wks_eebo_citation_id": null,
+                "wks_doc_directory": null,
+                "wks_ecco_number": "0212100100",
+                "wks_book_id": null,
+                "wks_author": "Baskerville, John",
+                "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+                "wks_word_count": null,
+                "wks_title": "Title-227",
+                "wks_eebo_image_id": null,
+                "wks_eebo_url": null,
+                "wks_pub_date": "1765",
+                "wks_ecco_uncorrected_gale_ocr_path": null,
+                "wks_corrected_xml_path": null,
+                "wks_corrected_text_path": null,
+                "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+                "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+                "wks_organizational_unit": 265,
+                "wks_primary_print_font": null,
+                "wks_last_trawled": "2013-06-30",
+                "collection_id": null,
+                "language_id": null
+              }
+            },
+            "work": {
+              "id": 226,
+              "collection": null,
+              "language": null,
+              "wks_gt_number": null,
+              "wks_estc_number": "T137595",
+              "wks_coll_name": null,
+              "wks_tcp_bibno": null,
+              "wks_marc_record": null,
+              "wks_eebo_citation_id": null,
+              "wks_doc_directory": null,
+              "wks_ecco_number": "0212100100",
+              "wks_book_id": null,
+              "wks_author": "Baskerville, John",
+              "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+              "wks_word_count": null,
+              "wks_title": "Title-226",
+              "wks_eebo_image_id": null,
+              "wks_eebo_url": null,
+              "wks_pub_date": "1765",
+              "wks_ecco_uncorrected_gale_ocr_path": null,
+              "wks_corrected_xml_path": null,
+              "wks_corrected_text_path": null,
+              "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+              "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+              "wks_organizational_unit": 265,
+              "wks_primary_print_font": null,
+              "wks_last_trawled": "2013-06-30"
+            },
+            "page_result": null,
+            "postproc_result": null
+          },
+          {
+            "id": 100,
+            "proc_id": "20141109000000000",
+            "tries": 0,
+            "results": null,
+            "status": {
+              "id": 2,
+              "name": "Processing"
+            },
+            "batch_job": {
+              "id": 126,
+              "name": "OCR Test",
+              "parameters": "",
+              "notes": "test",
+              "job_type": {
+                "id": 2,
+                "name": "OCR"
+              },
+              "ocr_engine": {
+                "id": 1,
+                "name": "Tesseract"
+              },
+              "font": null,
+              "language_model": null
+            },
+            "font": {
+              "id": 6,
+              "work_id": 226,
+              "batch_job_id": 126,
+              "path": "/dne/font-training-6"
+            },
+            "page": {
+              "id": 133,
+              "pg_ref_number": 133,
+              "pg_ground_truth_file": null,
+              "pg_gale_ocr_file": null,
+              "pg_image_path": "/data/ecco/somepath-133",
+              "work": {
+                "wks_work_id": 228,
+                "wks_gt_number": null,
+                "wks_estc_number": "T137595",
+                "wks_coll_name": null,
+                "wks_tcp_bibno": null,
+                "wks_marc_record": null,
+                "wks_eebo_citation_id": null,
+                "wks_doc_directory": null,
+                "wks_ecco_number": "0212100100",
+                "wks_book_id": null,
+                "wks_author": "Baskerville, John",
+                "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+                "wks_word_count": null,
+                "wks_title": "Title-228",
+                "wks_eebo_image_id": null,
+                "wks_eebo_url": null,
+                "wks_pub_date": "1765",
+                "wks_ecco_uncorrected_gale_ocr_path": null,
+                "wks_corrected_xml_path": null,
+                "wks_corrected_text_path": null,
+                "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+                "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+                "wks_organizational_unit": 265,
+                "wks_primary_print_font": null,
+                "wks_last_trawled": "2013-06-30",
+                "collection_id": null,
+                "language_id": null
+              }
+            },
+            "work": {
+              "id": 226,
+              "collection": null,
+              "language": null,
+              "wks_gt_number": null,
+              "wks_estc_number": "T137595",
+              "wks_coll_name": null,
+              "wks_tcp_bibno": null,
+              "wks_marc_record": null,
+              "wks_eebo_citation_id": null,
+              "wks_doc_directory": null,
+              "wks_ecco_number": "0212100100",
+              "wks_book_id": null,
+              "wks_author": "Baskerville, John",
+              "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+              "wks_word_count": null,
+              "wks_title": "Title-226",
+              "wks_eebo_image_id": null,
+              "wks_eebo_url": null,
+              "wks_pub_date": "1765",
+              "wks_ecco_uncorrected_gale_ocr_path": null,
+              "wks_corrected_xml_path": null,
+              "wks_corrected_text_path": null,
+              "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+              "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+              "wks_organizational_unit": 265,
+              "wks_primary_print_font": null,
+              "wks_last_trawled": "2013-06-30"
+            },
+            "page_result": null,
+            "postproc_result": null
+          },
+          {
+            "id": 101,
+            "proc_id": "20141109000000000",
+            "tries": 0,
+            "results": null,
+            "status": {
+              "id": 2,
+              "name": "Processing"
+            },
+            "batch_job": {
+              "id": 126,
+              "name": "OCR Test",
+              "parameters": "",
+              "notes": "test",
+              "job_type": {
+                "id": 2,
+                "name": "OCR"
+              },
+              "ocr_engine": {
+                "id": 1,
+                "name": "Tesseract"
+              },
+              "font": null,
+              "language_model": null
+            },
+            "font": {
+              "id": 6,
+              "work_id": 226,
+              "batch_job_id": 126,
+              "path": "/dne/font-training-6"
+            },
+            "page": {
+              "id": 134,
+              "pg_ref_number": 134,
+              "pg_ground_truth_file": null,
+              "pg_gale_ocr_file": null,
+              "pg_image_path": "/data/ecco/somepath-134",
+              "work": {
+                "wks_work_id": 229,
+                "wks_gt_number": null,
+                "wks_estc_number": "T137595",
+                "wks_coll_name": null,
+                "wks_tcp_bibno": null,
+                "wks_marc_record": null,
+                "wks_eebo_citation_id": null,
+                "wks_doc_directory": null,
+                "wks_ecco_number": "0212100100",
+                "wks_book_id": null,
+                "wks_author": "Baskerville, John",
+                "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+                "wks_word_count": null,
+                "wks_title": "Title-229",
+                "wks_eebo_image_id": null,
+                "wks_eebo_url": null,
+                "wks_pub_date": "1765",
+                "wks_ecco_uncorrected_gale_ocr_path": null,
+                "wks_corrected_xml_path": null,
+                "wks_corrected_text_path": null,
+                "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
+                "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
+                "wks_organizational_unit": 265,
+                "wks_primary_print_font": null,
+                "wks_last_trawled": "2013-06-30",
+                "collection_id": null,
+                "language_id": null
+              }
+            },
+            "work": {
+              "id": 226,
+              "collection": null,
+              "language": null,
+              "wks_gt_number": null,
+              "wks_estc_number": "T137595",
+              "wks_coll_name": null,
+              "wks_tcp_bibno": null,
+              "wks_marc_record": null,
+              "wks_eebo_citation_id": null,
+              "wks_doc_directory": null,
+              "wks_ecco_number": "0212100100",
+              "wks_book_id": null,
+              "wks_author": "Baskerville, John",
+              "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
+              "wks_word_count": null,
+              "wks_title": "Title-226",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -2043,7 +2556,7 @@
     },
     {
       "verb": "GET",
-      "path": "/api/job_queues/56",
+      "path": "/api/job_queues/72",
       "versions": [
         "v2"
       ],
@@ -2051,14 +2564,14 @@
       "request_data": null,
       "response_data": {
         "job_queue": {
-          "id": 56,
+          "id": 72,
           "proc_id": null,
           "tries": 0,
           "results": null,
           "job_status_id": 1,
-          "batch_id": 81,
-          "page_id": 82,
-          "work_id": 136
+          "batch_id": 104,
+          "page_id": 104,
+          "work_id": 173
         }
       },
       "code": 200,
@@ -2400,9 +2913,9 @@
             "ocr_completed": "2014-11-09T06:00:00.000Z",
             "juxta_change_index": 0.0,
             "alt_change_index": 0.0,
-            "page_id": 109,
-            "batch_id": 103,
-            "work_id": 189
+            "page_id": 135,
+            "batch_id": 127,
+            "work_id": 230
           },
           {
             "id": 14,
@@ -2413,9 +2926,9 @@
             "ocr_completed": "2014-11-09T06:00:00.000Z",
             "juxta_change_index": 0.0,
             "alt_change_index": 0.0,
-            "page_id": 110,
-            "batch_id": 104,
-            "work_id": 190
+            "page_id": 136,
+            "batch_id": 128,
+            "work_id": 231
           }
         ]
       },
@@ -2429,7 +2942,7 @@
       "versions": [
         "v2"
       ],
-      "query": "works[wks_work_id]=191",
+      "query": "works[wks_work_id]=232",
       "request_data": null,
       "response_data": {
         "subtotal": 3,
@@ -2444,9 +2957,9 @@
             "ocr_completed": "2014-11-09T06:00:00.000Z",
             "juxta_change_index": 0.0,
             "alt_change_index": 0.0,
-            "page_id": 112,
-            "batch_id": 107,
-            "work_id": 191
+            "page_id": 138,
+            "batch_id": 131,
+            "work_id": 232
           },
           {
             "id": 18,
@@ -2457,9 +2970,9 @@
             "ocr_completed": "2014-11-09T06:00:00.000Z",
             "juxta_change_index": 0.0,
             "alt_change_index": 0.0,
-            "page_id": 112,
-            "batch_id": 108,
-            "work_id": 191
+            "page_id": 138,
+            "batch_id": 132,
+            "work_id": 232
           },
           {
             "id": 19,
@@ -2470,9 +2983,9 @@
             "ocr_completed": "2014-11-09T06:00:00.000Z",
             "juxta_change_index": 0.0,
             "alt_change_index": 0.0,
-            "page_id": 112,
-            "batch_id": 109,
-            "work_id": 191
+            "page_id": 138,
+            "batch_id": 133,
+            "work_id": 232
           }
         ]
       },
@@ -2502,13 +3015,13 @@
             "juxta_change_index": 0.0,
             "alt_change_index": 0.0,
             "page": {
-              "id": 116,
-              "pg_ref_number": 116,
+              "id": 142,
+              "pg_ref_number": 142,
               "pg_ground_truth_file": null,
               "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath-116",
+              "pg_image_path": "/data/ecco/somepath-142",
               "work": {
-                "wks_work_id": 194,
+                "wks_work_id": 235,
                 "wks_gt_number": null,
                 "wks_estc_number": "T137595",
                 "wks_coll_name": null,
@@ -2521,7 +3034,7 @@
                 "wks_author": "Baskerville, John",
                 "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
                 "wks_word_count": null,
-                "wks_title": "Title-194",
+                "wks_title": "Title-235",
                 "wks_eebo_image_id": null,
                 "wks_eebo_url": null,
                 "wks_pub_date": "1765",
@@ -2537,8 +3050,8 @@
                 "language_id": null
               }
             },
-            "batch_id": 110,
-            "work_id": 194
+            "batch_id": 134,
+            "work_id": 235
           }
         ]
       },
@@ -2593,9 +3106,9 @@
           "ocr_completed": "2014-11-09T06:00:00.000Z",
           "juxta_change_index": 0.0,
           "alt_change_index": 0.0,
-          "page_id": 117,
-          "batch_id": 111,
-          "work_id": 195
+          "page_id": 143,
+          "batch_id": 135,
+          "work_id": 236
         }
       },
       "code": 200,
@@ -2612,19 +3125,19 @@
       ],
       "query": null,
       "request_data": {
-        "pg_ref_number": 122,
-        "pg_work_id": 199,
-        "pg_image_path": "/data/ecco/somepath-122"
+        "pg_ref_number": 148,
+        "pg_work_id": 240,
+        "pg_image_path": "/data/ecco/somepath-148"
       },
       "response_data": {
         "page": {
-          "id": 122,
-          "pg_ref_number": 122,
+          "id": 148,
+          "pg_ref_number": 148,
           "pg_ground_truth_file": null,
           "pg_gale_ocr_file": null,
-          "pg_image_path": "/data/ecco/somepath-122",
+          "pg_image_path": "/data/ecco/somepath-148",
           "work": {
-            "wks_work_id": 199,
+            "wks_work_id": 240,
             "wks_gt_number": null,
             "wks_estc_number": "T137595",
             "wks_coll_name": null,
@@ -2637,7 +3150,7 @@
             "wks_author": "Baskerville, John",
             "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
             "wks_word_count": null,
-            "wks_title": "Title-199",
+            "wks_title": "Title-240",
             "wks_eebo_image_id": null,
             "wks_eebo_url": null,
             "wks_pub_date": "1765",
@@ -2671,13 +3184,13 @@
         "pages": [
           {
             "pg_ref_number": 2,
-            "pg_work_id": 200,
-            "pg_image_path": "/data/ecco/somepath-124"
+            "pg_work_id": 241,
+            "pg_image_path": "/data/ecco/somepath-150"
           },
           {
             "pg_ref_number": 3,
-            "pg_work_id": 200,
-            "pg_image_path": "/data/ecco/somepath-125"
+            "pg_work_id": 241,
+            "pg_image_path": "/data/ecco/somepath-151"
           }
         ]
       },
@@ -2695,7 +3208,7 @@
   "pages#destroy": [
     {
       "verb": "DELETE",
-      "path": "/api/pages/127",
+      "path": "/api/pages/153",
       "versions": [
         "v2"
       ],
@@ -2807,13 +3320,13 @@
         "page": 1,
         "results": [
           {
-            "id": 118,
-            "pg_ref_number": 118,
+            "id": 144,
+            "pg_ref_number": 144,
             "pg_ground_truth_file": null,
             "pg_gale_ocr_file": null,
-            "pg_image_path": "/data/ecco/somepath-118",
+            "pg_image_path": "/data/ecco/somepath-144",
             "work": {
-              "wks_work_id": 196,
+              "wks_work_id": 237,
               "wks_gt_number": null,
               "wks_estc_number": "T137595",
               "wks_coll_name": null,
@@ -2826,7 +3339,7 @@
               "wks_author": "Baskerville, John",
               "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "Title-196",
+              "wks_title": "Title-237",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -2843,13 +3356,13 @@
             }
           },
           {
-            "id": 119,
-            "pg_ref_number": 119,
+            "id": 145,
+            "pg_ref_number": 145,
             "pg_ground_truth_file": null,
             "pg_gale_ocr_file": null,
-            "pg_image_path": "/data/ecco/somepath-119",
+            "pg_image_path": "/data/ecco/somepath-145",
             "work": {
-              "wks_work_id": 197,
+              "wks_work_id": 238,
               "wks_gt_number": null,
               "wks_estc_number": "T137595",
               "wks_coll_name": null,
@@ -2862,7 +3375,7 @@
               "wks_author": "Baskerville, John",
               "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
               "wks_word_count": null,
-              "wks_title": "Title-197",
+              "wks_title": "Title-238",
               "wks_eebo_image_id": null,
               "wks_eebo_url": null,
               "wks_pub_date": "1765",
@@ -2936,7 +3449,7 @@
     },
     {
       "verb": "GET",
-      "path": "/api/pages/120",
+      "path": "/api/pages/146",
       "versions": [
         "v2"
       ],
@@ -2944,13 +3457,13 @@
       "request_data": null,
       "response_data": {
         "page": {
-          "id": 120,
-          "pg_ref_number": 120,
+          "id": 146,
+          "pg_ref_number": 146,
           "pg_ground_truth_file": null,
           "pg_gale_ocr_file": null,
-          "pg_image_path": "/data/ecco/somepath-120",
+          "pg_image_path": "/data/ecco/somepath-146",
           "work": {
-            "wks_work_id": 198,
+            "wks_work_id": 239,
             "wks_gt_number": null,
             "wks_estc_number": "T137595",
             "wks_coll_name": null,
@@ -2963,7 +3476,7 @@
             "wks_author": "Baskerville, John",
             "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
             "wks_word_count": null,
-            "wks_title": "Title-198",
+            "wks_title": "Title-239",
             "wks_eebo_image_id": null,
             "wks_eebo_url": null,
             "wks_pub_date": "1765",
@@ -3040,7 +3553,7 @@
     },
     {
       "verb": "PUT",
-      "path": "/api/pages/126",
+      "path": "/api/pages/152",
       "versions": [
         "v2"
       ],
@@ -3052,13 +3565,13 @@
       },
       "response_data": {
         "page": {
-          "id": 126,
-          "pg_ref_number": 124,
+          "id": 152,
+          "pg_ref_number": 150,
           "pg_ground_truth_file": null,
           "pg_gale_ocr_file": null,
           "pg_image_path": "/foo/bar",
           "work": {
-            "wks_work_id": 201,
+            "wks_work_id": 242,
             "wks_gt_number": null,
             "wks_estc_number": "T137595",
             "wks_coll_name": null,
@@ -3071,7 +3584,7 @@
             "wks_author": "Baskerville, John",
             "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
             "wks_word_count": null,
-            "wks_title": "Title-204",
+            "wks_title": "Title-245",
             "wks_eebo_image_id": null,
             "wks_eebo_url": null,
             "wks_pub_date": "1765",
@@ -3264,9 +3777,9 @@
             "noisiness_idx": 0.0,
             "multicol": "0;1;2",
             "skew_idx": "1;0;1",
-            "page_id": 128,
-            "batch_job_id": 112,
-            "work_id": 203
+            "page_id": 154,
+            "batch_job_id": 136,
+            "work_id": 244
           },
           {
             "id": 14,
@@ -3285,9 +3798,9 @@
             "noisiness_idx": 0.0,
             "multicol": "0;1;2",
             "skew_idx": "1;0;1",
-            "page_id": 129,
-            "batch_job_id": 113,
-            "work_id": 204
+            "page_id": 155,
+            "batch_job_id": 137,
+            "work_id": 245
           }
         ]
       },
@@ -3301,7 +3814,7 @@
       "versions": [
         "v2"
       ],
-      "query": "works[wks_work_id]=205",
+      "query": "works[wks_work_id]=246",
       "request_data": null,
       "response_data": {
         "subtotal": 3,
@@ -3324,9 +3837,9 @@
             "noisiness_idx": 0.0,
             "multicol": "0;1;2",
             "skew_idx": "1;0;1",
-            "page_id": 131,
-            "batch_job_id": 116,
-            "work_id": 205
+            "page_id": 157,
+            "batch_job_id": 140,
+            "work_id": 246
           },
           {
             "id": 18,
@@ -3345,9 +3858,9 @@
             "noisiness_idx": 0.0,
             "multicol": "0;1;2",
             "skew_idx": "1;0;1",
-            "page_id": 131,
-            "batch_job_id": 117,
-            "work_id": 205
+            "page_id": 157,
+            "batch_job_id": 141,
+            "work_id": 246
           },
           {
             "id": 19,
@@ -3366,9 +3879,9 @@
             "noisiness_idx": 0.0,
             "multicol": "0;1;2",
             "skew_idx": "1;0;1",
-            "page_id": 131,
-            "batch_job_id": 118,
-            "work_id": 205
+            "page_id": 157,
+            "batch_job_id": 142,
+            "work_id": 246
           }
         ]
       },
@@ -3406,13 +3919,13 @@
             "multicol": "0;1;2",
             "skew_idx": "1;0;1",
             "page": {
-              "id": 135,
-              "pg_ref_number": 133,
+              "id": 161,
+              "pg_ref_number": 159,
               "pg_ground_truth_file": null,
               "pg_gale_ocr_file": null,
-              "pg_image_path": "/data/ecco/somepath-135",
+              "pg_image_path": "/data/ecco/somepath-161",
               "work": {
-                "wks_work_id": 208,
+                "wks_work_id": 249,
                 "wks_gt_number": null,
                 "wks_estc_number": "T137595",
                 "wks_coll_name": null,
@@ -3425,7 +3938,7 @@
                 "wks_author": "Baskerville, John",
                 "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
                 "wks_word_count": null,
-                "wks_title": "Title-211",
+                "wks_title": "Title-252",
                 "wks_eebo_image_id": null,
                 "wks_eebo_url": null,
                 "wks_pub_date": "1765",
@@ -3441,8 +3954,8 @@
                 "language_id": null
               }
             },
-            "batch_job_id": 119,
-            "work_id": 208
+            "batch_job_id": 143,
+            "work_id": 249
           }
         ]
       },
@@ -3513,9 +4026,9 @@
           "noisiness_idx": 0.0,
           "multicol": "0;1;2",
           "skew_idx": "1;0;1",
-          "page_id": 136,
-          "batch_job_id": 120,
-          "work_id": 209
+          "page_id": 162,
+          "batch_job_id": 144,
+          "work_id": 250
         }
       },
       "code": 200,
@@ -3536,7 +4049,7 @@
         "wks_ecco_number": "0212100100",
         "wks_author": "Baskerville, John",
         "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
-        "wks_title": "Title-216",
+        "wks_title": "Title-257",
         "wks_pub_date": "1765",
         "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
         "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
@@ -3546,12 +4059,12 @@
       },
       "response_data": {
         "work": {
-          "id": 213,
+          "id": 254,
           "collection": {
             "id": 5,
             "name": "collection-5",
-            "created_at": "2016-03-04T18:02:09.000Z",
-            "updated_at": "2016-03-04T18:02:09.000Z"
+            "created_at": "2016-03-06T19:50:46.000Z",
+            "updated_at": "2016-03-06T19:50:46.000Z"
           },
           "language": null,
           "wks_gt_number": null,
@@ -3566,7 +4079,7 @@
           "wks_author": "Baskerville, John",
           "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
           "wks_word_count": null,
-          "wks_title": "Title-216",
+          "wks_title": "Title-257",
           "wks_eebo_image_id": null,
           "wks_eebo_url": null,
           "wks_pub_date": "1765",
@@ -3600,7 +4113,7 @@
             "wks_ecco_number": "0212100100",
             "wks_author": "Baskerville, John",
             "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
-            "wks_title": "Title-217",
+            "wks_title": "Title-258",
             "wks_pub_date": "1765",
             "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
             "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
@@ -3612,7 +4125,7 @@
             "wks_ecco_number": "0212100100",
             "wks_author": "Baskerville, John",
             "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
-            "wks_title": "Title-218",
+            "wks_title": "Title-259",
             "wks_pub_date": "1765",
             "wks_ecco_directory": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/images",
             "wks_ecco_gale_ocr_xml_path": "/data/ecco/ECCO_2of2/LitAndLang_1/0212100100/xml/0212100100.xml",
@@ -3635,7 +4148,7 @@
   "works#destroy": [
     {
       "verb": "DELETE",
-      "path": "/api/works/217",
+      "path": "/api/works/258",
       "versions": [
         "v2"
       ],
@@ -3736,7 +4249,7 @@
         "page": 1,
         "results": [
           {
-            "id": 210,
+            "id": 251,
             "collection": null,
             "language": null,
             "wks_gt_number": null,
@@ -3751,7 +4264,7 @@
             "wks_author": "Baskerville, John",
             "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
             "wks_word_count": null,
-            "wks_title": "Title-213",
+            "wks_title": "Title-254",
             "wks_eebo_image_id": null,
             "wks_eebo_url": null,
             "wks_pub_date": "1765",
@@ -3765,7 +4278,7 @@
             "wks_last_trawled": "2013-06-30"
           },
           {
-            "id": 211,
+            "id": 252,
             "collection": null,
             "language": null,
             "wks_gt_number": null,
@@ -3780,7 +4293,7 @@
             "wks_author": "Baskerville, John",
             "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
             "wks_word_count": null,
-            "wks_title": "Title-214",
+            "wks_title": "Title-255",
             "wks_eebo_image_id": null,
             "wks_eebo_url": null,
             "wks_pub_date": "1765",
@@ -3844,7 +4357,7 @@
     },
     {
       "verb": "GET",
-      "path": "/api/works/212",
+      "path": "/api/works/253",
       "versions": [
         "v2"
       ],
@@ -3852,7 +4365,7 @@
       "request_data": null,
       "response_data": {
         "work": {
-          "id": 212,
+          "id": 253,
           "collection": null,
           "language": null,
           "wks_gt_number": null,
@@ -3867,7 +4380,7 @@
           "wks_author": "Baskerville, John",
           "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
           "wks_word_count": null,
-          "wks_title": "Title-215",
+          "wks_title": "Title-256",
           "wks_eebo_image_id": null,
           "wks_eebo_url": null,
           "wks_pub_date": "1765",
@@ -3934,7 +4447,7 @@
     },
     {
       "verb": "PUT",
-      "path": "/api/works/216",
+      "path": "/api/works/257",
       "versions": [
         "v2"
       ],
@@ -3946,7 +4459,7 @@
       },
       "response_data": {
         "work": {
-          "id": 216,
+          "id": 257,
           "collection": null,
           "language": null,
           "wks_gt_number": null,
@@ -3961,7 +4474,7 @@
           "wks_author": "Baskerville, John",
           "wks_printer": "Birmingham : printed by John Baskerville, and sold by Messieurs Dod, Rivington, Longman, Richardson, Hawes and Co. Crowder, Robson, and Stuart, London, 1765 [1766].",
           "wks_word_count": null,
-          "wks_title": "Title-219",
+          "wks_title": "Title-260",
           "wks_eebo_image_id": null,
           "wks_eebo_url": null,
           "wks_pub_date": "1765",

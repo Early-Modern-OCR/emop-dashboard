@@ -9,12 +9,15 @@ class BatchJob < ActiveRecord::Base
   has_many :page_results, foreign_key: 'batch_id', dependent: :delete_all
   has_many :postproc_pages, dependent: :delete_all
   has_many :work_ocr_results, foreign_key: 'batch_id'
+  has_many :font_training_results
 
   validates :name, presence: true
   validates :ocr_engine, presence: true
   validates :job_type, presence: true
 
   after_initialize :set_defaults
+
+  scope :font_training, -> { includes(:job_type).where(job_types: { name: 'Font Training' }) }
 
   def self.default_ocr_engine
     OcrEngine.find_by_name('Tesseract')

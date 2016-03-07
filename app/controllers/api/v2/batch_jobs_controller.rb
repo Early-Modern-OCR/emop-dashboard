@@ -50,12 +50,19 @@ module Api
         param :multicol, String, allow_nil: true
         param :skew_idx, String, allow_nil: true
       end
+      param :font_training_results, Array, desc: 'Font training results', required: false, allow_nil: true do
+        param :work_id, Integer, required: true
+        param :batch_job_id, Integer, required: true
+        param :path, String, required: true
+      end
       def upload_results
         job_queues = params[:job_queues]
         page_results = params[:page_results] ||= []
         postproc_results = params[:postproc_results] ||= []
+        font_training_results = params[:font_training_results] ||= []
         @pg_imports = 0
         @pp_imports = 0
+        @font_training_results_imports = 0
 
         unless job_queues[:completed].blank?
           @done_job_queues = JobQueue.where(id: job_queues[:completed])
@@ -97,6 +104,19 @@ module Api
         end
 
         @pp_imports = PostprocPage.import(pp_results)
+
+        font_training_results_imports = []
+        font_training_results.each do |font_training_result|
+          conditions = { work_id: font_training_result[:work_id], batch_job_id: font_training_result[:batch_job_id] }
+          @font_training_result = FontTrainingResult.where(conditions).first_or_initialize
+          if @font_training_result.new_record?
+            font_training_results_imports << FontTrainingResult.new(font_training_result_params(font_training_result))
+          else
+            @font_training_result.update_attributes(font_training_result_params(font_training_result))
+          end
+        end
+
+        @font_training_results_imports = FontTrainingResult.import(font_training_results_imports)
       end
 
       private
@@ -115,6 +135,10 @@ module Api
         postproc_page.permit(:page_id, :batch_job_id, :pp_noisemsr, :pp_ecorr,
                              :pp_pg_quality, :pp_juxta, :pp_retas, :pp_health,
                              :noisiness_idx, :multicol, :skew_idx)
+      end
+
+      def font_training_result_params(font_training_result)
+        font_training_result.permit(:work_id, :batch_job_id, :path)
       end
     end
   end

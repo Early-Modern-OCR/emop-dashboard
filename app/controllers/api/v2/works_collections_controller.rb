@@ -8,7 +8,7 @@ module Api
         super
       end
 
-      api :GET, '/works_collections/:id', 'List works collections'
+      api :GET, '/works_collections/:id', 'Show a works collection'
       param :id, Integer, desc: 'Work Collection ID', required: true
       def show
         super

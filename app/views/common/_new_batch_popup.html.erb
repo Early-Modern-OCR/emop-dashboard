@@ -14,10 +14,16 @@
          <td class="table-label">Font Training Library:</td>
          <td class="table-input">
             <div id="fonts-div">
-               <%= select_tag "new-font", options_from_collection_for_select(Font.all, :id, :font_name) %>
+               <%= select_tag "new-font", options_for_select([['None', nil], ['Previous BatchJob', 'previous']]) + options_from_collection_for_select(Font.all, :id, :font_name, nil) %>
                <span id="no-fonts" style="display:none">No fonts defined</span>
                <input id="upload-font" type="button" value="New" />
             </div>
+         </td>
+      </tr>
+      <tr class="font_training_results_batch_job_id" style="display: none">
+         <td class="table-label">BatchJob Font Training:</td>
+         <td class="table-input">
+            <%= select_tag "font_training_results_batch_job_id", options_for_select([['None', nil]]) + options_from_collection_for_select(BatchJob.font_training, :id, :name, nil) %>
          </td>
       </tr>
       <tr class="language-model-row">

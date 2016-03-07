@@ -204,7 +204,17 @@ $(function() {
           $("#new-batch-popup .font-detail").show();
        }
    });
-   
+
+   // When new-font dropdown changes - hide or show the font training drop down
+   // based on if the new-font value is 'previous'
+   $("#new-font").on("change", function() {
+     var val = $(this).val();
+     if ( val == 'previous' ) {
+       $(".font_training_results_batch_job_id").show();
+     } else {
+       $(".font_training_results_batch_job_id").hide();
+     }
+   });
    
    // create new FONT popup
    $("#new-font-popup").dialog({

@@ -44,6 +44,12 @@ FactoryGirl.define do
     language { FactoryGirl.build(:language) }
   end
 
+  factory :font_training_result do
+    sequence(:path) { |n| "/dne/font-training-#{n}" }
+    work { FactoryGirl.build(:work) }
+    batch_job { FactoryGirl.build(:batch_job) }
+  end
+
   factory :work do
     wks_estc_number "T137595"
     wks_ecco_number "0212100100"

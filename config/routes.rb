@@ -41,6 +41,7 @@ Rails.application.routes.draw do
       resources :postproc_pages, only: [:index, :show]
       resources :works_collections, only: [:index,:show,:create]
       resources :languages, only: [:index,:show,:create]
+      resources :font_training_results, only: [:index,:show]
     end
   end
 

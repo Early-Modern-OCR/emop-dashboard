@@ -59,6 +59,10 @@ $(function() {
             data.font_id = $("#new-font").val();
          }
       }
+      if (data.font_id == 'previous') {
+        data.font_id = null;
+        data.font_training_results_batch_job_id = $("#font_training_results_batch_job_id").val();
+      }
       data.language_model_id = $("#new-language-model").val();
       data.params = $("#new-params").val();
       data.notes = $("#new-notes").val();

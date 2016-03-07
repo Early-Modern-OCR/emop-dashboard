@@ -38,6 +38,14 @@ RSpec.describe BatchJob, :type => :model do
     end
   end
 
+  describe 'font_training scope' do
+    it 'should return only Font Training types' do
+      create_list(:batch_job, 3, job_type: JobType.find_by(name: 'OCR'))
+      create_list(:batch_job, 2, job_type: JobType.find_by(name: 'Font Training'))
+      expect(BatchJob.font_training.count).to eq(2)
+    end
+  end
+
   describe "set_defaults" do
     let(:batch_job) { BatchJob.new }
 

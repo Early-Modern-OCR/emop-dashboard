@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160304182257) do
+ActiveRecord::Schema.define(version: 20160304220621) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -41,6 +41,18 @@ ActiveRecord::Schema.define(version: 20160304182257) do
   add_index "batch_jobs", ["font_id"], name: "index_batch_jobs_on_font_id", using: :btree
   add_index "batch_jobs", ["job_type_id"], name: "index_batch_jobs_on_job_type_id", using: :btree
   add_index "batch_jobs", ["ocr_engine_id"], name: "index_batch_jobs_on_ocr_engine_id", using: :btree
+
+  create_table "font_training_results", force: true do |t|
+    t.integer  "work_id"
+    t.integer  "batch_job_id"
+    t.string   "path"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "font_training_results", ["batch_job_id"], name: "index_font_training_results_on_batch_job_id", using: :btree
+  add_index "font_training_results", ["work_id", "batch_job_id"], name: "index_font_training_results_on_work_id_and_batch_job_id", using: :btree
+  add_index "font_training_results", ["work_id"], name: "index_font_training_results_on_work_id", using: :btree
 
   create_table "fonts", primary_key: "font_id", force: true do |t|
     t.string  "font_name"

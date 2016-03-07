@@ -163,6 +163,7 @@ RSpec.describe "JobQueues", :type => :request do
       result = json['results'].select { |j| j['id'] == job_queue.id }.first
       expect(result['status']['id']).to eq(job_queue.status.id)
       expect(result['batch_job']['id']).to eq(job_queue.batch_job.id)
+      expect(result['font']['id']).to eq(job_queue.batch_job.font.id)
       expect(result['page']['id']).to eq(job_queue.page.id)
       expect(result['work']['id']).to eq(job_queue.work.id)
       expect(result['page_result']).to be_nil
@@ -214,6 +215,21 @@ RSpec.describe "JobQueues", :type => :request do
 
       expect(json['results'].size).to eq(job_queues.size)
       expect(JobQueue.running.count).to eq(job_queues.size)
+    end
+
+    it 'sets fonts to FontTrainingResult', :show_in_doc do
+      batch_job = create(:batch_job, font: nil)
+      work = create(:work)
+      job_queues = create_list(:job_queue, 3, status: @not_started_status, batch_job: batch_job, work: work)
+      font_training_result = create(:font_training_result, batch_job: batch_job, work: work)
+      @time_now = Time.parse("Nov 09 2014")
+      allow(Time).to receive(:now).and_return(@time_now)
+
+      put '/api/job_queues/reserve', {job_queue: {num_pages: 3}}.to_json, api_headers
+
+      json['results'].each do |r|
+        expect(r['font']['id']).to eq(font_training_result.id)
+      end
     end
   end
 end

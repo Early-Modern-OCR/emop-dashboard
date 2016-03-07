@@ -169,5 +169,43 @@ RSpec.describe Api::V2::BatchJobsController, :type => :request do
         expect(PostprocPage.first.pp_pg_quality).to eq(-1.0)
       end
     end
+
+    context 'uploading font training results' do
+      before(:each) do
+        @batch_job = create(:batch_job, job_type: JobType.find_by(name: "Font Training"))
+        @work = create(:work)
+        @page = create(:page, work: @work)
+        @job_queue = create(:job_queue, status: JobStatus.processing, batch_job: @batch_job, work: @work, page: @page)
+        @font_training_results = build_attributes(:font_training_result, batch_job: @batch_job, work: @work)
+        @params = {
+          job_queues: {
+            completed: [@job_queue.id],
+            failed: [],
+          },
+          font_training_results: [
+            @font_training_results,
+          ]
+        }
+      end
+
+      it 'uploads font training results', :show_in_doc do
+        expect {
+          put '/api/batch_jobs/upload_results', @params.to_json, api_headers
+        }.to change(FontTrainingResult, :count).by(1)
+      end
+
+      it 'updates existing font training results', :show_in_doc do
+        @font_training_result = FontTrainingResult.create!(@font_training_results)
+        @font_training_results[:path] = "foobar"
+        @params[:font_training_results] = [@font_training_results]
+        expect {
+          put '/api/batch_jobs/upload_results', @params.to_json, api_headers
+        }.to change(FontTrainingResult, :count).by(0)
+        @font_training_result.reload
+        expect(@font_training_result.path).to eq('foobar')
+      end
+
+    end
+
   end
 end
