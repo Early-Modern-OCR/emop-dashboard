@@ -19,6 +19,11 @@ json.results do
         json.font font_training_result
       end
     end
+    if job_queue.batch_job.language_model.present?
+      json.language_model job_queue.batch_job.language_model.to_builder('v2')
+    else
+      json.language_model job_queue.batch_job.language_model
+    end
     json.page job_queue.page.to_builder('v2')
     json.work job_queue.work.to_builder('v2')
     json.page_result job_queue.page_result

@@ -17,4 +17,16 @@ class LanguageModel < ActiveRecord::Base
     end
   end
 
+  def to_builder(version = 'v2')
+    case version
+    when 'v2'
+      Jbuilder.new do |json|
+        json.id             id
+        json.name           name
+        json.language_id    language_id
+        json.path           path
+      end
+    end
+  end
+
 end
