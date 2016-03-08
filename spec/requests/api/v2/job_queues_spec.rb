@@ -135,6 +135,21 @@ RSpec.describe "JobQueues", :type => :request do
       expect(response).to be_success
       expect(json['job_queue']['count']).to eq(@job_queues_done.length)
     end
+
+    it 'sends count of works' do
+      batch_job = create(:batch_job)
+      work1 = create(:work)
+      work2 = create(:work)
+      pages1 = create_list(:page, 2, work: work1)
+      pages2 = create_list(:page, 4, work: work2)
+      (pages1 + pages2).each do |page|
+        create(:job_queue, status: @not_started_status, batch_job: batch_job, work: page.work, page: page)
+      end
+
+      get '/api/job_queues/count', {job_status_id: @not_started_status.id, works: true}, api_headers
+
+      expect(json['job_queue']['count']).to eq(4) # 2 from before(:each) and 2 from this test
+    end
   end
 
   describe "PUT /api/job_queues/reserve" do

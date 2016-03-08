@@ -22,8 +22,14 @@ module Api
       param :job_status_id, Integer, desc: 'Job status ID'
       param :batch_id, Integer, desc: 'Batch job ID'
       param :work_id, Integer, desc: 'Work ID'
+      param :works, :boolean, desc: 'Count pending works instead of pages'
       def count
-        @count = JobQueue.where(query_params).count
+        filter = query_params.except(:works)
+        if query_params.key?(:works) && query_params[:works].to_bool
+          @count = JobQueue.where(filter).group(:work_id).pluck(:work_id).count
+        else
+          @count = JobQueue.where(filter).count
+        end
         respond_with @count
       end
 
@@ -59,7 +65,7 @@ module Api
       end
 
       def query_params
-        params.permit(:job_status_id, :num_pages, :proc_id, :batch_id, :work_id)
+        params.permit(:job_status_id, :num_pages, :proc_id, :batch_id, :work_id, :works)
       end
 
     end
