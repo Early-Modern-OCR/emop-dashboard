@@ -56,6 +56,10 @@ class JobQueue < ActiveRecord::Base
     PostprocPage.find_by(batch_job: batch_job, page: page)
   end
 
+  def font_training_result
+    FontTrainingResult.find_by(batch_job: batch_job, work: work)
+  end
+
   def self.unreserved
     @job_status = JobStatus.find_by_name('Not Started')
     where(proc_id: nil, job_status_id: @job_status.id)

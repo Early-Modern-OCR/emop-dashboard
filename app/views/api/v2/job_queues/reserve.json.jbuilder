@@ -28,5 +28,10 @@ json.results do
     json.work job_queue.work.to_builder('v2')
     json.page_result job_queue.page_result
     json.postproc_result job_queue.postproc_page
+    if job_queue.font_training_result.present?
+      json.font_training_result job_queue.font_training_result.to_builder('v2')
+    else
+      json.font_training_result job_queue.font_training_result
+    end
   end
 end

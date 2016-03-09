@@ -73,6 +73,7 @@ module Api
 
       api :POST, '/works/create_bulk', 'Create multiple works'
       param :works, Array, 'Works', required: true do
+        param :wks_work_id, Integer
         param :collection_id, Integer
         param :language_id, Integer
         param :wks_gt_number, String
@@ -103,9 +104,26 @@ module Api
       def create_bulk
         works = params[:works]
         new_works = []
+        @up_to_date = 0
+        @updated_success = 0
+        @updated_failed = 0
         works.each do |w|
-          @work = Work.new(work_bulk_params(w))
-          new_works << @work
+          params = work_bulk_params(w)
+          conditions = { wks_work_id: params[:wks_work_id], wks_book_id: params[:wks_book_id] }
+          @work = Work.where(conditions).first_or_initialize
+          if @work.new_record?
+            new_works << Work.new(params)
+          else
+            if Work.exists?(params)
+              @up_to_date += 1
+              next
+            end
+            if @work.update_attributes(params)
+              @updated_success += 1
+            else
+              @updated_failed += 1
+            end
+          end
         end
 
         count_before = Work.count
@@ -164,7 +182,7 @@ module Api
       end
 
       def work_bulk_params(work)
-        work.permit(:collection_id, :language_id, :wks_gt_number, :wks_estc_number, :wks_coll_name, :wks_tcp_bibno, :wks_marc_record,
+        work.permit(:wks_work_id, :collection_id, :language_id, :wks_gt_number, :wks_estc_number, :wks_coll_name, :wks_tcp_bibno, :wks_marc_record,
           :wks_eebo_citation_id, :wks_doc_directory,
           :wks_ecco_number, :wks_book_id, :wks_author, :wks_printer, :wks_word_count, :wks_title, :wks_eebo_image_id, :wks_eebo_url, :wks_pub_date,
           :wks_ecco_uncorrected_gale_ocr_path, :wks_corrected_xml_path, :wks_corrected_text_path, :wks_ecco_directory, :wks_ecco_gale_ocr_xml_path,

@@ -29,6 +29,7 @@ module Api
 
       api :POST, '/pages/create_bulk', 'Create multiple pages'
       param :pages, Array, 'Pages', required: true do
+        param :pg_page_id, Integer
         param :pg_ref_number, Integer, required: true
         param :pg_ground_truth_file, String
         param :pg_work_id, Integer, required: true
@@ -38,9 +39,26 @@ module Api
       def create_bulk
         pages = params[:pages]
         new_pages = []
+        @up_to_date = 0
+        @updated_success = 0
+        @updated_failed = 0
         pages.each do |p|
-          @page = Page.new(page_bulk_params(p))
-          new_pages << @page
+          params = page_bulk_params(p)
+          conditions = { pg_page_id: params[:pg_page_id] }
+          @page = Page.where(conditions).first_or_initialize
+          if @page.new_record?
+            new_pages << Page.new(params)
+          else
+            if Page.exists?(params)
+              @up_to_date += 1
+              next
+            end
+            if @page.update_attributes(params)
+              @updated_success += 1
+            else
+              @updated_failed += 1
+            end
+          end
         end
 
         count_before = Page.count
@@ -85,7 +103,7 @@ module Api
       end
 
       def page_bulk_params(page)
-        page.permit(:pg_ref_number, :pg_ground_truth_file, :pg_work_id,
+        page.permit(:pg_page_id, :pg_ref_number, :pg_ground_truth_file, :pg_work_id,
                     :pg_gale_ocr_file, :pg_image_path)
       end
     end
