@@ -4,7 +4,7 @@ ActiveAdmin.register BatchJob do
   actions :all, except: [:new, :create]
 
   ## Permit attributes to be updated
-  permit_params :job_type, :ocr_engine, :parameters, :name, :notes, :font
+  permit_params :job_type_id, :ocr_engine_id, :parameters, :name, :notes, :font_id
 
   ## Controller customizations
   controller do
