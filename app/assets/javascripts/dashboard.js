@@ -248,7 +248,7 @@ $(function() {
             tipY-=st;
             var id = tipTarget.attr("id").substring("batch-".length);
             $.ajax({
-               url : "dashboard/batch/" + id,
+               url : "/dashboard/batch/" + id,
                type : 'GET',
                async : false,
                success : function(resp, textStatus, jqXHR) {
@@ -586,7 +586,7 @@ $(function() {
       $("#err-work-id").text(ids[1]);
       $("#err-batch-id").text(ids[0]);
       $.ajax({
-         url : "dashboard/"+ids[0]+"/"+ids[1]+"/error",
+         url : "/dashboard/"+ids[0]+"/"+ids[1]+"/error",
          type : 'GET',
          success : function(resp, textStatus, jqXHR) {
             hideWaitPopup();
