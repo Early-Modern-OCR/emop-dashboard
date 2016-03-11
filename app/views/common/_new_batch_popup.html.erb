@@ -20,10 +20,10 @@
             </div>
          </td>
       </tr>
-      <tr class="font_training_results_batch_job_id" style="display: none">
+      <tr class="font_training_result_batch_job_id" style="display: none">
          <td class="table-label">BatchJob Font Training:</td>
          <td class="table-input">
-            <%= select_tag "font_training_results_batch_job_id", options_for_select([['None', nil]]) + options_from_collection_for_select(BatchJob.font_training, :id, :name, nil) %>
+            <%= select_tag "font_training_result_batch_job_id", options_for_select([['None', nil]]) + options_from_collection_for_select(BatchJob.font_training, :id, :name, nil) %>
          </td>
       </tr>
       <tr class="language-model-row">

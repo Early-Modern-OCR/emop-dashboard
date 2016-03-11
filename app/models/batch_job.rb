@@ -11,6 +11,10 @@ class BatchJob < ActiveRecord::Base
   has_many :work_ocr_results, foreign_key: 'batch_id'
   has_many :font_training_results
 
+  # self referencial 
+  belongs_to :font_training_result_batch_job, class: BatchJob
+  has_many :font_training_result_batch_jobs, foreign_key: :font_training_result_batch_job_id
+
   validates :name, presence: true
   validates :ocr_engine, presence: true
   validates :job_type, presence: true

@@ -12,7 +12,7 @@ json.results do
     if job_queue.batch_job.font.present?
       json.font job_queue.batch_job.font.to_builder('v2')
     else
-      font_training_result = FontTrainingResult.find_by(batch_job_id: job_queue.batch_job.id, work_id: job_queue.work.id)
+      font_training_result = FontTrainingResult.find_by(batch_job_id: job_queue.batch_job.font_training_result_batch_job_id, work_id: job_queue.work.id)
       if font_training_result.present?
         json.font font_training_result.to_builder('v2')
       else

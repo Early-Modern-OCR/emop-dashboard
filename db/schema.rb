@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160304220621) do
+ActiveRecord::Schema.define(version: 20160311165545) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20160304220621) do
     t.string  "notes"
     t.integer "font_id"
     t.integer "language_model_id"
+    t.integer "font_training_result_batch_job_id"
   end
 
   add_index "batch_jobs", ["font_id"], name: "index_batch_jobs_on_font_id", using: :btree

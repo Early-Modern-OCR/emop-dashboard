@@ -143,6 +143,7 @@ class ResultsController < ApplicationController
     @batch_job.ocr_engine = @ocr_engine
     @batch_job.font = @font
     @batch_job.language_model = @language_model
+    @batch_job.font_training_result_batch_job_id = params[:font_training_result_batch_job_id]
     @batch_job.save!
 
     # populate it with pages from the selected works

@@ -233,10 +233,11 @@ RSpec.describe "JobQueues", :type => :request do
     end
 
     it 'sets fonts to FontTrainingResult', :show_in_doc do
-      batch_job = create(:batch_job, font: nil)
+      prev_batch_job = create(:batch_job)
+      batch_job = create(:batch_job, font: nil, font_training_result_batch_job_id: prev_batch_job.id)
       work = create(:work)
       job_queues = create_list(:job_queue, 3, status: @not_started_status, batch_job: batch_job, work: work)
-      font_training_result = create(:font_training_result, batch_job: batch_job, work: work)
+      font_training_result = create(:font_training_result, batch_job: prev_batch_job, work: work)
       @time_now = Time.parse("Nov 09 2014")
       allow(Time).to receive(:now).and_return(@time_now)
 

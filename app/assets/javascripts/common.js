@@ -210,9 +210,9 @@ $(function() {
    $("#new-font").on("change", function() {
      var val = $(this).val();
      if ( val == 'previous' ) {
-       $(".font_training_results_batch_job_id").show();
+       $(".font_training_result_batch_job_id").show();
      } else {
-       $(".font_training_results_batch_job_id").hide();
+       $(".font_training_result_batch_job_id").hide();
      }
    });
    

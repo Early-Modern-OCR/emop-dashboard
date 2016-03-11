@@ -81,7 +81,8 @@ class DashboardController < ApplicationController
       job_type: job_type,
       ocr_engine: ocr_engine,
       font: font,
-      language_model: language_model
+      language_model: language_model,
+      font_training_result_batch_job_id: params[:font_training_result_batch_job_id],
     }
     batch = BatchJob.create!(batch_job_params)
     batch_id = batch.id

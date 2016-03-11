@@ -4,7 +4,7 @@ ActiveAdmin.register BatchJob do
   actions :all, except: [:new, :create]
 
   ## Permit attributes to be updated
-  permit_params :job_type_id, :ocr_engine_id, :parameters, :name, :notes, :font_id
+  permit_params :job_type_id, :ocr_engine_id, :parameters, :name, :notes, :font_id, :font_training_result_batch_job_id
 
   ## Controller customizations
   controller do
@@ -18,6 +18,7 @@ ActiveAdmin.register BatchJob do
   filter :ocr_engine
   filter :font
   filter :language_model
+  filter :font_training_result_batch_job
 
   ## INDEX
   index do
@@ -28,6 +29,7 @@ ActiveAdmin.register BatchJob do
     column :ocr_engine
     column :font
     column :language_model
+    column :font_training_result_batch_job
     actions
   end
 
@@ -39,6 +41,7 @@ ActiveAdmin.register BatchJob do
       row :job_type
       row :ocr_engine
       row :font
+      row :font_training_result_batch_job
       row :language_model
       row :parameters
       row :notes
@@ -68,6 +71,7 @@ ActiveAdmin.register BatchJob do
       f.input :job_type
       f.input :ocr_engine
       f.input :font
+      f.input :font_training_result_batch_job
       f.input :language_model
       f.input :parameters
       f.input :notes

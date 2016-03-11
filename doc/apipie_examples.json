@@ -1647,6 +1647,7 @@
               "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
               "path": null
             },
+            "language_model": null,
             "page": {
               "id": 121,
               "pg_ref_number": 121,
@@ -1713,7 +1714,8 @@
               "wks_last_trawled": "2013-06-30"
             },
             "page_result": null,
-            "postproc_result": null
+            "postproc_result": null,
+            "font_training_result": null
           },
           {
             "id": 90,
@@ -1763,6 +1765,7 @@
               "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
               "path": null
             },
+            "language_model": null,
             "page": {
               "id": 122,
               "pg_ref_number": 122,
@@ -1829,7 +1832,8 @@
               "wks_last_trawled": "2013-06-30"
             },
             "page_result": null,
-            "postproc_result": null
+            "postproc_result": null,
+            "font_training_result": null
           }
         ]
       },
@@ -1902,6 +1906,7 @@
               "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
               "path": null
             },
+            "language_model": null,
             "page": {
               "id": 126,
               "pg_ref_number": 126,
@@ -1998,7 +2003,8 @@
               "multicol": "0;1;2",
               "skew_idx": "1;0;1",
               "pp_noisemsr": 0.0
-            }
+            },
+            "font_training_result": null
           },
           {
             "id": 95,
@@ -2048,6 +2054,7 @@
               "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
               "path": null
             },
+            "language_model": null,
             "page": {
               "id": 127,
               "pg_ref_number": 127,
@@ -2114,7 +2121,8 @@
               "wks_last_trawled": "2013-06-30"
             },
             "page_result": null,
-            "postproc_result": null
+            "postproc_result": null,
+            "font_training_result": null
           }
         ]
       },
@@ -2149,7 +2157,7 @@
               "name": "Processing"
             },
             "batch_job": {
-              "id": 126,
+              "id": 127,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
@@ -2170,6 +2178,7 @@
               "batch_job_id": 126,
               "path": "/dne/font-training-6"
             },
+            "language_model": null,
             "page": {
               "id": 132,
               "pg_ref_number": 132,
@@ -2236,7 +2245,8 @@
               "wks_last_trawled": "2013-06-30"
             },
             "page_result": null,
-            "postproc_result": null
+            "postproc_result": null,
+            "font_training_result": null
           },
           {
             "id": 100,
@@ -2248,7 +2258,7 @@
               "name": "Processing"
             },
             "batch_job": {
-              "id": 126,
+              "id": 127,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
@@ -2269,6 +2279,7 @@
               "batch_job_id": 126,
               "path": "/dne/font-training-6"
             },
+            "language_model": null,
             "page": {
               "id": 133,
               "pg_ref_number": 133,
@@ -2335,7 +2346,8 @@
               "wks_last_trawled": "2013-06-30"
             },
             "page_result": null,
-            "postproc_result": null
+            "postproc_result": null,
+            "font_training_result": null
           },
           {
             "id": 101,
@@ -2347,7 +2359,7 @@
               "name": "Processing"
             },
             "batch_job": {
-              "id": 126,
+              "id": 127,
               "name": "OCR Test",
               "parameters": "",
               "notes": "test",
@@ -2368,6 +2380,7 @@
               "batch_job_id": 126,
               "path": "/dne/font-training-6"
             },
+            "language_model": null,
             "page": {
               "id": 134,
               "pg_ref_number": 134,
@@ -2434,7 +2447,8 @@
               "wks_last_trawled": "2013-06-30"
             },
             "page_result": null,
-            "postproc_result": null
+            "postproc_result": null,
+            "font_training_result": null
           }
         ]
       },
@@ -2914,7 +2928,7 @@
             "juxta_change_index": 0.0,
             "alt_change_index": 0.0,
             "page_id": 135,
-            "batch_id": 127,
+            "batch_id": 128,
             "work_id": 230
           },
           {
@@ -2927,7 +2941,7 @@
             "juxta_change_index": 0.0,
             "alt_change_index": 0.0,
             "page_id": 136,
-            "batch_id": 128,
+            "batch_id": 129,
             "work_id": 231
           }
         ]
@@ -2958,7 +2972,7 @@
             "juxta_change_index": 0.0,
             "alt_change_index": 0.0,
             "page_id": 138,
-            "batch_id": 131,
+            "batch_id": 132,
             "work_id": 232
           },
           {
@@ -2971,7 +2985,7 @@
             "juxta_change_index": 0.0,
             "alt_change_index": 0.0,
             "page_id": 138,
-            "batch_id": 132,
+            "batch_id": 133,
             "work_id": 232
           },
           {
@@ -2984,7 +2998,7 @@
             "juxta_change_index": 0.0,
             "alt_change_index": 0.0,
             "page_id": 138,
-            "batch_id": 133,
+            "batch_id": 134,
             "work_id": 232
           }
         ]
@@ -3050,7 +3064,7 @@
                 "language_id": null
               }
             },
-            "batch_id": 134,
+            "batch_id": 135,
             "work_id": 235
           }
         ]
@@ -3107,7 +3121,7 @@
           "juxta_change_index": 0.0,
           "alt_change_index": 0.0,
           "page_id": 143,
-          "batch_id": 135,
+          "batch_id": 136,
           "work_id": 236
         }
       },
@@ -3197,7 +3211,10 @@
       "response_data": {
         "pages": {
           "imported": 2,
-          "failed": 0
+          "failed": 0,
+          "updated_success": 0,
+          "updated_failed": 0,
+          "up_to_date": 0
         }
       },
       "code": 200,
@@ -3778,7 +3795,7 @@
             "multicol": "0;1;2",
             "skew_idx": "1;0;1",
             "page_id": 154,
-            "batch_job_id": 136,
+            "batch_job_id": 137,
             "work_id": 244
           },
           {
@@ -3799,7 +3816,7 @@
             "multicol": "0;1;2",
             "skew_idx": "1;0;1",
             "page_id": 155,
-            "batch_job_id": 137,
+            "batch_job_id": 138,
             "work_id": 245
           }
         ]
@@ -3838,7 +3855,7 @@
             "multicol": "0;1;2",
             "skew_idx": "1;0;1",
             "page_id": 157,
-            "batch_job_id": 140,
+            "batch_job_id": 141,
             "work_id": 246
           },
           {
@@ -3859,7 +3876,7 @@
             "multicol": "0;1;2",
             "skew_idx": "1;0;1",
             "page_id": 157,
-            "batch_job_id": 141,
+            "batch_job_id": 142,
             "work_id": 246
           },
           {
@@ -3880,7 +3897,7 @@
             "multicol": "0;1;2",
             "skew_idx": "1;0;1",
             "page_id": 157,
-            "batch_job_id": 142,
+            "batch_job_id": 143,
             "work_id": 246
           }
         ]
@@ -3954,7 +3971,7 @@
                 "language_id": null
               }
             },
-            "batch_job_id": 143,
+            "batch_job_id": 144,
             "work_id": 249
           }
         ]
@@ -4027,7 +4044,7 @@
           "multicol": "0;1;2",
           "skew_idx": "1;0;1",
           "page_id": 162,
-          "batch_job_id": 144,
+          "batch_job_id": 145,
           "work_id": 250
         }
       },
@@ -4135,7 +4152,10 @@
       "response_data": {
         "works": {
           "imported": 2,
-          "failed": 0
+          "failed": 0,
+          "updated_success": 0,
+          "updated_failed": 0,
+          "up_to_date": 0
         }
       },
       "code": 200,
