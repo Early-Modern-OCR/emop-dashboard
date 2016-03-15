@@ -206,6 +206,9 @@ with open(args.page_csv, 'rb') as csvfile:
             skipped_pages += 1
             missing_works.add(work_id)
             continue
+        # Skip files named Thumbs.db
+        if os.path.basename(page['pg_image_path']) == 'Thumbs.db':
+            continue
         if ' ' in page['pg_image_path']:
             space_pages.append(page['pg_work_id'])
         else:

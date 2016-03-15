@@ -6,6 +6,17 @@ class Font < ActiveRecord::Base
 
   validates :font_name, presence: true
 
+  def file
+    path
+  end
+
+  def file=(val)
+    if Settings.emop_font_dir
+      self.path = File.join(Settings.emop_font_dir, "#{self.font_name}#{Settings.font_suffix}")
+      File.open(self.path, 'wb') { |f| f.write(val.read) }
+    end
+  end
+
   def to_builder(version = 'v1')
     case version
     when 'v1'
