@@ -244,7 +244,7 @@ RSpec.describe "JobQueues", :type => :request do
       put '/api/job_queues/reserve', {job_queue: {num_pages: 3}}.to_json, api_headers
 
       json['results'].each do |r|
-        expect(r['font']['id']).to eq(font_training_result.id)
+        expect(r['font']['path']).to eq(font_training_result.font_path)
       end
     end
 

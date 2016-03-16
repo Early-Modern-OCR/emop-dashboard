@@ -196,13 +196,17 @@ RSpec.describe Api::V2::BatchJobsController, :type => :request do
 
       it 'updates existing font training results', :show_in_doc do
         @font_training_result = FontTrainingResult.create!(@font_training_results)
-        @font_training_results[:path] = "foobar"
+        @font_training_results[:font_path] = "font-path"
+        @font_training_results[:language_model_path] = "lm-path"
+        @font_training_results[:glyph_substitution_model_path] = "gsm-path"
         @params[:font_training_results] = [@font_training_results]
         expect {
           put '/api/batch_jobs/upload_results', @params.to_json, api_headers
         }.to change(FontTrainingResult, :count).by(0)
         @font_training_result.reload
-        expect(@font_training_result.path).to eq('foobar')
+        expect(@font_training_result.font_path).to eq('font-path')
+        expect(@font_training_result.language_model_path).to eq('lm-path')
+        expect(@font_training_result.glyph_substitution_model_path).to eq('gsm-path')
       end
 
     end

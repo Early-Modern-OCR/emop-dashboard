@@ -73,6 +73,7 @@ class DashboardController < ApplicationController
     ocr_engine = OcrEngine.find(params[:engine_id])
     font = Font.find_by(font_id: params[:font_id])
     language_model = LanguageModel.find_by(id: params[:language_model_id])
+    glyph_substitution_model = GlyphSubstitutionModel.find_by(id: params[:glyph_substitution_model_id])
     job_status_id = JobStatus.not_started.id
     batch_job_params = {
       name: params[:name],
@@ -82,6 +83,7 @@ class DashboardController < ApplicationController
       ocr_engine: ocr_engine,
       font: font,
       language_model: language_model,
+      glyph_substitution_model: glyph_substitution_model,
       font_training_result_batch_job_id: params[:font_training_result_batch_job_id],
     }
     batch = BatchJob.create!(batch_job_params)

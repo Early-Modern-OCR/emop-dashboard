@@ -147,7 +147,8 @@
               "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
               "path": null
             },
-            "language_model": null
+            "language_model": null,
+            "glyph_substitution_model": null
           },
           {
             "id": 61,
@@ -174,7 +175,8 @@
               "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
               "path": null
             },
-            "language_model": null
+            "language_model": null,
+            "glyph_substitution_model": null
           }
         ]
       },
@@ -257,7 +259,8 @@
             "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
             "path": null
           },
-          "language_model": null
+          "language_model": null,
+          "glyph_substitution_model": null
         }
       },
       "code": 200,
@@ -423,7 +426,9 @@
           {
             "work_id": 137,
             "batch_job_id": 83,
-            "path": "/dne/font-training-1"
+            "font_path": "/dne/font-1",
+            "language_model_path": "/dne/lm-1",
+            "glyph_substitution_model_path": "/dne/gsm-1"
           }
         ]
       },
@@ -462,7 +467,9 @@
           {
             "work_id": 154,
             "batch_job_id": 93,
-            "path": "foobar"
+            "font_path": "font-path",
+            "language_model_path": "lm-path",
+            "glyph_substitution_model_path": "gsm-path"
           }
         ]
       },
@@ -500,15 +507,19 @@
         "results": [
           {
             "id": 3,
-            "path": "/dne/font-training-3",
             "work_id": 155,
-            "batch_job_id": 94
+            "batch_job_id": 94,
+            "font_path": "/dne/font-3",
+            "language_model_path": "/dne/lm-3",
+            "glyph_substitution_model_path": "/dne/gsm-3"
           },
           {
             "id": 4,
-            "path": "/dne/font-training-4",
             "work_id": 156,
-            "batch_job_id": 95
+            "batch_job_id": 95,
+            "font_path": "/dne/font-4",
+            "language_model_path": "/dne/lm-4",
+            "glyph_substitution_model_path": "/dne/gsm-4"
           }
         ]
       },
@@ -529,9 +540,11 @@
       "response_data": {
         "font_training_result": {
           "id": 5,
-          "path": "/dne/font-training-5",
           "work_id": 157,
-          "batch_job_id": 96
+          "batch_job_id": 96,
+          "font_path": "/dne/font-5",
+          "language_model_path": "/dne/lm-5",
+          "glyph_substitution_model_path": "/dne/gsm-5"
         }
       },
       "code": 200,
@@ -1633,7 +1646,8 @@
                 "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
                 "path": null
               },
-              "language_model": null
+              "language_model": null,
+              "glyph_substitution_model": null
             },
             "font": {
               "id": 116,
@@ -1648,6 +1662,7 @@
               "path": null
             },
             "language_model": null,
+            "glyph_substitution_model": null,
             "page": {
               "id": 121,
               "pg_ref_number": 121,
@@ -1751,7 +1766,8 @@
                 "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
                 "path": null
               },
-              "language_model": null
+              "language_model": null,
+              "glyph_substitution_model": null
             },
             "font": {
               "id": 117,
@@ -1766,6 +1782,7 @@
               "path": null
             },
             "language_model": null,
+            "glyph_substitution_model": null,
             "page": {
               "id": 122,
               "pg_ref_number": 122,
@@ -1892,7 +1909,8 @@
                 "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
                 "path": null
               },
-              "language_model": null
+              "language_model": null,
+              "glyph_substitution_model": null
             },
             "font": {
               "id": 121,
@@ -1907,6 +1925,7 @@
               "path": null
             },
             "language_model": null,
+            "glyph_substitution_model": null,
             "page": {
               "id": 126,
               "pg_ref_number": 126,
@@ -2040,7 +2059,8 @@
                 "font_library_path": "/data/shared/fonts/baskerville/emop.traineddata",
                 "path": null
               },
-              "language_model": null
+              "language_model": null,
+              "glyph_substitution_model": null
             },
             "font": {
               "id": 122,
@@ -2055,6 +2075,7 @@
               "path": null
             },
             "language_model": null,
+            "glyph_substitution_model": null,
             "page": {
               "id": 127,
               "pg_ref_number": 127,
@@ -2170,15 +2191,18 @@
                 "name": "Tesseract"
               },
               "font": null,
-              "language_model": null
+              "language_model": null,
+              "glyph_substitution_model": null
             },
             "font": {
-              "id": 6,
-              "work_id": 226,
-              "batch_job_id": 126,
-              "path": "/dne/font-training-6"
+              "path": "/dne/font-6"
             },
-            "language_model": null,
+            "language_model": {
+              "path": "/dne/lm-6"
+            },
+            "glyph_substitution_model": {
+              "path": "/dne/gsm-6"
+            },
             "page": {
               "id": 132,
               "pg_ref_number": 132,
@@ -2271,15 +2295,18 @@
                 "name": "Tesseract"
               },
               "font": null,
-              "language_model": null
+              "language_model": null,
+              "glyph_substitution_model": null
             },
             "font": {
-              "id": 6,
-              "work_id": 226,
-              "batch_job_id": 126,
-              "path": "/dne/font-training-6"
+              "path": "/dne/font-6"
             },
-            "language_model": null,
+            "language_model": {
+              "path": "/dne/lm-6"
+            },
+            "glyph_substitution_model": {
+              "path": "/dne/gsm-6"
+            },
             "page": {
               "id": 133,
               "pg_ref_number": 133,
@@ -2372,15 +2399,18 @@
                 "name": "Tesseract"
               },
               "font": null,
-              "language_model": null
+              "language_model": null,
+              "glyph_substitution_model": null
             },
             "font": {
-              "id": 6,
-              "work_id": 226,
-              "batch_job_id": 126,
-              "path": "/dne/font-training-6"
+              "path": "/dne/font-6"
             },
-            "language_model": null,
+            "language_model": {
+              "path": "/dne/lm-6"
+            },
+            "glyph_substitution_model": {
+              "path": "/dne/gsm-6"
+            },
             "page": {
               "id": 134,
               "pg_ref_number": 134,

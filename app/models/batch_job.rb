@@ -5,6 +5,7 @@ class BatchJob < ActiveRecord::Base
   belongs_to :ocr_engine
   belongs_to :job_type
   belongs_to :language_model
+  belongs_to :glyph_substitution_model
   has_many :job_queues, foreign_key: 'batch_id', dependent: :delete_all
   has_many :page_results, foreign_key: 'batch_id', dependent: :delete_all
   has_many :postproc_pages, dependent: :delete_all
@@ -48,7 +49,7 @@ class BatchJob < ActiveRecord::Base
     when 'v2'
       Jbuilder.new do |json|
         json.(self, :id, :name, :parameters, :notes)
-        json.(self, :job_type, :ocr_engine, :font, :language_model)
+        json.(self, :job_type, :ocr_engine, :font, :language_model, :glyph_substitution_model)
       end
     end
   end

@@ -53,7 +53,9 @@ module Api
       param :font_training_results, Array, desc: 'Font training results', required: false, allow_nil: true do
         param :work_id, Integer, required: true
         param :batch_job_id, Integer, required: true
-        param :path, String, required: true
+        param :font_path, String
+        param :language_model_path, String
+        param :glyph_substitution_model_path, String
       end
       def upload_results
         job_queues = params[:job_queues]
@@ -138,7 +140,7 @@ module Api
       end
 
       def font_training_result_params(font_training_result)
-        font_training_result.permit(:work_id, :batch_job_id, :path)
+        font_training_result.permit(:work_id, :batch_job_id, :font_path, :language_model_path, :glyph_substitution_model_path)
       end
     end
   end

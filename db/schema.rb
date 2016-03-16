@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160311165545) do
+ActiveRecord::Schema.define(version: 20160316173939) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20160311165545) do
     t.integer "font_id"
     t.integer "language_model_id"
     t.integer "font_training_result_batch_job_id"
+    t.integer "glyph_substitution_model_id"
   end
 
   add_index "batch_jobs", ["font_id"], name: "index_batch_jobs_on_font_id", using: :btree
@@ -46,9 +47,11 @@ ActiveRecord::Schema.define(version: 20160311165545) do
   create_table "font_training_results", force: true do |t|
     t.integer  "work_id"
     t.integer  "batch_job_id"
-    t.string   "path"
+    t.string   "font_path"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "language_model_path"
+    t.string   "glyph_substitution_model_path"
   end
 
   add_index "font_training_results", ["batch_job_id"], name: "index_font_training_results_on_batch_job_id", using: :btree
@@ -65,6 +68,13 @@ ActiveRecord::Schema.define(version: 20160311165545) do
     t.integer "font_line_height"
     t.string  "font_library_path"
     t.string  "path"
+  end
+
+  create_table "glyph_substitution_models", force: true do |t|
+    t.string   "name"
+    t.string   "path"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "job_queues", force: true do |t|

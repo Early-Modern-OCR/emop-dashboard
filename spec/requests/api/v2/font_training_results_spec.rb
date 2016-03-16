@@ -38,7 +38,7 @@ RSpec.describe "FontTrainingResult", :type => :request do
       get "/api/font_training_results/#{font_training_result.id}", {}, api_headers
 
       expect(response).to be_success
-      expect(json['font_training_result']['path']).to eq(font_training_result.path)
+      expect(json['font_training_result']['font_path']).to eq(font_training_result.font_path)
       expect(json['font_training_result']['id']).to eq(font_training_result.id)
     end
   end

@@ -32,6 +32,12 @@
             <%= select_tag "new-language-model", options_for_select([['None', nil]]) + options_from_collection_for_select(LanguageModel.all, :id, :name, nil) %>
          </td>
       </tr>
+      <tr class="gsm-row">
+         <td class="table-label">GSM:</td>
+         <td class="table-input">
+            <%= select_tag "new-gsm", options_for_select([['None', nil]]) + options_from_collection_for_select(GlyphSubstitutionModel.all, :id, :name, nil) %>
+         </td>
+      </tr>
       
       <tr><td class="table-label">Parameters:</td><td><input type="text" id="new-params"/></td></tr>
       <tr><td class="table-label" style="vertical-align: text-top;">Notes:</td><td><textarea id="new-notes"></textarea></td></tr>

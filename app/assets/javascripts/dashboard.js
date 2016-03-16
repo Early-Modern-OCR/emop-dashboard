@@ -103,6 +103,7 @@ $(function() {
         data.font_training_result_batch_job_id = $("#font_training_result_batch_job_id").val();
       }
       data.language_model_id = $("#new-language-model").val();
+      data.glyph_substitution_model_id = $("#new-gsm").val();
       data.params = $("#new-params").val();
       data.notes = $("#new-notes").val();
       data.json = $("#batch-json").text();
