@@ -211,8 +211,12 @@ $(function() {
      var val = $(this).val();
      if ( val == 'previous' ) {
        $(".font_training_result_batch_job_id").show();
+       $(".language-model-row").hide();
+       $(".gsm-row").hide();
      } else {
        $(".font_training_result_batch_job_id").hide();
+       $(".language-model-row").show();
+       $(".gsm-row").show();
      }
    });
    

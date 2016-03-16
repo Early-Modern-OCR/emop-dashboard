@@ -100,10 +100,13 @@ $(function() {
       }
       if (data.font_id == 'previous') {
         data.font_id = null;
+        data.language_model_id = null;
+        data.glyph_substitution_model_id = null;
         data.font_training_result_batch_job_id = $("#font_training_result_batch_job_id").val();
+      } else {
+        data.language_model_id = $("#new-language-model").val();
+        data.glyph_substitution_model_id = $("#new-gsm").val();
       }
-      data.language_model_id = $("#new-language-model").val();
-      data.glyph_substitution_model_id = $("#new-gsm").val();
       data.params = $("#new-params").val();
       data.notes = $("#new-notes").val();
       data.json = $("#batch-json").text();
