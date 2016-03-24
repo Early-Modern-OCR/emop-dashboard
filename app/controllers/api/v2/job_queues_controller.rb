@@ -58,10 +58,28 @@ module Api
         respond_with @job_queues
       end
 
+      api :PUT, '/job_queues/set_job_id', 'Set JobQueue job ID'
+      param :job_queue, Hash, required: true do
+        param :proc_id, String, desc: 'ProcID', required: true
+        param :job_id, String, desc: 'Cluster JobID', required: true
+      end
+      def set_job_id
+        @job_queues = JobQueue.where(proc_id: set_job_id_params[:proc_id])
+        if @job_queues.update_all(job_id: set_job_id_params[:job_id])
+          render json: nil, status: :ok
+        else
+          render json: nil, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def job_queue_params
         params.require(:job_queue).permit(:num_pages, :batch_id, :work_id, :works)
+      end
+
+      def set_job_id_params
+        params.require(:job_queue).permit(:proc_id, :job_id)
       end
 
       def query_params

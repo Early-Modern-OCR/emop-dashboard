@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       resources :job_queues, only: [:index,:show] do
         get 'count', on: :collection
         put 'reserve', on: :collection
+        put 'set_job_id', on: :collection
       end
       resources :job_statuses, only: [:index,:show]
       resources :works, only: [:index,:show,:create,:update,:destroy] do

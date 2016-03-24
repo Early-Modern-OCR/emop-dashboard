@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160316173939) do
+ActiveRecord::Schema.define(version: 20160324214435) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 20160316173939) do
     t.integer  "work_id"
     t.string   "proc_id"
     t.integer  "tries",         default: 0
+    t.string   "job_id"
   end
 
   add_index "job_queues", ["batch_id"], name: "index_job_queues_on_batch_id", using: :btree

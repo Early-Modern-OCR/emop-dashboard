@@ -67,6 +67,7 @@ ActiveAdmin.register JobQueue do
   filter :status
   filter :results
   filter :proc_id
+  filter :job_id
   filter :batch_job
 
   ## INDEX
@@ -75,6 +76,7 @@ ActiveAdmin.register JobQueue do
     id_column
     column :status
     column :proc_id
+    column :job_id
     actions do |job_queue|
       # Must concatinate the links for both to show up.  May change as ActiveAdmin improves
       link_to("Mark Not Started", mark_not_started_admin_job_queue_path(job_queue), class: "member_link", method: :put) +
@@ -90,6 +92,7 @@ ActiveAdmin.register JobQueue do
         job_queue.status.name
       end
       row :proc_id
+      row :job_id
       row :tries
       row :results
       row :batch_job do

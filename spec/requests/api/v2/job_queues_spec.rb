@@ -265,4 +265,17 @@ RSpec.describe "JobQueues", :type => :request do
       expect(json['results'].size).to eq(2)
     end
   end
+
+  describe "PUT /api/job_queues/set_job_id" do
+    it 'sets job_id', :show_in_doc do
+      job_queue = create(:job_queue, status: JobStatus.processing, proc_id: '0001')
+
+      put '/api/job_queues/set_job_id', {job_queue: {proc_id: '0001', job_id: '12345'}}.to_json, api_headers
+
+      expect(response).to be_success
+      job_queue.reload
+      expect(job_queue.job_id).to eq('12345')
+    end
+  end
+
 end
