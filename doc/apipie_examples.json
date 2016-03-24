@@ -4083,6 +4083,79 @@
       "recorded": true
     }
   ],
+  "print_fonts#create": [
+    {
+      "verb": "POST",
+      "path": "/api/print_fonts",
+      "versions": [
+        "v2"
+      ],
+      "query": null,
+      "request_data": {
+        "pf_name": "Test Training Suite-4"
+      },
+      "response_data": {
+        "print_font": {
+          "pf_id": 4,
+          "pf_name": "Test Training Suite-4"
+        }
+      },
+      "code": 201,
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
+  "print_fonts#index": [
+    {
+      "verb": "GET",
+      "path": "/api/print_fonts",
+      "versions": [
+        "v2"
+      ],
+      "query": null,
+      "request_data": null,
+      "response_data": {
+        "total": 2,
+        "subtotal": 2,
+        "page": 1,
+        "per_page": 2,
+        "total_pages": 1,
+        "results": [
+          {
+            "pf_id": 1,
+            "pf_name": "Test Training Suite-1"
+          },
+          {
+            "pf_id": 2,
+            "pf_name": "Test Training Suite-2"
+          }
+        ]
+      },
+      "code": 200,
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
+  "print_fonts#show": [
+    {
+      "verb": "GET",
+      "path": "/api/print_fonts/3",
+      "versions": [
+        "v2"
+      ],
+      "query": null,
+      "request_data": null,
+      "response_data": {
+        "print_font": {
+          "pf_id": 3,
+          "pf_name": "Test Training Suite-3"
+        }
+      },
+      "code": 200,
+      "show_in_doc": 1,
+      "recorded": true
+    }
+  ],
   "works#create": [
     {
       "verb": "POST",

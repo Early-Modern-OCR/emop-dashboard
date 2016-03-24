@@ -42,6 +42,7 @@ Rails.application.routes.draw do
       resources :works_collections, only: [:index,:show,:create]
       resources :languages, only: [:index,:show,:create]
       resources :font_training_results, only: [:index,:show]
+      resources :print_fonts, only: [:index,:show,:create]
     end
   end
 

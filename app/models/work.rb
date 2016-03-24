@@ -12,7 +12,7 @@ class Work < ActiveRecord::Base
   belongs_to :language
   has_many :font_training_results
 
-  validates :wks_title, uniqueness: true
+  validates_uniqueness_of :wks_book_id, allow_nil: true
 
   # NOTES: for ECCO, non-null TCP means GT is available
   #        for EEBO, non-null MARC means GT is available

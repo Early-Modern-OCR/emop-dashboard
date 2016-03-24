@@ -67,6 +67,7 @@ if not works_collection:
 ## WORK - collect from CSV
 
 language_ids = Set()
+print_font_ids = Set()
 import_works = []
 import codecs
 with codecs.open(args.work_csv, 'rb', 'utf-8') as csvfile:
@@ -86,6 +87,12 @@ with codecs.open(args.work_csv, 'rb', 'utf-8') as csvfile:
                 _language_id = unicode(work['language_id'], 'utf-8')
             work['language_id'] = _language_id
             language_ids.add(_language_id)
+        if work.get('wks_font_id_1'):
+            print_font_ids.add(work['wks_font_id_1'])
+            work['wks_primary_print_font'] = work['wks_font_id_1']
+        # Remove keys we can't use yet
+        work.pop('wks_font_id_1', None)
+        work.pop('wks_font_id_2', None)
         import_works.append(work)
 
 language_names = list(language_ids)
@@ -122,11 +129,44 @@ for l in language_names:
             print(language_r.json())
             sys.exit(1)
 
+print_font_names = list(print_font_ids)
+print_fonts = {}
+print "print_font names: %s" % print_font_names
+
+print_font_get_r = requests.get("%s/api/print_fonts" % url_base, headers=headers)
+if print_font_get_r.status_code == requests.codes.ok:
+    data = print_font_get_r.json()
+    print "print_font data %s" % data
+    for r in data['results']:
+        name = r['pf_name']
+        print_fonts[name] = r['pf_id']
+        print_fonts[r['pf_name']] = r['pf_id']
+else:
+    print("Error querying print_font: code %s" % print_font_get_r.status_code)
+    print(print_font_get_r.json())
+    sys.exit(1)
+
+for p in print_font_names:
+    if p not in print_fonts:
+        print_font_data = {
+            "pf_name": p,
+        }
+        print_font_r = requests.post("%s/api/print_fonts" % url_base, data=json.dumps(print_font_data), headers=headers)
+        if print_font_r.status_code == 201:
+            data = print_font_r.json()
+            print_fonts[data['print_font']['pf_name']] = data['print_font']['pf_id']
+        else:
+            print("Error failed to create print_font %s, code %s" % (p, print_font_r.status_code))
+            print(print_font_r.json())
+            sys.exit(1)
+
 ## Adjust language_id
 #print "Languages: %s" % languages
 for work in import_works:
     if work.get('language_id'):
         work['language_id'] = languages[work['language_id']]
+    if work.get('wks_primary_print_font'):
+        work['wks_primary_print_font'] = print_fonts[work['wks_primary_print_font']]
 
 ## Work - Add via API
 
