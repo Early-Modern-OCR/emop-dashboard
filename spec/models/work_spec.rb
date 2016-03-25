@@ -8,7 +8,7 @@ RSpec.describe Work, :type => :model do
   end
 
   describe 'ActiveModel validations' do
-    it { expect(work).to validate_uniqueness_of(:wks_title) }
+    it { expect(work).to validate_uniqueness_of(:wks_book_id).allow_nil }
   end
 
   describe 'isECCO?' do

@@ -37,11 +37,11 @@ class JobQueue < ActiveRecord::Base
   end
 
   def self.reschedule!
-    update_all(proc_id: nil, job_status_id: JobStatus.not_started.id, results: nil)
+    update_all(proc_id: nil, job_id: nil, job_status_id: JobStatus.not_started.id, results: nil)
   end
 
   def mark_not_started!
-    update(proc_id: nil, status: JobStatus.find_by_name('Not Started'), results: nil)
+    update(proc_id: nil, job_id: nil, status: JobStatus.find_by_name('Not Started'), results: nil)
   end
 
   def mark_failed!
@@ -94,10 +94,11 @@ class JobQueue < ActiveRecord::Base
         json.page       page.to_builder
         json.work       work.to_builder
         json.proc_id    proc_id
+        json.job_id     job_id
       end
     when 'v2'
       Jbuilder.new do |json|
-        json.(self, :id, :proc_id, :tries, :results)
+        json.(self, :id, :proc_id, :job_id, :tries, :results)
         #json.(self, :status, :batch_job, :page, :work)
         json.(self, :job_status_id, :batch_id, :page_id, :work_id)
       end

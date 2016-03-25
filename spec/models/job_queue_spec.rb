@@ -100,6 +100,7 @@ RSpec.describe JobQueue, :type => :model do
         'page'      => include(job_queue.page.to_builder.attributes!),
         'work'      => include(job_queue.work.to_builder.attributes!),
         'proc_id'   => job_queue.proc_id,
+        'job_id'    => job_queue.job_id,
       )
     end
 
@@ -109,6 +110,7 @@ RSpec.describe JobQueue, :type => :model do
       expect(json).to match(
         'id' => job_queue.id,
         'proc_id' => job_queue.proc_id,
+        'job_id'  => job_queue.job_id,
         'tries' => job_queue.tries,
         'results' => job_queue.results,
         'job_status_id' => job_queue.status.id,
