@@ -22,7 +22,6 @@ ActiveAdmin.register FontTrainingResult do
   index do
     selectable_column
     id_column
-    column :name
     column :batch_job
     column :work
     actions
