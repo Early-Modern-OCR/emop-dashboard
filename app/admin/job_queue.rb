@@ -96,7 +96,7 @@ ActiveAdmin.register JobQueue do
       row :tries
       row :results
       row :batch_job do
-        job_queue.batch_job.id
+        link_to "#{job_queue.batch_job.id}: #{job_queue.batch_job.name}", admin_batch_job_path(job_queue.batch_job)
       end
       row :page do
         job_queue.page.id
