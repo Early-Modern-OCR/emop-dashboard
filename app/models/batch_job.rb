@@ -37,6 +37,32 @@ class BatchJob < ActiveRecord::Base
     self.job_type   ||= BatchJob.default_job_type
   end
 
+  def font_training?
+    self.job_type.name == 'Font Training'
+  end
+
+  def clone_as_ocr_batch_job!
+    new_batch_job = BatchJob.create!(name: "#{self.name}-OCR",
+                                     job_type: JobType.find_by_name('OCR'),
+                                     ocr_engine: self.ocr_engine,
+                                     font: nil,
+                                     language_model: nil,
+                                     glyph_substitution_model: nil,
+                                     font_training_result_batch_job_id: self.id)
+    job_status_id = JobStatus.not_started.id
+    new_job_queues = []
+    work_ids = self.job_queues.pluck(:work_id).uniq
+    work_ids.each do |work_id|
+      work = Work.find(work_id)
+      work.pages.each do |page|
+        @job_queue = JobQueue.new(batch_job: new_batch_job, page: page, work: work, job_status_id: job_status_id)
+        new_job_queues << @job_queue
+      end
+    end
+    JobQueue.import(new_job_queues)
+    return new_batch_job
+  end
+
   def to_builder(version = 'v1')
     case version
     when 'v1'

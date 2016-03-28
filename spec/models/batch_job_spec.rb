@@ -60,6 +60,47 @@ RSpec.describe BatchJob, :type => :model do
     end
   end
 
+  describe "font_training?" do
+    it "should be true if Font Training" do
+      batch_job = create(:batch_job, job_type: JobType.find_by_name('Font Training'))
+      expect(batch_job.font_training?).to be true
+    end
+
+    it "should be false if not Font Training" do
+      batch_job = create(:batch_job, job_type: JobType.find_by_name('OCR'))
+      expect(batch_job.font_training?).to be false
+    end
+  end
+
+  describe 'clone_as_ocr_batch_job!' do
+    before(:each) do
+      @work1 = create(:work)
+      @work2 = create(:work)
+      @pages1 = create_list(:page, 15, work: @work1)
+      @pages2 = create_list(:page, 25, work: @work2)
+
+      @batch_job = create(:batch_job, ocr_engine: OcrEngine.find_by_name('Ocular'), job_type: JobType.find_by_name('Font Training'))
+      @job_queues = []
+      (@pages1[0..9] + @pages2[0..9]).each do |page|
+        @job_queues << create(:job_queue, page: page, work: page.work, batch_job: @batch_job, status: JobStatus.not_started)
+      end
+    end
+
+    it 'should clone to OCR batch job' do
+      new_batch_job = @batch_job.clone_as_ocr_batch_job!
+      expect(new_batch_job.job_type.name).to eq('OCR')
+      expect(new_batch_job.ocr_engine).to eq(@batch_job.ocr_engine)
+      expect(new_batch_job.font_training_result_batch_job_id).to eq(@batch_job.id)
+    end
+
+    it 'should create batch with all pages' do
+      expect(@job_queues.size).to eq(20)
+      expect {
+        @batch_job.clone_as_ocr_batch_job!
+      }.to change(JobQueue, :count).by(@work1.pages.count + @work2.pages.count)
+    end
+  end
+
   describe "to_builder" do
     it "has valid to_builder - v1" do
       json = batch_job.to_builder('v1').attributes!

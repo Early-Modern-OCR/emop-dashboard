@@ -7,6 +7,19 @@ ActiveAdmin.register BatchJob do
   permit_params :job_type_id, :ocr_engine_id, :parameters, :name, :notes,
                 :font_id, :language_model_id, :glyph_substitution_model_id, :font_training_result_batch_job_id
 
+  ## Member Actions - this setups the controller action for a single resource
+  member_action :clone_as_ocr_batch_job, method: :put do
+    ocr_batch_job = resource.clone_as_ocr_batch_job!
+    redirect_to admin_batch_job_path(ocr_batch_job), notice: "Created OCR BatchJob"
+  end
+
+  ## Action Items - show page
+  action_item :clone_as_ocr_batch_job, only: :show do
+    if batch_job.font_training?
+      link_to "Clone as OCR BatchJob", clone_as_ocr_batch_job_admin_batch_job_path(batch_job), method: :put
+    end
+  end
+
   ## Controller customizations
   controller do
     skip_before_filter :get_dropdown_data
