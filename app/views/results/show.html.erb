@@ -5,12 +5,19 @@
    <table id="results-summary">
       <tr>
         <td class="summary-label">Work:</td>
-        <td><%= @work.wks_title %></td>
+        <td>(<%= @work.id %>) <%= @work.wks_title %></td>
       </tr>
       <tr>
+<% if @work.wks_book_id.present? %>
+     <tr>
+       <td class="summary-label">Book ID:</td>
+       <td><%= @work.wks_book_id %></td>
+     </tr>
+<% end %>
+     <tr>
         <td class="summary-label">Batch:</td>
 <% if @batch_job.present? %>
-        <td><%= @batch_job.id %>: <%= @batch_job.name %></td>
+        <td>(<%= @batch_job.id %>) <%= @batch_job.name %></td>
 <% else %>
         <td>Not Applicable</td>
 <% end %>
