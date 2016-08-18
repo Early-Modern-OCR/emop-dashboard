@@ -25,7 +25,13 @@ module Api
       param :works, :boolean, desc: 'Count pending works instead of pages'
       def count
         filter = query_params.except(:works)
-        if query_params.key?(:works) && query_params[:works].to_bool
+        job_type = ""
+        jqs = JobQueue.where(filter)
+        if jqs.count > 0
+          job_type = jqs.take.batch_job.job_type.name
+        end
+
+        if query_params.key?(:works) && query_params[:works].to_bool && job_type != 'OCR'
           @count = JobQueue.where(filter).group(:work_id).pluck(:work_id).count
         else
           @count = JobQueue.where(filter).count
