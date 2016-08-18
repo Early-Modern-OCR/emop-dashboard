@@ -184,7 +184,23 @@ $(function() {
          $("#new-ocr").val("2");
          $("#new-type").val("2");
       }
-   }); 
+   });
+
+    // add pages to batchjob popup
+    $("#add-pages-to-batchjob").dialog({
+        autoOpen: false,
+        width: 390,
+        resizable: false,
+        modal: true,
+        buttons : {
+            "Cancel" : function() {
+                $(this).dialog("close");
+            },
+            "Add Pages" : function() {
+                $("#add-pages-to-batchjob-form").submit();
+            }
+        }
+    });    
 
    $("#new-type").on("change", function() {
        var idx = parseInt($("#new-type").val(),10)-1;

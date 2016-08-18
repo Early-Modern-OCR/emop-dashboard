@@ -167,6 +167,19 @@ $(function() {
    $("#schedule-pages").on("click", function() {
       scheduleSelectedPages();
    });
+
+    // show add pages to batch popup
+    $("#add-pages-to-batchjob-button").on("click", function() {
+        var pageIds = [];
+        $(".sel-cb").each(function () {
+            if ($(this).is(':checked')) {
+                var id = $(this).attr("id").substring("sel-page-".length);
+                pageIds.push(id);
+            }
+        });
+        $("#page_ids").val(JSON.stringify(pageIds));
+        $("#add-pages-to-batchjob").dialog("open");
+    });
    
    var work_id = $("#work-id").text();
    var batch_id = $("#batch-id").text();

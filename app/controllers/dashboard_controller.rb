@@ -115,13 +115,24 @@ class DashboardController < ApplicationController
         JobQueue.import job_queue_columns, jobs, validate: false
         jobs = []
       end
+    elsif json_payload['works'] == 'clone'
+      clone_batch_id = params[:batch_to_clone]
+      jobs = []
+
+      clone_job_queues = JobQueue.where(batch_id: clone_batch_id)
+      clone_job_queues.find_each do | clone |
+        job = [batch_id, clone.page_id, job_status_id, clone.work_id]
+        jobs << job
+      end
+      logger.debug "Write #{jobs.size} jobs..."
+      JobQueue.import job_queue_columns, jobs, validate: false
     else
       # populate it with pages from the selected works
       jobs = []
       work_ids = json_payload['works']
       pages = Page.where(pg_work_id: work_ids)
       pages.find_each do | page |
-        job = job = [batch_id, page.id, job_status_id, page.work.id]
+        job = [batch_id, page.id, job_status_id, page.work.id]
         jobs << job
       end
       logger.debug "Write #{jobs.size} jobs..."
@@ -133,6 +144,7 @@ class DashboardController < ApplicationController
     render json: ActiveSupport::JSON.encode(status), status: :ok
   rescue => e
     logger.error("DashboardController#create_batch error: #{e.message}")
+    logger.error(e.backtrace.join("\n"))
     render text: e.message, status: :error
   end
 

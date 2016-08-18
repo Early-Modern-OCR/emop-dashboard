@@ -124,7 +124,14 @@ $(function() {
       
       // flag if this is a request to batch ALL matching works
       var isAll = (data.json.indexOf("all") > -1);
-            
+       
+      // flag if this is a request to clone pages from a previous batch
+      var isClone = (data.json.indexOf("clone") > -1); 
+       
+      if (isClone) {
+          data.batch_to_clone = $("#prev-batch").val();
+      } 
+       
       // Post the request
       showWaitPopup("Adding works to queue");
       $.ajax({
@@ -161,12 +168,21 @@ $(function() {
          }
       });
    };
-   
-   
+
+   var hideCloneRow = function(){
+       var clone_row = $("#new-batch-popup-clone-row");
+       if (!clone_row.hasClass("hidden")) {
+           clone_row.addClass("hidden");
+       }
+   };
+
+
    /**
     * Schedule all works that match the current search criteria
     */
    var scheduleAll = function() {
+      hideCloneRow();
+
       var size = $("#detail-table_info").text();
       var p = size.indexOf("of ");
       var p2 = size.indexOf(" entries");
@@ -181,6 +197,8 @@ $(function() {
    
    // schedule selected works for ocr
    var scheduleSelectedWorks = function() {
+      hideCloneRow();
+
       var jobs = [];
       var err = 0;
       var sched = 0;
@@ -223,7 +241,15 @@ $(function() {
             $("#new-batch-popup").dialog("open");
          }
       }
-   }; 
+   };
+
+   // clone pages from an existing batch
+   var cloneBatch = function () {
+       $("#new-batch-popup-clone-row").removeClass("hidden");
+       $("#batch-json").text(JSON.stringify({ works: "clone", count: 0}) );
+       setCreateBatchHandler( submitNewBatch );
+       $("#new-batch-popup").dialog("open");
+   };
 
 
    // add styles to cells that are showing results
@@ -506,6 +532,9 @@ $(function() {
    });
    $("#schedule-all").on("click", function() {
       scheduleAll();
+   });
+   $("#clone-batch-pages").on("click", function() {
+       cloneBatch();
    });
 
    // create the data table instance. it has custom plug-in
